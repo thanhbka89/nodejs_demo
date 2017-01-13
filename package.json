@@ -1,0 +1,17 @@
+{
+  "name": "thanhnm",
+  "version": "1.0.0",
+  "description": "Learning Gulp",
+  "keywords": [
+    "gulpdmemo"
+  ],
+  "author": "thanhbka@yahoo.com",
+  "license": "ISC",
+  "dependencies": {
+    "scrape-it": "^3.2.2"
+  },
+  "devDependencies": {
+    "cheerio": "^0.22.0",
+    "tinyreq": "^3.2.0"
+  }
+}
