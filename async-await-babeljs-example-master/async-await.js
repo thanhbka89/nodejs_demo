@@ -1,4 +1,5 @@
 function wait(ms) {
+    if (ms > 2015) throw new Error(ms)
     return new Promise(r => setTimeout(r, ms))
 }
 
@@ -8,10 +9,7 @@ async function runner() {
     console.log('chờ tí...')
     await wait(2012)
     console.log('thêm chút nữa thôi...')
-    await wait(2014)
-   console.log('xong rồi đấy!')
-    await wait(2016)
-    throw new Error(2016)
+    await wait(2016)    
 }
 
 async function main() {
