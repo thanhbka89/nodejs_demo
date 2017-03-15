@@ -4,10 +4,11 @@ const request = require('request'),
     cheerio = require('cheerio'),
     models = require('./app/models'),
     parse = require('url-parse'),
+    helpers = require('./app/helpers'),
     ThuocService = require('./app/services/thuoc.srv.js');
 
 ThuocService.getAll();
-
+console.log(helpers.slugify('thành đại ka'));
 // models.sequelize.sync({
 //     force: true
 // }).then(
@@ -29,7 +30,7 @@ get_link_thuoc(site, (err, data) => {
             get_detail_thuoc(elem.link, (err, result) => {
                 if (!err) {
                     console.log(result);
-                    ThuocService.add(result);
+                    //ThuocService.add(result);
                 }
             });
         });
