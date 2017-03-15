@@ -1,0 +1,25 @@
+{
+    "development": {
+        "username": "root",
+        "password": "",
+        "database": "crawler_thuoc",
+        "options": {
+          "host": "127.0.0.1",
+          "dialect": "mysql",
+          "pool": {
+              "max": 5,
+              "min": 0,
+              "idle": 10000
+          }
+        }
+
+    },
+    "production": {
+        "username": "DATABASE_USERNAME",
+        "password": "DATABASE_PASSWORD",
+        "database": "DATABASE_NAME",
+        "host": "PRODUCTION_DATABASE_URL",
+        "dialect": "mysql",
+        "port": "DATABASE_PORT"
+    }
+}
