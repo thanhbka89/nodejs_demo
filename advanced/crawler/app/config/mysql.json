@@ -1,7 +1,7 @@
 {
     "development": {
         "username": "root",
-        "password": "",
+        "password": "mysql",
         "database": "crawler_thuoc",
         "options": {
           "host": "127.0.0.1",
