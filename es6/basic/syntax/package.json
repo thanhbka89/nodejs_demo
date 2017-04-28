@@ -4,8 +4,10 @@
   "description": "babel es6 to es5",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js --exec babel-node"
+    "test":  "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js --exec babel-node",
+    "build": "babel src/index.js -d dist",
+    "serve": "node dist/src/index.js"
   },
   "keywords": [
     "babel",
