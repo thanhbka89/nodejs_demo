@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "cheerio": "^0.22.0",
+    "crawler": "^1.0.3",
     "tinyreq": "^3.2.0"
   }
 }
