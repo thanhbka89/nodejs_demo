@@ -11,3 +11,6 @@ setImmediate((arg) => {
 }, 'so immediate');
 
 console.log('after immediate');
+
+console.log('1989');
+
