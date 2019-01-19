@@ -1,4 +1,4 @@
-function myFunc (arg) {
+function myFunc(arg) {
   console.log('arg was => ' + arg);
 }
 
@@ -13,4 +13,3 @@ setImmediate((arg) => {
 console.log('after immediate');
 
 console.log('1989');
-
