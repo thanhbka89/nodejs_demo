@@ -1,4 +1,5 @@
 /** ref : https://www.codementor.io/shanewignall/making-a-restful-backend-with-node-js-knf7nbsii */
+/** ref : https://www.codementor.io/asciidev/testing-a-node-express-application-with-mocha-amp-chai-nqb2nutoz */
 
 const express = require('express');
 const app = express();
@@ -55,7 +56,7 @@ router.use(function (req, res, next) {
 });
 router.get('/', function (req, res) {
     res.send({
-        message: 'REST API v1'
+        message: 'REST API Home'
     });
 });
 router.get('/about', function (req, res) {
