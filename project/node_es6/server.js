@@ -16,11 +16,26 @@ const port = process.env.PORT || 8989;
 const api_home = require('./api/routes/index');
 const api_product = require('./api/routes/product');
 
-// Use Node.js body parsing middleware
+// Use Node.js body parsing middleware : parses incoming post request data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true,
 }));
+
+//https://appdividend.com/2018/02/03/express-middleware-tutorial-example-scratch/
+//Types of  Express Middleware : 5
+// - Application-level middleware
+// - Router-level middleware
+// - Error-handling middleware
+// - Built-in middleware
+// - Third-party middleware
+
+//Middleware Application
+app.use((req, res, next) => {
+    console.log('App : Hi');
+
+    next();
+});
 
 app.get('/api', function (req, res) {
     const sql = "SELECT * FROM products";
@@ -47,10 +62,9 @@ app.route('/login')
 
 // route middleware that will happen on every request
 router.use(function (req, res, next) {
-
     // log each request to the console
     console.log(req.method, req.url);
-
+    console.log('Router: Hi');
     // continue doing what we were doing and go to the route
     next();
 });
@@ -86,13 +100,15 @@ api_home(app);
 api_product(app);
 app.use('/api/v1', router);
 
+//Error-handling middleware
 //middleware để check nếu request API không tồn tại
-app.use((req, res) => {
-    console.log('404');
-    res.status(404).json({
-        url: req.originalUrl + ' not found'
-    });
-});
+// app.use((req, res) => {
+//     console.log('404');
+//     res.status(404).json({
+//         url: req.originalUrl + ' not found'
+//     });
+// });
+
 
 //start Express server on defined port
 app.listen(port, (error) => {

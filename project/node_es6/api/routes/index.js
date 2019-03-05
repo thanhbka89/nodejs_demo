@@ -3,7 +3,7 @@
 const router = app => {
     app.get('/', (request, response) => {
         response.send({
-            message: 'REST API v1'
+            message: 'RESTAPI v1.0'
         });
     });
 }

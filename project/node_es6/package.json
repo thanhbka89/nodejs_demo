@@ -32,6 +32,7 @@
     "express-rate-limit": "^3.3.2",
     "helmet": "^3.15.0",
     "moment": "^2.24.0",
+    "mongoose": "^5.4.17",
     "mysql": "^2.16.0",
     "request": "^2.88.0",
     "uuid": "^3.3.2"
