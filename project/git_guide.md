@@ -1,9 +1,10 @@
 Git config
 
 git config --global user.name "John Doe"
-git config --global user.email "john@example.com"
+git config --global user.email "john@example.com"  //Địa chỉ email nên giống với cái đã sử dụng để tạo tài khoản Github của bạn.
 
 --global được sử dụng để áp dụng cho tất cả các projects. Nếu bạn ko sử dụng --global thì settings sẽ chỉ dùng cho riêng project đó.
+
 Giúp Git bỏ qua file modes
 
 cd project/

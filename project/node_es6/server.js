@@ -9,7 +9,7 @@ const mysql = require('./api/models/dbconnection');
 
 import app1 from './app';
 
-//config
+// config
 const port = process.env.PORT || 8989;
 
 //routes
