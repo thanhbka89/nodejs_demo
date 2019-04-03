@@ -7,13 +7,23 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const mysql = require('./api/models/dbconnection');
 
+import routes from './api/routes';
+
 import app1 from './app';
+import bird from './api/routes/router';
+import uuidv4 from 'uuid/v4';
+import 'dotenv/config';
+console.log(process.env.MY_SECRET);
+console.log(uuidv4());
+
+import models from './dummy/student';
+//console.log(models);
 
 // config
 const port = process.env.PORT || 8989;
 
 //routes
-const api_home = require('./api/routes/index');
+const api_home = require('./api/routes/home');
 const api_product = require('./api/routes/product');
 
 // Use Node.js body parsing middleware : parses incoming post request data
@@ -33,6 +43,10 @@ app.use(bodyParser.urlencoded({
 //Middleware Application
 app.use((req, res, next) => {
     console.log('App : Hi');
+    req.context = {
+        models,
+        me: models.users[1],
+    };
 
     next();
 });
@@ -42,7 +56,7 @@ app.get('/api', function (req, res) {
     mysql.query(sql, function (err, results, fields) {
         if (err) throw err;
         // console.log(fields);
-        res.send({
+        res.json({
             data: results
         });
     })
@@ -99,6 +113,9 @@ router.get('/midd/:name', function (req, res) {
 api_home(app);
 api_product(app);
 app.use('/api/v1', router);
+app.use('/api/v2', bird);
+app.use('/bird/', routes.bird);
+app.use('/users', routes.user);
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại
