@@ -52,14 +52,23 @@ class HandlerGenerator {
 }
 
 import cors from "cors";
-import app1 from "./app";
+import routes from './api/routes';
+import app1 from './app';
+import bird from './api/routes/router';
+import uuidv4 from 'uuid/v4';
+import 'dotenv/config';
+console.log(process.env.MY_SECRET);
+console.log(uuidv4());
+
+import models from './dummy/student';
+//console.log(models);
 
 // config
 const port = process.env.PORT || 8989;
 
 //routes
-const api_home = require("./api/routes/index");
-const api_product = require("./api/routes/product");
+const api_home = require('./api/routes/home');
+const api_product = require('./api/routes/product');
 
 // Use Node.js body parsing middleware : parses incoming post request data
 app.use(cors());
@@ -80,7 +89,11 @@ app.use(
 
 //Middleware Application
 app.use((req, res, next) => {
-  console.log("App : Hi");
+    console.log('App : Hi');
+    req.context = {
+        models,
+        me: models.users[1],
+    };
 
   next();
 });
@@ -152,7 +165,10 @@ router.get("/midd/:name", function(req, res) {
 // apply the routes to our application
 api_home(app);
 api_product(app);
-app.use("/api/v1", router);
+app.use('/api/v1', router);
+app.use('/api/v2', bird);
+app.use('/bird/', routes.bird);
+app.use('/users', routes.user);
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại
