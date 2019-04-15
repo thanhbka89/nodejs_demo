@@ -13,7 +13,7 @@
 
 let mongoose = require("mongoose");
 const server = "127.0.0.1:27017"; // REPLACE WITH YOUR DB SERVER
-const database = "fcc-Mail"; // REPLACE WITH YOUR DB NAME
+const database = "api_node"; // REPLACE WITH YOUR DB NAME
 
 class Database {
   constructor() {
@@ -36,4 +36,4 @@ class Database {
 
 new Database();
 
-//module.exports = new Database()
+module.exports = new Database()
