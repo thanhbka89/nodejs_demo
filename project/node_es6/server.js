@@ -58,7 +58,6 @@ import bird from './api/routes/router';
 import uuidv4 from 'uuid/v4';
 import 'dotenv/config';
 console.log(process.env.MY_SECRET);
-console.log(uuidv4());
 
 import models from './dummy/student';
 //console.log(models);
@@ -78,6 +77,12 @@ app.use(
     extended: true
   })
 );
+
+//run before middleware
+app.get('/check', (req, res) => {
+  let data = 'PASSED -> ' + uuidv4()
+  res.json({data})
+})
 
 //https://appdividend.com/2018/02/03/express-middleware-tutorial-example-scratch/
 //Types of  Express Middleware : 5

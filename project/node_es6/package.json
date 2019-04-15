@@ -8,6 +8,7 @@
     "prod": "node server.js",
     "dev": "nodemon server.js",
     "start": "nodemon server.js --exec babel-node --presets env",
+    "debug": "nodemon --inspect server.js --exec babel-node --presets env",
     "testing": "mocha --require babel-register tests/*.js --exit",
     "release": "npm run clean && npm run build && npm run serve",
     "clean": "rm -rf dist && mkdir dist",
