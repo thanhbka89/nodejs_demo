@@ -6,7 +6,9 @@
     <router-link to="/listuser">|Get API Mock.io|</router-link>
     <router-link :to="{ name: 'API_NODE' }">|Get API local|</router-link>
     <router-link to="/user">Communication Component</router-link>
+    <router-link to="/vuex">| VueX Demo |</router-link>
     <p>{{ $t("common.select_lang") }}</p>
+    <p>{{ $t('greeting') }}</p>
     <h3>without Vuex</h3>
     <button @click="switchLang('en')">EN</button>
     <button @click="switchLang('vn')">VI</button>
@@ -18,26 +20,26 @@
 </template>
 
 <script>
-import i18n from "./lang/i18n";
+// import i18n from "./lang/i18n";
 
 export default {
   name: "App",
   methods: {
-    switchLang: lang => {
-      if (lang in vue.$i18n.messages) {
-        console.log("no ajax");
-        this.$i18n.locale = lang;
-      } else {
-        this.loadLocaleMessage(lang, (err, message) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          i18n.setLocaleMessage(lang, message);
-          this.$i18n.locale = lang;
-        });
-      }
-    }
+    // switchLang: lang => {
+    //   if (lang in vue.$i18n.messages) {
+    //     console.log("no ajax");
+    //     this.$i18n.locale = lang;
+    //   } else {
+    //     this.loadLocaleMessage(lang, (err, message) => {
+    //       if (err) {
+    //         console.error(err);
+    //         return;
+    //       }
+    //       i18n.setLocaleMessage(lang, message);
+    //       this.$i18n.locale = lang;
+    //     });
+    //   }
+    // }
   }
 };
 </script>

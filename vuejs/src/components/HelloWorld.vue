@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <language-picker></language-picker>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -26,12 +27,23 @@
 </template>
 
 <script>
+import languagePicker from './languagePicker.vue';
+
 export default {
   name: "HelloWorld",
   data() {
     return {
       msg: "Welcome to Your Vue.js App"
     };
+  },
+  created() {
+    // set data to localStorage
+    localStorage.setItem('username', 'thanhnm');
+    console.log('Set item in localStorage!');
+    
+  },
+  component: {
+    languagePicker
   }
 };
 </script>

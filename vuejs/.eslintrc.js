@@ -24,6 +24,13 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    // Disallow large imports
+    "no-restricted-imports": ["error", {
+      "paths":  [{
+        "name": "moment",
+        "message": "Use date-fns or Luxon instead!"
+      }]
+    }]
   }
 }

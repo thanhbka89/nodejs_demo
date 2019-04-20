@@ -18,7 +18,16 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       message: 'See again',
     }
-  }
+  },
+  created() {
+    // get data from localStorage
+    let ls_name = localStorage.getItem('username')
+    console.log(ls_name);
+    debugger  // debug on browser
+    if(ls_name) {
+      this.message = ls_name
+    }
+  },
 }
 </script>
 
