@@ -6,6 +6,7 @@ const app = express();
 const router = express.Router();
 const bodyParser = require("body-parser");
 const mysql = require("./api/models/dbconnection");
+const morgan = require('morgan')
 
 //json web token
 let jwt = require("jsonwebtoken");
@@ -70,6 +71,7 @@ const api_home = require('./api/routes/home');
 const api_product = require('./api/routes/product');
 
 // Use Node.js body parsing middleware : parses incoming post request data
+app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(
