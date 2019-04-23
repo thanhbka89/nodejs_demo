@@ -167,6 +167,14 @@ router.get("/midd/:name", function(req, res) {
   res.send("hello " + req.name + "!");
 });
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+  
+  next();
+});
+
 // apply the routes to our application
 api_home(app);
 api_product(app);
@@ -177,12 +185,11 @@ app.use('/users', routes.user);
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại
-// app.use((req, res) => {
-//     console.log('404');
-//     res.status(404).json({
-//         url: req.originalUrl + ' not found'
-//     });
-// });
+app.use((req, res) => {
+    res.status(404).json({
+        url: req.originalUrl + ' not found'
+    });
+});
 
 //start Express server on defined port
 app.listen(port, error => {
