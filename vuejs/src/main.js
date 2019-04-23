@@ -25,4 +25,4 @@ const app = new Vue({
 
 export default app
 
-window['vue'] = app
+// window['vue'] = app

@@ -1,25 +1,27 @@
 <template>
   <div class="component">
     <h3>User Details</h3>
-    <p>Tuoi toi: {{ age }}</p>
+    <p>Tuoi toi: {{ d_age }}</p>
     <button v-on:click="changeAge">Doi tuoi</button>
   </div>
 </template>
 
 <script>
-import { eventBus } from '../main'
+import { eventBus } from "../main";
 
 export default {
-  props: ["age"],
+  props: ["d_age"],
   created() {
     eventBus.$on("ageWasEditedNotSameParent", age => {
-      this.age = age;
+      console.log("CHANGE AGE: eventBus", this, this.$data);
+      this.d_age = age;
     });
   },
   methods: {
     changeAge() {
-      this.age = 24;
-      this.$emit("ageWasUpdated", this.age);
+      console.log("CHANGE AGE");
+      this.d_age = 24;
+      this.$emit("ageWasUpdated", this.d_age);
     }
   }
 };

@@ -12,7 +12,7 @@ B2 : Tao project mau
 
 B3: DEV, Truy cap vao thu muc code, go:
     cd vue-cli-example
-    npm run dev 
+    npm run dev
 
     Build file va chay truoc khi deploy:
     npm run prod
@@ -45,8 +45,8 @@ B3: DEV, Truy cap vao thu muc code, go:
     // Signin.vue
     // Fire the call
     this.$bus.$emit('isLoading', false)
-    
-- Multilang : 
+
+- Multilang :
     ref : https://viblo.asia/p/vuejs-da-ngon-ngu-trong-ung-dung-vue-6J3Zg2wLKmB
     fix lai : https://kuanhsuh.github.io/How-to-implement-multi-language-with-Vue-i18n.html
               https://github.com/kuanhsuh/vue-i18n-sandbox/blob/master/src/App.vue
@@ -57,8 +57,10 @@ B3: DEV, Truy cap vao thu muc code, go:
     https://viblo.asia/p/vuex-va-vi-du-don-gian-GrLZDpzgZk0
 - Axios Get API: là một thư viện HTTP Client dựa trên Promise
     Tim hieu them : Transforms và Interceptors
+- Mixin :
+  https://viblo.asia/p/vuejs-tim-hieu-ve-mixins-Ljy5VLD9Zra
 
-- Tham khao structure project : 
+- Tham khao structure project :
     https://medium.com/hong-kong-tech/reusable-scalable-and-easy-to-organize-project-using-vuejs-part-2-c7e82044d7fc
     https://medium.com/hong-kong-tech/reusable-scalable-and-easy-to-organize-project-using-vuejs-part-3-ed8cba6b4dfe
 
