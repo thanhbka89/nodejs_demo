@@ -1,0 +1,1 @@
+// https://itnext.io/vue-router-99e334094362
