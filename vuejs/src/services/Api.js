@@ -3,6 +3,13 @@ import axios from 'axios'
 
 export default () => {
   return axios.create({
-    baseURL: `http://localhost:8989`
+    baseURL: `http://localhost:8989`,
+    withCredentials: false,
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
   })
 }
+
+export const VSM_API = axios.create()

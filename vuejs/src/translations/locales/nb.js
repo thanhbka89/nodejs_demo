@@ -3,6 +3,7 @@ export default {
   language_picker_helper: 'Velg et språk',
   languages: {
     english: 'Engelsk',
-    norwegian: 'Norsk'
+    norwegian: 'Norsk',
+    vietnam: 'VietNamk'
   }
 }

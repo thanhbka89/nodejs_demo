@@ -1,7 +1,8 @@
+
 <template>
-  <div class="dropdown">
+  <div class="vsm-dropdown">
     <button>{{ $t('language_picker_helper') }}</button>
-    <div class="dropdown-content">
+    <div class="vsm-dropdown-content">
       <a
         v-for="(lang, index) in languages"
         :key="`lang${index}`"
@@ -12,10 +13,14 @@
 </template>
 <script>
 export default {
-  name: "languagePicker",
+  name: "LanguagePicker",
   data() {
     return {
       languages: [
+        {
+          title: this.$t("languages.vietnam"),
+          value: "vi"
+        },
         {
           title: this.$t("languages.english"),
           value: "en"
@@ -29,6 +34,7 @@ export default {
   },
   methods: {
     changeLanguage(lang) {
+      debugger
       this.$i18n.locale = lang.value;
       this.$store.dispatch("language/setLanguage", lang.value);
     }
@@ -36,7 +42,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.dropdown {
+.vsm-dropdown {
   float: right;
   overflow: hidden;
   .dropbtn {
@@ -51,7 +57,7 @@ export default {
   }
 }
 
-.dropdown-content {
+.vsm-dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -71,7 +77,7 @@ export default {
   }
 }
 
-.dropdown:hover .dropdown-content {
+.vsm-dropdown:hover .vsm-dropdown-content {
   display: block;
 }
 </style>

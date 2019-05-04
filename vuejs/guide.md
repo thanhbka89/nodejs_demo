@@ -52,9 +52,12 @@ B3: DEV, Truy cap vao thu muc code, go:
               https://github.com/kuanhsuh/vue-i18n-sandbox/blob/master/src/App.vue
     https://itnext.io/setting-language-with-i18n-by-os-language-in-vue-router-vuex-e42c9318c9ec
 - VueX: Centralized State Management for Vue.js
+    https://viblo.asia/p/tim-hieu-ve-vuex-6J3ZggqqZmB
+    https://viblo.asia/p/gioi-thieu-ve-vuex-phan-2-924lJd7YKPM
     https://itnext.io/vuex-made-simple-getting-started-6bf229d432cf
     https://vuex.vuejs.org/guide/structure.html
     https://viblo.asia/p/vuex-va-vi-du-don-gian-GrLZDpzgZk0
+    https://medium.com/dailyjs/mastering-vuex-zero-to-hero-e0ca1f421d45
 - Axios Get API: là một thư viện HTTP Client dựa trên Promise
     Tim hieu them : Transforms và Interceptors
 - Mixin :

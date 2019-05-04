@@ -1,12 +1,7 @@
 <template>
   <div class="hello">
-    <language-picker></language-picker>
     <h1>{{ msg }} - {{ propertyComputed }} - {{ test_arr() }}</h1>
-    <h2>Essential Links</h2>
     <ul>
-      <li>
-        <a href="https://vuejs.org" target="_blank">Core Docs</a>
-      </li>
       <li>
         <router-link to="/contact">Contact</router-link>
       </li>
@@ -39,7 +34,6 @@
 </template>
 
 <script>
-import languagePicker from "./languagePicker.vue";
 
 export default {
   name: "HelloWorld",
@@ -117,7 +111,7 @@ export default {
     }
   },
   components: {
-    languagePicker
+    //languagePicker
   }
 };
 </script>

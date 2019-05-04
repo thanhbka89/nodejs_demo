@@ -48,9 +48,13 @@ export default {
         });
     },
     async getPosts() {
-      const response = await UserService.fetchUsers();
-      this.users = response.data.data;
-      console.log(response);
+      try { 
+        const response = await UserService.fetchUsers();
+        this.users = response.data.data;
+        console.log('ASYNC Axios', response);
+      }catch (e) {
+        console.log(e);       
+      }
     }
   }
 };

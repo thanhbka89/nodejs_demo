@@ -1,8 +1,11 @@
 <template>
   <div class="component">
     <h3>User Details</h3>
-    <p>Tuoi toi: {{ d_age }}</p>
+    <p>Tuoi toi: {{ age }} - {{ d_age }}</p>
     <button v-on:click="changeAge">Doi tuoi</button>
+    <div>
+      <h3>Counter from Foo: {{ counter }}</h3>
+    </div>
   </div>
 </template>
 
@@ -11,17 +14,28 @@ import { eventBus } from "../main";
 
 export default {
   props: ["d_age"],
+  data() {
+    return {
+      counter: 0,
+      age : this.d_age
+    };
+  },
   created() {
     eventBus.$on("ageWasEditedNotSameParent", age => {
       console.log("CHANGE AGE: eventBus", this, this.$data);
-      this.d_age = age;
+      this.age = age;
+    });
+
+    this.$bus.on("increaseCounter", value => {
+      console.log("EvenBus", this, this.$data);
+      this.counter = value;
     });
   },
   methods: {
     changeAge() {
       console.log("CHANGE AGE");
-      this.d_age = 24;
-      this.$emit("ageWasUpdated", this.d_age);
+      this.age = 24;
+      this.$emit("ageWasUpdated", this.age);
     }
   }
 };

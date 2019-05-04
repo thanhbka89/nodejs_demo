@@ -3,14 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { i18n } from './plugins/i18n'
-// import i18n from './lang/i18n'
-// import store from './store'
+import { i18n } from '@/plugins/i18n'
 import store from './store/store'
+import Bus from './plugins/EventBus'
 
 // Chú ý để thằng này lên đầu trước khi khỏi tạo main vue \instance
 export const eventBus = new Vue()
 
+Vue.use(Bus)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

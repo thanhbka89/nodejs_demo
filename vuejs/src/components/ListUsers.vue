@@ -23,6 +23,8 @@
 </template>
 
  <script>
+import MockService from "@/services/MockService"
+
 export default {
   data() {
     return {
@@ -32,6 +34,7 @@ export default {
   },
   created: function() {
     this.danhsach_user();
+    this.list_users()
   },
   methods: {
     danhsach_user() {
@@ -40,6 +43,14 @@ export default {
         .then(response => {
           this.datas = response.data;
         });
+    },
+    async list_users() {
+      try { 
+        const response = await MockService.mockFetchUsers();
+        console.log('ASYNC Axios', response.data);
+      }catch (e) {
+        console.log(e);       
+      }
     }
   }
 };
