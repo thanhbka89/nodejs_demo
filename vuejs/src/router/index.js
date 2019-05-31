@@ -9,6 +9,7 @@ import User from '@/components/User'
 import ListUsers from '@/components/ListUsers'
 import APINode from '@/components/APINode'
 import Customer from '@/components/Customer'
+import Login from '@/components/Login'
 // ký tự @ ở đây có thể hieur là 1 alias cho thư mục /src
 
 import store from '@/store/store'
@@ -66,22 +67,41 @@ const Router = new VueRouter({ mode: 'history',
       path: '/vuex',
       name: 'VueXDemo',
       component: Customer
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      meta: {
+        guest: true
+      }
     }
   ]
 })
 
 Router.beforeEach((to, from, next) => {
-  if (store.state.language.language && store.state.language.language !== i18n.locale) {
-    i18n.locale = store.state.language.language
+  // if (store.state.language.language && store.state.language.language !== i18n.locale) {
+  //   i18n.locale = store.state.language.language
+  //   next()
+  // } else if (!store.state.language.language) {
+  //   store.dispatch('language/setLanguage', navigator.languages)
+  //     .then(() => {
+  //       i18n.locale = store.state.language.language
+  //       next()
+  //     })
+  // } else {
+  //   next()
+  // }
+
+  if (to.path === '/login') {
     next()
-  } else if (!store.state.language.language) {
-    store.dispatch('language/setLanguage', navigator.languages)
-      .then(() => {
-        i18n.locale = store.state.language.language
-        next()
-      })
+  }
+
+  // if (localStorage.token && new Date().getTime() < localStorage.tokenExpired) {
+  if (localStorage.token === 'OK') {
+    next()
   } else {
-    next()
+    next('/login')
   }
 })
 

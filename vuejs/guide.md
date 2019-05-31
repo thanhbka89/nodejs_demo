@@ -74,3 +74,10 @@ https://medium.com/netscape/deploying-a-vue-js-2-x-app-to-heroku-in-5-steps-tuto
 *Links*
 https://itnext.io/vue-js-app-performance-optimization-part-1-introduction-to-performance-optimization-and-lazy-29e4ff101019
 
+*Login*
+https://webdevchallenges.com/persist-access-token-with-vue-js/
+
+*Authen*
+https://scotch.io/tutorials/vue-authentication-and-route-handling-using-vue-router
+https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
+
