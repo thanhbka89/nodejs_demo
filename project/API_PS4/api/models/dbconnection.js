@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: '',
-    database: 'node_api',
+    database: 'cms_ps',
     insecureAuth: true
 });
 

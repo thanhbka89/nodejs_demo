@@ -111,7 +111,7 @@ app.post('/loginjwt', handlers.login);
 app.get('/get_index', middleware.checkToken, handlers.index);
 
 app.get("/api", function(req, res) {
-  const sql = "SELECT * FROM products";
+  const sql = "SELECT * FROM users";
   mysql.query(sql, function(err, results, fields) {
     if (err) throw err;
     // console.log(fields);
@@ -184,6 +184,9 @@ app.use('/api/v1', router);
 app.use('/api/v2', bird);
 app.use('/bird/', routes.bird);
 app.use('/users', routes.user);
+
+//api PS4
+app.use('/api/ps4/v1', routes.user);
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại
