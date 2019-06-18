@@ -3,7 +3,8 @@ import {
 } from 'express';
 // const cryptr = require('cryptr');
 const db = require('../models/dbconnection');
-let jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 let config = require("../../config/config");
 
 const router = Router();
@@ -20,7 +21,7 @@ router.get('/get/:userId', (req, res) => {
 
 router.post('/user/login', (req, res) => {
     let username = req.body.username;
-	let password = req.body.password;
+	let password = req.body.password; //bcrypt.hashSync(req.body.password, 8)
 	let sql = 'SELECT * FROM users WHERE username = ? AND passwd = ?';
 	if (username && password) {
 		db.query(sql, [username, password], function(error, results, fields) {
@@ -51,13 +52,13 @@ router.post('/user/login', (req, res) => {
 	}
 });
 
-router.get('/user/register', (req, res) => {
+router.post('/user/register', (req, res) => {
 	let today = new Date();
 	let user = {
 		'username': req.body.username,
 		'fullname': req.body.fullname,
 		'nickname': req.body.nickname,
-		'passwd': req.body.passwd,
+		'passwd': bcrypt.hashSync(req.body.password, 8),
 		'phone': req.body.phone,
 		'address': req.body.address,
 		'created_by': 'SYSTEM',
@@ -71,13 +72,11 @@ router.get('/user/register', (req, res) => {
 				message: err
 			});
 		}
-		res.json({
+		return res.json({
 			success: true,
 			message: 'Insert success!'
 		});
 	})
-
-    console.log(today);
 });
 
 export default router;

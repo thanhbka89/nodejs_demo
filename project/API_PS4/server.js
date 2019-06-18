@@ -169,6 +169,7 @@ router.get("/midd/:name", function(req, res) {
   res.send("hello " + req.name + "!");
 });
 
+// CORS middleware
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
