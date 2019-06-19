@@ -12,6 +12,8 @@ import Customer from '@/components/Customer'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Dashboard from '@/components/Dashboard'
+import Coins from '@/components/Coin'
+
 // ký tự @ ở đây có thể hieur là 1 alias cho thư mục /src
 
 import store from '@/store/store'
@@ -108,6 +110,11 @@ const Router = new VueRouter({
     //     is_admin: true
     //   }
     // },
+    {
+      path: '/coins/:id', // dynamic route, pass parameter
+      name: 'Coins',
+      component: Coins
+    },
 
     // otherwise redirect to home
     {

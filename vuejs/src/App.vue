@@ -9,6 +9,8 @@
       <router-link to="/user">Communication Component</router-link>
       <router-link to="/vuex">| VueX Demo |</router-link>
       <router-link to="/dashboard">DashBoard</router-link>
+      <router-link to="/coins/ethereum">| Ethereum |</router-link>
+      <router-link to="/coins/bitcoin">Bitcoin</router-link>
       <language-picker></language-picker>
       <p>{{ $t('greeting') }}</p>
       <hr>
