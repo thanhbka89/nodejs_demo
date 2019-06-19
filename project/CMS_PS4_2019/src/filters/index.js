@@ -19,5 +19,6 @@ export function pluralize (time, label) {
     return time + label
   }
 
-  return time + label + 's'
+  // return time + label + 's'
+  return `${time}${label}s`
 }

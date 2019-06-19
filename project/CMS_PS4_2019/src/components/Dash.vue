@@ -39,7 +39,7 @@ import config from '../config'
 import DashFooter from './layout/DashFooter'
 import DashHeader from './layout/DashHeader'
 import Sidebar from './layout/Sidebar'
-import 'hideseek'
+import 'hideseek' // doc: http://vdw.github.io/HideSeek/
 
 export default {
   name: 'Dash',

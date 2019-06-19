@@ -18,7 +18,11 @@ B3: DEV, Truy cap vao thu muc code, go:
     npm run prod
 
 *Keys*
+- Template: 
+    ref: https://bootswatch.com/cosmo/
+    https://appdividend.com/2018/12/28/vue-router-tutorial-with-example-how-to-use-routing-in-vuejs/
 - Vue router
+    ref: https://scotch.io/tutorials/getting-started-with-vue-router
 - Communication component: http://localhost:8080/user
     ref : https://viblo.asia/p/vuejs-giao-tiep-giua-cac-component-Ljy5Vxd3Zra
     + Truyen data tu componen parent xuong component child : su dung attribue props (trong component child)
