@@ -20,8 +20,7 @@ function callAPI(callback) {
 function handleData(data) {
     console.log(data);
 }
-
-//callAPI(handleData);
+callAPI(handleData);
 
 //Promise
 // fetch('https://reqres.in/api/users?page=2')
@@ -34,10 +33,10 @@ function handleData(data) {
 
 
 //Async, Await
-const makeRequest = async () => {
-    const response = await fetch('https://reqres.in/api/users?page=2');
-    const json = await response.json();
-    console.log(json);
-};
+// const makeRequest = async () => {
+//     const response = await fetch('https://reqres.in/api/users?page=2');
+//     const json = await response.json();
+//     console.log(json);
+// };
 
-makeRequest();
+// makeRequest();

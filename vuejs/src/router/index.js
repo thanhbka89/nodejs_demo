@@ -10,10 +10,14 @@ import ListUsers from '@/components/ListUsers'
 import APINode from '@/components/APINode'
 import Customer from '@/components/Customer'
 import Login from '@/components/Login'
+import Register from '@/components/Register'
+import Dashboard from '@/components/Dashboard'
 // ký tự @ ở đây có thể hieur là 1 alias cho thư mục /src
 
 import store from '@/store/store'
-import { i18n } from '@/plugins/i18n'
+import {
+  i18n
+} from '@/plugins/i18n'
 
 import VueAxios from 'vue-axios'
 import axios from 'axios'
@@ -21,9 +25,9 @@ Vue.use(VueAxios, axios)
 
 Vue.use(VueRouter)
 
-const Router = new VueRouter({ mode: 'history',
-  routes: [
-    {
+const Router = new VueRouter({
+  mode: 'history',
+  routes: [{
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
@@ -66,7 +70,10 @@ const Router = new VueRouter({ mode: 'history',
     {
       path: '/vuex',
       name: 'VueXDemo',
-      component: Customer
+      component: Customer,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
@@ -75,6 +82,37 @@ const Router = new VueRouter({ mode: 'history',
       meta: {
         guest: true
       }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/dashboard',
+      name: 'userboard',
+      component: Dashboard,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    // {
+    //   path: '/admin',
+    //   name: 'admin',
+    //   component: Admin,
+    //   meta: {
+    //     requiresAuth: true,
+    //     is_admin: true
+    //   }
+    // },
+
+    // otherwise redirect to home
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 })
@@ -92,17 +130,64 @@ Router.beforeEach((to, from, next) => {
   // } else {
   //   next()
   // }
+  // debugger
 
-  if (to.path === '/login') {
-    next()
-  }
-
-  // if (localStorage.token && new Date().getTime() < localStorage.tokenExpired) {
-  if (localStorage.token === 'OK') {
-    next()
+  // Cach 1
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem('token') == null) {
+      next({
+        path: '/login',
+        params: {
+          nextUrl: to.fullPath
+        }
+      })
+    } else {
+      let user = JSON.parse(localStorage.getItem('user'))
+      if (to.matched.some(record => record.meta.is_admin)) {
+        if (user.is_admin == 1) {
+          next()
+        } else {
+          next({
+            name: 'userboard'
+          })
+        }
+      } else {
+        next()
+      }
+    }
+  } else if (to.matched.some(record => record.meta.guest)) {
+    if (localStorage.getItem('token') == null) {
+      next()
+    } else {
+      next({
+        name: 'userboard'
+      })
+    }
   } else {
-    next('/login')
+    next()
   }
+
+
+  // Cach 2
+  // redirect to login page if not logged in and trying to access a restricted page
+  // const publicPages = ['/login'];
+  // const authRequired = !publicPages.includes(to.path);
+  // const token = localStorage.getItem('token');
+
+  // if (authRequired && !token) {
+  //   return next('/login');
+  // }
+
+  // next();
+
+
+  // Cach 3
+  // // if (localStorage.token && new Date().getTime() < localStorage.tokenExpired) {
+  // if (to.path === '/login' || localStorage.token === 'OK') {
+  //   next()
+  // } else {
+  //   next('/login')
+  // }
 })
 
 export default Router

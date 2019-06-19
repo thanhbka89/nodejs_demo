@@ -8,6 +8,7 @@
   "author": "thanhbka@yahoo.com",
   "license": "ISC",
   "dependencies": {
+    "@vue/cli": "^3.8.4",
     "scrape-it": "^3.2.2"
   },
   "devDependencies": {

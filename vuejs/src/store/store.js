@@ -4,12 +4,14 @@ import MockService from '@/services/MockService'
 
 // Modules
 import language from './modules/language'
+import alert from './modules/alert'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     isLogged: false,
+    token: localStorage.getItem('token') || '',
     totalTvCount: 10 // The TV inventory
   },
   getters: {
@@ -20,8 +22,8 @@ export default new Vuex.Store({
     },
     isLoggedIn: (state, getters, rootState) => {
       return state.isLogged
-    }
-
+    },
+    getToken: state => state.token
   },
   mutations: {
     // qua trinh cap nhat state
@@ -74,6 +76,7 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    language
+    language,
+    alert
   }
 })

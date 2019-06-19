@@ -55,6 +55,7 @@ function B() {
 B.prototype = new A();
 var objB = new B();
 objB.funcA();
+objB.funcB()
 console.log(objB.b);
 console.log(A.prototype);
 console.log(B.prototype);
@@ -135,59 +136,4 @@ for (i = 0; i <= scores.length; i++) {
     }
 }
 
-console.log(topScorers);
-
-(function() {
-    /// Định nghĩa NAMESPACE
-    window.vn = window.vn || {};
-    vn.eten = vn.eten || {};
-    vn.eten.tek = vn.eten.tek || {};
-
-    // khai báo static class, singleton
-    vn.eten.tek.Detector = new Detector();
-
-    // private static construction
-    function Detector() {
-        var os, width, height, cookie, canvas;
-
-        // property os: readonly
-        this.os() = function() {
-            return os;
-        };
-        // property width: readonly
-        this.width() = function() {
-            return width;
-        };
-        // property height: readonly
-        this.height() = function() {
-            return height;
-        };
-
-        this.supportCanvas = function() {
-            return canvas;
-        };
-        this.supportCookie = function() {
-            return cookie;
-        };
-
-        (function() {
-            width = window.screen.width;
-            height = window.screen.height;
-
-            if (navigator.appVersion.indexOf("Win") != -1) os = "Windows";
-            else if (navigator.appVersion.indexOf("Mac") != -1) os = "MacOS";
-            else if (navigator.appVersion.indexOf("X11") != -1) os = "UNIX";
-            else if (navigator.appVersion.indexOf("Linux") != -1) os = "Linux";
-            else if (navigator.userAgent.indexOf("iPhone")) os = "iPhone/iPod";
-            else os = "Unknown";
-
-            cookie = window.navigator.cookieEnabled;
-            canvas = !!document.createElement('canvas').getContext;
-        })();
-    }
-})();
-
-console.log("OS = " + vn.eten.tek.Detector.os());
-console.log("Width x Height = " + vn.eten.tek.Detector.width() + " x " + vn.eten.tek.Detector.height());
-console.log("Support Canvas: " + vn.eten.tek.Detector.supportCanvas());
-console.log("Support Cookie: " + vn.eten.tek.Detector.supportCookie());
+console.log(topScorers)

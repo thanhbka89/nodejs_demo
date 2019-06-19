@@ -55,7 +55,7 @@ function_one(1, 4, 7);
 function_one(1, 4, 7, 0);
 
 var jsFuture = "es6";
-(function () {
+(function () { // ham tu chay
   if (!jsFuture) { var jsFuture = "es5"; }
   console.log(jsFuture);
 }());

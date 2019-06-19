@@ -4,42 +4,59 @@
       <img src="/loading.gif" alt="Loading Icon">
     </div>
     <p v-if="loginError">{{ loginError }}</p>
-    <p v-if="loginSuccessful">Login Successful</p> -->
+    <p v-if="loginSuccessful">Login Successful</p>-->
     <form @submit.prevent="loginSubmit">
       <!-- <input type="email" placeholder="E-Mail" v-model="email"> -->
-      <input type="text" placeholder="Username" v-model="input.username" required />
-      <input type="password" placeholder="Password" v-model="input.password" required />
+      <input type="text" placeholder="Username" v-model="input.username" required>
+      <input type="password" placeholder="Password" v-model="input.password" required>
       <button type="submit">Login</button>
     </form>
+    <Loading v-if="loading"></Loading>
   </div>
 </template>
 
 <script>
+import Loading from "./Loading.vue";
+import { setTimeout } from "timers";
+
 export default {
   name: "Login",
   data() {
     return {
+      loading: false,
       input: {
-        username: '',
-        password: ''
+        username: "",
+        password: ""
       }
     };
   },
   methods: {
     loginSubmit() {
-      if (this.input.username != "" && this.input.password != "") {
-        if ( this.input.username === 'thanhnm' && this.input.password === '123' ) 
-        {          
-          //this.$emit("authenticated", true)
-          this.$router.push({ name: "News" })
+      const { username, password } = this.input;
+      if (username != "" && password != "") {
+        if (username === "thanhnm" && password === "123") {
+          // show the loading message
+          this.loading = true;
+          setTimeout(() => {
+            this.loading = false;
+            localStorage.setItem('user', JSON.stringify({username: 'thanhnm', address: 'Ha Noi'}))
+            localStorage.setItem("token", "OK");
 
+            this.$store.dispatch('login')
+            //this.$emit("authenticated", true)
+            this.$router.push({ name: "News" });
+          }, 5000);
         } else {
-          console.log("The username and / or password is incorrect")
+          localStorage.clear()
+          console.log("The username and / or password is incorrect");
         }
       } else {
-        console.log("A username and password must be present")
+        console.log("A username and password must be present");
       }
     }
+  },
+  components: {
+    Loading
   }
 };
 </script>

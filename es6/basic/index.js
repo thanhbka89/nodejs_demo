@@ -87,7 +87,23 @@ miracles.set(gods[2], 'Pizza Margherita');
 console.log(miracles.get(gods[0]));
 console.log(miracles);
 
-//Set
+let map = new Map([
+    ['name', 'david'],
+    [true, 'false'],
+    [1, 'one'],
+    [{}, 'object'],
+    [function () {}, 'function']
+]);
+
+for (let key of map.keys()) {
+    console.log(key, typeof key);
+    // > string, boolean, number, object, function
+}
+for (let [key, value] of map.entries()) {
+    console.log(key, value);
+}
+
+//Set : cac phan tu khong trung nhau
 let surveyAnswers = ['sex', 'sleep', 'sex', 'sun', 'sex', 'cinema'];
 
 let pleasures = new Set();

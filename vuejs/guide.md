@@ -58,10 +58,14 @@ B3: DEV, Truy cap vao thu muc code, go:
     https://vuex.vuejs.org/guide/structure.html
     https://viblo.asia/p/vuex-va-vi-du-don-gian-GrLZDpzgZk0
     https://medium.com/dailyjs/mastering-vuex-zero-to-hero-e0ca1f421d45
+    https://github.com/vanquynguyen/my-task-vuex
 - Axios Get API: là một thư viện HTTP Client dựa trên Promise
     Tim hieu them : Transforms và Interceptors
+    Ref: https://viblo.asia/p/call-api-trong-vuejs-theo-cach-thong-minh-nhat-07LKXx7EKV4
 - Mixin :
   https://viblo.asia/p/vuejs-tim-hieu-ve-mixins-Ljy5VLD9Zra
+
+- Watch : https://viblo.asia/p/vue-js-thay-doi-cua-data-voi-watch-bWrZn6orZxw
 
 - Tham khao structure project :
     https://medium.com/hong-kong-tech/reusable-scalable-and-easy-to-organize-project-using-vuejs-part-2-c7e82044d7fc
@@ -80,4 +84,7 @@ https://webdevchallenges.com/persist-access-token-with-vue-js/
 *Authen*
 https://scotch.io/tutorials/vue-authentication-and-route-handling-using-vue-router
 https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
+
+*Javascript*
+https://viblo.asia/p/tu-javascript-thuan-den-rxjs-phan-1-m68Z0OJzKkG
 
