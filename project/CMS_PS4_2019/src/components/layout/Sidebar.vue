@@ -27,8 +27,8 @@
             name="search"
             id="search"
             class="search form-control"
-            data-toggle="hideseek" p
-            laceholder="Search Menus"
+            data-toggle="hideseek"
+            placeholder="Search Menus"
             data-list=".sidebar-menu">
             <button type="submit" name="search" id="search-btn" class="btn btn-flat">
               <i class="fa fa-search"></i>

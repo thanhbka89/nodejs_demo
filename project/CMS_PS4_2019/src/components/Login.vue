@@ -6,19 +6,37 @@
       <!-- login form -->
       <form @submit.prevent="checkCreds">
         <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-          <input class="form-control" name="username" placeholder="Username" type="text" v-model="username">
+          <span class="input-group-addon">
+            <i class="fa fa-envelope"></i>
+          </span>
+          <input
+            class="form-control"
+            name="username"
+            placeholder="Username"
+            type="text"
+            v-model="username"
+          >
         </div>
 
         <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-          <input class="form-control" name="password" placeholder="Password" type="password" v-model="password">
+          <span class="input-group-addon">
+            <i class="fa fa-lock"></i>
+          </span>
+          <input
+            class="form-control"
+            name="password"
+            placeholder="Password"
+            type="password"
+            v-model="password"
+          >
         </div>
         <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Submit</button>
       </form>
 
       <!-- errors -->
-      <div v-if=response class="text-red"><p class="vertical-5p lead">{{response}}</p></div>
+      <div v-if="response" class="text-red">
+        <p class="vertical-5p lead">{{response}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -53,20 +71,6 @@ export default {
           this.toggleLoading()
 
           let data = response.data
-          /* Checking if error object was returned from the server */
-          if (data.error) {
-            let errorName = data.error.name
-            if (errorName) {
-              this.response =
-                errorName === 'InvalidCredentialsError'
-                  ? 'Username/Password incorrect. Please try again.'
-                  : errorName
-            } else {
-              this.response = data.error
-            }
-
-            return
-          }
 
           /* Setting user in the state and caching record to the localStorage */
           if (data.success) {
@@ -81,6 +85,11 @@ export default {
             }
 
             this.$router.push(data.redirect ? data.redirect : '/')
+          } else {
+            /* Checking if error object was returned from the server */
+            this.response = data.data
+
+            return
           }
         })
         .catch(error => {

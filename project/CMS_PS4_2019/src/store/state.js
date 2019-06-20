@@ -50,6 +50,8 @@ export default {
         readAt: null
       }
     ],
-    tasks: []
+    tasks: [
+      {id: 1}
+    ]
   }
 }

@@ -14,6 +14,22 @@
       </a>
     </router-link>
 
+    <li class="header">MEMBERS</li>
+    <router-link tag="li" class="pageLink" to="#">
+      <a>
+        <i class="fa fa-circle-o text-yellow"></i>
+        <span class="page"> List member</span>
+      </a>
+    </router-link>
+
+    <li class="header">SETUP</li>
+    <router-link tag="li" class="pageLink" to="#">
+      <a>
+        <i class="fa fa-circle-o text-yellow"></i>
+        <span class="page"> PS4</span>
+      </a>
+    </router-link>
+
     <li class="header">ME</li>
     <router-link tag="li" class="pageLink" to="/tasks">
       <a>

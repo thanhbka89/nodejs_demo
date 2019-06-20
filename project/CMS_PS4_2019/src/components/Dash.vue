@@ -54,13 +54,14 @@ export default {
       classes: {
         fixed_layout: config.fixedLayout,
         hide_logo: config.hideLogoOnMobile
-      }
+      },
+      username: this.$store.state.user
     }
   },
   computed: {
     user () {
       return {
-        displayName: faker.name.findName(),
+        displayName: this.username || faker.name.findName(),
         avatar: faker.image.avatar(),
         roles: [faker.name.jobTitle(), faker.name.jobTitle()]
       }

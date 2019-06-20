@@ -2,7 +2,7 @@ import axios from 'axios'
 import config from '../config'
 
 export default {
-  request (method, uri, data = null) {
+  request(method, uri, data = null) {
     if (!method) {
       console.error('API function call requires method argument')
       return
@@ -14,8 +14,21 @@ export default {
     }
 
     let url = config.serverURI + uri
-    let headers = { 'content-type': 'application/json' }
+    let headers = {
+      'content-type': 'application/json'
+    }
 
-    return axios({ method, url, data, headers })
+    const AUTH_TOKEN = localStorage.getItem('token')
+    if (AUTH_TOKEN) {
+      // headers['Authorization'] = AUTH_TOKEN
+      axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
+    }
+
+    return axios({
+      method,
+      url,
+      data,
+      headers
+    })
   }
 }

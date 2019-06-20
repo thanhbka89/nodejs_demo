@@ -26,7 +26,7 @@ router.post('/user/login', (req, res) => {
 	if (username && password) {
 		db.query(sql, [username, password], function(error, results, fields) {
 			
-			if (results) {
+			if (results.length) {
 				let token = jwt.sign({ username: username }, config.secret, {
 					expiresIn: "24h" // expires in 24 hours
 				});
