@@ -10,6 +10,7 @@ import SettingView from './components/views/Setting.vue'
 import AccessView from './components/views/Access.vue'
 import ServerView from './components/views/Server.vue'
 import ReposView from './components/views/Repos.vue'
+import CustomerView from './components/views/Customer.vue'
 
 // Routes
 const routes = [
@@ -57,6 +58,12 @@ const routes = [
         component: ReposView,
         name: 'Repository',
         meta: {description: 'List of popular javascript repos'}
+      },
+      {
+        path: 'customers',
+        component: CustomerView,
+        name: 'Customer',
+        meta: {description: 'List customers'}
       }
     ]
   }, {

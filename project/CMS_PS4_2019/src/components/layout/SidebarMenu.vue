@@ -13,12 +13,24 @@
         <span class="page">Tables</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="#">
+      <a>
+        <i class="fa fa-table"></i>
+        <span class="page">Tinh Gio</span>
+      </a>
+    </router-link>
 
-    <li class="header">MEMBERS</li>
+    <li class="header">MANAGEMENT</li>
+    <router-link tag="li" class="pageLink" to="/customers">
+      <a>
+        <i class="fa fa-circle-o text-yellow"></i>
+        <span class="page"> DS khách hàng</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="#">
       <a>
         <i class="fa fa-circle-o text-yellow"></i>
-        <span class="page"> List member</span>
+        <span class="page"> DS mặt hàng</span>
       </a>
     </router-link>
 
