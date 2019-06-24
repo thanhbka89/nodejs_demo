@@ -5,7 +5,6 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 const bodyParser = require("body-parser");
-const mysql = require("./api/models/dbconnection");
 const morgan = require('morgan')
 
 //json web token
@@ -52,7 +51,7 @@ class HandlerGenerator {
   }
 }
 
-import cors from "cors";
+// import cors from "cors";
 import routes from './api/routes';
 import app1 from './app';
 import bird from './api/routes/router';
@@ -62,6 +61,7 @@ console.log(process.env.MY_SECRET);
 
 import models from './dummy/student';
 //console.log(models);
+import Database from './api/models/Database'
 
 // config
 const port = process.env.PORT || 8989;
@@ -72,7 +72,7 @@ const api_product = require('./api/routes/product');
 
 // Use Node.js body parsing middleware : parses incoming post request data
 app.use(morgan('combined'));
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -96,7 +96,7 @@ app.get('/check', (req, res) => {
 
 //Middleware Application
 app.use((req, res, next) => {
-    console.log('App : Hi');
+    console.log('App Middleware : Hi');
     req.context = {
         models,
         me: models.users[1],
@@ -110,52 +110,30 @@ let handlers = new HandlerGenerator();
 app.post('/loginjwt', handlers.login);
 app.get('/get_index', middleware.checkToken, handlers.index);
 
-app.get("/api", function(req, res) {
+app.get("/api", (req, res) => {
   const sql = "SELECT * FROM users";
-  mysql.query(sql, function(err, results, fields) {
-    if (err) throw err;
-    // console.log(fields);
-    res.send({
-      data: results
-    });
-  });
+  new Database().query(sql).then(rows => res.json(rows))
 });
 
-app
-  .route("/login")
-  // show the form (GET http://localhost:8080/login)
-  .get(function(req, res) {
-    res.send("this is the login form");
-  })
-
-  // process the form (POST http://localhost:8080/login)
-  .post(function(req, res) {
-    console.log("processing");
-    res.send("processing the login form!");
-  });
-
 // route middleware that will happen on every request
-router.use(function(req, res, next) {
+router.use((req, res, next) => {
   // log each request to the console
   console.log(req.method, req.url);
-  console.log("Router: Hi");
+  console.log("Router Middleware: Hi");
   // continue doing what we were doing and go to the route
   next();
 });
-router.get("/", function(req, res) {
+router.get("/", (req, res) => {
   res.send({
     message: "REST API Home"
   });
 });
-router.get("/about", function(req, res) {
-  res.send("im the about page!");
-});
 // route with parameters (http://localhost:8080/hello/:name)
-router.get("/hello/:name", function(req, res) {
+router.get("/hello/:name", (req, res) => {
   res.send("hello " + req.params.name + "!");
 });
 // route middleware to validate :name
-router.param("name", function(req, res, next, name) {
+router.param("name", (req, res, next, name) => {
   console.log("doing name validations on " + name);
 
   // once validation is done save the new item in the req
@@ -164,15 +142,15 @@ router.param("name", function(req, res, next, name) {
   next();
 });
 
-// route with parameters (http://localhost:8080/hello/:name)
-router.get("/midd/:name", function(req, res) {
+// route with parameters (http://localhost:8080/midd/:name)
+router.get("/midd/:name", (req, res) => {
   res.send("hello " + req.name + "!");
 });
 
 // CORS middleware
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
   
   next();
@@ -187,7 +165,10 @@ app.use('/bird/', routes.bird);
 app.use('/users', routes.user);
 
 //api PS4
-app.use('/api/ps4/v1', routes.user);
+app.use('/api/ps4/v1/user', routes.user)
+app.use('/api/ps4/v1/vendor', routes.vendor)
+app.use('/api/ps4/v1/item', routes.item)
+app.use('/api/ps4/v1/trans', routes.transaction)
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại
