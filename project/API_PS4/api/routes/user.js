@@ -1,48 +1,63 @@
 import {
-    Router
-} from 'express';
-// const cryptr = require('cryptr');
-const db = require('../models/dbconnection');
-const jwt = require("jsonwebtoken");
-const bcrypt = require('bcrypt');
-let config = require("../../config/config");
+	Router
+} from 'express'
+const router = Router()
 
-const router = Router();
-let usersCtrl = require('../controllers/UsersController');
+const db = require('../models/dbconnection')
+const jwt = require("jsonwebtoken")
+const bcrypt = require('bcrypt')
+let config = require("../../config/config")
+import User from '../models/User'
+
+router.get('/all', (req, res) => {
+	User.getAll((err, response) => {
+		return res.json({
+			success: true,
+			data: response
+		});
+	})
+})
 
 router.get('/', (req, res) => {
-    return res.send(Object.values(req.context.models.users));
+	return res.send(Object.values(req.context.models.users));
 });
 
 router.get('/get/:userId', (req, res) => {
-    console.log(req.params);
-    return res.send(req.context.models.users[req.params.userId]);
+	console.log(req.params);
+	return res.send(req.context.models.users[req.params.userId]);
 });
 
-router.post('/user/login', (req, res) => {
-    let username = req.body.username;
-	let password = req.body.password; //bcrypt.hashSync(req.body.password, 8)
-	let sql = 'SELECT * FROM users WHERE username = ? AND passwd = ?';
+router.post('/login', (req, res) => {
+	let username = req.body.username
+	let password = req.body.password;
+	let sql = 'SELECT * FROM users WHERE username = ?';
 	if (username && password) {
-		db.query(sql, [username, password], function(error, results, fields) {
-			
+		db.query(sql, [username], function (error, results, fields) {
+
 			if (results.length) {
-				let token = jwt.sign({ username: username }, config.secret, {
-					expiresIn: "24h" // expires in 24 hours
-				});
-				// return the JWT token for the future API calls
-				res.json({
-					success: true,
-					data: "Authentication successful!",
-					user: results[0].username,
-					token: token
-				});
-			} else {
-				res.json({
-					success: false,
-					data: "Incorrect username or password"
-				  });
+				let user = results[0]
+				const match = bcrypt.compareSync(password, user.passwd)
+
+				if (match) {
+					let token = jwt.sign({
+						username: username
+					}, config.secret, {
+						expiresIn: "24h" // expires in 24 hours
+					});
+					// return the JWT token for the future API calls
+					return res.json({
+						success: true,
+						data: "Authentication successful!",
+						user: user.username,
+						token: token
+					});
+				}
 			}
+			res.json({
+				success: false,
+				data: "Incorrect username or password"
+			});
+
 		});
 	} else {
 		res.json({
@@ -52,26 +67,24 @@ router.post('/user/login', (req, res) => {
 	}
 });
 
-router.post('/user/register', (req, res) => {
+router.post('/register', (req, res) => {
 	let today = new Date();
 	let user = {
 		'username': req.body.username,
 		'fullname': req.body.fullname,
 		'nickname': req.body.nickname,
-		'passwd': bcrypt.hashSync(req.body.password, 8),
+		'password': bcrypt.hashSync(req.body.password, 8),
 		'phone': req.body.phone,
-		'address': req.body.address,
-		'created_by': 'SYSTEM',
-		'updated_by': 'SYSTEM'
+		'address': req.body.address
 	}
-	let sql = 'INSERT INTO users SET ?'
-	db.query(sql, user, (err, response) => {
-		if (err) {
-			res.json({
+
+	User.create(new User(user), (err, reponse) => {
+		if (err) 
+			return res.json({
 				success: false,
 				message: err
 			});
-		}
+
 		return res.json({
 			success: true,
 			message: 'Insert success!'
