@@ -21,8 +21,14 @@ B3: DEV, Truy cap vao thu muc code, go:
 - Template: 
     ref: https://bootswatch.com/cosmo/
     https://appdividend.com/2018/12/28/vue-router-tutorial-with-example-how-to-use-routing-in-vuejs/
-- Vue router
+- Vue router:
+    this.$router => is the router object
+    this.$route  => is the current route object
+
     ref: https://scotch.io/tutorials/getting-started-with-vue-router
+    https://router.vuejs.org/guide/essentials/navigation.html
+    https://flaviocopes.com/vue-router/
+    param: https://medium.com/@saidhayani/understand-routing-in-vue-js-with-examples-6da96979c8e3
 - Communication component: http://localhost:8080/user
     ref : https://viblo.asia/p/vuejs-giao-tiep-giua-cac-component-Ljy5Vxd3Zra
     + Truyen data tu componen parent xuong component child : su dung attribue props (trong component child)
@@ -92,3 +98,5 @@ https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
 *Javascript*
 https://viblo.asia/p/tu-javascript-thuan-den-rxjs-phan-1-m68Z0OJzKkG
 
+*CRUD*
+https://investmentnovel.com/vue-js-crud-example-tutorial-from-scratch/

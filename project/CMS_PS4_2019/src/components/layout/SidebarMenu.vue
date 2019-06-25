@@ -27,10 +27,10 @@
         <span class="page"> DS khách hàng</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="#">
+    <router-link tag="li" class="pageLink" to="/vendor">
       <a>
         <i class="fa fa-circle-o text-yellow"></i>
-        <span class="page"> DS mặt hàng</span>
+        <span class="page"> DS Vendor</span>
       </a>
     </router-link>
 

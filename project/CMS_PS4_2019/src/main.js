@@ -8,6 +8,11 @@ import VueRouter from 'vue-router'
 import { sync } from 'vuex-router-sync'
 import routes from './routes'
 import store from './store'
+import VueSweetalert2 from 'vue-sweetalert2'
+
+Vue.config.productionTip = false
+
+Vue.use(VueSweetalert2)
 
 // Import Helpers for filters
 import { domain, count, prettyDate, pluralize } from './filters'

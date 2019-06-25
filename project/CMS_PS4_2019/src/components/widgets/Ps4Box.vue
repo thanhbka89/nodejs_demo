@@ -84,14 +84,15 @@ export default {
       }
     },
     play(pNumber = 1) {
-      let start = moment().subtract(2, 'hours')
+      let start = moment() // moment().subtract(2, 'hours')
       this.ps = {
         id: pNumber,
         origin: pNumber,
         start: start,
-        end: moment().format(moment.HTML5_FMT.TIME),
+        start_hour: moment().format(moment.HTML5_FMT.TIME),
         elapsed: moment().diff(start, 'minutes'),
-        current: moment().subtract(5, 'minutes')
+        play_hour: moment.utc().startOf('day').add({ minutes: 120 }).format('H:mm'),
+        end: moment().add(7, 'hours')
       }
       window.localStorage.setItem(pNumber, JSON.stringify(this.ps))
       this.toggleOnPS4()

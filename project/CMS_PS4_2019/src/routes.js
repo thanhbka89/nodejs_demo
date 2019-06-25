@@ -11,6 +11,8 @@ import AccessView from './components/views/Access.vue'
 import ServerView from './components/views/Server.vue'
 import ReposView from './components/views/Repos.vue'
 import CustomerView from './components/views/Customer.vue'
+import CheckOutView from './components/views/CheckOut'
+import VendorView from './components/views/Vendor'
 
 // Routes
 const routes = [
@@ -63,7 +65,19 @@ const routes = [
         path: 'customers',
         component: CustomerView,
         name: 'Customer',
-        meta: {description: 'List customers'}
+        meta: {description: 'List customers', requiresAuth: true}
+      },
+      {
+        path: 'checkout/:id',
+        component: CheckOutView,
+        name: 'CheckOut',
+        meta: {description: 'Thanh Toán', requiresAuth: true}
+      },
+      {
+        path: 'vendor',
+        component: VendorView,
+        name: 'Vendor',
+        meta: {description: 'Nhà cung cấp', requiresAuth: true, is_admin: true}
       }
     ]
   }, {
