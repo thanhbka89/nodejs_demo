@@ -9,10 +9,12 @@ import { sync } from 'vuex-router-sync'
 import routes from './routes'
 import store from './store'
 import VueSweetalert2 from 'vue-sweetalert2'
+import Paginate from 'vuejs-paginate'
 
 Vue.config.productionTip = false
 
 Vue.use(VueSweetalert2)
+Vue.component('paginate', Paginate)
 
 // Import Helpers for filters
 import { domain, count, prettyDate, pluralize } from './filters'

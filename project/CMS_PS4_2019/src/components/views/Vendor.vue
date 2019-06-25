@@ -3,25 +3,25 @@
     <div class="row">
       <vendor-create v-if="showModal">
         <h3 slot="header" class="modal-title">
-          Title
+          {{item.id ? 'Update' : 'Create'}}
         </h3>
         <div slot="body">
           <div class="form-group">
-              <label>Item Name:</label>
+              <label>Name:</label>
               <input type="text" class="form-control" v-model="item.name"/>
           </div>
           <div class="form-group">
-              <label>Item Price:</label>
-              <input type="text" class="form-control" v-model="item.price"/>
+              <label>Phone:</label>
+              <input type="text" class="form-control" v-model="item.phone"/>
           </div>
           <div class="form-group">
-							<label>Address</label>
+							<label>Address:</label>
 							<textarea class="form-control" v-model="item.address"></textarea>
 						</div>
         </div>
         <div slot="footer">
           <button type="button" class="btn btn-outline-info" @click="closeModal()"> Close </button>
-          <button type="button" class="btn btn-success" @click="insert()">Save Changes</button>
+          <button type="button" class="btn btn-success" @click="modify()">Save Changes</button>
         </div>
       </vendor-create>
       <div class="col-xs-12">
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import api from '../../api'
 import Index from '../widgets/vendor/Index'
 import VendorCreate from '../widgets/Modal'
 
@@ -59,8 +60,40 @@ export default {
     closeModal() {
       this.showModal = false
     },
+    modify() {
+      if (this.item.id) {
+        this.update()
+      } else {
+        this.insert()
+      }
+    },
     insert() {
-      console.log(this.item)
+      api
+        .request('post', '/vendor', this.item)
+        .then(response => {
+          console.log(response)
+          if (response.data) {
+            alert('OK')
+            this.closeModal()
+          }
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    },
+    update() {
+      api
+        .request('put', `/vendor/${this.item.id}`, this.item)
+        .then(response => {
+          console.log(response)
+          if (response.data) {
+            alert('OK')
+            this.closeModal()
+          }
+        })
+        .catch(e => {
+          console.error(e)
+        })
     }
   },
   components: {

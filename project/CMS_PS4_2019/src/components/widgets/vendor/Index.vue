@@ -3,10 +3,10 @@
     <div class="table-title">
         <div class="row">
             <div class="col-sm-6">
-                <h2>Manage <b>Employees</b></h2>
+                <h2>Manage <b>Vendors</b></h2>
             </div>
             <div class="col-sm-6">
-                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><span>Add New Employee</span></a>		
+                <a href="#" class="btn btn-success" data-toggle="modal"><span>Add New Vendor</span></a>		
             </div>
         </div>
     </div>   
@@ -22,8 +22,9 @@
       <thead class="z-header">
         <tr>
           <th>ID</th>
-          <th>Vendor Name</th>
-          <th>Item Price</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Phone</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -32,7 +33,8 @@
         <tr v-for="item in items" :key="item.id">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ item.price }}</td>
+          <td>{{ item.address }}</td>
+          <td>{{ item.phone }}</td>
           <td>
             <button class="btn btn-primary" @click="editItem(item)">Edit</button>
              <a href="#" class="icon">
@@ -65,6 +67,8 @@
   </div>
 </template>
 <script>
+import api from '../../../api'
+
 export default {
   name: 'VendorIndex',
   data() {
@@ -82,32 +86,32 @@ export default {
 
   methods: {
     fetchItems() {
-      let uri = 'http://localhost:4000/items'
-      console.log(uri)
-    //   this.axios.get(uri).then(response => {
-    //     this.items = response.data;
-    //   });
-      this.items = [
-          {id: 1, name: 'test1', price: 20000},
-          {id: 2, name: 'test2', price: 20000},
-          {id: 3, name: 'test3', price: 20000},
-          {id: 4, name: 'test4', price: 20000},
-          {id: 5, name: 'test5', price: 20000},
-          {id: 6, name: 'test5', price: 20000},
-          {id: 7, name: 'test5', price: 20000},
-          {id: 8, name: 'test5', price: 20000},
-          {id: 9, name: 'test5', price: 20000},
-          {id: 10, name: 'test5', price: 20000},
-          {id: 11, name: 'test5', price: 20000},
-          {id: 12, name: 'test5', price: 20000},
-          {id: 13, name: 'test5', price: 20000}
-      ]
+      api
+        .request('get', '/vendor')
+        .then(response => {
+          console.log(response)
+          this.items = response.data
+        })
+        .catch(e => {
+          console.error(e)
+        })
     },
     editItem(item) {
       this.openModal(item)
     },
     deleteItem(id) {
       console.log(id)
+      api
+        .request('delete', `/vendor/${id}`)
+        .then(response => {
+          console.log(response)
+          if (response.data) {
+            alert('OK')
+          }
+        })
+        .catch(e => {
+          console.error(e)
+        })
     }
   }
 }

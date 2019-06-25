@@ -1,5 +1,5 @@
-let jwt = require("jsonwebtoken");
-const config = require("../config/config.js");
+let jwt = require("jsonwebtoken")
+import CONFIG from '../config/config'
 
 let checkToken = (req, res, next) => {
   let data = {
@@ -17,7 +17,7 @@ let checkToken = (req, res, next) => {
   token = token.split(" ")[1];
 
   if (token) {
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token, CONFIG.secret, (err, decoded) => {
       if (err) {
         return res.json({
           success: false,
