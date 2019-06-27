@@ -1,49 +1,42 @@
-const db = require('../models/dbconnection');
-import Vendor from '../models/Vendor.js';
+const db = require('../models/dbconnection')
+import Vendor from '../models/Vendor.js'
 
 module.exports = {
     get: (req, res) => {
-        // let sql = 'SELECT * FROM vendors';
-        // db.query(sql, (err, response) => {
-        //     if (err) throw err;
-        //     res.json(response);
-        // })
-
         Vendor.getAll((err, data) => {
-            if (err) throw err;
-            res.json(data);
+            if (err) throw err
+            res.json(data)
         })
     },
-    paginate: (req, res) => {
+    paginate: async (req, res) => {
+        const {page} = req.params
+        const {limit, name, phone} = req.query
         let data = {
-            page: req.params.page
+            page,
+            limit,
+            name,
+            phone
         }
+
         Vendor.paginate(data, (err, reponse) => {
-            if (err) throw err;
-            res.json(reponse);
+            if (err) throw err
+            res.json(reponse)
         })
 
     },
     detail: (req, res) => {
         Vendor.getById(req.params.id, (err, data) => {
-            if (err)  res.send(err);
-            res.json(data);
+            if (err)  res.send(err)
+            res.json(data)
         });
     },
     update: (req, res) => {
-        let data = req.body;
-        let id = req.params.id;
-        // let sql = 'UPDATE vendors SET ? WHERE id = ?';
-        // db.query(sql, [data, id], (err, response) => {
-        //     if (err) throw err;
-        //     res.json({
-        //         message: 'Update success!'
-        //     });
-        // })
+        let data = req.body
+        let id = req.params.id
 
         Vendor.update(id, new Vendor(data), (err, response) => {
             if (err)  res.send(err)
-            res.json(response);
+            res.json(response)
         })
     },
     store: (req, res) => {
@@ -59,18 +52,23 @@ module.exports = {
 
         let newObj = new Vendor(req.body)
         Vendor.create(newObj, (err, data) => {
-            if (err)  res.send(err);
-            res.json(data);
+            if (err)  res.send(err)
+            res.json(data)
         })
     },
     delete: (req, res) => {
-        let sql = 'DELETE FROM vendors WHERE id = ?';
+        let sql = 'DELETE FROM vendors WHERE id = ?'
         db.query(sql, [req.params.id], (err, response) => {
             if (err) throw err
-            console.log(response)
             res.json({
                 message: 'Delete success!'
-            });
+            })
+        })
+    },
+    search: async (req, res) => {
+        Vendor.search(req.query.q, (err, data) => {
+            if (err)  res.send(err)
+            res.json(data)
         })
     }
 }

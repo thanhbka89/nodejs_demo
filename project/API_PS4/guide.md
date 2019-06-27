@@ -21,4 +21,7 @@ http://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-
 *Huong dan cach debug Node tren VSCode*
 - Vao Settings -> Debug > Node: Auto Attach and set the drop down to “on”
 - Trong thu muc root , go : npm run debug
+
+*PM2*
+http://stayregular.net/blog/make-a-nodejs-api-with-mysql
     

@@ -40,7 +40,8 @@ export default {
         end: '',
         items: {}
       },
-      localPs4Start: this.ps4Start
+      localPs4Start: this.ps4Start,
+      lsPs4: JSON.parse(window.localStorage.getItem(this.number) || 'null')
     }
   },
   props: {
@@ -77,10 +78,8 @@ export default {
   methods: {
     open_modal() {
       console.log('Call OPEN Child')
-      let local = window.localStorage.getItem(this.number) || 'null'
-      let localPS = JSON.parse(local)
-      if (localPS) {
-        this.openModal(localPS) // ham tu cha truyen vao con
+      if (this.lsPs4) {
+        this.openModal(this.lsPs4) // ham tu cha truyen vao con
       }
     },
     play(pNumber = 1) {

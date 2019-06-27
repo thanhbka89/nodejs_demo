@@ -2,18 +2,45 @@
   <section class="content">
     <div class="row">
       <div class="col-xs-12">
-        <h2>List customers</h2>
         <ps4-detail v-if="showModal" :transaction="showModal">
             <h3 slot="header" class="modal-title">
               Chi tiết {{getPs4.id}}
             </h3>
 
              <div slot="body">
-               <p>Máy số: {{getPs4.id}}</p>
-               <p>{{getPs4.origin}}</p>
-               <p>Bắt đầu (hh:mm): {{getPs4.start_hour}}</p>
-               <p>Số giờ đã chơi (hh:mm): {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</p>
-               <p>Danh sách dịch vụ:</p>
+               <p><strong>Máy số</strong> {{getPs4.id}}</p>
+               <p><strong>Bắt đầu (hh:mm)</strong> {{getPs4.start_hour}}</p>
+               <p><strong>Số giờ đã chơi (hh:mm)</strong> {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</p>
+               <p><strong>Danh sách dịch vụ</strong></p>
+               <div class="row">
+                 <div class="col-xs-12">
+                   <div class="box">
+                     <div class="box-body table-responsive no-padding">
+                       <table class="table table-hover">
+                        <tbody><tr>
+                          <th>Stt</th>
+                          <th>Mặt hàng</th>
+                          <th>Số lượng</th>
+                          <th>Ghi chú</th>
+                        </tr>
+                        <tr>
+                          <td>183</td>
+                          <td>John Doe</td>
+                          <td>11-7-2014</td>
+                          <td><span class="label label-success">Approved</span></td>
+                        </tr>
+                        <tr>
+                          <td>219</td>
+                          <td>Alexander Pierce</td>
+                          <td>11-7-2014</td>
+                          <td><span class="label label-warning">Pending</span></td>
+                        </tr>
+                      </tbody>
+                      </table>
+                     </div>
+                   </div>
+                 </div>
+               </div>
              </div>
                 
             <div slot="footer">
@@ -22,6 +49,8 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submitAndClose(getPs4.id)"> Checkout </button>
             </div>
         </ps4-detail>
+      </div>
+      <div class="col-xs-12">
         <button type="button" class="btn btn-primary" @click="openModal('thanhnm')">Open Modal</button>
         <button type="button" class="btn btn-primary" @click="forceRerender()">Re-render Component</button>
         <button type="button" class="btn btn-primary" @click="showAlert()">Alert</button>
@@ -35,9 +64,9 @@
           :icon-classes="['ion', 'ion-ios-game-controller-a-outline']"
           text="Máy 1"
           number="ps4_01"
+          :ps4-start="togglePs4('ps4_01')"
           :openModal="openModal"
           @created="handleCreate"
-          :key="componentKey"
         ></ps4-box>
       </div>
       <div class="col-md-4 col-sm-6 col-xs-12">
@@ -45,7 +74,7 @@
           :icon-classes="['ion', 'ion-ios-football-outline']"
           text="Máy 2"
           number="ps4_02"
-          :ps4-start="true"
+          :ps4-start="togglePs4('ps4_02')"
           :openModal="openModal"
           @created="handleCreate"
           :key="componentKey"
@@ -56,7 +85,7 @@
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
           text="Máy 3"
           number="ps4_03"
-          :ps4-start="true"
+          :ps4-start="togglePs4('ps4_03')"
           :openModal="openModal"
           @created="handleCreate"
         ></ps4-box>
@@ -66,6 +95,7 @@
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
           text="Máy 4"
           number="ps4_04"
+          :ps4-start="togglePs4('ps4_04')"
           :openModal="openModal"
           @created="handleCreate"
           :key="componentKey"
@@ -76,6 +106,7 @@
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
           text="Máy 5"
           number="ps4_05"
+          :ps4-start="togglePs4('ps4_05')"
           :openModal="openModal"
           @created="handleCreate"
         ></ps4-box>
@@ -104,13 +135,14 @@ export default {
   methods: {
     openModal(val = 'Open') {
       console.log('Call OPEN Parent')
-      debugger
       this.getPs4 = typeof val === 'object' ? val : {}
-      const {start} = this.getPs4
-      let elapsed = moment().diff(start, 'minutes')
-      this.getPs4.elapsed = elapsed
-      this.getPs4.play_hour = moment.utc().startOf('day').add({ minutes: elapsed }).format('H:mm')
-      window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+      if (this.getPs4 != null) {
+        const {start} = this.getPs4
+        let elapsed = moment().diff(start, 'minutes')
+        this.getPs4.elapsed = elapsed
+        this.getPs4.play_hour = Math.floor(elapsed / 60) + ':' + elapsed % 60 // moment.utc().startOf('day').add({ minutes: elapsed }).format('H:mm')
+        window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+      }
       this.showModal = true
     },
     closeModal() {
@@ -128,6 +160,10 @@ export default {
         this.$router.push(route)
       }
     },
+    togglePs4(id = 1) {
+      return !!(window.localStorage.getItem(id) || false)
+    },
+    // ham duoc goi tu component con
     handleCreate(value) {
       console.log('Child has been created.', value)
     },
@@ -150,12 +186,12 @@ export default {
     showAlertConfirm() {
       this.$swal({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: 'Bạn có muốn thực hiện thanh toán!',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Đồng ý'
       }).then((result) => {
         if (result.value) {
           this.$swal(

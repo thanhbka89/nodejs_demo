@@ -6,6 +6,8 @@ const app = express()
 const router = express.Router()
 const bodyParser = require("body-parser")
 const morgan = require('morgan')
+const rateLimit = require("express-rate-limit")
+const helmet = require('helmet')
 
 //json web token
 let jwt = require("jsonwebtoken")
@@ -79,6 +81,7 @@ app.use(
     extended: true
   })
 )
+app.use(helmet()) //  secure your Express apps by setting various HTTP headers
 
 //run before middleware
 app.get('/check', (req, res) => {
@@ -165,6 +168,13 @@ app.use('/bird/', routes.bird)
 app.use('/users', routes.user)
 
 //api PS4
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000,
+  message:
+    'Too many accounts created from this IP, please try again after an hour'
+})
+app.use("/api/ps4/v1/", apiLimiter) // only apply to requests that begin with
 app.use('/api/ps4/v1/user', routes.user)
 app.use('/api/ps4/v1/vendor', routes.vendor)
 app.use('/api/ps4/v1/item', routes.item)

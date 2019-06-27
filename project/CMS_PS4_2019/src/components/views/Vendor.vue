@@ -45,7 +45,9 @@ export default {
       showModal: false,
       item: {
         id: '',
-        name: 'demo'
+        name: '',
+        phone: '',
+        address: ''
       }
     }
   },
@@ -53,7 +55,7 @@ export default {
 
   },
   methods: {
-    openModal(obj = {name: 'test'}) {
+    openModal(obj = {name: 'Vendor'}) {
       this.item = obj
       this.showModal = true
     },
@@ -73,7 +75,7 @@ export default {
         .then(response => {
           console.log(response)
           if (response.data) {
-            alert('OK')
+            this.showToast()
             this.closeModal()
           }
         })
@@ -87,13 +89,23 @@ export default {
         .then(response => {
           console.log(response)
           if (response.data) {
-            alert('OK')
+            this.showToast()
             this.closeModal()
           }
         })
         .catch(e => {
           console.error(e)
         })
+    },
+    showToast() {
+      this.$swal({
+        type: 'success',
+        title: `${this.item.id ? 'Updated' : 'Created'} successfully`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      })
     }
   },
   components: {

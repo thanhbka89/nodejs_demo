@@ -13,8 +13,7 @@
 
     <div class="filters row">
         <div class="form-group col-sm-3">
-            <label for="search-element">invoice name</label>
-            <input v-model="searchKey" class="form-control" id="search-element" requred/>
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Search vendor ..." aria-label="Search" @keyup.enter="search"/>
         </div>
     </div>
 
@@ -30,22 +29,19 @@
       </thead>
 
       <tbody>
-        <tr v-for="item in items" :key="item.id">
-          <td>{{ item.id }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.address }}</td>
-          <td>{{ item.phone }}</td>
-          <td>
-            <button class="btn btn-primary" @click="editItem(item)">Edit</button>
-             <a href="#" class="icon">
-                <i v-on:click="onEdit(product)" class="fa fa-pencil"></i>
-            </a>
+        <tr v-for="item in filteredResources" :key="item.id">
+          <td class="col-md-1">{{ item.id }}</td>
+          <td class="col-md-3">{{ item.name }}</td>
+          <td class="col-md-4">{{ item.address }}</td>
+          <td class="col-md-2">{{ item.phone }}</td>
+          <td class="col-md-2">
+            <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
             <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
             <a href="#" class="icon">
-                <i v-on:click="onDelete(product.id)" class="fa fa-trash"></i>
+                <i v-on:click="showAlert()" class="fa fa-pencil"></i>
             </a>
             <a href="#" class="icon">
-                <i v-on:click="onDelete(product.id)" class="fa fa-eye"></i>
+                <i @click="showAlert" class="fa fa-trash"></i>
             </a>            
           </td>
         </tr>
@@ -53,16 +49,23 @@
     </table>
 
     <div class="clearfix">
-        <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-        <ul class="pagination">
-            <li class="page-item disabled"><a href="#">Previous</a></li>
-            <li class="page-item"><a href="#" class="page-link">1</a></li>
-            <li class="page-item"><a href="#" class="page-link">2</a></li>
-            <li class="page-item active"><a href="#" class="page-link">3</a></li>
-            <li class="page-item"><a href="#" class="page-link">4</a></li>
-            <li class="page-item"><a href="#" class="page-link">5</a></li>
-            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-        </ul>
+        <paginate
+        v-model="page"
+        :page-count="totalPage"
+        :margin-pages="2"
+        :page-range="5"
+        :click-handler="paginateCallback"
+        :container-class="'pagination'"
+        :page-class="'page-item'"
+        :page-link-class="'page-link-item'"
+        :prev-class="'prev-item'"
+        :prev-link-class="'prev-link-item'"
+        :next-class="'next-item'"
+        :next-link-class="'next-link-item'"
+        :break-view-class="'break-view'"
+        :break-view-link-class="'break-view-link'"
+        :first-last-button="true"
+      ></paginate>
     </div>
   </div>
 </template>
@@ -74,23 +77,44 @@ export default {
   data() {
     return {
       searchKey: '',
+      page: 1,
+      totalPage: 10,
       items: []
     }
   },
   props: {
     openModal: Function
   },
+  computed: {
+    filteredResources() {
+      return this.items
+    }
+  },
   created: function() {
     this.fetchItems()
+    this.paginateCallback()
   },
 
   methods: {
+    paginateCallback(page = 1) {
+      let query = this.searchKey ? `?name=${this.searchKey}` : ''
+      api
+        .request('get', `/vendor/p/${page}` + query)
+        .then(response => {
+          console.log(response)
+          this.items = response.data
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    },
     fetchItems() {
       api
         .request('get', '/vendor')
         .then(response => {
           console.log(response)
           this.items = response.data
+          this.totalPage = Math.ceil(response.data.length / 5)
         })
         .catch(e => {
           console.error(e)
@@ -112,6 +136,18 @@ export default {
         .catch(e => {
           console.error(e)
         })
+    },
+    search() {
+      api.request('get', `/vendor/s/query?q=${this.searchKey}`)
+        .then(response => {
+          this.items = response.data
+        })
+        .catch(e => {
+          console.error(e)
+        })
+    },
+    showAlert() {
+      this.$swal('Chuc nang sap co')
     }
   }
 }

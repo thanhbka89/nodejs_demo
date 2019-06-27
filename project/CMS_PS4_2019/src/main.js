@@ -10,10 +10,12 @@ import routes from './routes'
 import store from './store'
 import VueSweetalert2 from 'vue-sweetalert2'
 import Paginate from 'vuejs-paginate'
+import Vuelidate from 'vuelidate'
 
 Vue.config.productionTip = false
 
 Vue.use(VueSweetalert2)
+Vue.use(Vuelidate)
 Vue.component('paginate', Paginate)
 
 // Import Helpers for filters

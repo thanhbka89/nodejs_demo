@@ -13,5 +13,6 @@ router.route('/:id')
     .delete(vendorsCtrl.delete)
 
 router.get('/p/:page', vendorsCtrl.paginate)
+router.get('/s/query', vendorsCtrl.search)
 
 export default router
