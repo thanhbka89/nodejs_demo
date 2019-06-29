@@ -93,6 +93,7 @@ export default {
         play_hour: moment.utc().startOf('day').add({ minutes: 120 }).format('H:mm'),
         end: moment().add(7, 'hours')
       }
+      this.lsPs4 = this.ps
       window.localStorage.setItem(pNumber, JSON.stringify(this.ps))
       this.toggleOnPS4()
       this.toggleOnClass()

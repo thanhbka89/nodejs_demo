@@ -4,36 +4,51 @@
       <div class="col-xs-12">
         <ps4-detail v-if="showModal" :transaction="showModal">
             <h3 slot="header" class="modal-title">
-              Chi tiết {{getPs4.id}}
+              Chi tiết Máy số {{getPs4.id}}
             </h3>
 
-             <div slot="body">
-               <p><strong>Máy số</strong> {{getPs4.id}}</p>
-               <p><strong>Bắt đầu (hh:mm)</strong> {{getPs4.start_hour}}</p>
-               <p><strong>Số giờ đã chơi (hh:mm)</strong> {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</p>
-               <p><strong>Danh sách dịch vụ</strong></p>
+            <div slot="body">
+              <div class="row">
+                <div class="col-sm-6"><strong>Bắt đầu: </strong> {{getPs4.start_hour}}</div>
+                <div class="col-sm-6"><strong>Số giờ đã chơi: </strong> {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</div>
+              </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <strong>Danh sách dịch vụ</strong>
+                 </div>
+                 <div class="col-sm-6">
+                 <select v-model="selectedDV">
+                  <option disabled value="">Chọn dịch vụ</option>
+                  <option v-for="option in options" :value="option.value" :key="option.value">
+                    {{ option.text }}
+                  </option>
+                </select>
+                <button type="button" class="btn btn-success" @click="addService(getPs4.id, selectedDV)"> Thêm dịch vụ </button>
+                </div>
+               </div>
                <div class="row">
                  <div class="col-xs-12">
                    <div class="box">
                      <div class="box-body table-responsive no-padding">
                        <table class="table table-hover">
-                        <tbody><tr>
-                          <th>Stt</th>
-                          <th>Mặt hàng</th>
-                          <th>Số lượng</th>
-                          <th>Ghi chú</th>
-                        </tr>
-                        <tr>
-                          <td>183</td>
-                          <td>John Doe</td>
-                          <td>11-7-2014</td>
-                          <td><span class="label label-success">Approved</span></td>
-                        </tr>
-                        <tr>
-                          <td>219</td>
-                          <td>Alexander Pierce</td>
-                          <td>11-7-2014</td>
-                          <td><span class="label label-warning">Pending</span></td>
+                        <thead>
+                          <tr>
+                            <th>Stt</th>
+                            <th>Mặt hàng</th>
+                            <th>Số lượng</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(item, index) in getPs4.items" :key="index">
+                          <td class="col-xs-1">{{++index}}</td>
+                          <td class="col-xs-5">{{item.name}}</td>
+                          <td class="col-xs-3">
+                            <input type="number" id="number" v-model="item.quantity" value="1" min="1" />
+                          </td>
+                          <td class="col-xs-3">
+                            <a href="#" class="icon" data-toggle="tooltip" title="Xóa dịch vụ"><i @click="deleteService(getPs4.id, --index)" class="fa fa-trash"></i></a>          
+                          </td>
                         </tr>
                       </tbody>
                       </table>
@@ -44,9 +59,9 @@
              </div>
                 
             <div slot="footer">
-                <button type="button" class="btn btn-outline-info" @click="closeModal()"> Close </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submitAndClose()"> Update </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submitAndClose(getPs4.id)"> Checkout </button>
+                <button type="button" class="btn btn-outline-info" @click="closeModal()"> Đóng </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="updateService(getPs4.id)"> Cập nhật </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submitAndClose(getPs4.id)"> Thanh toán </button>
             </div>
         </ps4-detail>
       </div>
@@ -129,7 +144,13 @@ export default {
       showModal: false,
       listPS4: [],
       componentKey: 0,
-      getPs4: {}
+      getPs4: {},
+      selectedDV: '',
+      options: [
+        { text: 'Coca Cola', value: {code: 'A', name: 'Coca'} },
+        { text: 'Chanh muối', value: {code: 'B', name: 'Boca'} },
+        { text: 'Redbull', value: {code: 'C', name: 'Roca'} }
+      ]
     }
   },
   methods: {
@@ -160,8 +181,29 @@ export default {
         this.$router.push(route)
       }
     },
+    updateService(id = 1) {
+      if (this.togglePs4(id)) {
+        window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+        this.showToast()
+      }
+    },
     togglePs4(id = 1) {
       return !!(window.localStorage.getItem(id) || false)
+    },
+    addService(id, val) {
+      if (this.togglePs4(id) && val) {
+        this.getPs4 = JSON.parse(window.localStorage.getItem(id))
+        this.getPs4.items = this.getPs4.items || []
+        let index = this.getPs4.items.length
+        this.getPs4.items.push({id: ++index, name: val, quantity: 1})
+        window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+      }
+    },
+    deleteService(id, index) {
+      if (this.togglePs4(id)) {
+        this.getPs4.items.splice(index, 1)
+      }
+      console.log(this.getPs4)
     },
     // ham duoc goi tu component con
     handleCreate(value) {
@@ -176,7 +218,7 @@ export default {
     showToast() {
       this.$swal({
         type: 'success',
-        title: 'Signed in successfully',
+        title: 'Cập nhật thành công',
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -218,6 +260,9 @@ export default {
   text-align: center;
   vertical-align: middle;
   display: inherit;
+}
+#number {
+  width: 40px;
 }
 </style>
 
