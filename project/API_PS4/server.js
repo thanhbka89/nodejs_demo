@@ -81,7 +81,7 @@ app.use(
     extended: true
   })
 )
-app.use(helmet()) //  secure your Express apps by setting various HTTP headers
+// app.use(helmet()) //  secure your Express apps by setting various HTTP headers
 
 //run before middleware
 app.get('/check', (req, res) => {

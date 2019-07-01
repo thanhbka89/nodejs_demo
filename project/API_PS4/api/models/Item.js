@@ -128,7 +128,11 @@ class Item {
     /*** Get items theo danh muc */
     static getByCategory(input, result) {
         const {category, status} = input
-        const condition = this.getCondition({category, status})
+        let danhmuc = category
+        if (category.search(',') > 0) {
+            danhmuc = category.split(',')
+        }
+        const condition = this.getCondition({category: danhmuc, status})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
         console.log(sql)
         db.query(sql, (err, res) => {

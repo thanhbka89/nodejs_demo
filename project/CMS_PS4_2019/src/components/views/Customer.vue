@@ -9,22 +9,16 @@
 
             <div slot="body">
               <div class="row z-bottom">
-                <div class="col-sm-5"><strong>Bắt đầu: </strong> {{getPs4.start_hour}}</div>
-                <div class="col-sm-7"><strong>Số giờ đã chơi: </strong> {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</div>
+                <div class="col-sm-4"><strong>Bắt đầu: </strong> {{getPs4.start_hour}}</div>
+                <div class="col-sm-8"><strong>Số giờ đã chơi: </strong> {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</div>
               </div>
               <div class="row z-bottom">
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                   <strong>Danh sách dịch vụ:</strong>
                 </div>
-                <div class="col-sm-4">
-                <!-- <select class="form-control" v-model="selectedDV">
-                  <option disabled value="">Chọn dịch vụ</option>
-                  <option v-for="option in options" :value="option.value" :key="option.value">
-                    {{ option.text }}
-                  </option>
-                </select>                  -->
-                <v-select v-model="selectedDV" :options="options"></v-select>
-              </div>
+                <div class="col-sm-5">
+                  <v-select v-model="selectedDV" label="name" :options="options"></v-select>
+                </div>
               <div class="col-sm-3">
                 <button type="button" class="btn btn-success" @click="addService(getPs4.id, selectedDV)"> Thêm dịch vụ </button>
               </div>
@@ -45,9 +39,9 @@
                         <tbody>
                         <tr v-for="(item, index) in getPs4.items" :key="index">
                           <td class="col-xs-1">{{++index}}</td>
-                          <td class="col-xs-5">{{item.name.label}}</td>
+                          <td class="col-xs-5">{{item.name.name}}</td>
                           <td class="col-xs-3">
-                            <input type="number" id="number" v-model="item.quantity" value="1" min="1" />
+                            <input type="number" id="number" v-model="item.quantity" @change="updateService(getPs4.id, true)" value="1" min="1"/>
                           </td>
                           <td class="col-xs-3">
                             <a href="#" class="icon" data-toggle="tooltip" title="Xóa dịch vụ"><i @click="deleteService(getPs4.id, --index)" class="fa fa-trash"></i></a>          
@@ -79,7 +73,7 @@
       <!-- PS4 boxes -->
       <div class="col-md-4 col-sm-6 col-xs-12">
         <ps4-box
-          :icon-classes="['ion', 'ion-ios-game-controller-a-outline']"
+          :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
           text="Máy 1"
           number="ps4_01"
           :ps4-start="togglePs4('ps4_01')"
@@ -135,6 +129,7 @@
 </template>
 
 <script>
+import api from '../../api'
 import Ps4Box from '../widgets/PS4Box'
 import Ps4Detail from '../widgets/Modal'
 import moment from 'moment'
@@ -149,14 +144,11 @@ export default {
       componentKey: 0,
       getPs4: {},
       selectedDV: '',
-      options: [
-        { label: 'Coca Cola', value: 'A' },
-        { label: 'Chanh muối', value: 'B' },
-        { label: 'Redbull', value: 'C' },
-        { label: 'Lavie', value: 'LV' },
-        { label: 'Latte', value: 'LT' }
-      ]
+      options: []
     }
+  },
+  created() {
+    this.getActiveServices()
   },
   methods: {
     openModal(val = 'Open') {
@@ -186,10 +178,9 @@ export default {
         this.$router.push(route)
       }
     },
-    updateService(id = 1) {
+    updateService(id = 1, showModal = false) {
       if (this.togglePs4(id)) {
-        this.showModal = false
-        this.selectedDV = ''
+        this.showModal = showModal
         window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
         this.showToast()
       }
@@ -212,6 +203,17 @@ export default {
         this.getPs4.items.splice(index, 1)
       }
       console.log(this.getPs4)
+    },
+    getActiveServices() {
+      api
+        .request('get', '/item/cate_active/1,2,4')
+        .then(response => {
+          console.log(response)
+          this.options = response.data
+        })
+        .catch(e => {
+          console.error(e)
+        })
     },
     // ham duoc goi tu component con
     handleCreate(value) {
