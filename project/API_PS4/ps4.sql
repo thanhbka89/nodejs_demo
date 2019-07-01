@@ -73,25 +73,30 @@ CREATE TABLE IF NOT EXISTS `items` (
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `gia_nhap` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Gia nhap hang',
   `gia_ban` int(10) unsigned NOT NULL DEFAULT '0',
-  `category` enum('1','2','3') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '{1: Nuoc uong, 2: Do an, 3: Khac}',
-  `status` enum('0','1') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '{1: dang ap dung, 0: ko ap dung}',
+  `category` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
+  `status` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: dang ap dung, 0: ko ap dung}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
 
 -- Dumping data for table cms_ps.items: ~6 rows (approximately)
 DELETE FROM `items`;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `category`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-	(1, 0, 'COCA', 'CocaCola', 8000, 10000, '1', '1', 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
-	(2, 0, 'REDBULL', 'Bo Huc', 10000, 15000, '1', '1', 'SYSTEM', '2019-06-16 14:16:30', 'SYSTEM', '2019-06-22 17:39:35'),
-	(3, 0, 'PS4', 'Gio choi PS4', 10000, 20000, '3', '1', 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
-	(4, 0, 'XucXich', 'Xuc xich Duc viet', 10000, 20000, '2', '1', 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
-	(5, 0, 'DULICH', 'Thuoc la Du Lich', 10000, 15000, '1', '1', 'SYSTEM', '2019-06-22 17:03:59', 'SYSTEM', '2019-06-22 17:03:59'),
-	(7, 0, 'VINA', 'Thuoc la Vina', 20000, 30000, '1', '1', 'SYSTEM', '2019-06-22 17:40:46', 'SYSTEM', '2019-06-22 17:40:46');
+	(1, 0, 'COCA', 'CocaCola', 8000, 10000, 1, 1, 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
+	(2, 0, 'REDBULL', 'Bo Huc', 10000, 15000, 1, 1, 'SYSTEM', '2019-06-16 14:16:30', 'SYSTEM', '2019-07-01 20:39:26'),
+	(3, 0, 'PS4', 'Gio choi PS4', 10000, 20000, 3, 1, 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
+	(4, 0, 'XucXich', 'Xuc xich Duc viet', 10000, 20000, 2, 0, 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
+	(5, 0, 'DULICH', 'Thuoc la Du Lich', 8000, 10000, 4, 1, 'SYSTEM', '2019-06-22 17:03:59', 'SYSTEM', '2019-07-01 20:40:05'),
+	(7, 0, 'VINA', 'Thuoc la Vina', 20000, 30000, 4, 1, 'SYSTEM', '2019-06-22 17:40:46', 'SYSTEM', '2019-07-01 20:39:11'),
+	(8, 0, 'LAVIE', 'Nuoc loc Lavie', 4000, 8000, 1, 1, 'SYSTEM', '2019-07-01 20:40:55', 'SYSTEM', '2019-07-01 20:40:56'),
+	(9, 0, 'LATTE', 'Nuoc ngot Latte', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:41:23', 'SYSTEM', '2019-07-01 20:41:23'),
+	(10, 0, 'CHANH', 'Nuoc chanh muoi', 6000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:42:49', 'SYSTEM', '2019-07-01 20:42:50'),
+	(11, 0, 'RONG', 'Nuoc ngot rong do', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:43:16', 'SYSTEM', '2019-07-01 20:43:16'),
+	(12, 0, 'PEPSI', 'Pepsi', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:44:05', 'SYSTEM', '2019-07-01 20:44:05');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps.setting
@@ -140,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
 
--- Dumping data for table cms_ps.transactions: ~0 rows (approximately)
+-- Dumping data for table cms_ps.transactions: ~12 rows (approximately)
 DELETE FROM `transactions`;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
 INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -205,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
   `address` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Thong tin dai ly';
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Thong tin dai ly';
 
 -- Dumping data for table cms_ps.vendors: ~23 rows (approximately)
 DELETE FROM `vendors`;
@@ -220,7 +225,6 @@ INSERT INTO `vendors` (`id`, `name`, `address`, `phone`) VALUES
 	(7, 'VinFast', 'Bac Ninh', '0349617930'),
 	(8, 'Xiaomi', 'Bac Ninh', '0349617930'),
 	(10, 'Bphone', 'Bac Ninh', '0349617930'),
-	(11, 'Huawei123', 'Bac Ninh', '0349617930'),
 	(12, 'Canon', 'Gia Lam, HN', '0349617930'),
 	(13, 'Vietel', 'Gia Lam, HN', '0349617930'),
 	(14, 'Mobifone', 'Gia Lam, HN', '0349617930'),
@@ -235,7 +239,9 @@ INSERT INTO `vendors` (`id`, `name`, `address`, `phone`) VALUES
 	(23, 'Be', 'Gia Lam, HN', '0349617930'),
 	(24, 'Grap', 'Gia Lam, HN', '0349617930'),
 	(25, 'Uber', 'Gia Lam, HN', '0349617930'),
-	(26, 'Go', 'Gia Lam, HN', '0349617930');
+	(26, 'Go', 'Gia Lam, HN', '0349617930'),
+	(27, 'TGDD', 'HN', '0987789'),
+	(28, 'DMX', 'HN', '0987789789');
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
