@@ -11,15 +11,18 @@ import store from './store'
 import VueSweetalert2 from 'vue-sweetalert2'
 import Paginate from 'vuejs-paginate'
 import Vuelidate from 'vuelidate'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
 
 Vue.config.productionTip = false
 
 Vue.use(VueSweetalert2)
 Vue.use(Vuelidate)
 Vue.component('paginate', Paginate)
+Vue.component('v-select', vSelect)
 
 // Import Helpers for filters
-import { domain, count, prettyDate, pluralize } from './filters'
+import { domain, count, prettyDate, pluralize, toVND } from './filters'
 
 // Import Views - Top level
 import AppView from './components/App.vue'
@@ -29,6 +32,7 @@ Vue.filter('count', count)
 Vue.filter('domain', domain)
 Vue.filter('prettyDate', prettyDate)
 Vue.filter('pluralize', pluralize)
+Vue.filter('toVnd', toVND)
 
 Vue.use(VueRouter)
 

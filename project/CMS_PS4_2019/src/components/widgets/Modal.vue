@@ -33,4 +33,10 @@
   display: table;
   transition: opacity 0.3s ease;
 }
+.modal-body {
+  max-height: calc(100vh - 212px);
+  overflow-y: auto;
+  /* max-height: calc(100% - 120px);
+  overflow-y: scroll; */
+}
 </style>

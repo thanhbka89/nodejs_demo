@@ -13,6 +13,7 @@ import ReposView from './components/views/Repos.vue'
 import CustomerView from './components/views/Customer.vue'
 import CheckOutView from './components/views/CheckOut'
 import VendorView from './components/views/Vendor'
+import ItemView from './components/views/Items'
 
 // Routes
 const routes = [
@@ -78,6 +79,12 @@ const routes = [
         component: VendorView,
         name: 'Vendor',
         meta: {description: 'Nhà cung cấp', requiresAuth: true, is_admin: true}
+      },
+      {
+        path: 'item',
+        component: ItemView,
+        name: 'Item',
+        meta: {description: 'Danh sách dịch vụ', requiresAuth: true, is_admin: true}
       }
     ]
   }, {

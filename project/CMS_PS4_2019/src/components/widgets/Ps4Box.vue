@@ -41,7 +41,7 @@ export default {
         items: {}
       },
       localPs4Start: this.ps4Start,
-      lsPs4: JSON.parse(window.localStorage.getItem(this.number) || 'null')
+      lsPs4: {}
     }
   },
   props: {
@@ -70,6 +70,7 @@ export default {
     // goi ham cha
     this.$emit('created', this.msg) // communicate to parent components
     console.log('PS Created')
+    this.getLS()
   },
   mounted() {
     console.log('PS Mounted', this.msg)
@@ -78,6 +79,7 @@ export default {
   methods: {
     open_modal() {
       console.log('Call OPEN Child')
+      this.getLS()
       if (this.lsPs4) {
         this.openModal(this.lsPs4) // ham tu cha truyen vao con
       }
@@ -103,6 +105,9 @@ export default {
     },
     toggleOnClass() {
       this.colorClass = this.localPs4Start ? 'bg-green' : 'bg-black'
+    },
+    getLS() {
+      this.lsPs4 = JSON.parse(window.localStorage.getItem(this.number) || 'null')
     }
   }
 }

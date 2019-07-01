@@ -8,24 +8,27 @@
             </h3>
 
             <div slot="body">
-              <div class="row">
-                <div class="col-sm-6"><strong>Bắt đầu: </strong> {{getPs4.start_hour}}</div>
-                <div class="col-sm-6"><strong>Số giờ đã chơi: </strong> {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</div>
+              <div class="row z-bottom">
+                <div class="col-sm-5"><strong>Bắt đầu: </strong> {{getPs4.start_hour}}</div>
+                <div class="col-sm-7"><strong>Số giờ đã chơi: </strong> {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</div>
               </div>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <strong>Danh sách dịch vụ</strong>
-                 </div>
-                 <div class="col-sm-6">
-                 <select v-model="selectedDV">
+              <div class="row z-bottom">
+                <div class="col-sm-5">
+                  <strong>Danh sách dịch vụ:</strong>
+                </div>
+                <div class="col-sm-4">
+                <!-- <select class="form-control" v-model="selectedDV">
                   <option disabled value="">Chọn dịch vụ</option>
                   <option v-for="option in options" :value="option.value" :key="option.value">
                     {{ option.text }}
                   </option>
-                </select>
+                </select>                  -->
+                <v-select v-model="selectedDV" :options="options"></v-select>
+              </div>
+              <div class="col-sm-3">
                 <button type="button" class="btn btn-success" @click="addService(getPs4.id, selectedDV)"> Thêm dịch vụ </button>
-                </div>
-               </div>
+              </div>
+              </div>
                <div class="row">
                  <div class="col-xs-12">
                    <div class="box">
@@ -42,7 +45,7 @@
                         <tbody>
                         <tr v-for="(item, index) in getPs4.items" :key="index">
                           <td class="col-xs-1">{{++index}}</td>
-                          <td class="col-xs-5">{{item.name}}</td>
+                          <td class="col-xs-5">{{item.name.label}}</td>
                           <td class="col-xs-3">
                             <input type="number" id="number" v-model="item.quantity" value="1" min="1" />
                           </td>
@@ -147,9 +150,11 @@ export default {
       getPs4: {},
       selectedDV: '',
       options: [
-        { text: 'Coca Cola', value: {code: 'A', name: 'Coca'} },
-        { text: 'Chanh muối', value: {code: 'B', name: 'Boca'} },
-        { text: 'Redbull', value: {code: 'C', name: 'Roca'} }
+        { label: 'Coca Cola', value: 'A' },
+        { label: 'Chanh muối', value: 'B' },
+        { label: 'Redbull', value: 'C' },
+        { label: 'Lavie', value: 'LV' },
+        { label: 'Latte', value: 'LT' }
       ]
     }
   },
@@ -183,6 +188,8 @@ export default {
     },
     updateService(id = 1) {
       if (this.togglePs4(id)) {
+        this.showModal = false
+        this.selectedDV = ''
         window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
         this.showToast()
       }
@@ -192,6 +199,7 @@ export default {
     },
     addService(id, val) {
       if (this.togglePs4(id) && val) {
+        this.selectedDV = ''
         this.getPs4 = JSON.parse(window.localStorage.getItem(id))
         this.getPs4.items = this.getPs4.items || []
         let index = this.getPs4.items.length
@@ -262,7 +270,11 @@ export default {
   display: inherit;
 }
 #number {
-  width: 40px;
+  width: 50px;
+  padding-left: 5px;
+}
+.z-bottom {
+  margin-bottom: 5px;
 }
 </style>
 

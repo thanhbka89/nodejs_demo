@@ -50,8 +50,17 @@ router.route('/:id')
     })
 
 router.get('/p/:page', (req, res) => {
-    const {page} = req.params.page
-    Item.paginate({page}, (err, reponse) => {
+    const {page} = req.params
+    const {limit, name, code} = req.query
+    Item.paginate({page, limit, name, code}, (err, reponse) => {
+        if (err) throw err;
+        res.json(reponse);
+    })
+})
+
+router.get('/cate_active/:category', (req, res) => {
+    const {category} = req.params
+    Item.getByCategory({category, status: 1}, (err, reponse) => {
         if (err) throw err;
         res.json(reponse);
     })
