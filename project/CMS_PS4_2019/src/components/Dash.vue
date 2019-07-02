@@ -55,7 +55,7 @@ export default {
         fixed_layout: config.fixedLayout,
         hide_logo: config.hideLogoOnMobile
       },
-      username: this.$store.state.user
+      username: this.$store.state.user.username
     }
   },
   computed: {

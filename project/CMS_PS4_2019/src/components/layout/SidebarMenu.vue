@@ -3,52 +3,56 @@
     <li class="header">TOOLS</li>
     <router-link tag="li" class="pageLink" to="/">
       <a>
-        <i class="fa fa-desktop"></i>
+        <i class="fa fa-tachometer"></i>
         <span class="page">Dashboard</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/tables">
+    <!-- <router-link tag="li" class="pageLink" to="/tables">
       <a>
         <i class="fa fa-table"></i>
         <span class="page">Tables</span>
       </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="#">
+    </router-link> -->
+    <router-link tag="li" class="pageLink" to="/play">
       <a>
-        <i class="fa fa-table"></i>
-        <span class="page">Tinh Gio</span>
+        <i class="fa fa-television text-lime"></i>
+        <span class="page">Máy PS</span>
       </a>
     </router-link>
 
-    <li class="header">MANAGEMENT</li>
+    <template v-if="is_admin">
+    <li class="header">CÀI ĐẶT</li>
+    <router-link tag="li" class="pageLink" to="/item">
+      <a>
+        <i class="fa fa-university text-yellow"></i>
+        <span class="page"> DS Dịch vụ</span>
+      </a>
+    </router-link>
+    </template>
+
+    <template v-if="is_admin">
+    <li class="header">QUẢN LÝ</li>
     <router-link tag="li" class="pageLink" to="/customers">
       <a>
-        <i class="fa fa-circle-o text-yellow"></i>
+        <i class="fa fa-users text-light-blue"></i>
         <span class="page"> DS khách hàng</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/item">
+    <router-link tag="li" class="pageLink" to="/trans">
       <a>
-        <i class="fa fa-circle-o text-yellow"></i>
-        <span class="page"> DS Dịch vụ</span>
+        <i class="fa fa-fighter-jet text-yellow"></i>
+        <span class="page"> Giao dịch</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/vendor">
       <a>
-        <i class="fa fa-circle-o text-yellow"></i>
-        <span class="page"> DS Vendor</span>
+        <i class="fa fa-car text-green"></i>
+        <span class="page"> DS Nhà cung cấp</span>
       </a>
     </router-link>
+    </template>
 
-    <li class="header">SETUP</li>
-    <router-link tag="li" class="pageLink" to="#">
-      <a>
-        <i class="fa fa-circle-o text-yellow"></i>
-        <span class="page"> PS4</span>
-      </a>
-    </router-link>
-
-    <li class="header">ME</li>
+    <!-- <li class="header">ME</li>
     <router-link tag="li" class="pageLink" to="/tasks">
       <a>
         <i class="fa fa-tasks"></i>
@@ -121,12 +125,22 @@
         <i class="fa fa-circle-o text-red"></i>
         <span class="page"> 404</span>
       </a>
-    </router-link>
+    </router-link> -->
   </ul>
 </template>
 <script>
 export default {
-  name: 'SidebarMenu'
+  name: 'SidebarMenu',
+  data() {
+    return {
+      isAdmin: this.$store.getters.isAdmin
+    }
+  },
+  computed: {
+    is_admin() {
+      return this.$store.getters.isAdmin
+    }
+  }
 }
 </script>
 <style>

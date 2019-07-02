@@ -78,18 +78,48 @@ router.route('/:id')
 })
 
 router.get('/p/:page', async (req, res) => {
-    try {
-        const result = await Transaction.paginate({page: req.params.page})
-        return res.json({
-			success: true,
-			data: result
-		})
-    } catch (e) {
-        return res.json({
-			success: false,
-			data: e
-		})
-    }
+  try {
+    const result = await Transaction.paginate({page: req.params.page, limit: req.query.limit, ps: req.query.ps, user: req.query.user})
+    return res.json({
+      success: true,
+      data: result
+    })
+  } catch (e) {
+    return res.json({
+      success: false,
+      data: e
+    })
+  }
+})
+
+router.get('/detail/:id', async(req, res) => {
+  try {
+    const result = await Transaction.getDetailById(req.params.id)
+    return res.json({
+      success: true,
+      data: result
+    })
+  } catch (e) {
+    return res.json({
+      success: false,
+      data: e
+    })
+  }
+})
+
+router.get('/filter_ps/:id', async(req, res) => {
+  try {
+    const result = await Transaction.getByPs(req.params.id)
+    return res.json({
+      success: true,
+      data: result
+    })
+  } catch (e) {
+    return res.json({
+      success: false,
+      data: e
+    })
+  }
 })
 
 export default router

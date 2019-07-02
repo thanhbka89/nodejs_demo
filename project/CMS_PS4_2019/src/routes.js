@@ -14,6 +14,8 @@ import CustomerView from './components/views/Customer.vue'
 import CheckOutView from './components/views/CheckOut'
 import VendorView from './components/views/Vendor'
 import ItemView from './components/views/Items'
+import PlayView from './components/views/Play'
+import TransactionView from './components/views/Transaction'
 
 // Routes
 const routes = [
@@ -63,6 +65,12 @@ const routes = [
         meta: {description: 'List of popular javascript repos'}
       },
       {
+        path: 'play',
+        component: PlayView,
+        name: 'PlayPS',
+        meta: {description: 'Danh sách máy PS', requiresAuth: true}
+      },
+      {
         path: 'customers',
         component: CustomerView,
         name: 'Customer',
@@ -85,6 +93,12 @@ const routes = [
         component: ItemView,
         name: 'Item',
         meta: {description: 'Danh sách dịch vụ', requiresAuth: true, is_admin: true}
+      },
+      {
+        path: 'trans',
+        component: TransactionView,
+        name: 'Transaction',
+        meta: {description: 'Giao dịch', requiresAuth: true}
       }
     ]
   }, {
