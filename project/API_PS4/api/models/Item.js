@@ -32,7 +32,7 @@ class Item {
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
         const {name, code, category, status} = filter
         if (code) {
-			$where = $where.concat(` ${check ? 'AND' : ''} phone LIKE "%${code}%"`)
+			$where = $where.concat(` ${check ? 'AND' : ''} code LIKE "%${code}%"`)
 			check ++
         }
         if (name) {
@@ -56,6 +56,18 @@ class Item {
             query: $where,
             hasWhere: check ? true : false // kiem tra xem co dieu kien ko
         }
+    }
+
+    static filter(input, result) {
+        const condition = this.getCondition(input)
+        let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
+        db.query(sql, (err, res) => {
+            if(err) {
+                result(null, err)
+            } else {
+             result(null, res)
+            }
+        })
     }
 
     static paginate({page = 1, limit = 5, name, code}, result) {

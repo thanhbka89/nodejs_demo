@@ -66,4 +66,11 @@ router.get('/cate_active/:category', (req, res) => {
     })
 })
 
+router.get('/f/get_price_ps4', (req, res) => {
+    Item.filter({code: 'PS4', status: 1}, (err, reponse) => {
+        if (err) throw err;
+        res.json(reponse);
+    })
+})
+
 export default router

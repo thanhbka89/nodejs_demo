@@ -29,27 +29,7 @@
               <div class="col-sm-9">
 							<input type="text" class="form-control" v-model="item.gia_ban"/>
               </div>
-					</div>
-          <div class="form-group">
-							<label class="col-sm-3 z-label">Danh mục:</label>
-              <div class="col-sm-9">
-                <select class="form-control" v-model="item.category">
-                  <option value="1">Nước uống</option>
-                  <option value="2">Đồ ăn</option>
-                  <option value="3">PS</option>
-                  <option value="4">Khác</option>
-                </select>
-              </div>
-					</div>
-          <div class="form-group">
-							<label class="col-sm-3 z-label">Trạng thái:</label>
-              <div class="col-sm-9">
-                <select class="form-control" v-model="item.status">
-                  <option value="1">Áp dụng</option>
-                  <option value="0">Không áp dụng</option>
-                </select>                
-              </div>
-					</div>
+					</div>          
         </div>
         <div slot="footer">
           <button type="button" class="btn btn-outline-info" @click="closeModal()"> Close </button>

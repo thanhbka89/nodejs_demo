@@ -5,6 +5,8 @@ const OBJ_DB = new DB
 
 class Transaction {
     constructor(obj) {
+        this.id_ps = obj.ps
+        this.id_user = obj.user
         this.total_money = obj.money
         this.created_by = 'SYSTEM'
         this.updated_by = 'SYSTEM'
@@ -72,7 +74,7 @@ class Transaction {
         let sql = `INSERT INTO ${TABLE_NAME} SET ?`
 
         return OBJ_DB.query(sql, newObj)
-    }
+    }    
 
     static async update(id, obj, result) {
         let sql = `UPDATE ${TABLE_NAME} SET ? WHERE id = ?`

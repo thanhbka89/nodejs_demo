@@ -29,10 +29,10 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-2">{{ item.code }}</td>
-          <td class="col-md-3">{{ item.name }}</td>
-          <td class="col-md-2">{{ item.gia_ban | toVnd }}</td>
-          <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
+          <td class="col-md-3">{{ item.created_at }}</td>
+          <td class="col-md-1">{{ item.id_ps }}</td>
+          <td class="col-md-3">{{ item.id_user }}</td>
+          <td class="col-md-2">{{ item.total_money | toVnd }}</td>
           <td class="col-md-2">
             <button class="btn btn-primary" @click="editItem(item)">Xem chi tiết</button>            
             <!-- <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button> -->
@@ -72,7 +72,7 @@
 import api from '../../../api'
 
 export default {
-  name: 'ItemIndex',
+  name: 'TransactionIndex',
   data() {
     return {
       searchKey: '',
@@ -98,10 +98,9 @@ export default {
     paginateCallback(page = 1) {
       let query = this.searchKey ? `?name=${this.searchKey}` : ''
       api
-        .request('get', `/item/p/${page}` + query)
+        .request('get', `/trans/p/${page}` + query)
         .then(response => {
-          console.log(response)
-          this.items = response.data
+          this.items = response.data.data
         })
         .catch(e => {
           console.error(e)
@@ -109,11 +108,10 @@ export default {
     },
     fetchItems() {
       api
-        .request('get', '/item')
+        .request('get', '/trans')
         .then(response => {
-          console.log(response)
-          this.items = response.data
-          this.totalPage = Math.ceil(response.data.length / 5)
+          this.items = response.data.data
+          this.totalPage = Math.ceil(this.items.length / 5)
         })
         .catch(e => {
           console.error(e)
@@ -127,9 +125,8 @@ export default {
     },
     deleteItem(id) {
       api
-        .request('delete', `/item/${id}`)
+        .request('delete', `/trans/${id}`)
         .then(response => {
-          console.log(response)
           if (response.data) {
             this.showToast(1)
           }

@@ -92,7 +92,7 @@
         </div>
       </div>
       <div class="col-xs-12 text-center" v-if="show">        
-        <button type="button" class="btn btn-success" @click="showAlertConfirm"><i class="fa fa-credit-card-alt" aria-hidden="true"></i> Thanh toán</button>
+        <button type="button" class="btn btn-success" @click="showAlertConfirm"><i class="fa fa-credit-card-alt text-orange" aria-hidden="true"></i> Thanh toán</button>
       </div>
     </div>
   </section>
@@ -100,6 +100,7 @@
 
 <script>
 import moment from 'moment'
+import api from '../../api'
 
 export default {
   name: 'CheckOut',
@@ -108,7 +109,8 @@ export default {
       ps4: {},
       startDate: '',
       total: 0,
-      show: true
+      show: true,
+      api_ps4: {} // gia choi PS4 tu api
     }
   },
   created() {
@@ -121,7 +123,6 @@ export default {
       this.ps4 = local
       this.startDate = moment(local.start).format('DD/MM/YYYY')
     }
-
     // tinh tong tien thanh toan
     this.caclTotal()
   },
@@ -129,17 +130,43 @@ export default {
     checkout() {
       window.localStorage.removeItem(this.ps4.id)
       this.show = false
-      this.showAlert()
+      this.insert()
     },
-    caclTotal() {
+    async caclTotal() {
       // tinh tien gio choi
-      this.total = Math.ceil((this.ps4.elapsed / 60).toFixed(2) * 20000) // Math.ceil(20000 / 60 * this.ps4.elapsed)
+      const reslut = await api.request('get', '/item/f/get_price_ps4')
+      this.api_ps4 = reslut.data[0]
+      this.total = Math.ceil((this.ps4.elapsed / 60).toFixed(2) * this.api_ps4.gia_ban) // Math.ceil(20000 / 60 * this.ps4.elapsed)
 
       // tinh tien dich vu
       let temp = this.ps4.items.reduce((sum, current) => {
         return sum + current.name.gia_ban * current.quantity
       }, 0)
       this.total += temp
+    },
+    insert() {
+      const data = {
+        ps: 1,
+        user: 0,
+        money: this.total,
+        items: this.ps4.items
+      }
+      // push gio choi ps4
+      data.items.push({id: 0, name: this.api_ps4, quantity: (this.ps4.elapsed / 60).toFixed(2)})
+      api
+        .request('post', '/trans', data)
+        .then(response => {
+          console.log(response)
+          if (response.data.success) {
+            this.showAlert()
+          } else {
+            this.showToast('warning', response.data.data.code)
+          }
+        })
+        .catch(e => {
+          this.showToast('error', e)
+          console.error(e)
+        })
     },
     showAlert() {
       this.$swal(
@@ -161,6 +188,16 @@ export default {
         if (result.value) {
           this.checkout()
         }
+      })
+    },
+    showToast(type = 'success', message = '') {
+      this.$swal({
+        type: type,
+        title: message || `Cập nhật thành công`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
       })
     }
   }
