@@ -114,17 +114,23 @@ export default {
     }
   },
   created() {
-    let local = JSON.parse(
-      window.localStorage.getItem(this.$route.params.id) || 'null'
-    )
-    this.show = false
-    if (local) {
-      this.show = true
-      this.ps4 = local
-      this.startDate = moment(local.start).format('DD/MM/YYYY')
+    const {command} = this.$route.query
+    if (command === 'checkout') {
+      // Thanh Toan
+      let local = JSON.parse(
+        window.localStorage.getItem(this.$route.params.id) || 'null'
+      )
+      this.show = false
+      if (local) {
+        this.show = true
+        this.ps4 = local
+        this.startDate = moment(local.start).format('DD/MM/YYYY')
+      }
+      // tinh tong tien thanh toan
+      this.caclTotal()
+    } else if (command === 'view') {
+      console.log('AAA')
     }
-    // tinh tong tien thanh toan
-    this.caclTotal()
   },
   methods: {
     checkout() {
@@ -139,10 +145,12 @@ export default {
       this.total = Math.ceil((this.ps4.elapsed / 60).toFixed(2) * this.api_ps4.gia_ban) // Math.ceil(20000 / 60 * this.ps4.elapsed)
 
       // tinh tien dich vu
-      let temp = this.ps4.items.reduce((sum, current) => {
-        return sum + current.name.gia_ban * current.quantity
-      }, 0)
-      this.total += temp
+      if (this.ps4.items && this.ps4.items.length) {
+        let temp = this.ps4.items.reduce((sum, current) => {
+          return sum + current.name.gia_ban * current.quantity
+        }, 0)
+        this.total += temp
+      }
     },
     insert() {
       const data = {

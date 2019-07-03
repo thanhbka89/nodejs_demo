@@ -166,7 +166,7 @@ export default {
         let route = {
           name: 'CheckOut',
           params: { id: pNumber },
-          query: { plan: 'private' }
+          query: { command: 'checkout' }
         }
         this.$router.push(route)
       }
