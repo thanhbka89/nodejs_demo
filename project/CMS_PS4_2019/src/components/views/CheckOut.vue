@@ -28,12 +28,14 @@
       <div class="col-md-10">
         <strong>{{ps4.start_hour}}</strong>
       </div>
+      <template v-if="isCheckout">
       <div class="col-md-2">
         Số giờ đã chơi:
-      </div>
+      </div>      
       <div class="col-md-10">
         <strong>{{ps4.play_hour}} ({{ps4.elapsed}} phút)</strong>
       </div>
+      </template>
 
       <div class="col-xs-12">
         <br />
@@ -64,7 +66,7 @@
                 </tr>
               </tfoot>
               <tbody>
-                <tr>
+                <tr v-if="isCheckout">
                   <td class="col-xs-1">0</td>
                   <td class="col-xs-5">{{'Giờ chơi PS4'}}</td>
                   <td class="col-xs-3">{{20000 | toVnd}}</td>
@@ -91,8 +93,14 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 text-center" v-if="show">        
+      <div class="col-xs-12 text-center" v-if="show && isCheckout">        
         <button type="button" class="btn btn-success" @click="showAlertConfirm"><i class="fa fa-credit-card-alt text-orange" aria-hidden="true"></i> Thanh toán</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 text-left">
+         <button type="button" class="btn btn-default" @click="onBack"><i class="fa fa-backward text-red" aria-hidden="true"></i> Quay lại</button>
       </div>
     </div>
   </section>
@@ -110,26 +118,26 @@ export default {
       startDate: '',
       total: 0,
       show: true,
+      isCheckout: false,
       api_ps4: {} // gia choi PS4 tu api
     }
   },
   created() {
     const {command} = this.$route.query
+    const {id} = this.$route.params
     if (command === 'checkout') {
       // Thanh Toan
-      let local = JSON.parse(
-        window.localStorage.getItem(this.$route.params.id) || 'null'
-      )
+      let local = JSON.parse(window.localStorage.getItem(id) || 'null')
       this.show = false
       if (local) {
-        this.show = true
+        this.show = this.isCheckout = true
         this.ps4 = local
         this.startDate = moment(local.start).format('DD/MM/YYYY')
       }
       // tinh tong tien thanh toan
       this.caclTotal()
     } else if (command === 'view') {
-      console.log('AAA')
+      this.getCheckoutDetail(id)
     }
   },
   methods: {
@@ -138,10 +146,35 @@ export default {
       this.show = false
       this.insert()
     },
+    async getCheckoutDetail(id) {
+      const result = await api.request('get', `/trans/detail/${id}`)
+      const arrLen = result.data.data.length
+      if (result.data.success && arrLen) {
+        let tranObj = result.data.data[0]
+        this.ps4.id = tranObj.t1_id_ps
+        this.startDate = moment(tranObj.t1_created_at).format('DD/MM/YYYY')
+        this.ps4.start_hour = moment(tranObj.t1_created_at).format('HH:mm')
+        this.ps4.items = []
+        // get danh sach dich vu
+        for (let index = 0; index < arrLen; index += 1) {
+          try {
+            tranObj = result.data.data[index]
+            let temp = await api.request('get', `/item/${tranObj.t2_id_item}`)
+            if (temp.data.length) {
+              let item = temp.data[0]
+              this.ps4.items.push({id: index, quantity: tranObj.t2_quantity, name: {name: item.name, gia_ban: item.gia_ban}})
+            }
+          } catch (err) {
+            console.error(err)
+          }
+        }
+        debugger
+      }
+    },
     async caclTotal() {
       // tinh tien gio choi
-      const reslut = await api.request('get', '/item/f/get_price_ps4')
-      this.api_ps4 = reslut.data[0]
+      const result = await api.request('get', '/item/f/get_price_ps4')
+      this.api_ps4 = result.data[0]
       this.total = Math.ceil((this.ps4.elapsed / 60).toFixed(2) * this.api_ps4.gia_ban) // Math.ceil(20000 / 60 * this.ps4.elapsed)
 
       // tinh tien dich vu
@@ -157,10 +190,10 @@ export default {
         ps: 1,
         user: 0,
         money: this.total,
-        items: this.ps4.items
+        items: this.ps4.items || []
       }
       // push gio choi ps4
-      data.items.push({id: 0, name: this.api_ps4, quantity: (this.ps4.elapsed / 60).toFixed(2)})
+      data.items.push({id: 0, name: this.api_ps4, quantity: (this.ps4.elapsed / 60).toFixed(2), start: this.ps4.end})
       api
         .request('post', '/trans', data)
         .then(response => {
@@ -175,6 +208,9 @@ export default {
           this.showToast('error', e)
           console.error(e)
         })
+    },
+    onBack() {
+      this.$router.go(-1)
     },
     showAlert() {
       this.$swal(

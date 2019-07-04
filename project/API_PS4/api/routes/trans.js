@@ -28,7 +28,8 @@ router.post('/', async (req, res) => {
           let data = {
             id_trans: result.insertId,
             id_item: items[index].name.id,
-            quantity: items[index].quantity
+            quantity: items[index].quantity,
+            start: items[index].start
           }
           try {
             await TransactionDetail.create(new TransactionDetail(data))

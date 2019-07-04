@@ -23,7 +23,7 @@ export function pluralize (time, label) {
   return `${time}${label}s`
 }
 
-export function toVND (number) {
+export function toVND (number = 0) {
   let x = number
   x = x.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})
   return x

@@ -34,14 +34,7 @@
           <td class="col-md-3">{{ item.id_user }}</td>
           <td class="col-md-2">{{ item.total_money | toVnd }}</td>
           <td class="col-md-2">
-            <button class="btn btn-primary" @click="editItem(item)">Xem chi tiết</button>            
-            <!-- <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button> -->
-            <a href="#" class="icon">
-                <i v-on:click="showAlert()" class="fa fa-pencil"></i>
-            </a>
-            <a href="#" class="icon">
-                <i @click="showAlert" class="fa fa-trash"></i>
-            </a>            
+            <button class="btn btn-primary" @click="viewItem(item)">Xem chi tiết</button>           
           </td>
         </tr>
       </tbody>
@@ -82,7 +75,6 @@ export default {
     }
   },
   props: {
-    openModal: Function
   },
   computed: {
     filteredResources() {
@@ -93,7 +85,6 @@ export default {
     this.fetchItems()
     this.paginateCallback()
   },
-
   methods: {
     paginateCallback(page = 1) {
       let query = this.searchKey ? `?name=${this.searchKey}` : ''
@@ -110,30 +101,19 @@ export default {
       api
         .request('get', '/trans')
         .then(response => {
-          this.items = response.data.data
-          this.totalPage = Math.ceil(this.items.length / 5)
+          this.totalPage = Math.ceil(response.data.data.length / 5)
         })
         .catch(e => {
           console.error(e)
         })
     },
-    addItem() {
-      this.openModal({category: 1, status: 1})
-    },
-    editItem(item) {
-      this.openModal(item)
-    },
-    deleteItem(id) {
-      api
-        .request('delete', `/trans/${id}`)
-        .then(response => {
-          if (response.data) {
-            this.showToast(1)
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    viewItem(item) {
+      let route = {
+        name: 'CheckOut',
+        params: { id: item.id },
+        query: { command: 'view' }
+      }
+      this.$router.push(route)
     },
     search() {
       api.request('get', `/item/s/query?q=${this.searchKey}`)
@@ -143,19 +123,6 @@ export default {
         .catch(e => {
           console.error(e)
         })
-    },
-    showAlert() {
-      this.$swal('Chức năng đang hoàn thiện!')
-    },
-    showToast(id) {
-      this.$swal({
-        type: 'success',
-        title: `${id ? 'Cập nhật' : 'Thêm mới'} thành công`,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      })
     }
   }
 }

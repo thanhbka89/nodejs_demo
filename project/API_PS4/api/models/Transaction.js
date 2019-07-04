@@ -45,7 +45,7 @@ class Transaction {
     }
 
     static async getDetailById(id) {
-        let sql = `SELECT t1.*, t2.id_item, t2.quantity FROM ${TABLE_NAME} AS t1 INNER JOIN ${TABLE_JOIN} AS t2 ON t1.id = t2.id_trans WHERE t1.id = ${id}`
+        let sql = `SELECT t1.*, t2.id_item, t2.quantity, t2.start FROM ${TABLE_NAME} AS t1 INNER JOIN ${TABLE_JOIN} AS t2 ON t1.id = t2.id_trans WHERE t1.id = ${id}`
         const options = {sql, nestTables: '_'}
 
         return OBJ_DB.query(options)

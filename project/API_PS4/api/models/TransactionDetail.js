@@ -7,6 +7,7 @@ class TransactionDetail {
         this.id_trans = obj.id_trans
         this.id_item = obj.id_item
         this.quantity = obj.quantity
+        this.start = obj.start
     }
 
     static getCondition(input) {

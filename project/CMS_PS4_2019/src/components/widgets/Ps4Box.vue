@@ -93,7 +93,8 @@ export default {
         start_hour: moment().format(moment.HTML5_FMT.TIME),
         elapsed: moment().diff(start, 'minutes'),
         play_hour: moment.utc().startOf('day').add({ minutes: 120 }).format('H:mm'),
-        end: moment().add(7, 'hours')
+        end: start.format('YYYY-MM-DD HH:mm:ss')
+        // end: moment().add(7, 'hours').format('YYYY-MM-DD HH:mm:ss')
       }
       this.lsPs4 = this.ps
       window.localStorage.setItem(pNumber, JSON.stringify(this.ps))
