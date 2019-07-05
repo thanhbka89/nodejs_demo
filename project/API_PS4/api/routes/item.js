@@ -30,10 +30,10 @@ router.post('/', (req, res) => {
 })
 
 router.route('/:id')
-    .get((req, res) => {
+    .get(async (req, res) => {
         Item.getById(req.params.id, (err, response) => {
-            if (err)  res.send(err);
-            res.json(response);
+            if (err)  res.send(err)
+            return res.json(response)
         })
     })
     .put((req, res) => {

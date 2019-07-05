@@ -40,7 +40,7 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/trans">
       <a>
-        <i class="fa fa-fighter-jet text-yellow"></i>
+        <i class="fa fa-fighter-jet text-lime"></i>
         <span class="page"> Giao dịch</span>
       </a>
     </router-link>

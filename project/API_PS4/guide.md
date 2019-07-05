@@ -18,6 +18,19 @@ http://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-
 - B3: Chay chuong trinh trong qua trinh dev:
     npm start
 
+*Huong dan deploy*
+- B1: truy cap thu muc code, mở cmder, gõ :
+    npm run clean
+    npm run build
+- B2: Sau khi build ra thư mục dist, mở VSCode và trong terminal gõ:
+    node .\dist\server.js
+
+How to fix different node module version?
+    npm rebuild bcrypt --update-binary
+    or :
+    rm -rf node_modules/bcrypt
+    npm install
+
 *Huong dan cach debug Node tren VSCode*
 - Vao Settings -> Debug > Node: Auto Attach and set the drop down to “on”
 - Trong thu muc root , go : npm run debug

@@ -187,7 +187,7 @@ export default {
         this.getPs4 = JSON.parse(window.localStorage.getItem(id))
         this.getPs4.items = this.getPs4.items || []
         let index = this.getPs4.items.length
-        this.getPs4.items.push({id: ++index, name: val, quantity: 1})
+        this.getPs4.items.push({id: ++index, name: val, quantity: 1, start: this.getPs4.end})
         window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
       }
     },

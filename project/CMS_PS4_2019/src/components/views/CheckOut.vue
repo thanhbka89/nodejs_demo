@@ -77,7 +77,7 @@
                    {{Math.ceil((ps4.elapsed / 60).toFixed(2) * 20000) | toVnd}}
                   </td>
                 </tr>
-                <tr v-for="(item, index) in ps4.items" :key="index">
+                <tr v-for="(item, index) in items" :key="index">
                   <td class="col-xs-1">{{++index}}</td>
                   <td class="col-xs-5">{{item.name.name}}</td>
                   <td class="col-xs-3">{{item.name.gia_ban | toVnd}}</td>
@@ -115,6 +115,7 @@ export default {
   data() {
     return {
       ps4: {},
+      items: [],
       startDate: '',
       total: 0,
       show: true,
@@ -132,6 +133,9 @@ export default {
       if (local) {
         this.show = this.isCheckout = true
         this.ps4 = local
+        if (local.items && local.items.length) {
+          this.items = local.items
+        }
         this.startDate = moment(local.start).format('DD/MM/YYYY')
       }
       // tinh tong tien thanh toan
@@ -154,21 +158,19 @@ export default {
         this.ps4.id = tranObj.t1_id_ps
         this.startDate = moment(tranObj.t1_created_at).format('DD/MM/YYYY')
         this.ps4.start_hour = moment(tranObj.t1_created_at).format('HH:mm')
-        this.ps4.items = []
+        this.total = tranObj.t1_total_money
+        this.items = []
+        let items = []
         // get danh sach dich vu
         for (let index = 0; index < arrLen; index += 1) {
-          try {
-            tranObj = result.data.data[index]
-            let temp = await api.request('get', `/item/${tranObj.t2_id_item}`)
-            if (temp.data.length) {
-              let item = temp.data[0]
-              this.ps4.items.push({id: index, quantity: tranObj.t2_quantity, name: {name: item.name, gia_ban: item.gia_ban}})
-            }
-          } catch (err) {
-            console.error(err)
+          tranObj = result.data.data[index]
+          let temp = await api.request('get', `/item/${tranObj.t2_id_item}`)
+          if (temp.data.length) {
+            let item = temp.data[0]
+            items.push({id: index, quantity: tranObj.t2_quantity, name: {name: item.name, gia_ban: item.gia_ban}})
           }
         }
-        debugger
+        this.items = items
       }
     },
     async caclTotal() {
