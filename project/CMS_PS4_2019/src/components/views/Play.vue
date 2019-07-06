@@ -161,15 +161,12 @@ export default {
       this.showModal = false
     },
     submitAndClose(pNumber = 1) {
-      let result = confirm('Bạn có muốn thực hiện thanh toán ?')
-      if (result === true) {
-        let route = {
-          name: 'CheckOut',
-          params: { id: pNumber },
-          query: { command: 'checkout' }
-        }
-        this.$router.push(route)
+      let route = {
+        name: 'CheckOut',
+        params: { id: pNumber },
+        query: { command: 'checkout' }
       }
+      this.$router.push(route)
     },
     updateService(id = 1, showModal = false) {
       if (this.togglePs4(id)) {

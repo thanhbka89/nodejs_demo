@@ -3,17 +3,17 @@
     <div class="table-title">
         <div class="row">
             <div class="col-sm-6">
-                <h2>Manage <b>Services</b></h2>
+                <h2>Manage <b>Users</b></h2>
             </div>
             <div class="col-sm-6">
-                <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Thêm dịch vụ</span></a>		
+                <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Add user</span></a>		
             </div>
         </div>
     </div>   
 
     <div class="filters row">
         <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm dịch vụ ..." aria-label="Search" @keyup.enter="search"/>
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm user ..." aria-label="Search" @keyup.enter="search"/>
         </div>
     </div>
 
@@ -21,9 +21,9 @@
       <thead class="z-header">
         <tr>
           <th>ID</th>
-          <th>Code</th>
-          <th>Name</th>
-          <th>Giá bán</th>
+          <th>Username</th>
+          <th>Phone</th>
+          <th>Role</th>
           <th>Trạng thái</th>
           <th>Actions</th>
         </tr>
@@ -32,13 +32,13 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-2">{{ item.code }}</td>
-          <td class="col-md-3">{{ item.name }}</td>
-          <td class="col-md-2">{{ item.gia_ban | toVnd }}</td>
-          <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
+          <td class="col-md-2">{{ item.username }}</td>
+          <td class="col-md-3">{{ item.phone }}</td>
+          <td class="col-md-2">{{ item.role === 1 ? 'Quản trị viên' : (item.role === 2 ? 'Nhân viên' : 'Khách hàng') }}</td>
+          <td class="col-md-2">{{ item.status ? 'Đang hoạt động' : 'Không hoạt động' }}</td>
           <td class="col-md-2">
             <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
-            <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
+            <button class="btn btn-danger" @click="showAlertConfirm(item.id)">Khóa</button>
             <a href="#" class="icon">
                 <i v-on:click="showAlert()" class="fa fa-pencil"></i>
             </a>
@@ -75,12 +75,12 @@
 import api from '../../../api'
 
 export default {
-  name: 'ItemIndex',
+  name: 'UserIndex',
   data() {
     return {
       searchKey: '',
       page: 1,
-      limit: 5,
+      limit: 10,
       totalPage: 10,
       items: []
     }
@@ -100,9 +100,12 @@ export default {
 
   methods: {
     paginateCallback(page = 1) {
-      let query = this.searchKey ? `?name=${this.searchKey}` : ''
+      let query = this.searchKey
+        ? `username=${this.searchKey}`
+        : ''
+      query = this.limit ? `${query}&limit=${this.limit}` : query
       api
-        .request('get', `/item/p/${page}` + query)
+        .request('get', `/user/p/${page}?` + query)
         .then(response => {
           this.items = response.data
         })
@@ -110,29 +113,37 @@ export default {
           console.error(e)
         })
     },
-    fetchItems() {
-      api
-        .request('get', '/item')
-        .then(response => {
-          const number = response.data.data.length
-          debugger
-          this.totalPage = number > this.limit
-            ? Math.ceil(number / this.limit)
-            : 1
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async fetchItems() {
+      // api
+      //   .request('get', '/user/all')
+      //   .then(response => {
+      //     const number = response.data.length
+      //     this.totalPage = number > this.limit
+      //       ? Math.ceil(number / this.limit)
+      //       : 1
+      //   })
+      //   .catch(e => {
+      //     console.error(e)
+      //   })
+      try {
+        const response = await api.request('get', '/user')
+        let number = response.data.data.length
+        this.totalPage = number > this.limit
+          ? Math.ceil(number / this.limit)
+          : 1
+      } catch (err) {
+        console.error(err)
+      }
     },
     addItem() {
-      this.openModal({category: 1, status: 1})
+      this.openModal({role: 3, status: 1})
     },
     editItem(item) {
       this.openModal(item)
     },
     deleteItem(id) {
       api
-        .request('delete', `/item/${id}`)
+        .request('delete', `/user/action/${id}`)
         .then(response => {
           console.log(response)
           if (response.data) {
@@ -152,8 +163,23 @@ export default {
           console.error(e)
         })
     },
+    showAlertConfirm(id) {
+      this.$swal({
+        title: 'Bạn có chắc?',
+        text: 'Bạn có muốn thực hiện khóa user?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Đồng ý'
+      }).then((result) => {
+        if (result.value) {
+          this.deleteItem(id)
+        }
+      })
+    },
     showAlert() {
-      this.$swal('Chuc nang sap co')
+      this.$swal('Chức năng đang hoàn thiện')
     },
     showToast(id) {
       this.$swal({

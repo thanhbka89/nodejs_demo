@@ -15,6 +15,7 @@
             placeholder="Username"
             type="text"
             v-model="username"
+            autocomplete="off"
           >
         </div>
 

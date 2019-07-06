@@ -32,6 +32,12 @@
 
     <template v-if="is_admin">
     <li class="header">QUẢN LÝ</li>
+    <router-link tag="li" class="pageLink" to="/user">
+      <a>
+        <i class="fa fa-user-plus text-light-blue"></i>
+        <span class="page"> DS thành viên</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/customers">
       <a>
         <i class="fa fa-users text-light-blue"></i>
@@ -40,7 +46,7 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/trans">
       <a>
-        <i class="fa fa-fighter-jet text-lime"></i>
+        <i class="fa fa-fighter-jet text-maroon"></i>
         <span class="page"> Giao dịch</span>
       </a>
     </router-link>

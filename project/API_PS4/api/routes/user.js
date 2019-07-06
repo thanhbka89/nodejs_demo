@@ -18,7 +18,31 @@ router.get('/all', (req, res) => {
 	})
 })
 
-router.get('/', (req, res) => {
+router.route('/')
+	.get(async (req, res) => {
+		User.getAll((err, response) => {
+			return res.json({
+				success: true,
+				data: response
+			})
+		})
+	})
+	.post((req, res) => {
+		User.create(new User(req.body), (err, response) => {
+			if (err) 
+				return res.json({
+					success: false,
+					message: err
+				});
+	
+			return res.json({
+				success: true,
+				message: 'Insert success!'
+			});
+		})
+	})
+
+router.get('/get', (req, res) => {
 	return res.send(Object.values(req.context.models.users));
 });
 
@@ -69,14 +93,8 @@ router.post('/login', (req, res) => {
 
 router.post('/register', (req, res) => {
 	let today = new Date()
-	let user = {
-		'username': req.body.username,
-		'fullname': req.body.fullname,
-		'nickname': req.body.nickname,
-		'password': bcrypt.hashSync(req.body.password, 8),
-		'phone': req.body.phone,
-		'address': req.body.address
-	}
+	const user = req.body
+	user.password = bcrypt.hashSync(req.body.password, 8)
 
 	User.create(new User(user), (err, reponse) => {
 		if (err) 
@@ -91,5 +109,33 @@ router.post('/register', (req, res) => {
 		})
 	})
 });
+
+router.route('/action/:id')
+    .get(async (req, res) => {
+        User.getById(req.params.id, (err, response) => {
+            if (err)  res.send(err)
+            return res.json(response)
+        })
+    })
+    .put((req, res) => {
+        User.update(req.params.id, new User(req.body), (err, response) => {
+            if (err)  res.send(err)
+            res.json(response);
+        })
+    })
+    .delete((req, res) => {
+        User.deleteSoft(req.params.id, (err, response) => {
+            if (err)  res.send(err)
+            res.json(response);
+        })
+	})
+router.get('/p/:page', (req, res) => {
+	const {page} = req.params
+	const {limit, username, phone} = req.query
+	User.paginate({page, limit, username, phone}, (err, reponse) => {
+		if (err) throw err;
+		res.json(reponse);
+	})
+})
 
 export default router

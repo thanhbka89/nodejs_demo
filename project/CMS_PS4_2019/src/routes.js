@@ -16,6 +16,7 @@ import VendorView from './components/views/Vendor'
 import ItemView from './components/views/Items'
 import PlayView from './components/views/Play'
 import TransactionView from './components/views/Transaction'
+import UserView from './components/views/User'
 
 // Routes
 const routes = [
@@ -99,6 +100,12 @@ const routes = [
         component: TransactionView,
         name: 'Transaction',
         meta: {description: 'Giao dịch', requiresAuth: true}
+      },
+      {
+        path: 'user',
+        component: UserView,
+        name: 'User',
+        meta: {description: 'Thành viên', requiresAuth: true}
       }
     ]
   }, {
