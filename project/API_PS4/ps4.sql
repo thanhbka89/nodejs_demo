@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS `items` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
 
--- Dumping data for table cms_ps.items: ~11 rows (approximately)
+-- Dumping data for table cms_ps.items: ~14 rows (approximately)
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 REPLACE INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `category`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 	(1, 0, 'COCA', 'CocaCola', 8000, 10000, 1, 1, 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
@@ -91,8 +91,11 @@ REPLACE INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, 
 	(8, 0, 'LAVIE', 'Nuoc loc Lavie', 4000, 8000, 1, 1, 'SYSTEM', '2019-07-01 20:40:55', 'SYSTEM', '2019-07-01 20:40:56'),
 	(9, 0, 'LATTE', 'Nuoc ngot Latte', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:41:23', 'SYSTEM', '2019-07-01 20:41:23'),
 	(10, 0, 'CHANH', 'Nuoc chanh muoi', 6000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:42:49', 'SYSTEM', '2019-07-01 20:42:50'),
-	(11, 0, 'RONG', 'Nuoc ngot rong do', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:43:16', 'SYSTEM', '2019-07-01 20:43:16'),
-	(12, 0, 'PEPSI', 'Pepsi', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:44:05', 'SYSTEM', '2019-07-01 20:44:05');
+	(11, 0, 'RONGDO', 'Nuoc ngot rong do', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:43:16', 'SYSTEM', '2019-07-06 10:05:07'),
+	(12, 0, 'PEPSI', 'Pepsi', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:44:05', 'SYSTEM', '2019-07-01 20:44:05'),
+	(13, 0, 'PS5', 'Giờ chơi PS5', 0, 25000, 3, 1, 'SYSTEM', '2019-07-06 10:05:42', 'SYSTEM', '2019-07-06 10:05:43'),
+	(14, 0, 'PS3', 'Giờ chơi PS3', 0, 15000, 3, 1, 'SYSTEM', '2019-07-06 10:06:06', 'SYSTEM', '2019-07-06 10:06:07'),
+	(15, 0, 'PS2', 'Giờ chơi PS2', 0, 10000, 3, 1, 'SYSTEM', '2019-07-06 10:06:24', 'SYSTEM', '2019-07-06 10:06:25');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps.setting
@@ -137,31 +140,13 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
 
--- Dumping data for table cms_ps.transactions: ~20 rows (approximately)
+-- Dumping data for table cms_ps.transactions: ~2 rows (approximately)
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
 REPLACE INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-	(1, 1, 1, 30000, 'SYSTEM', '2019-06-24 20:29:09', 'SYSTEM', '2019-06-24 21:14:52'),
-	(2, 2, 4, 20000, 'SYSTEM', '2019-06-24 20:29:39', 'SYSTEM', '2019-06-24 21:14:29'),
-	(3, 2, 4, 45000, 'SYSTEM', '2019-06-24 21:08:05', 'SYSTEM', '2019-06-24 21:08:06'),
-	(4, 3, 1, 50000, 'SYSTEM', '2019-06-24 21:08:54', 'SYSTEM', '2019-06-24 21:08:55'),
-	(5, 4, 1, 15000, 'SYSTEM', '2019-06-24 21:09:40', 'SYSTEM', '2019-06-24 21:09:41'),
-	(6, 4, 3, 25000, 'SYSTEM', '2019-06-24 21:10:07', 'SYSTEM', '2019-06-24 21:10:07'),
-	(8, 4, 2, 55000, 'SYSTEM', '2019-06-24 21:10:15', 'SYSTEM', '2019-06-24 21:10:15'),
-	(9, 5, 2, 105000, 'SYSTEM', '2019-06-24 21:10:20', 'SYSTEM', '2019-06-24 21:10:21'),
-	(10, 5, 2, 75000, 'SYSTEM', '2019-06-24 21:10:35', 'SYSTEM', '2019-06-24 21:10:35'),
-	(11, 5, 1, 85000, 'SYSTEM', '2019-06-24 21:10:38', 'SYSTEM', '2019-06-24 21:10:38'),
-	(12, 5, 1, 95000, 'SYSTEM', '2019-06-24 21:10:41', 'SYSTEM', '2019-06-24 21:10:41'),
-	(13, 1, 0, 25000, 'SYSTEM', '2019-07-03 17:01:45', 'SYSTEM', '2019-07-03 17:01:46'),
-	(14, 1, 0, 0, 'SYSTEM', '2019-07-03 17:03:30', 'SYSTEM', '2019-07-03 17:03:30'),
-	(15, 1, 0, 0, 'SYSTEM', '2019-07-03 17:08:22', 'SYSTEM', '2019-07-03 17:08:23'),
-	(16, 1, 0, 15000, 'SYSTEM', '2019-07-03 17:08:55', 'SYSTEM', '2019-07-03 17:08:55'),
-	(17, 1, 0, 0, 'SYSTEM', '2019-07-03 17:16:02', 'SYSTEM', '2019-07-03 17:16:03'),
-	(18, 1, 0, 20000, 'SYSTEM', '2019-07-03 17:22:20', 'SYSTEM', '2019-07-03 17:22:20'),
-	(19, 1, 0, 50000, 'SYSTEM', '2019-07-03 17:26:18', 'SYSTEM', '2019-07-03 17:26:19'),
-	(20, 1, 0, 70000, 'SYSTEM', '2019-07-03 17:28:45', 'SYSTEM', '2019-07-03 17:28:46'),
-	(21, 1, 0, 50400, 'SYSTEM', '2019-07-03 17:35:00', 'SYSTEM', '2019-07-03 17:35:01');
+	(1, 1, 0, 20600, 'SYSTEM', '2019-07-05 18:08:21', 'SYSTEM', '2019-07-05 18:08:21'),
+	(2, 1, 0, 30400, 'SYSTEM', '2019-07-05 18:16:09', 'SYSTEM', '2019-07-05 18:16:10');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps.trans_detail
@@ -172,20 +157,15 @@ CREATE TABLE IF NOT EXISTS `trans_detail` (
   `quantity` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `start` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
 
--- Dumping data for table cms_ps.trans_detail: ~9 rows (approximately)
+-- Dumping data for table cms_ps.trans_detail: ~4 rows (approximately)
 /*!40000 ALTER TABLE `trans_detail` DISABLE KEYS */;
 REPLACE INTO `trans_detail` (`id`, `id_trans`, `id_item`, `quantity`, `start`) VALUES
-	(1, 1, 1, '0', '2019-07-03 18:04:18'),
-	(2, 1, 2, '0', '2019-07-03 18:04:18'),
-	(3, 1, 5, '0', '2019-07-03 18:04:18'),
-	(4, 20, 1, '1', '2019-07-03 18:04:18'),
-	(5, 20, 7, '2', '2019-07-03 18:04:18'),
-	(6, 21, 1, '1', '2019-07-03 18:04:18'),
-	(7, 21, 2, '2', '2019-07-03 18:04:18'),
-	(8, 21, 5, '1', '2019-07-03 18:04:18'),
-	(9, 21, 3, '0.02', '2019-07-03 18:04:18');
+	(1, 1, 3, '0.03', '2019-07-05 18:06:04'),
+	(2, 2, 1, '2', '2019-07-05 18:14:23'),
+	(3, 2, 5, '1', '2019-07-05 18:14:23'),
+	(4, 2, 3, '0.02', '2019-07-05 18:14:23');
 /*!40000 ALTER TABLE `trans_detail` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps.users
@@ -199,22 +179,30 @@ CREATE TABLE IF NOT EXISTS `users` (
   `address` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `role` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '{1: admin, 2: employee, 3: customer}',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '5' COMMENT 'Danh hieu {1: kim cuong, 2: vang, 3: bac, 4: dong, 5: thuong}',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Trạng thái {0: inactive, 1: active}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table cms_ps.users: ~5 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-REPLACE INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`, `address`, `role`, `type`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-	(1, 'thanhnm', NULL, NULL, '123456a@', NULL, NULL, 1, 5, 'thanhnm', '2019-06-16 14:21:17', 'thanhnm', '2019-06-16 14:21:17'),
-	(2, 'thanhbka', NULL, NULL, '$2b$08$bY0d8RzwaS1SPdJsKSOTve3pnt2T0b3lncGW/WZh/cBXb/odyH7N2', NULL, NULL, 1, 5, 'SYSTEM', '2019-06-16 19:04:38', 'SYSTEM', '2019-06-16 19:04:38'),
-	(9, 'thanhbka89', NULL, NULL, '$2b$08$a.103X0TBIFqUhZeKs15FeYa/VJSCVPGYoaI8ekNWkpifpYw8ZVAu', NULL, NULL, 2, 5, 'SYSTEM', '2019-06-20 20:43:24', 'SYSTEM', '2019-06-20 20:43:24'),
-	(10, 'thanhnm90', NULL, NULL, '$2b$08$2J/vnHTpMKQdAnHUuLjJS.4.UrKlutjoqlg4IA.5wtwc4YxsDFucu', NULL, NULL, 2, 5, 'SYSTEM', '2019-06-21 23:06:20', 'SYSTEM', '2019-06-21 23:06:20'),
-	(11, 'thanhnm1990', NULL, NULL, '$2b$08$tard1a3J6p8U9hgLJL0SfOSNQ1yfYXUmVZ21lAqvNFD1Da1spztum', NULL, NULL, 2, 5, 'SYSTEM', '2019-06-21 23:09:22', 'SYSTEM', '2019-06-21 23:09:22');
+REPLACE INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`, `address`, `role`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+	(1, 'thanhnm', NULL, NULL, '123456a@', NULL, NULL, 1, 5, 0, 'thanhnm', '2019-06-16 14:21:17', 'thanhnm', '2019-06-16 14:21:17'),
+	(2, 'thanhbka', NULL, NULL, '$2b$08$bY0d8RzwaS1SPdJsKSOTve3pnt2T0b3lncGW/WZh/cBXb/odyH7N2', NULL, NULL, 1, 5, 1, 'SYSTEM', '2019-06-16 19:04:38', 'SYSTEM', '2019-06-16 19:04:38'),
+	(9, 'thanhbka89', NULL, NULL, '$2b$08$a.103X0TBIFqUhZeKs15FeYa/VJSCVPGYoaI8ekNWkpifpYw8ZVAu', NULL, NULL, 2, 5, 1, 'SYSTEM', '2019-06-20 20:43:24', 'SYSTEM', '2019-06-20 20:43:24'),
+	(10, 'thanhnm90', NULL, NULL, '$2b$08$2J/vnHTpMKQdAnHUuLjJS.4.UrKlutjoqlg4IA.5wtwc4YxsDFucu', NULL, NULL, 2, 5, 1, 'SYSTEM', '2019-06-21 23:06:20', 'SYSTEM', '2019-06-21 23:06:20'),
+	(11, 'thanhnm1990', NULL, NULL, '$2b$08$tard1a3J6p8U9hgLJL0SfOSNQ1yfYXUmVZ21lAqvNFD1Da1spztum', NULL, NULL, 2, 5, 1, 'SYSTEM', '2019-06-21 23:09:22', 'SYSTEM', '2019-06-21 23:09:22'),
+	(12, 'test', NULL, NULL, '123', '0987987', 'HN', 2, 5, 0, 'SYSTEM', '2019-07-06 11:28:35', 'SYSTEM', '2019-07-06 11:28:35'),
+	(13, 'test2', NULL, NULL, NULL, '0987789161', 'hn', 2, 5, 1, 'SYSTEM', '2019-07-06 11:33:22', 'SYSTEM', '2019-07-06 11:38:03'),
+	(14, 'test3', NULL, NULL, '$2b$08$lYfpwWS/fjMk3VkuIRbjK.G9oT2h3hF8tlftvaynGAwRQUQkspT7K', '123', 'hn', 3, 5, 1, 'SYSTEM', '2019-07-06 11:41:19', 'SYSTEM', '2019-07-06 11:55:19'),
+	(16, 'test4', NULL, NULL, '$2b$08$3yWKJvZRLEh8VfGCn6KfPuPd.Xt9/yTCywkslbGznV4SzmFK9stDW', NULL, NULL, 3, 5, 1, 'SYSTEM', '2019-07-06 12:38:32', 'SYSTEM', '2019-07-06 12:38:32'),
+	(17, 'test5', NULL, NULL, '$2b$08$.4m8aqwli9FlAEDy02PbDuTiOnF8wvXH6luVSaqm/AkL7w9nY4GLW', NULL, NULL, 2, 5, 1, 'SYSTEM', '2019-07-06 12:38:40', 'SYSTEM', '2019-07-06 12:38:41'),
+	(18, 'test6', NULL, NULL, '$2b$08$X.KCUl0hox9yRLOIX2CVaeEPKvP0nI3.GKB96PlljBUyp/xenRm72', NULL, NULL, 2, 5, 1, 'SYSTEM', '2019-07-06 12:38:48', 'SYSTEM', '2019-07-06 12:38:49'),
+	(19, 'test1', NULL, NULL, '$2b$08$9PLNknvK2E69FGpTpY6U4.RMaZIXqB2WOmYRCw.iaOHbxbYYZGrWq', NULL, NULL, 2, 5, 1, 'SYSTEM', '2019-07-06 12:41:08', 'SYSTEM', '2019-07-06 12:41:09');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps.vendors
