@@ -12,6 +12,7 @@
     "testing": "mocha --require babel-register tests/*.js --exit",
     "release": "npm run clean && npm run build && npm run serve",
     "clean": "rm -rf dist && mkdir dist",
+    "build_prd": "babel . -s -d dist",
     "build": "babel . -s -D -d dist --presets env --ignore node_modules",
     "serve": "node dist/server.js"
   },
@@ -21,12 +22,6 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
-    "chai": "^4.2.0",
-    "chai-http": "^4.2.1",
-    "eslint": "^5.15.1",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "mocha": "^5.2.0",
     "nodemon": "^1.18.9"
   },
   "dependencies": {

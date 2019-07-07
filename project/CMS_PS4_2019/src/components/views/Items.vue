@@ -9,7 +9,8 @@
           <div class="form-group">
               <label class="col-sm-3 z-label">Mã dịch vụ:</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" v-model="item.code" placeholder="Mã code ..."/>
+                <!-- <input type="text" class="form-control" v-model="item.code" placeholder="Mã code ..."/> -->
+                <v-select v-model="item.code" label="name" :options="options"></v-select>
               </div>              
           </div>
           <div class="form-group">
@@ -80,11 +81,12 @@ export default {
         name: '',
         category: 1,
         status: 1
-      }
+      },
+      options: []
     }
   },
   created() {
-
+    this.getActiveCodes()
   },
   methods: {
     openModal(obj = this.item) {
@@ -102,6 +104,9 @@ export default {
       }
     },
     insert() {
+      // get value code from v-select
+      let objCode = this.item.code
+      this.item.code = objCode.code
       api
         .request('post', '/item', this.item)
         .then(response => {
@@ -117,6 +122,8 @@ export default {
         })
     },
     update() {
+      let objCode = this.item.code
+      this.item.code = objCode.code
       api
         .request('put', `/item/${this.item.id}`, this.item)
         .then(response => {
@@ -128,6 +135,16 @@ export default {
         .catch(e => {
           console.error(e)
         })
+    },
+    async getActiveCodes() {
+      try {
+        const result = await api.request('get', '/code/p/1?limit=100&status=1')
+        if (result.data.success) {
+          this.options = result.data.data
+        }
+      } catch (e) {
+        console.error(e)
+      }
     },
     showToast(type = 'success', message = '') {
       this.$swal({

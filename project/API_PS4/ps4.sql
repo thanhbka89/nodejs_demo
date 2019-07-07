@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
--- Host:                         localhost
--- Server version:               5.7.24 - MySQL Community Server (GPL)
+-- Host:                         127.0.0.1
+-- Server version:               10.4.6-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             9.5.0.5332
+-- HeidiSQL Version:             10.2.0.5599
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -12,26 +12,27 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping database structure for cms_ps
-CREATE DATABASE IF NOT EXISTS `cms_ps` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
-USE `cms_ps`;
+-- Dumping database structure for cms_ps_dev
+CREATE DATABASE IF NOT EXISTS `cms_ps_dev` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+USE `cms_ps_dev`;
 
--- Dumping structure for table cms_ps.cham_cong
+-- Dumping structure for table cms_ps_dev.cham_cong
 CREATE TABLE IF NOT EXISTS `cham_cong` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '{1: checkin, 2: checkout}',
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `time` datetime NOT NULL DEFAULT current_timestamp(),
+  `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '{1: checkin, 2: checkout}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Du lieu cham cong danh cho nhan vien';
 
--- Dumping data for table cms_ps.cham_cong: ~0 rows (approximately)
+-- Dumping data for table cms_ps_dev.cham_cong: ~0 rows (approximately)
+DELETE FROM `cham_cong`;
 /*!40000 ALTER TABLE `cham_cong` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cham_cong` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.giai_dau
+-- Dumping structure for table cms_ps_dev.giai_dau
 CREATE TABLE IF NOT EXISTS `giai_dau` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -44,48 +45,51 @@ CREATE TABLE IF NOT EXISTS `giai_dau` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='To chuc cac giai dau';
 
--- Dumping data for table cms_ps.giai_dau: ~0 rows (approximately)
+-- Dumping data for table cms_ps_dev.giai_dau: ~0 rows (approximately)
+DELETE FROM `giai_dau`;
 /*!40000 ALTER TABLE `giai_dau` DISABLE KEYS */;
 /*!40000 ALTER TABLE `giai_dau` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.history_customer
+-- Dumping structure for table cms_ps_dev.history_customer
 CREATE TABLE IF NOT EXISTS `history_customer` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Khoa ngoai voi bang users',
-  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_user` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'Khoa ngoai voi bang users',
+  `time` datetime NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Lich su choi cua Khach hang';
 
--- Dumping data for table cms_ps.history_customer: ~0 rows (approximately)
+-- Dumping data for table cms_ps_dev.history_customer: ~0 rows (approximately)
+DELETE FROM `history_customer`;
 /*!40000 ALTER TABLE `history_customer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `history_customer` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.items
+-- Dumping structure for table cms_ps_dev.items
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_vendor` int(10) unsigned DEFAULT '0' COMMENT 'Ma dai ly',
+  `id_vendor` int(10) unsigned DEFAULT 0 COMMENT 'Ma dai ly',
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT 'Ma san pham',
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `gia_nhap` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Gia nhap hang',
-  `gia_ban` int(10) unsigned NOT NULL DEFAULT '0',
-  `category` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
-  `status` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: dang ap dung, 0: ko ap dung}',
+  `gia_nhap` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Gia nhap hang',
+  `gia_ban` int(10) unsigned NOT NULL DEFAULT 0,
+  `category` tinyint(2) unsigned NOT NULL DEFAULT 1 COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
+  `status` tinyint(2) unsigned NOT NULL DEFAULT 1 COMMENT '{1: dang ap dung, 0: ko ap dung}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
 
--- Dumping data for table cms_ps.items: ~14 rows (approximately)
+-- Dumping data for table cms_ps_dev.items: ~14 rows (approximately)
+DELETE FROM `items`;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
-REPLACE INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `category`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `category`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 	(1, 0, 'COCA', 'CocaCola', 8000, 10000, 1, 1, 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
 	(2, 0, 'REDBULL', 'Bo Huc', 10000, 15000, 1, 1, 'SYSTEM', '2019-06-16 14:16:30', 'SYSTEM', '2019-07-01 20:39:26'),
 	(3, 0, 'PS4', 'Gio choi PS4', 10000, 20000, 3, 1, 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
-	(4, 0, 'XucXich', 'Xuc xich Duc viet', 10000, 20000, 2, 0, 'thanhnm', '2019-06-16 14:16:30', 'thanhnm', '2019-06-16 14:16:30'),
+	(4, 0, 'REDBESL', 'Xuc xich Duc viet', 10000, 20000, 2, 0, 'SYSTEM', '2019-06-16 14:16:30', 'SYSTEM', '2019-07-07 22:34:17'),
 	(5, 0, 'DULICH', 'Thuoc la Du Lich', 8000, 10000, 4, 1, 'SYSTEM', '2019-06-22 17:03:59', 'SYSTEM', '2019-07-01 20:40:05'),
 	(7, 0, 'VINA', 'Thuoc la Vina', 20000, 30000, 4, 1, 'SYSTEM', '2019-06-22 17:40:46', 'SYSTEM', '2019-07-01 20:39:11'),
 	(8, 0, 'LAVIE', 'Nuoc loc Lavie', 4000, 8000, 1, 1, 'SYSTEM', '2019-07-01 20:40:55', 'SYSTEM', '2019-07-01 20:40:56'),
@@ -95,80 +99,113 @@ REPLACE INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, 
 	(12, 0, 'PEPSI', 'Pepsi', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-01 20:44:05', 'SYSTEM', '2019-07-01 20:44:05'),
 	(13, 0, 'PS5', 'Giờ chơi PS5', 0, 25000, 3, 1, 'SYSTEM', '2019-07-06 10:05:42', 'SYSTEM', '2019-07-06 10:05:43'),
 	(14, 0, 'PS3', 'Giờ chơi PS3', 0, 15000, 3, 1, 'SYSTEM', '2019-07-06 10:06:06', 'SYSTEM', '2019-07-06 10:06:07'),
-	(15, 0, 'PS2', 'Giờ chơi PS2', 0, 10000, 3, 1, 'SYSTEM', '2019-07-06 10:06:24', 'SYSTEM', '2019-07-06 10:06:25');
+	(15, 0, 'PS2', 'Giờ chơi PS2', 0, 10000, 3, 1, 'SYSTEM', '2019-07-06 10:06:24', 'SYSTEM', '2019-07-06 10:06:25'),
+	(16, 0, 'PEPSI', 'Nuoc ngot Pepsi', 5000, 10000, 1, 1, 'SYSTEM', '2019-07-07 22:29:27', 'SYSTEM', '2019-07-07 22:34:42'),
+	(17, 0, 'Latte', 'Nuoc ngot Latte', 7000, 10000, 1, 0, 'SYSTEM', '2019-07-07 22:36:00', 'SYSTEM', '2019-07-07 22:36:00');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.setting
+-- Dumping structure for table cms_ps_dev.mastercode
+CREATE TABLE IF NOT EXISTS `mastercode` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT 'Trang thai {0: inactive, 1: active}',
+  `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='QL ma code';
+
+-- Dumping data for table cms_ps_dev.mastercode: ~8 rows (approximately)
+DELETE FROM `mastercode`;
+/*!40000 ALTER TABLE `mastercode` DISABLE KEYS */;
+INSERT INTO `mastercode` (`id`, `code`, `name`, `status`, `created_by`, `created_at`) VALUES
+	(1, 'PS4', 'Gio choi PS4', 1, 'ThanhNM', '2019-07-07 20:08:53'),
+	(2, 'PS5', 'Gio choi PS5', 1, 'ThanhNM', '2019-07-07 20:08:53'),
+	(3, 'COCA', 'Coca Cola', 1, 'ThanhBKA', '2019-07-07 20:09:52'),
+	(4, 'PEPSI', 'Pepsi', 1, 'ThanhBKA', '2019-07-07 20:09:52'),
+	(5, 'REDBULL', 'Bo Huc', 1, 'ThanhBKA', '2019-07-07 20:09:52'),
+	(6, 'REDBESL', 'Bo Cung', 1, 'ThanhBKA', '2019-07-07 20:09:52'),
+	(7, 'PS3', 'Gio choi PS3', 1, 'SYSTEM', '2019-07-07 20:16:29'),
+	(8, 'PS2', 'Gio choi PS2', 1, 'thanhnm', '2019-07-07 20:17:28'),
+	(9, 'Lavie', 'Nuoc loc Lavie', 1, 'thanhnm', '2019-07-07 20:19:31'),
+	(10, 'Latte', 'Nuoc trai cay Latte', 1, 'SYSTEM', '2019-07-07 20:20:35');
+/*!40000 ALTER TABLE `mastercode` ENABLE KEYS */;
+
+-- Dumping structure for table cms_ps_dev.setting
 CREATE TABLE IF NOT EXISTS `setting` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `option` json NOT NULL,
+  `option` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`option`)),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bang cau hinh';
 
--- Dumping data for table cms_ps.setting: ~0 rows (approximately)
+-- Dumping data for table cms_ps_dev.setting: ~0 rows (approximately)
+DELETE FROM `setting`;
 /*!40000 ALTER TABLE `setting` DISABLE KEYS */;
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.tai_san
+-- Dumping structure for table cms_ps_dev.tai_san
 CREATE TABLE IF NOT EXISTS `tai_san` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `so_luong` int(11) DEFAULT '0',
-  `gia_nhap` int(11) DEFAULT '0',
-  `noted` text COLLATE utf8mb4_unicode_ci,
+  `so_luong` int(11) DEFAULT 0,
+  `gia_nhap` int(11) DEFAULT 0,
+  `noted` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Quan ly Tai san';
 
--- Dumping data for table cms_ps.tai_san: ~0 rows (approximately)
+-- Dumping data for table cms_ps_dev.tai_san: ~0 rows (approximately)
+DELETE FROM `tai_san`;
 /*!40000 ALTER TABLE `tai_san` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tai_san` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.transactions
+-- Dumping structure for table cms_ps_dev.transactions
 CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_ps` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'May PS nao',
-  `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Id Khach hang',
-  `total_money` int(10) unsigned NOT NULL DEFAULT '1',
+  `id_ps` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'May PS nao',
+  `id_user` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'Id Khach hang',
+  `total_money` int(10) unsigned NOT NULL DEFAULT 1,
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
 
--- Dumping data for table cms_ps.transactions: ~2 rows (approximately)
+-- Dumping data for table cms_ps_dev.transactions: ~2 rows (approximately)
+DELETE FROM `transactions`;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-REPLACE INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 	(1, 1, 0, 20600, 'SYSTEM', '2019-07-05 18:08:21', 'SYSTEM', '2019-07-05 18:08:21'),
 	(2, 1, 0, 30400, 'SYSTEM', '2019-07-05 18:16:09', 'SYSTEM', '2019-07-05 18:16:10');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.trans_detail
+-- Dumping structure for table cms_ps_dev.trans_detail
 CREATE TABLE IF NOT EXISTS `trans_detail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_trans` int(10) unsigned NOT NULL,
   `id_item` int(10) unsigned NOT NULL,
   `quantity` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `start` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `start` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
 
--- Dumping data for table cms_ps.trans_detail: ~4 rows (approximately)
+-- Dumping data for table cms_ps_dev.trans_detail: ~4 rows (approximately)
+DELETE FROM `trans_detail`;
 /*!40000 ALTER TABLE `trans_detail` DISABLE KEYS */;
-REPLACE INTO `trans_detail` (`id`, `id_trans`, `id_item`, `quantity`, `start`) VALUES
+INSERT INTO `trans_detail` (`id`, `id_trans`, `id_item`, `quantity`, `start`) VALUES
 	(1, 1, 3, '0.03', '2019-07-05 18:06:04'),
 	(2, 2, 1, '2', '2019-07-05 18:14:23'),
 	(3, 2, 5, '1', '2019-07-05 18:14:23'),
 	(4, 2, 3, '0.02', '2019-07-05 18:14:23');
 /*!40000 ALTER TABLE `trans_detail` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.users
+-- Dumping structure for table cms_ps_dev.users
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -177,20 +214,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   `passwd` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `role` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '{1: admin, 2: employee, 3: customer}',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '5' COMMENT 'Danh hieu {1: kim cuong, 2: vang, 3: bac, 4: dong, 5: thuong}',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Trạng thái {0: inactive, 1: active}',
+  `role` tinyint(1) unsigned NOT NULL DEFAULT 2 COMMENT '{1: admin, 2: employee, 3: customer}',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT 5 COMMENT 'Danh hieu {1: kim cuong, 2: vang, 3: bac, 4: dong, 5: thuong}',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT 'Trạng thái {0: inactive, 1: active}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table cms_ps.users: ~5 rows (approximately)
+-- Dumping data for table cms_ps_dev.users: ~12 rows (approximately)
+DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-REPLACE INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`, `address`, `role`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
+INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`, `address`, `role`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
 	(1, 'thanhnm', NULL, NULL, '123456a@', NULL, NULL, 1, 5, 0, 'thanhnm', '2019-06-16 14:21:17', 'thanhnm', '2019-06-16 14:21:17'),
 	(2, 'thanhbka', NULL, NULL, '$2b$08$bY0d8RzwaS1SPdJsKSOTve3pnt2T0b3lncGW/WZh/cBXb/odyH7N2', NULL, NULL, 1, 5, 1, 'SYSTEM', '2019-06-16 19:04:38', 'SYSTEM', '2019-06-16 19:04:38'),
 	(9, 'thanhbka89', NULL, NULL, '$2b$08$a.103X0TBIFqUhZeKs15FeYa/VJSCVPGYoaI8ekNWkpifpYw8ZVAu', NULL, NULL, 2, 5, 1, 'SYSTEM', '2019-06-20 20:43:24', 'SYSTEM', '2019-06-20 20:43:24'),
@@ -205,7 +243,7 @@ REPLACE INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone
 	(19, 'test1', NULL, NULL, '$2b$08$9PLNknvK2E69FGpTpY6U4.RMaZIXqB2WOmYRCw.iaOHbxbYYZGrWq', NULL, NULL, 2, 5, 1, 'SYSTEM', '2019-07-06 12:41:08', 'SYSTEM', '2019-07-06 12:41:09');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
--- Dumping structure for table cms_ps.vendors
+-- Dumping structure for table cms_ps_dev.vendors
 CREATE TABLE IF NOT EXISTS `vendors` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -214,9 +252,10 @@ CREATE TABLE IF NOT EXISTS `vendors` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Thong tin dai ly';
 
--- Dumping data for table cms_ps.vendors: ~26 rows (approximately)
+-- Dumping data for table cms_ps_dev.vendors: ~26 rows (approximately)
+DELETE FROM `vendors`;
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
-REPLACE INTO `vendors` (`id`, `name`, `address`, `phone`) VALUES
+INSERT INTO `vendors` (`id`, `name`, `address`, `phone`) VALUES
 	(1, 'SamSung', 'Bac Ninh', '0349617930'),
 	(2, 'Iphone', 'Bac Ninh', '0349617930'),
 	(3, 'VSmart', 'Bac Ninh', '0349617930'),

@@ -9,8 +9,8 @@ const CONFIG = {
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
-    database: 'cms_ps',
+    password: '123456a@',
+    database: 'cms_ps_dev', //prd : cms_ps
     insecureAuth: true
   }
 }
