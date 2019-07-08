@@ -2,8 +2,9 @@ export default {
   callingAPI: false,
   searching: '',
   serverURI: 'http://10.110.1.136:8080',
+  status: '',
   user: null,
-  token: null,
+  token: localStorage.getItem('token') || null,
   userInfo: {
     messages: [
       {

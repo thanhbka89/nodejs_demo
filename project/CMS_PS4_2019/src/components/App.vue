@@ -14,18 +14,23 @@
         section: 'Head'
       }
     },
+    created() {
+      // Handling Expired Token Cases
+      // Add a response interceptor
+      this.$http.interceptors.response.use(undefined, function (err) {
+        return new Promise(function (resolve, reject) {
+          if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+            debugger
+            this.$store.dispatch('logout')
+            .then(() => {
+              this.$router.push('/login')
+            })
+          }
+          throw err
+        })
+      })
+    },
     methods: {
-      // logout () {
-      //   this.$store.commit('SET_USER', null)
-      //   this.$store.commit('SET_TOKEN', null)
-
-      //   if (window.localStorage) {
-      //     window.localStorage.setItem('user', null)
-      //     window.localStorage.setItem('token', null)
-      //   }
-
-      //   this.$router.push('/login')
-      // }
     }
   }
 </script>

@@ -13,6 +13,9 @@ import Paginate from 'vuejs-paginate'
 import Vuelidate from 'vuelidate'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
+import Axios from 'axios'
+
+Vue.prototype.$http = Axios  // globally
 
 Vue.config.productionTip = false
 
