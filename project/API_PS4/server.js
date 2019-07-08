@@ -48,7 +48,8 @@ class HandlerGenerator {
   index(req, res) {
     res.json({
       success: true,
-      message: "Index page"
+      message: "Index page",
+      data: req.decoded
     })
   }
 }
@@ -104,6 +105,7 @@ app.use((req, res, next) => {
         models,
         me: models.users[1],
     }
+    res.removeHeader('X-Powered-By') // remove X-Powered-By in response
 
   next()
 })
@@ -174,8 +176,9 @@ const apiLimiter = rateLimit({
   message:
     'Too many accounts created from this IP, please try again after an hour'
 })
-app.use("/api/ps4/v1/", apiLimiter) // only apply to requests that begin with
+app.use('/api/ps4/v1/', apiLimiter) // only apply to requests that begin with
 app.use('/api/ps4/v1/user', routes.user)
+app.use('/api/ps4/v1/', middleware.checkToken) // check JWT
 app.use('/api/ps4/v1/vendor', routes.vendor)
 app.use('/api/ps4/v1/item', routes.item)
 app.use('/api/ps4/v1/trans', routes.transaction)

@@ -61,6 +61,7 @@ router.post('/login', (req, res) => {
 			if (results.length) {
 				let user = results[0]
 				const match = bcrypt.compareSync(password, user.passwd)
+				delete user.passwd
 
 				if (match) {
 					let token = jwt.sign({

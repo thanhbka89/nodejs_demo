@@ -16,7 +16,7 @@ import VendorView from './components/views/Vendor'
 import ItemView from './components/views/Items'
 import PlayView from './components/views/Play'
 import TransactionView from './components/views/Transaction'
-import UserView from './components/views/User'
+// import UserView from './components/views/User'
 
 // Routes
 const routes = [
@@ -103,7 +103,11 @@ const routes = [
       },
       {
         path: 'user',
-        component: UserView,
+        // component: UserView,
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ './components/views/User'),
         name: 'User',
         meta: {description: 'Thành viên', requiresAuth: true}
       }

@@ -18,6 +18,13 @@ http://jasonwatmore.com/post/2018/08/06/nodejs-jwt-authentication-tutorial-with-
 - B3: Chay chuong trinh trong qua trinh dev:
     npm start
 
+*Huong dan Update dependency*
+# Hiển thị list các lib bị outdated
+    npm audit
+# Update minor và patch version trong package.json
+    npm outdated
+    npm update
+
 *Huong dan deploy*
 - B1: truy cap thu muc code, mở cmder, gõ :
     npm run clean
