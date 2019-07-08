@@ -17,10 +17,12 @@
     created() {
       // Handling Expired Token Cases
       // Add a response interceptor
+      debugger
       this.$http.interceptors.response.use(undefined, function (err) {
-        return new Promise(function (resolve, reject) {
+        console.log('bbb', err.status)
+        return new Promise((resolve, reject) => {
+          console.log('vvv', err.status)
           if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-            debugger
             this.$store.dispatch('logout')
             .then(() => {
               this.$router.push('/login')
@@ -29,6 +31,14 @@
           throw err
         })
       })
+      // Add a response interceptor
+      // this.$http.interceptors.response.use(function (response) {
+      //   console.log('BBBBB', response)
+      //   return response
+      // }, function (error) {
+      //   console.log('CCCCC', error)
+      //   return Promise.reject(error)
+      // })
     },
     methods: {
     }

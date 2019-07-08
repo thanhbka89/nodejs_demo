@@ -110,6 +110,18 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ './components/views/User'),
         name: 'User',
         meta: {description: 'Thành viên', requiresAuth: true}
+      },
+      {
+        path: 'code',
+        component: () => import(/* webpackChunkName: "about" */ './components/views/Mastercode'),
+        name: 'MasterCode',
+        meta: {description: 'Mastercode', requiresAuth: true}
+      },
+      {
+        path: 'inventory',
+        component: () => import(/* webpackChunkName: "about" */ './components/views/Inventory'),
+        name: 'Inventory',
+        meta: {description: 'Nhap Kho', requiresAuth: true}
       }
     ]
   }, {

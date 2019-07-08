@@ -28,6 +28,12 @@
         <span class="page"> DS Dịch vụ</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/code">
+      <a>
+        <i class="fa fa-university text-yellow"></i>
+        <span class="page"> Master Code</span>
+      </a>
+    </router-link>
     </template>
 
     <template v-if="is_admin">
@@ -54,6 +60,12 @@
       <a>
         <i class="fa fa-car text-green"></i>
         <span class="page"> DS Nhà cung cấp</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/inventory">
+      <a>
+        <i class="fa fa-university text-yellow"></i>
+        <span class="page"> QL Nhập kho</span>
       </a>
     </router-link>
     </template>

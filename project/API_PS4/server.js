@@ -183,6 +183,7 @@ app.use('/api/ps4/v1/vendor', routes.vendor)
 app.use('/api/ps4/v1/item', routes.item)
 app.use('/api/ps4/v1/trans', routes.transaction)
 app.use('/api/ps4/v1/code', routes.code)
+app.use('/api/ps4/v1/inventory', routes.inventory)
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại

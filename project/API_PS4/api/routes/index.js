@@ -4,6 +4,7 @@ import vendor from './vendor'
 import item from './item'
 import transaction from './trans'
 import code from './code'
+import inventory from './inventory'
 
 export default {
     bird,
@@ -11,6 +12,7 @@ export default {
     vendor,
     item,
     transaction,
-    code
+    code,
+    inventory
 }
 

@@ -8,7 +8,7 @@ let checkToken = (req, res, next) => {
   };
   let token = req.headers["x-access-token"] || req.headers["authorization"]; // Express headers are auto converted to lowercase
   if (!token) {
-    return res.json(data);
+    return res.status(401).json(data);
   }
   //   if (token.startsWith('Bearer ')) {
   //     // Remove Bearer from string
@@ -19,7 +19,7 @@ let checkToken = (req, res, next) => {
   if (token) {
     jwt.verify(token, CONFIG.secret, (err, decoded) => {
       if (err) {
-        return res.json({
+        return res.status(401).json({
           success: false,
           message: "Token is not valid"
         });
@@ -29,7 +29,7 @@ let checkToken = (req, res, next) => {
       }
     });
   } else {
-    return res.json(data);
+    return res.status(401).json(data)
   }
 };
 
