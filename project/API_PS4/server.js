@@ -54,7 +54,7 @@ class HandlerGenerator {
   }
 }
 
-// import cors from "cors";
+import cors from "cors";
 import routes from './api/routes'
 import app1 from './app'
 import bird from './api/routes/router'
@@ -75,7 +75,7 @@ const api_product = require('./api/routes/product')
 
 // Use Node.js body parsing middleware : parses incoming post request data
 app.use(morgan('combined'))
-// app.use(cors());
+app.use(cors());
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
@@ -153,13 +153,13 @@ router.get("/midd/:name", (req, res) => {
 })
 
 // CORS middleware
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization')
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*')
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization')
   
-  next()
-});
+//   next()
+// });
 
 // apply the routes to our application
 api_home(app)
