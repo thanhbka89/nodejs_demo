@@ -5,6 +5,9 @@ export default {
   TOGGLE_SEARCHING (state) {
     state.searching = (state.searching === '') ? 'loading' : ''
   },
+  TOGGLE_NETWORK (state) {
+    state.network = false
+  },
   SET_USER (state, user) {
     state.user = user
   },

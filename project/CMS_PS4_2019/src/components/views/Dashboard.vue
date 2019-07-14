@@ -5,13 +5,10 @@
     <div class="row">
       <div class="col-xs-12">
         <alert :dismissible="true"
-               type="success"
+               :type="hasNetwork ? 'success' : 'error'"
                :iconClasses="['fa', 'fa-check']"
-               title="CoPilot is open source!">
-          <span>Click on icon to check it out on github.</span>
-          <a href="https://github.com/misterGF/CoPilot" target="_blank">
-            <i class="fa fa-github fa-2x"></i>
-          </a>
+               title="Internet connection">
+          <span>{{ hasNetwork ? 'Kết nối thành công đến API' : 'Không kết nối được tới Server API' }}</span>
         </alert>
       </div>
 
@@ -143,7 +140,8 @@ export default {
           a.push(Math.floor(Math.random() * (max - min + 1)) + max)
         }
         return a
-      }
+      },
+      hasNetwork: this.$store.getters.hasNetwork
     }
   },
   computed: {

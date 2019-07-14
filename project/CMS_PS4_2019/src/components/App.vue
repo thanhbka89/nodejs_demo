@@ -26,6 +26,10 @@
               this.$router.push('/login')
             })
           }
+          if (!err.response) { // ko ket noi dc Server
+            this.$store.commit('TOGGLE_NETWORK')
+            this.$router.push('/')
+          }
           throw err
         })
       })

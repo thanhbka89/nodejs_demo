@@ -1,5 +1,6 @@
 export default {
   callingAPI: false,
+  network: true,
   searching: '',
   serverURI: 'http://10.110.1.136:8080',
   status: '',

@@ -4,8 +4,12 @@ B1: Cai dat pm2:
     + `pm2 show <id|name>` : to get more details about an app
     + `pm2 list` : liệt kê các app đang chạy
     + `pm2 stop/start/delete ungdung` : đọc là hiểu khỏi giải thích
+    + `pm2 kill`: Kills all running applications
+    + `pm2 restart`: Restarts all running applications
+    + `pm2 reload`: Reloads the app configuration (this comes in handy when you modify your application’s environment variables)
     + `pm2 monit` : monitor ứng dụng đang chiếm bao nhiêu RAM, CPU, xem log, nói chung là nhìn tổng thể
     + `pm2 logs ungdung` : xem log của app có tên là ungdung
+    + `pm2 flush`: Flushes all log data, freeing up disk space    
 
 B1.1 : cai NGINX làm Reverse Proxy Server (su dung tren window)
 - Tải bản Nginx cho Windows (http://nginx.org/en/download.html) và giải nén
