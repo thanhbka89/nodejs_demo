@@ -157,7 +157,7 @@ export default {
         let tranObj = result.data.data[0]
         this.ps4.id = tranObj.t1_id_ps
         this.startDate = moment(tranObj.t1_created_at).format('DD/MM/YYYY')
-        this.ps4.start_hour = moment(tranObj.t1_created_at).format('HH:mm')
+        this.ps4.start_hour = moment(tranObj.t2_start).format('HH:mm')
         this.total = tranObj.t1_total_money
         this.items = []
         let items = []

@@ -68,7 +68,6 @@ export default {
       api
         .request('post', '/user/login', { username, password })
         .then(response => {
-          debugger
           this.toggleLoading()
 
           let data = response.data

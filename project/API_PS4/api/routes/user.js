@@ -119,7 +119,11 @@ router.route('/action/:id')
         })
     })
     .put((req, res) => {
-        User.update(req.params.id, new User(req.body), (err, response) => {
+		const user = req.body
+		if (user.password) {
+			user.password = bcrypt.hashSync(req.body.password, 8)
+		}
+        User.update(req.params.id, new User(user), (err, response) => {
             if (err)  res.send(err)
             res.json(response);
         })

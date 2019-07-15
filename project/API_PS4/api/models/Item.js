@@ -4,7 +4,9 @@ const TABLE_NAME = 'items'
 class Item {
     constructor(obj) {
         this.name = obj.name
-        this.code = obj.code
+        if (obj.code) {
+            this.code = obj.code
+        }
         this.gia_nhap = obj.gia_nhap
         this.gia_ban = obj.gia_ban
         this.category = obj.category

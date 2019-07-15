@@ -115,7 +115,6 @@ export default {
         .request('get', '/item')
         .then(response => {
           const number = response.data.data.length
-          debugger
           this.totalPage = number > this.limit
             ? Math.ceil(number / this.limit)
             : 1
@@ -134,9 +133,10 @@ export default {
       api
         .request('delete', `/item/${id}`)
         .then(response => {
-          console.log(response)
-          if (response.data) {
-            this.showToast(1)
+          if (response.data.success) {
+            this.showToast()
+          } else {
+            this.showToast('error', response.data.message)
           }
         })
         .catch(e => {
@@ -155,10 +155,10 @@ export default {
     showAlert() {
       this.$swal('Chuc nang sap co')
     },
-    showToast(id) {
+    showToast(type = 'success', message = '') {
       this.$swal({
-        type: 'success',
-        title: `${id ? 'Cập nhật' : 'Thêm mới'} thành công`,
+        type: type,
+        title: message || `Cập nhật thành công`,
         toast: true,
         position: 'top-end',
         showConfirmButton: false,

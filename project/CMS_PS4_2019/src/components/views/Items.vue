@@ -127,13 +127,15 @@ export default {
       api
         .request('put', `/item/${this.item.id}`, this.item)
         .then(response => {
-          if (response.data) {
+          if (response.data.success) {
             this.closeModal()
             this.showToast()
+          } else {
+            this.showToast('error', response.data.message)
           }
         })
         .catch(e => {
-          console.error(e)
+          console.error('ItemUpdate', e)
         })
     },
     async getActiveCodes() {
