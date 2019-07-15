@@ -85,22 +85,23 @@ B4 : run PM2 startup on window (https://blog.cloudboost.io/nodejs-pm2-startup-on
 B5 (Option) : Danh cho cac lan deploy sau, hoan thien tinh nang
 - B5.1: Dung cac app trong pm2 : mở console cmd với quyền administrator
     `pm2 stop all`
-- Trong thu muc CMS_PS4_2019 :
+- B5.2: Trong thu muc CMS_PS4_2019 :
     + Sửa file src/config/index.js cho deploy lên PRD : 
         serverURI: 'http://127.0.0.1:8989/api/ps4/v1' 
     + `rm -rf dist\`
     + `npm run build`
-- B5.2: Trong thư mục API_PS4:
+- B5.3: Trong thư mục API_PS4:
     + Sửa file .env, comment lại dòng PORT như sau :
         #PORT=9090
     + Sửa file config/config.js, sửa dòng tên db :
         database: 'cms_ps'
     + `npm run clean`
     + `npm run build`
-- B5.3: De tiep tuc DEV, thì trong Git chọn 3 file đã sửa phía trên và Discard Changes
-- B5.4 : Chay lại các app trong pm2 trên PRD:
-    `pm2 restart all`
-    hoặc
-    `pm2 reload all`
+- B5.4: De tiep tuc DEV, thì trong Git chọn 3 file đã sửa phía trên và Discard Changes
+- B5.5 : Chay lại các app trong pm2 trên PRD:
+    + Note: dùng phan mem cports với quyền admin để kill port 5000 và 8989 trước khi chạy lệnh dưới
+    + `pm2 restart all`
+        hoặc
+        `pm2 reload all`
 
 	
