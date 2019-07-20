@@ -158,4 +158,20 @@ router.get('/count', async (req, res) => {
 	})
 })
 
+// ex: http://localhost:9090/api/ps4/v1/user/findCustomer?q=098
+router.get('/findCustomer', async (req, res) => {
+	User.findCustomer(req.query.q, (err, response) => {
+		if (err) 
+			return res.json({
+				success: false,
+				message: err
+			})
+
+		return res.json({
+			success: true,
+			data: response
+		})
+	})
+})
+
 export default router

@@ -113,6 +113,19 @@ class User {
         })
     }
 
+    static findCustomer(query, result) {
+        let sql = `SELECT * FROM ${TABLE_NAME} WHERE username LIKE '%${query}%'
+            OR fullname LIKE '%${query}%' OR phone LIKE '%${query}%'`
+        db.query(sql, (err, res) => {
+            if (err) {
+                result(err, null)
+            }
+            else {
+                result(null, res)
+            }
+        })
+    }
+
     static create(newObj, result) {
         let sql = `INSERT INTO ${TABLE_NAME} SET ?`
         db.query(sql, [newObj], (err, res) => {
