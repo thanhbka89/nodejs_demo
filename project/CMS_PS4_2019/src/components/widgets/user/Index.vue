@@ -12,8 +12,12 @@
     </div>   
 
     <div class="filters row">
-        <div class="form-group col-sm-3">
+        <div class="form-group col-sm-2">
             <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm user ..." aria-label="Search" @keyup.enter="search"/>
+        </div>
+        <div class="form-group col-sm-6">
+          <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
+          <date-picker v-model="dateTo" format="YYYY-MM-DD" lang="en" confirm placeholder="Đến ngày" @change="search"></date-picker>
         </div>
     </div>
 
@@ -73,16 +77,21 @@
 </template>
 <script>
 import api from '../../../api'
+import DatePicker from 'vue2-datepicker'
+import moment from 'moment'
 
 export default {
   name: 'UserIndex',
+  components: { DatePicker },
   data() {
     return {
       searchKey: '',
       page: 1,
       limit: 10,
       totalPage: 10,
-      items: []
+      items: [],
+      dateFrom: '',
+      dateTo: new Date()
     }
   },
   props: {
@@ -97,23 +106,30 @@ export default {
     this.fetchItems()
     this.paginateCallback()
   },
-
   methods: {
-    paginateCallback(page = 1) {
-      let query = this.searchKey
-        ? `username=${this.searchKey}`
-        : ''
-      query = this.limit ? `${query}&limit=${this.limit}` : query
-      api
-        .request('get', `/user/p/${page}?` + query)
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async paginateCallback(page = 1) {
+      let query = this.build_query()
+
+      // Cach 1: Promise
+      // api
+      //   .request('get', `/user/p/${page}?` + query)
+      //   .then(response => {
+      //     this.items = response.data
+      //   })
+      //   .catch(e => {
+      //     console.error(e)
+      //   })
+
+      // Cach 2: Async/Await
+      try {
+        const response = await api.request('get', `/user/p/${page}` + query)
+        this.items = response.data
+      } catch (err) {
+        console.error(err)
+      }
     },
     async fetchItems() {
+      // Cach 1
       // api
       //   .request('get', '/user/all')
       //   .then(response => {
@@ -125,12 +141,29 @@ export default {
       //   .catch(e => {
       //     console.error(e)
       //   })
+
+      // Cach 2
+      // try {
+      //   const response = await api.request('get', '/user')
+      //   console.log('QQQ', res2)
+      //   let number = response.data.data.length
+      //   this.totalPage = number > this.limit
+      //     ? Math.ceil(number / this.limit)
+      //     : 1
+      // } catch (err) {
+      //   console.error(err)
+      // }
+
+      // Cach 3
       try {
-        const response = await api.request('get', '/user')
-        let number = response.data.data.length
-        this.totalPage = number > this.limit
-          ? Math.ceil(number / this.limit)
-          : 1
+        await this.count()
+        // const response = await api.request('get', '/user/count')
+        // if (response.data.success) {
+        //   let number = response.data.data
+        //   this.totalPage = number > this.limit
+        //     ? Math.ceil(number / this.limit)
+        //     : 1
+        // }
       } catch (err) {
         console.error(err)
       }
@@ -154,14 +187,52 @@ export default {
           console.error(e)
         })
     },
-    search() {
-      api.request('get', `/item/s/query?q=${this.searchKey}`)
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async search() {
+      let query = this.build_query()
+      try {
+        await this.paginateCallback()
+        await this.count(query)
+        // const response = await api.request('get', `/user/count?${query}`)
+        // if (response.data.success) {
+        //   let number = response.data.data
+        //   this.totalPage = number > this.limit
+        //     ? Math.ceil(number / this.limit)
+        //     : 1
+        // }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async count(filter = null) {
+      filter = filter || ''
+      try {
+        const response = await api.request('get', `/user/count${filter}`)
+        if (response.data.success) {
+          let number = response.data.data
+          this.totalPage = number > this.limit
+            ? Math.ceil(number / this.limit)
+            : 1
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    build_query() {
+      let query = '?'
+      if (this.searchKey) {
+        query = query.concat(`username=${this.searchKey}`)
+      }
+      if (this.limit) {
+        query = query.concat(`&limit=${this.limit}`)
+      }
+      if (this.dateFrom) {
+        query = query.concat(`&from=${moment(this.dateFrom).format('YYYY-MM-DD')}`)
+      }
+      if (this.dateTo) {
+        query = query.concat(`&to=${moment(this.dateTo).format('YYYY-MM-DD')}`)
+      }
+
+      return query
     },
     showAlertConfirm(id) {
       this.$swal({

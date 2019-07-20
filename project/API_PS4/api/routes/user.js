@@ -33,12 +33,12 @@ router.route('/')
 				return res.json({
 					success: false,
 					message: err
-				});
+				})
 	
 			return res.json({
 				success: true,
 				message: 'Insert success!'
-			});
+			})
 		})
 	})
 
@@ -125,21 +125,36 @@ router.route('/action/:id')
 		}
         User.update(req.params.id, new User(user), (err, response) => {
             if (err)  res.send(err)
-            res.json(response);
+            res.json(response)
         })
     })
     .delete((req, res) => {
         User.deleteSoft(req.params.id, (err, response) => {
             if (err)  res.send(err)
-            res.json(response);
+            res.json(response)
         })
 	})
 router.get('/p/:page', (req, res) => {
 	const {page} = req.params
-	const {limit, username, phone} = req.query
-	User.paginate({page, limit, username, phone}, (err, reponse) => {
-		if (err) throw err;
-		res.json(reponse);
+	const {limit, username, phone, status, from, to} = req.query
+	User.paginate({page, limit, username, phone, status, from, to}, (err, reponse) => {
+		if (err) throw err
+		res.json(reponse)
+	})
+})
+
+router.get('/count', async (req, res) => {
+	User.count(req.query, (err, response) => {
+		if (err) 
+			return res.json({
+				success: false,
+				message: err
+			})
+
+		return res.json({
+			success: true,
+			data: response[0].count
+		})
 	})
 })
 

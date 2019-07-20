@@ -34,9 +34,9 @@ class User {
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {username, phone, status} = filter
+        const {username, phone, status, from, to} = filter
         if (username) {
-			$where = $where.concat(` ${check ? 'AND' : ''} username = '${username}'`)
+			$where = $where.concat(` ${check ? 'AND' : ''} username LIKE '%${username}%'`)
 			check ++
         }
         if (phone) {
@@ -55,6 +55,14 @@ class User {
 			$where = $where.concat(` ${check ? 'AND' : ''} status = ${status}`)
 			check ++
         }
+        if (from) {
+            $where = $where.concat(` ${check ? 'AND' : ''} created_at >= '${from}'`)
+            check ++
+        }
+        if (to) {
+            $where = $where.concat(` ${check ? 'AND' : ''} created_at <= '${to}'`)
+            check ++
+        }
         
         return {
             query: $where,
@@ -62,14 +70,14 @@ class User {
         }
     }
 
-    static paginate({page = 1, limit = 5, username, phone}, result) {
+    static paginate({page = 1, limit = 5, username, phone, status, from, to}, result) {
         let start = 0
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({username, phone})
+        const condition = this.getCondition({username, phone, status, from, to})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
         console.log(sql)
         db.query(sql, [limit, start], (err, res) => {
@@ -148,6 +156,20 @@ class User {
                 result(err, null)
             }
             else{
+                result(null, res)
+            }
+        })
+    }
+
+    static count(input, result) {
+        console.log(input)
+        const condition = this.getCondition(input)
+        let sql = `SELECT COUNT(*) AS count FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
+        db.query(sql, (err, res) => {
+            if (err) {
+                result(err, null)
+            }
+            else {
                 result(null, res)
             }
         })
