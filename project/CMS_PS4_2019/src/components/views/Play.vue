@@ -67,6 +67,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <ps4-box
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
+          :id-ps="1"
           text="Máy 1"
           number="ps4_01"
           :ps4-start="togglePs4('ps4_01')"
@@ -77,6 +78,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <ps4-box
           :icon-classes="['ion', 'ion-ios-football-outline']"
+          :id-ps="2"
           text="Máy 2"
           number="ps4_02"
           :ps4-start="togglePs4('ps4_02')"
@@ -88,6 +90,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <ps4-box
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
+          :id-ps="3"
           text="Máy 3"
           number="ps4_03"
           :ps4-start="togglePs4('ps4_03')"
@@ -98,6 +101,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <ps4-box
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
+          :id-ps="4"
           text="Máy 4"
           number="ps4_04"
           :ps4-start="togglePs4('ps4_04')"
@@ -109,6 +113,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <ps4-box
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
+          :id-ps="5"
           text="Máy 5"
           number="ps4_05"
           :ps4-start="togglePs4('ps4_05')"

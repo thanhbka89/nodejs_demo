@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import MasterCode from '../models/MasterCode'
+import ListPS from '../models/ListPS'
 const router = Router()
 
 router.get('/', async (req, res) => {
     try {
-      const result = await MasterCode.getAll()
+      const result = await ListPS.getAll()
       return res.json({
         success: true,
         data: result
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
       req.body.created_by = req.decoded.username || null
-      let result = await MasterCode.create(new MasterCode(req.body))
+      let result = await ListPS.create(new ListPS(req.body))
       
       return res.json({
         success: true,
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 router.route('/:id')
 .get( async (req, res) => {
     try {
-      const result = await MasterCode.getById(req.params.id)
+      const result = await ListPS.getById(req.params.id)
       return res.json({
         success: true,
         data: result
@@ -51,7 +51,7 @@ router.route('/:id')
 })
 .put(async (req, res) => {
     try {
-      const result = await MasterCode.update(req.params.id, new MasterCode(req.body))
+      const result = await ListPS.update(req.params.id, new ListPS(req.body))
       return res.json({
         success: true,
         data: result
@@ -65,7 +65,7 @@ router.route('/:id')
 })
 .delete(async (req, res) => {
     try {
-      const result = await MasterCode.deleteSoft(req.params.id)
+      const result = await ListPS.deleteSoft(req.params.id)
       return res.json({
         success: true,
         data: result
@@ -81,8 +81,13 @@ router.route('/:id')
 router.get('/p/:page', async (req, res) => {
   try {
     const {page} = req.params
-    const {limit, code, name, status, category} = req.query
-    const result = await MasterCode.paginate({ page, limit, code, name, status, category })
+    const {limit, code, status} = req.query
+    const result = await ListPS.paginate(
+      { page,
+        limit, 
+        code,
+        status 
+      })
     return res.json({
       success: true,
       data: result
@@ -95,21 +100,19 @@ router.get('/p/:page', async (req, res) => {
   }
 })
 
-router.get('/category/:category', async (req, res) => {
+router.get('/get/count', async (req, res) => {
   try {
-    const {category} = req.params
-    const {status} = req.query
-    const result = await MasterCode.getByCategory({category, status})
+    const result = await ListPS.count(req.query)
     return res.json({
-      success: true,
-      data: result
-    })
+			success: true,
+			data: result[0].count
+		})
   } catch (e) {
     return res.json({
       success: false,
       data: e
     })
-  }  
+  }
 })
 
 export default router

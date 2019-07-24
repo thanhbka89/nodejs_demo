@@ -8,17 +8,16 @@ class Transaction {
         this.id_ps = obj.ps
         this.id_user = obj.user
         this.total_money = obj.money
-        this.created_by = 'SYSTEM'
-        this.updated_by = 'SYSTEM'
+        this.created_by = obj.created_by || 'SYSTEM'
+        this.updated_by = obj.updated_by || 'SYSTEM'
         this.updated_at = new Date
     }
 
     static getCondition(input) {
-        const filter = input || {}
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {ps, user} = filter
+        const {ps, user} = input || {}
         if (ps) {
             if (Array.isArray(ps)) {
                 $where = $where.concat(` ${check ? 'AND' : ''} id_ps IN (${ps.toString()})`)
@@ -59,7 +58,7 @@ class Transaction {
             start = (page - 1) * limit
         }
         const condition = this.getCondition({ps, user})
-        let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
+        let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} ORDER BY id DESC LIMIT ? OFFSET ?`
 
         return OBJ_DB.query(sql, [limit, start])
     }
@@ -96,6 +95,13 @@ class Transaction {
         const condition = this.getCondition({ps})
         let sql = `Select * from ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
 
+        return OBJ_DB.query(sql)
+    }
+
+    static async count(input) {
+        const condition = this.getCondition(input)
+        let sql = `SELECT COUNT(*) AS count FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
+        
         return OBJ_DB.query(sql)
     }
 }

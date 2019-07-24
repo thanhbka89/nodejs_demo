@@ -34,6 +34,12 @@
         <span class="page"> Master Code</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/ps">
+      <a>
+        <i class="fa fa-university text-yellow"></i>
+        <span class="page"> DS máy PS</span>
+      </a>
+    </router-link>
     </template>
 
     <template v-if="is_admin">

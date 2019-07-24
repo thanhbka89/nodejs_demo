@@ -139,4 +139,20 @@ router.get('/filter_ps/:id', async(req, res) => {
   }
 })
 
+router.get('/get/count', async (req, res) => {
+  try {
+    const result = await Transaction.count(req.query)
+    return res.json({
+			success: true,
+			data: result[0].count
+		})
+  } catch (e) {
+    return res.json({
+      success: false,
+      data: e
+    })
+  }
+})
+
+
 export default router

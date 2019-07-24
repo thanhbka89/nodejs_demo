@@ -51,27 +51,30 @@
                   <th>Dịch vụ</th>
                   <th>Đơn giá</th>
                   <th class="text-center">Số lượng</th>
+                  <th class="text-right">Khuyến mại</th>
                   <th class="text-right">Thành tiền</th>
                 </tr>
               </thead>
               <tfoot>
                 <tr>
                   <td colspan="4" class="text-right">Chiết khấu:</td>
-                  <td>0%</td>
+                  <td colspan="2" class="text-right">0%</td>
                 </tr>
                 <tr>
                   <td colspan="4" class="text-right">
                     <strong>Tổng tiền thanh toán:</strong></td>
-                  <td class="text-right"><strong>{{total | toVnd }}</strong></td>
+                  <td colspan="2" class="text-right"><strong>{{total | toVnd }}</strong></td>
                 </tr>
               </tfoot>
               <tbody>
                 <tr v-if="isCheckout">
                   <td class="col-xs-1">0</td>
-                  <td class="col-xs-5">{{'Giờ chơi PS4'}}</td>
-                  <td class="col-xs-3">{{20000 | toVnd}}</td>
+                  <td class="col-xs-4">{{'Giờ chơi PS4'}}</td>
+                  <td class="col-xs-2">{{20000 | toVnd}}</td>
                   <td class="col-xs-1 text-center">
                     {{(ps4.elapsed / 60).toFixed(2)}}
+                  </td>
+                  <td class="col-xs-2 text-right">
                   </td>
                   <td class="col-xs-2 text-right">
                    {{Math.ceil((ps4.elapsed / 60).toFixed(2) * 20000) | toVnd}}
@@ -79,10 +82,12 @@
                 </tr>
                 <tr v-for="(item, index) in items" :key="index">
                   <td class="col-xs-1">{{++index}}</td>
-                  <td class="col-xs-5">{{item.name.name}}</td>
-                  <td class="col-xs-3">{{item.name.gia_ban | toVnd}}</td>
+                  <td class="col-xs-4">{{item.name.name}}</td>
+                  <td class="col-xs-2">{{item.name.gia_ban | toVnd}}</td>
                   <td class="col-xs-1 text-center">
                     {{item.quantity}}
+                  </td>
+                  <td class="col-xs-2 text-right">
                   </td>
                   <td class="col-xs-2 text-right">
                    {{item.name.gia_ban * item.quantity | toVnd}}
@@ -189,7 +194,7 @@ export default {
     },
     insert() {
       const data = {
-        ps: 1,
+        ps: this.ps4.id_ps || 1,
         user: 0,
         money: this.total,
         items: this.ps4.items || []

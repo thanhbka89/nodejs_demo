@@ -1,38 +1,28 @@
 import DB from './Database'
-const TABLE_NAME = 'mastercode'
+const TABLE_NAME = 'list_ps'
 const OBJ_DB = new DB
 const STATUS_ACTIVE = 1
 const STATUS_INACTIVE = 0
 
-class MasterCode {
+class ListPS {
     constructor(obj) {
         this.code = obj.code
         this.name = obj.name
-        this.category = obj.category
         this.status = obj.status
         this.created_by = obj.created_by || 'SYSTEM'
+        this.updated_by = obj.updated_by || 'SYSTEM'
+        this.updated_at = new Date
     }
 
     static getCondition(input) {
+        const filter = input || {}
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {code, name, status, category} = input || {}
+        const {code, status} = filter
         if (code) {
 			$where = $where.concat(` ${check ? 'AND' : ''} code = '${code}'`)
 			check ++
-        }
-        if (name) {
-            $where = $where.concat(` ${check ? 'AND' : ''} name LIKE "%${name}%"`)
-			check ++
-        }
-        if (category) {
-            if (Array.isArray(category)) {
-                $where = $where.concat(` ${check ? 'AND' : ''} category IN (${category.toString()})`)
-            } else {
-                $where = $where.concat(` ${check ? 'AND' : ''} category = ${category}`)
-            }            
-			check ++ 
         }
         if (status) {
 			$where = $where.concat(` ${check ? 'AND' : ''} status = ${status}`)
@@ -45,23 +35,28 @@ class MasterCode {
         }
     }
 
+    static async count(input) {
+        const condition = this.getCondition(input)
+        let sql = `SELECT COUNT(*) AS count FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
+        
+        return OBJ_DB.query(sql)
+    }
+
     static async getAll() {
         let sql = `SELECT * FROM ${TABLE_NAME}`
 
         return OBJ_DB.query(sql)
     }
 
-    static async paginate(input) {
+    static async paginate({page = 1, limit = 5, code, status}) {
         let start = 0
-        let {page, limit, code, name, category, status} = input || {}
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({code, name, category, status})
+        const condition = this.getCondition({code, status})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
-        
         return OBJ_DB.query(sql, [limit, start])
     }
 
@@ -94,18 +89,6 @@ class MasterCode {
 
         return OBJ_DB.query(sql, [STATUS_INACTIVE, id])
     }
-
-    static async getByCategory(input) {
-        const {category, status} = input
-        let danhmuc = category
-        if (category.search(',') > 0) {
-            danhmuc = category.split(',')
-        }
-        const condition = this.getCondition({category: danhmuc, status})
-        let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
-
-        return OBJ_DB.query(sql)
-    }
 }
 
-export default MasterCode
+export default ListPS

@@ -13,8 +13,8 @@ class User {
         this.address = obj.address
         this.role = obj.role
         this.status = obj.status
-        this.created_by = 'SYSTEM'
-        this.updated_by = 'SYSTEM'
+        this.created_by = obj.created_by || 'SYSTEM'
+        this.updated_by = obj.updated_by || 'SYSTEM'
         this.updated_at = new Date
     }
     static getAll(result) {

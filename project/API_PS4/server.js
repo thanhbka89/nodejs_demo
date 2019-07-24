@@ -177,13 +177,15 @@ const apiLimiter = rateLimit({
     'Too many accounts created from this IP, please try again after an hour'
 })
 app.use('/api/ps4/v1/', apiLimiter) // only apply to requests that begin with
-app.use('/api/ps4/v1/user', routes.user)
+app.use('/api/ps4/v1/authen', routes.authen)
 app.use('/api/ps4/v1/', middleware.checkToken) // check JWT
+app.use('/api/ps4/v1/user', routes.user)
 app.use('/api/ps4/v1/vendor', routes.vendor)
 app.use('/api/ps4/v1/item', routes.item)
 app.use('/api/ps4/v1/trans', routes.transaction)
 app.use('/api/ps4/v1/code', routes.code)
 app.use('/api/ps4/v1/inventory', routes.inventory)
+app.use('/api/ps4/v1/ps', routes.ps)
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại

@@ -4,19 +4,19 @@
       <i :class="iconClasses"></i>
     </span>
     <div class="info-box-content">
-      <span class="info-box-text">{{text}}</span>
+      <span class="info-box-text">{{ text }}</span>
       <span>Trạng thái: </span>
       <span :class="localPs4Start ? 'z-ps4-on' : ''">
-        {{localPs4Start ? 'Bật' : 'Tắt'}}
+        {{ localPs4Start ? 'Bật' : 'Tắt' }}
       </span>
 
       <span class="info-box-more z-more">
         <a v-if="localPs4Start" href="#" class="btn btn-xs" @click="open_modal()">
-          More info
+          Xem chi tiết
           <i class="fa fa-arrow-circle-right"></i>
         </a>
         <a v-else href="#" class="btn btn-xs" @click="play(number)">
-          START
+          <strong>TÍNH GIỜ</strong>
           <i class="fa fa-play-circle-o"></i>
         </a>
       </span>
@@ -45,6 +45,9 @@ export default {
     }
   },
   props: {
+    idPs: {
+      type: Number
+    },
     text: {
       type: String,
       required: true
@@ -88,6 +91,7 @@ export default {
       let start = moment() // moment().subtract(2, 'hours')
       this.ps = {
         id: pNumber,
+        id_ps: this.idPs,
         origin: pNumber,
         start: start,
         start_hour: moment().format(moment.HTML5_FMT.TIME),

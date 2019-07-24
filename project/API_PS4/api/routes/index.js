@@ -5,14 +5,18 @@ import item from './item'
 import transaction from './trans'
 import code from './code'
 import inventory from './inventory'
+import authen from './authen'
+import ps from './ps'
 
 export default {
+    authen,
     bird,
     user,
     vendor,
     item,
     transaction,
     code,
-    inventory
+    inventory,
+    ps
 }
 

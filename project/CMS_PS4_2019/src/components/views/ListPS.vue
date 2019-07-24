@@ -9,26 +9,16 @@
           <div class="form-group">
               <label class="col-sm-3 z-label">Mã code:</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" v-model="item.code" placeholder="Mã code ..."/>
+                <!-- <input type="text" class="form-control" v-model="item.code" placeholder="Mã code ..."/> -->
+                <v-select v-model="item.code" label="name" :options="options"></v-select>
               </div>              
           </div>
           <div class="form-group">
-              <label class="col-sm-3 z-label">Tên code:</label>
+              <label class="col-sm-3 z-label">Tên máy:</label>
               <div class="col-sm-9">
-              <input type="text" class="form-control" v-model="item.name" placeholder="Code name ..."/>
+              <input type="text" class="form-control" v-model="item.name" placeholder="Tên giao dịch ..."/>
               </div>
           </div>
-          <div class="form-group">
-							<label class="col-sm-3 z-label">Danh mục:</label>
-              <div class="col-sm-9">
-                <select class="form-control" v-model="item.category">
-                  <option value="1">Nước uống</option>
-                  <option value="2">Đồ ăn</option>
-                  <option value="3">PS</option>
-                  <option value="4">Khác</option>
-                </select>
-              </div>
-					</div>
           <div class="form-group">
 							<label class="col-sm-3 z-label">Trạng thái:</label>
               <div class="col-sm-9">
@@ -54,11 +44,11 @@
 
 <script>
 import api from '../../api'
-import Index from '../widgets/mastercode/Index'
+import Index from '../widgets/ps/Index'
 import ServiceCreate from '../widgets/Modal'
 
 export default {
-  name: 'Mastercode',
+  name: 'ListPS',
   data() {
     return {
       showModal: false,
@@ -66,11 +56,14 @@ export default {
         id: '',
         code: '',
         name: '',
+        category: 1,
         status: 1
-      }
+      },
+      options: []
     }
   },
   created() {
+    this.getActiveCodes()
   },
   methods: {
     openModal(obj = this.item) {
@@ -88,14 +81,17 @@ export default {
       }
     },
     insert() {
+      // get value code from v-select
+      let objCode = this.item.code
+      this.item.code = objCode.code
       api
-        .request('post', '/code', this.item)
+        .request('post', '/ps', this.item)
         .then(response => {
           if (response.data.success) {
             this.closeModal()
             this.showToast()
           } else {
-            this.showToast('warning', response.data.data.code)
+            this.showToast('warning', response.data.message.code)
           }
         })
         .catch(e => {
@@ -103,8 +99,12 @@ export default {
         })
     },
     update() {
+      if (typeof this.item.code === 'object' && this.item.code !== null) {
+        let objCode = this.item.code
+        this.item.code = objCode.code
+      }
       api
-        .request('put', `/code/${this.item.id}`, this.item)
+        .request('put', `/ps/${this.item.id}`, this.item)
         .then(response => {
           if (response.data) {
             this.closeModal()
@@ -114,6 +114,17 @@ export default {
         .catch(e => {
           console.error(e)
         })
+    },
+    async getActiveCodes() {
+      try {
+        // get codes for PS
+        const result = await api.request('get', '/code/p/1?limit=100&status=1&category=3')
+        if (result.data.success) {
+          this.options = result.data.data
+        }
+      } catch (e) {
+        console.error(e)
+      }
     },
     showToast(type = 'success', message = '') {
       this.$swal({

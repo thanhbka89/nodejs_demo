@@ -121,7 +121,13 @@ const routes = [
         path: 'inventory',
         component: () => import(/* webpackChunkName: "about" */ './components/views/Inventory'),
         name: 'Inventory',
-        meta: {description: 'Nhap Kho', requiresAuth: true}
+        meta: {description: 'Nhập kho', requiresAuth: true}
+      },
+      {
+        path: 'ps',
+        component: () => import(/* webpackChunkName: "about" */ './components/views/ListPS'),
+        name: 'ListPS',
+        meta: {description: 'Quản lý máy PS', requiresAuth: true}
       }
     ]
   }, {

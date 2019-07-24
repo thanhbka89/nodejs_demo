@@ -3,14 +3,19 @@
     <div class="table-title">
         <div class="row">
             <div class="col-sm-6">
-                <h2>Manage <b>Transactions</b></h2>
+                <h2>Manage <b>PS</b></h2>
+            </div>
+            <div class="col-sm-6">
+                <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Thêm máy</span></a>		
             </div>
         </div>
     </div>   
 
     <div class="filters row">
         <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm giao dịch ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" 
+            @keyup.enter="search" placeholder="Tìm kiếm ..." aria-label="Search"
+            autocomplete="off"/>
         </div>
     </div>
 
@@ -18,10 +23,9 @@
       <thead class="z-header">
         <tr>
           <th>ID</th>
-          <th>Ngày</th>
-          <th>Máy</th>
-          <th>Khách hàng</th>
-          <th>Tổng tiền</th>          
+          <th>Code</th>
+          <th>Name</th>
+          <th>Trạng thái</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -29,12 +33,18 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-3">{{ item.created_at }}</td>
-          <td class="col-md-1">{{ item.id_ps }}</td>
-          <td class="col-md-3">{{ item.id_user || 'Khách lẻ' }}</td>
-          <td class="col-md-2">{{ item.total_money | toVnd }}</td>
-          <td class="col-md-2">
-            <button class="btn btn-primary" @click="viewItem(item)">Xem chi tiết</button>           
+          <td class="col-md-2">{{ item.code }}</td>
+          <td class="col-md-2">{{ item.name }}</td>
+          <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
+          <td class="col-md-5">
+            <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
+            <button class="btn btn-danger" @click="confirmDelete(item.id)">Delete</button>
+            <a href="#" class="icon">
+                <i v-on:click="showAlert()" class="fa fa-pencil"></i>
+            </a>
+            <a href="#" class="icon">
+                <i @click="showAlert" class="fa fa-trash"></i>
+            </a>            
           </td>
         </tr>
       </tbody>
@@ -65,7 +75,7 @@
 import api from '../../../api'
 
 export default {
-  name: 'TransactionIndex',
+  name: 'PSIndex',
   data() {
     return {
       searchKey: '',
@@ -76,6 +86,7 @@ export default {
     }
   },
   props: {
+    openModal: Function
   },
   computed: {
     filteredResources() {
@@ -86,13 +97,15 @@ export default {
     this.fetchItems()
     this.paginateCallback()
   },
+
   methods: {
     async paginateCallback(page = 1) {
       let query = this.build_query()
       try {
-        const response = await api.request('get', `/trans/p/${page}` + query)
+        const response = await api.request('get', `/ps/p/${page}` + query)
         this.items = response.data.data
       } catch (err) {
+        this.items = []
         console.error(err)
       }
     },
@@ -103,13 +116,21 @@ export default {
         console.error(err)
       }
     },
-    viewItem(item) {
-      let route = {
-        name: 'CheckOut',
-        params: { id: item.id },
-        query: { command: 'view' }
+    addItem() {
+      this.openModal({status: 1})
+    },
+    editItem(item) {
+      this.openModal(item)
+    },
+    async deleteItem(id) {
+      try {
+        const result = await api.request('delete', `/ps/${id}`)
+        if (result.data.success) {
+          this.showToast(id)
+        }
+      } catch (e) {
+        console.error(e)
       }
-      this.$router.push(route)
     },
     search() {
       api.request('get', `/item/s/query?q=${this.searchKey}`)
@@ -123,7 +144,7 @@ export default {
     async count(filter = null) {
       filter = filter || ''
       try {
-        const response = await api.request('get', `/trans/get/count${filter}`)
+        const response = await api.request('get', `/ps/get/count${filter}`)
         if (response.data.success) {
           let number = response.data.data
           this.totalPage = number > this.limit
@@ -137,7 +158,7 @@ export default {
     build_query() {
       let query = '?'
       if (this.searchKey) {
-        query = query.concat(`user=${this.searchKey}`)
+        query = query.concat(`code=${this.searchKey}`)
       }
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)
@@ -150,6 +171,36 @@ export default {
       // }
 
       return query
+    },
+    confirmDelete(id) {
+      this.$swal({
+        title: 'Bạn có chắc?',
+        text: 'Bạn có muốn xóa?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Đồng ý'
+      }).then((result) => {
+        if (result.value && id) {
+          this.deleteItem(id)
+        } else {
+          this.showToast(id, 'error', 'Thao tác thất bại!')
+        }
+      })
+    },
+    showAlert() {
+      this.$swal('Chức năng đang hoàn thiện')
+    },
+    showToast(id, type = 'success', msg) {
+      this.$swal({
+        type: type,
+        title: msg || `${id ? 'Cập nhật' : 'Thêm mới'} thành công`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      })
     }
   }
 }

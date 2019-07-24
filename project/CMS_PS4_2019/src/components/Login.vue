@@ -66,7 +66,7 @@ export default {
 
       /* Making API call to authenticate a user */
       api
-        .request('post', '/user/login', { username, password })
+        .request('post', '/authen/login', { username, password })
         .then(response => {
           this.toggleLoading()
 
