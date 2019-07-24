@@ -3,7 +3,6 @@ import Item from '../models/Item'
 
 const router = Router()
 
-
 router.get('/', (req, res) => {
     Item.getAll((err, response) => {
         return res.json({
@@ -91,6 +90,13 @@ router.get('/f/get_price_ps4', (req, res) => {
     Item.filter({code: 'PS4', status: 1}, (err, reponse) => {
         if (err) throw err
         res.json(reponse)
+    })
+})
+
+router.get('/f/get_price', async (req, res) => {
+    Item.filter(req.query, (err, reponse) => {
+        if (err) throw err
+        return res.json(reponse)
     })
 })
 

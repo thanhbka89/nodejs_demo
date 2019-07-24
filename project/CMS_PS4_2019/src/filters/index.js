@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 const urlParser = document.createElement('a')
 
 export function domain (url) {
@@ -27,4 +29,16 @@ export function toVND (number = 0) {
   let x = number
   x = x.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})
   return x
+}
+
+export function fDate (value = new Date()) {
+  if (value) {
+    return moment(String(value)).format('DD/MM/YYYY')
+  }
+}
+
+export function fDateTime (value = new Date()) {
+  if (value) {
+    return moment(String(value)).format('DD/MM/YYYY HH:mm')
+  }
 }

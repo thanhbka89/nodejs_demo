@@ -52,6 +52,10 @@ export default {
       type: String,
       required: true
     },
+    code: {
+      type: String,
+      required: true
+    },
     number: {
       type: String,
       default: ''
@@ -91,6 +95,8 @@ export default {
       let start = moment() // moment().subtract(2, 'hours')
       this.ps = {
         id: pNumber,
+        name: this.text,
+        code: this.code,
         id_ps: this.idPs,
         origin: pNumber,
         start: start,

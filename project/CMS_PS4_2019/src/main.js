@@ -25,7 +25,7 @@ Vue.component('paginate', Paginate)
 Vue.component('v-select', vSelect)
 
 // Import Helpers for filters
-import { domain, count, prettyDate, pluralize, toVND } from './filters'
+import { domain, count, prettyDate, pluralize, toVND, fDate, fDateTime } from './filters'
 
 // Import Views - Top level
 import AppView from './components/App.vue'
@@ -36,6 +36,8 @@ Vue.filter('domain', domain)
 Vue.filter('prettyDate', prettyDate)
 Vue.filter('pluralize', pluralize)
 Vue.filter('toVnd', toVND)
+Vue.filter('fDate', fDate)
+Vue.filter('fDateTime', fDateTime)
 
 Vue.use(VueRouter)
 

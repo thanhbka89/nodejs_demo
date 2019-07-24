@@ -64,7 +64,7 @@
       </div>
 
       <!-- PS4 boxes -->
-      <div class="col-md-4 col-sm-6 col-xs-12">
+      <!-- <div class="col-md-4 col-sm-6 col-xs-12">
         <ps4-box
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
           :id-ps="1"
@@ -120,8 +120,23 @@
           :openModal="openModal"
           @created="handleCreate"
         ></ps4-box>
-      </div>
+      </div> -->
       <!-- /.col -->
+      <hr />
+      <div class="col-md-4 col-sm-6 col-xs-12" 
+        v-for="item in listPS4" :key="item.id">
+        <ps4-box
+          :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
+          :id-ps="item.id"
+          :text="item.name"
+          :code="item.code"
+          :number="item.code + '_' + item.id"
+          :ps4-start="togglePs4(item.code + '_' + item.id)"
+          :openModal="openModal"
+          @created="handleCreate"
+        ></ps4-box>
+      </div>
+
     </div>
   </section>
 </template>
@@ -145,7 +160,8 @@ export default {
       options: []
     }
   },
-  created() {
+  async created() {
+    await this.getListPS4()
     this.getActiveServices()
   },
   methods: {
@@ -203,12 +219,22 @@ export default {
       api
         .request('get', '/item/cate_active/1,2,4')
         .then(response => {
-          console.log(response)
           this.options = response.data
         })
         .catch(e => {
           console.error(e)
         })
+    },
+    async getListPS4() {
+      try {
+        // get list ps4 active
+        const result = await api.request('get', '/ps/p/1?limit=100&status=1&code=PS4')
+        if (result.data.success) {
+          this.listPS4 = result.data.data
+        }
+      } catch (e) {
+        console.error(e)
+      }
     },
     // ham duoc goi tu component con
     handleCreate(value) {

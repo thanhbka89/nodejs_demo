@@ -53,7 +53,7 @@ class Inventory {
             start = (page - 1) * limit
         }
         const condition = this.getCondition({code, status})
-        let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
+        let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} ORDER BY id DESC LIMIT ? OFFSET ?`
         return OBJ_DB.query(sql, [limit, start])
     }
 

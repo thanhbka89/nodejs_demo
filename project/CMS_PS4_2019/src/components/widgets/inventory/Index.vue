@@ -21,10 +21,10 @@
       <thead class="z-header">
         <tr>
           <th>ID</th>
-          <th>Ngay nhập</th>
+          <th>Ngày nhập</th>
           <th>Code</th>
-          <th>Giá nhap</th>
-          <th>So luong</th>
+          <th>Giá nhập</th>
+          <th>Số lượng</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -32,7 +32,7 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-3">{{ item.created_at }}</td>
+          <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
           <td class="col-md-1">{{ item.code }}</td>
           <td class="col-md-2">{{ item.gia_nhap | toVnd }}</td>
           <td class="col-md-2">{{ item.quantity }}</td>

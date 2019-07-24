@@ -8,7 +8,7 @@
         Máy số:
       </div>
       <div class="col-md-10">
-        <strong>{{ps4.id}}</strong>
+        <strong>{{ps4.name}}</strong>
       </div>
       <div class="col-md-2">
         Ngày hóa đơn:
@@ -58,7 +58,8 @@
               <tfoot>
                 <tr>
                   <td colspan="4" class="text-right">Chiết khấu:</td>
-                  <td colspan="2" class="text-right">0%</td>
+                  <td class="text-right">0%</td>
+                  <td class="text-right">0</td>
                 </tr>
                 <tr>
                   <td colspan="4" class="text-right">
@@ -69,21 +70,21 @@
               <tbody>
                 <tr v-if="isCheckout">
                   <td class="col-xs-1">0</td>
-                  <td class="col-xs-4">{{'Giờ chơi PS4'}}</td>
-                  <td class="col-xs-2">{{20000 | toVnd}}</td>
+                  <td class="col-xs-4">{{ api_ps4.name || 'Giờ chơi PS4' }}</td>
+                  <td class="col-xs-2">{{ api_ps4.gia_ban || 0 | toVnd }}</td>
                   <td class="col-xs-1 text-center">
                     {{(ps4.elapsed / 60).toFixed(2)}}
                   </td>
                   <td class="col-xs-2 text-right">
                   </td>
                   <td class="col-xs-2 text-right">
-                   {{Math.ceil((ps4.elapsed / 60).toFixed(2) * 20000) | toVnd}}
+                   {{Math.ceil((ps4.elapsed / 60).toFixed(2) * (api_ps4.gia_ban || 0)) | toVnd}}
                   </td>
                 </tr>
                 <tr v-for="(item, index) in items" :key="index">
-                  <td class="col-xs-1">{{++index}}</td>
-                  <td class="col-xs-4">{{item.name.name}}</td>
-                  <td class="col-xs-2">{{item.name.gia_ban | toVnd}}</td>
+                  <td class="col-xs-1">{{ ++index }}</td>
+                  <td class="col-xs-4">{{ item.name.name }}</td>
+                  <td class="col-xs-2">{{ item.name.gia_ban | toVnd }}</td>
                   <td class="col-xs-1 text-center">
                     {{item.quantity}}
                   </td>
@@ -128,7 +129,7 @@ export default {
       api_ps4: {} // gia choi PS4 tu api
     }
   },
-  created() {
+  async created() {
     const {command} = this.$route.query
     const {id} = this.$route.params
     if (command === 'checkout') {
@@ -142,6 +143,8 @@ export default {
           this.items = local.items
         }
         this.startDate = moment(local.start).format('DD/MM/YYYY')
+        // get info ps4 from api
+        await this.getApiPs4()
       }
       // tinh tong tien thanh toan
       this.caclTotal()
@@ -160,7 +163,9 @@ export default {
       const arrLen = result.data.data.length
       if (result.data.success && arrLen) {
         let tranObj = result.data.data[0]
+        let objPs = await this.getPSDetail(tranObj.t1_id_ps)
         this.ps4.id = tranObj.t1_id_ps
+        this.ps4.name = objPs.name
         this.startDate = moment(tranObj.t1_created_at).format('DD/MM/YYYY')
         this.ps4.start_hour = moment(tranObj.t2_start).format('HH:mm')
         this.total = tranObj.t1_total_money
@@ -178,10 +183,11 @@ export default {
         this.items = items
       }
     },
-    async caclTotal() {
+    caclTotal() {
       // tinh tien gio choi
-      const result = await api.request('get', '/item/f/get_price_ps4')
-      this.api_ps4 = result.data[0]
+      // const result = await api.request('get', '/item/f/get_price_ps4')
+      // const result = await api.request('get', `/item/f/get_price?status=1&code=${this.ps4.code}`)
+      // this.api_ps4 = result.data[0]
       this.total = Math.ceil((this.ps4.elapsed / 60).toFixed(2) * this.api_ps4.gia_ban) // Math.ceil(20000 / 60 * this.ps4.elapsed)
 
       // tinh tien dich vu
@@ -191,6 +197,29 @@ export default {
         }, 0)
         this.total += temp
       }
+    },
+    async getApiPs4() {
+      // get price of ps
+      try {
+        const result = await api.request('get', `/item/f/get_price?status=1&code=${this.ps4.code}`)
+        this.api_ps4 = result.data[0]
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async getPSDetail(id) {
+      let response = {}
+      try {
+        // get list ps4 active
+        const result = await api.request('get', `/ps/${id}`)
+        if (result.data.success) {
+          response = result.data.data[0]
+        }
+      } catch (e) {
+        console.error(e)
+      }
+
+      return response
     },
     insert() {
       const data = {
@@ -204,7 +233,6 @@ export default {
       api
         .request('post', '/trans', data)
         .then(response => {
-          console.log(response)
           if (response.data.success) {
             this.showAlert()
           } else {
