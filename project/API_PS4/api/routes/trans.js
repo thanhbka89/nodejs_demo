@@ -20,6 +20,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
+      req.body.created_by = req.decoded.username || null
       let result = await Transaction.create(new Transaction(req.body))
       const {items} = req.body // get items in order
       if (items && items.length) {

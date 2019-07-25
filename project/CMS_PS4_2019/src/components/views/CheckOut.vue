@@ -16,11 +16,14 @@
       <div class="col-md-10">
         <strong>{{startDate}}</strong>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 members">
         Khách hàng:
       </div>
       <div class="col-md-10">
-        <strong>Khách lẻ</strong>
+        <div v-if="isCheckout">
+          <multiselect v-model="memberSelected" :options="members" :custom-label="nameWithLang" placeholder="Chọn khách hàng" label="username" track-by="username"></multiselect>
+        </div>
+        <strong v-else>{{ displayName }}</strong>
       </div>
       <div class="col-md-2">
         Bắt đầu:
@@ -100,13 +103,19 @@
         </div>
       </div>
       <div class="col-xs-12 text-center" v-if="show && isCheckout">        
-        <button type="button" class="btn btn-success" @click="showAlertConfirm"><i class="fa fa-credit-card-alt text-orange" aria-hidden="true"></i> Thanh toán</button>
+        <button type="button" class="btn btn-success" @click="showAlertConfirm">
+          <i class="fa fa-credit-card-alt text-orange" aria-hidden="true"></i> 
+          Thanh toán
+        </button>
       </div>
     </div>
 
     <div class="row">
       <div class="col-xs-12 text-left">
-         <button type="button" class="btn btn-default" @click="onBack"><i class="fa fa-backward text-red" aria-hidden="true"></i> Quay lại</button>
+         <button type="button" class="btn btn-default" @click="onBack">
+           <i class="fa fa-backward text-red" aria-hidden="true"></i> 
+           Quay lại
+          </button>
       </div>
     </div>
   </section>
@@ -115,9 +124,11 @@
 <script>
 import moment from 'moment'
 import api from '../../api'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'CheckOut',
+  components: { Multiselect },
   data() {
     return {
       ps4: {},
@@ -126,7 +137,17 @@ export default {
       total: 0,
       show: true,
       isCheckout: false,
-      api_ps4: {} // gia choi PS4 tu api
+      api_ps4: {}, // gia choi PS4 tu api
+      memberSelected: null,
+      members: [] // get list members from api
+    }
+  },
+  computed: {
+    displayName () {
+      let name = this.memberSelected
+        ? `${this.memberSelected.username} - ${this.memberSelected.phone || ''}`
+        : 'Khách lẻ'
+      return name
     }
   },
   async created() {
@@ -145,6 +166,8 @@ export default {
         this.startDate = moment(local.start).format('DD/MM/YYYY')
         // get info ps4 from api
         await this.getApiPs4()
+        // get members active
+        await this.getMembers()
       }
       // tinh tong tien thanh toan
       this.caclTotal()
@@ -163,6 +186,7 @@ export default {
       const arrLen = result.data.data.length
       if (result.data.success && arrLen) {
         let tranObj = result.data.data[0]
+        await this.getMemberDetail(tranObj.t1_id_user)
         let objPs = await this.getPSDetail(tranObj.t1_id_ps)
         this.ps4.id = tranObj.t1_id_ps
         this.ps4.name = objPs.name
@@ -221,10 +245,32 @@ export default {
 
       return response
     },
+    async getMembers() {
+      try {
+        const response = await api.request('get', `/user/p/1?status=1&limit=1000`)
+        this.members = response.data
+        // add Khach le vao dau mang
+        this.members.unshift({id: 0, fullname: 'Khách lẻ', username: '.', phone: '.'})
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async getMemberDetail(id) {
+      try {
+        const response = await api.request('get', `/user/action/${id}`)
+        console.log(response)
+        this.memberSelected = response.data[0]
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    nameWithLang ({ username, fullname, phone }) {
+      return `[ ${username}] - ${fullname} - [${phone}]`
+    },
     insert() {
       const data = {
         ps: this.ps4.id_ps || 1,
-        user: 0,
+        user: this.memberSelected.id || 0,
         money: this.total,
         items: this.ps4.items || []
       }
@@ -247,6 +293,13 @@ export default {
     onBack() {
       this.$router.go(-1)
     },
+    showAlertMember() {
+      this.$swal(
+            'Cảnh báo!',
+            'Vui lòng chọn khách hàng!',
+            'warning'
+          )
+    },
     showAlert() {
       this.$swal(
             'Hoàn thành!',
@@ -255,19 +308,23 @@ export default {
           )
     },
     showAlertConfirm() {
-      this.$swal({
-        title: 'Bạn có chắc?',
-        text: 'Bạn có muốn thực hiện thanh toán?',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Đồng ý'
-      }).then((result) => {
-        if (result.value) {
-          this.checkout()
-        }
-      })
+      if (this.memberSelected) {
+        this.$swal({
+          title: 'Bạn có chắc?',
+          text: 'Bạn có muốn thực hiện thanh toán?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+          if (result.value) {
+            this.checkout()
+          }
+        })
+      } else {
+        this.showAlertMember()
+      }
     },
     showToast(type = 'success', message = '') {
       this.$swal({
@@ -283,8 +340,15 @@ export default {
 }
 </script>
 
+<!-- New step!
+     Add Multiselect CSS. Can be added as a static asset or inside a component. -->
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
 <style scoped>
 .content {
   padding: 10px 50px;
 }
+/* .members {
+  margin-top: 10px;
+} */
 </style>

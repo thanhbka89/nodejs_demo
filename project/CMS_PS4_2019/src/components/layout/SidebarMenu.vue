@@ -1,22 +1,22 @@
 <template>
   <ul class="sidebar-menu">
-    <li class="header">TOOLS</li>
+    <li class="header">HOME</li>
     <router-link tag="li" class="pageLink" to="/">
       <a>
         <i class="fa fa-tachometer"></i>
         <span class="page">Dashboard</span>
       </a>
     </router-link>
-    <!-- <router-link tag="li" class="pageLink" to="/tables">
-      <a>
-        <i class="fa fa-table"></i>
-        <span class="page">Tables</span>
-      </a>
-    </router-link> -->
     <router-link tag="li" class="pageLink" to="/play">
       <a>
         <i class="fa fa-television text-lime"></i>
         <span class="page">Máy PS</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/trans">
+      <a>
+        <i class="fa fa-fighter-jet text-maroon"></i>
+        <span class="page"> Giao dịch</span>
       </a>
     </router-link>
 
@@ -54,12 +54,6 @@
       <a>
         <i class="fa fa-users text-light-blue"></i>
         <span class="page"> DS khách hàng</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/trans">
-      <a>
-        <i class="fa fa-fighter-jet text-maroon"></i>
-        <span class="page"> Giao dịch</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/vendor">

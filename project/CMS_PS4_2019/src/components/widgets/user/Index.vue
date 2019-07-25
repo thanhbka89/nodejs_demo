@@ -91,7 +91,7 @@ export default {
       totalPage: 10,
       items: [],
       dateFrom: '',
-      dateTo: new Date()
+      dateTo: new Date().setDate(new Date().getDate() + 1) // get date tomorrow
     }
   },
   props: {
