@@ -58,16 +58,16 @@ class Transaction {
         return OBJ_DB.query(options)
     }
 
-    static async paginate({page = 1, limit = 5, ps, user}) {
+    static async paginate({page = 1, limit = 5, ps, user, from, to}) {
         let start = 0
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({ps, user})
+        const condition = this.getCondition({ps, user, from, to})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} ORDER BY id DESC LIMIT ? OFFSET ?`
-
+        console.log(sql)
         return OBJ_DB.query(sql, [limit, start])
     }
 

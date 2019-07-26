@@ -19,8 +19,8 @@ export default {
       required: true
     },
     number: {
-      type: String,
-      default: ''
+      type: Number,
+      default: 0
     },
     iconClasses: {
       type: Array,

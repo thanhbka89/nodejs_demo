@@ -27,7 +27,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12">
         <info-box color-class="bg-green"
                   :icon-classes="['ion', 'ion-ios-cart-outline']"
-                  text="Số Giao dịch trong tháng"
+                  :text="'Giao dịch tháng ' + currentMonth"
                   :number="numberTransaction"></info-box>
       </div>
       <!-- /.col -->
@@ -48,7 +48,7 @@
           <div class="box-body">
             <div class="col-sm-6 col-xs-12">
               <p class="text-center">
-                <strong>Web Traffic Overview</strong>
+                <strong>Doanh thu trong tháng {{ currentMonth }}</strong>
               </p>
               <canvas id="trafficBar" ></canvas>
             </div>
@@ -118,7 +118,7 @@ import Alert from '../widgets/Alert'
 import InfoBox from '../widgets/InfoBox'
 import ProcessInfoBox from '../widgets/ProcessInfoBox'
 import api from '../../api'
-import moment from 'moment'
+import { formatDate } from '@/helpers'
 
 export default {
   name: 'Dashboard',
@@ -139,7 +139,8 @@ export default {
       hasNetwork: this.$store.getters.hasNetwork,
       numberPS: 0,
       numberMember: 0,
-      numberTransaction: 0
+      numberTransaction: 0,
+      currentMonth: formatDate({format: 'MM/YYYY'})
     }
   },
   computed: {
@@ -155,6 +156,8 @@ export default {
   },
   async created() {
     await Promise.all([this.getTotalPS(), this.getTotalMember(), this.getTotalTrans()])
+
+    this.extract()
   },
   mounted () {
     this.$nextTick(() => {
@@ -162,7 +165,7 @@ export default {
       var config = {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+          labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
           datasets: [{
             label: 'CoPilot',
             fill: false,
@@ -247,9 +250,9 @@ export default {
       try {
         const currentDate = new Date()
         let from = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
-        from = moment(from).format('YYYY-MM-DD')
+        from = formatDate({date: from})
         let to = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
-        to = moment(to).format('YYYY-MM-DD')
+        to = formatDate({date: to})
         const result = await api.request('get', `/trans/get/count?from=${from}&to=${to}`)
         if (result.data.success) {
           this.numberTransaction = result.data.data
@@ -257,6 +260,48 @@ export default {
       } catch (e) {
         console.error(e)
       }
+    },
+    getRevenueInMonth() {
+      let data = {}
+      const currentDay = new Date().getDate()
+      const labels = []
+      for (let i = 1; i <= currentDay; i++) {
+        labels.push(i.toString())
+      }
+      data.labels = labels
+
+      return data
+    },
+    async getTransByDay() {
+      try {
+        const date = new Date()
+        let from = new Date(date.getFullYear(), date.getMonth(), 1)
+        from = formatDate({date: from})
+        let to = date.setDate(date.getDate() + 1)
+        to = formatDate({date: to})
+        const result = await api.request('get', `/trans/p/1?from=${from}&to=${to}&limit=10000`)
+        if (result.data.success) {
+          console.log(result)
+          return result.data.data
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async extract() {
+      const groups = {}
+      const data = await this.getTransByDay()
+      data.forEach((val) => {
+        let date = val.created_at.split('T')[0]
+        if (date in groups) {
+          groups[date].push(val.sport)
+        } else {
+          groups[date] = new Array(val.sport)
+        }
+      })
+
+      console.log(groups)
+      return groups
     }
   }
 }
