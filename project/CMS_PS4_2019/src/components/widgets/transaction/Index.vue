@@ -30,8 +30,8 @@
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
           <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
-          <td class="col-md-1">{{ getPSName(item.id_ps) || 'Máy PS' }}</td>
-          <td class="col-md-3">{{ item.id_user || 'Khách lẻ' }}</td>
+          <td class="col-md-2">{{ getPSName(item.id_ps) || 'Máy PS' }}</td>
+          <td class="col-md-2">{{ item.id_user || 'Khách lẻ' }}</td>
           <td class="col-md-2">{{ item.total_money | toVnd }}</td>
           <td class="col-md-2">
             <button class="btn btn-primary" @click="viewItem(item)">Xem chi tiết</button>           

@@ -93,7 +93,7 @@ export default {
       return this.items
     }
   },
-  created: function() {
+  created() {
     this.fetchItems()
     this.paginateCallback()
   },

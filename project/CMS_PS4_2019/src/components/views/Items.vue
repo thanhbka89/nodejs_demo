@@ -122,8 +122,10 @@ export default {
         })
     },
     update() {
-      let objCode = this.item.code
-      this.item.code = objCode.code
+      if (typeof this.item.code === 'object' && this.item.code !== null) {
+        let objCode = this.item.code
+        this.item.code = objCode.code
+      }
       api
         .request('put', `/item/${this.item.id}`, this.item)
         .then(response => {

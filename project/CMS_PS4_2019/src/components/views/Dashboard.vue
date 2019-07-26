@@ -46,7 +46,7 @@
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
           <div class="box-body">
-            <div class="col-sm-6 col-xs-12">
+            <!-- <div class="col-sm-6 col-xs-12">
               <p class="text-center">
                 <strong>Doanh thu trong tháng {{ currentMonth }}</strong>
               </p>
@@ -58,11 +58,14 @@
                 <strong>Language Overview</strong>
               </p>
               <canvas id="languagePie"></canvas>
+            </div> -->
+            <div class="col-sm-12 col-xs-12">
+              <p class="text-center">
+                <strong>Doanh thu trong tháng {{ currentMonth }}</strong>
+              </p>
+              <canvas id="revenueLine" ></canvas>
             </div>
           </div>
-        </div>
-        <div class="text-center">
-          <small><b>Pro Tip</b> Don't forget to star us on github!</small>
         </div>
       </div>
     </div>
@@ -140,7 +143,8 @@ export default {
       numberPS: 0,
       numberMember: 0,
       numberTransaction: 0,
-      currentMonth: formatDate({format: 'MM/YYYY'})
+      currentMonth: formatDate({format: 'MM/YYYY'}),
+      chartRevenue: {labels: [], datasets: []}
     }
   },
   computed: {
@@ -156,72 +160,95 @@ export default {
   },
   async created() {
     await Promise.all([this.getTotalPS(), this.getTotalMember(), this.getTotalTrans()])
-
-    this.extract()
   },
-  mounted () {
-    this.$nextTick(() => {
-      var ctx = document.getElementById('trafficBar').getContext('2d')
-      var config = {
-        type: 'line',
-        data: {
-          labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-          datasets: [{
-            label: 'CoPilot',
-            fill: false,
-            borderColor: '#284184',
-            pointBackgroundColor: '#284184',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            data: this.coPilotNumbers
-          }, {
-            label: 'Personal Site',
-            borderColor: '#4BC0C0',
-            pointBackgroundColor: '#4BC0C0',
-            backgroundColor: 'rgba(0, 0, 0, 0)',
-            data: this.personalNumbers
-          }]
+  async mounted () {
+    // this.$nextTick(() => {
+    //   var ctx = document.getElementById('trafficBar').getContext('2d')
+    //   var config = {
+    //     type: 'line',
+    //     data: {
+    //       labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+    //       datasets: [{
+    //         label: 'CoPilot',
+    //         fill: false,
+    //         borderColor: '#284184',
+    //         pointBackgroundColor: '#284184',
+    //         backgroundColor: 'rgba(0, 0, 0, 0)',
+    //         data: this.coPilotNumbers
+    //       }]
+    //     },
+    //     options: {
+    //       responsive: true,
+    //       maintainAspectRatio: !this.isMobile,
+    //       legend: {
+    //         position: 'bottom',
+    //         display: true
+    //       },
+    //       tooltips: {
+    //         mode: 'label',
+    //         xPadding: 10,
+    //         yPadding: 10,
+    //         bodySpacing: 10
+    //       }
+    //     }
+    //   }
+
+    //   new Chart(ctx, config) // eslint-disable-line no-new
+
+    //   var pieChartCanvas = document.getElementById('languagePie').getContext('2d')
+    //   var pieConfig = {
+    //     type: 'pie',
+    //     data: {
+    //       labels: ['HTML', 'JavaScript', 'CSS'],
+    //       datasets: [{
+    //         data: [56.6, 37.7, 4.1],
+    //         backgroundColor: ['#00a65a', '#f39c12', '#00c0ef'],
+    //         hoverBackgroundColor: ['#00a65a', '#f39c12', '#00c0ef']
+    //       }]
+    //     },
+    //     options: {
+    //       responsive: true,
+    //       maintainAspectRatio: !this.isMobile,
+    //       legend: {
+    //         position: 'bottom',
+    //         display: true
+    //       }
+    //     }
+    //   }
+
+    //   new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
+    // })
+
+    await this.getRevenueInMonth()
+    const chartData = {
+      type: 'line',
+      data: {
+        labels: this.chartRevenue.labels,
+        datasets: [{
+          label: 'Doanh thu',
+          fill: false,
+          borderColor: '#4BC0C0',
+          pointBackgroundColor: '#4BC0C0',
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          data: this.chartRevenue.datasets
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: !this.isMobile,
+        legend: {
+          position: 'bottom',
+          display: true
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: !this.isMobile,
-          legend: {
-            position: 'bottom',
-            display: true
-          },
-          tooltips: {
-            mode: 'label',
-            xPadding: 10,
-            yPadding: 10,
-            bodySpacing: 10
-          }
+        tooltips: {
+          mode: 'label',
+          xPadding: 10,
+          yPadding: 10,
+          bodySpacing: 10
         }
       }
-
-      new Chart(ctx, config) // eslint-disable-line no-new
-
-      var pieChartCanvas = document.getElementById('languagePie').getContext('2d')
-      var pieConfig = {
-        type: 'pie',
-        data: {
-          labels: ['HTML', 'JavaScript', 'CSS'],
-          datasets: [{
-            data: [56.6, 37.7, 4.1],
-            backgroundColor: ['#00a65a', '#f39c12', '#00c0ef'],
-            hoverBackgroundColor: ['#00a65a', '#f39c12', '#00c0ef']
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: !this.isMobile,
-          legend: {
-            position: 'bottom',
-            display: true
-          }
-        }
-      }
-
-      new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
-    })
+    }
+    this.createChart('revenueLine', chartData)
   },
   methods: {
     async getTotalPS() {
@@ -261,15 +288,28 @@ export default {
         console.error(e)
       }
     },
-    getRevenueInMonth() {
-      let data = {}
-      const currentDay = new Date().getDate()
+    async getRevenueInMonth() {
+      let date = new Date()
+      const currentDay = date.getDate()
+      const month = date.getMonth() + 1
+      const year = date.getFullYear()
       const labels = []
-      for (let i = 1; i <= currentDay; i++) {
-        labels.push(i.toString())
-      }
-      data.labels = labels
+      const datasets = []
+      let qDate = ''
+      let index = ''
+      let filterData = ''
 
+      const result = await this.extract()
+
+      for (let i = 1; i <= currentDay; i++) {
+        index = i.toString()
+        qDate = `${year}-${month.length > 1 ? month : '0' + month}-${index.length > 1 ? index : '0' + index}`
+        filterData = result.filter(el => el.date === qDate)
+        labels.push(index)
+        datasets.push(filterData.length ? filterData[0].total : 0)
+      }
+      const data = {labels, datasets}
+      this.chartRevenue = data
       return data
     },
     async getTransByDay() {
@@ -281,7 +321,6 @@ export default {
         to = formatDate({date: to})
         const result = await api.request('get', `/trans/p/1?from=${from}&to=${to}&limit=10000`)
         if (result.data.success) {
-          console.log(result)
           return result.data.data
         }
       } catch (e) {
@@ -289,19 +328,25 @@ export default {
       }
     },
     async extract() {
-      const groups = {}
       const data = await this.getTransByDay()
-      data.forEach((val) => {
-        let date = val.created_at.split('T')[0]
-        if (date in groups) {
-          groups[date].push(val.sport)
-        } else {
-          groups[date] = new Array(val.sport)
-        }
-      })
 
-      console.log(groups)
+      let groups = Object.values(data.reduce((r, o) => {
+        let date = o.created_at.split('T')[0]
+        r[date] = r[date] || {date: date, total: 0}
+        r[date].total += o.total_money
+        return r
+      }, {}))
+
       return groups
+    },
+    createChart(chartId, chartData) {
+      const ctx = document.getElementById(chartId)
+      const t = new Chart(ctx, {
+        type: chartData.type,
+        data: chartData.data,
+        options: chartData.options
+      })
+      console.log(t)
     }
   }
 }
