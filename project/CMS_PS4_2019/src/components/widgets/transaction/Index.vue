@@ -30,7 +30,7 @@
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
           <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
-          <td class="col-md-1">{{ item.id_ps }}</td>
+          <td class="col-md-1">{{ getPSName(item.id_ps) || 'Máy PS' }}</td>
           <td class="col-md-3">{{ item.id_user || 'Khách lẻ' }}</td>
           <td class="col-md-2">{{ item.total_money | toVnd }}</td>
           <td class="col-md-2">
@@ -72,7 +72,8 @@ export default {
       page: 1,
       limit: 10,
       totalPage: 10,
-      items: []
+      items: [],
+      listPS: [] // get list PS from API
     }
   },
   props: {
@@ -82,9 +83,13 @@ export default {
       return this.items
     }
   },
-  created: function() {
-    this.fetchItems()
-    this.paginateCallback()
+  async created() {
+    // this.fetchItems()
+    // this.paginateCallback()
+    // await this.getListPS()
+
+    // run parallel
+    await Promise.all([this.fetchItems(), this.paginateCallback(), this.getListPS()])
   },
   methods: {
     async paginateCallback(page = 1) {
@@ -150,6 +155,26 @@ export default {
       // }
 
       return query
+    },
+    async getListPS() {
+      try {
+        // get list ps4 active
+        const result = await api.request('get', '/ps/p/1?limit=100')
+        if (result.data.success) {
+          this.listPS = result.data.data
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    getPSName(id) {
+      let name = null
+      if (this.listPS.length) {
+        const result = this.listPS.filter(item => item.id === id)
+        name = result.length ? result[0].name : null
+      }
+
+      return name
     }
   }
 }

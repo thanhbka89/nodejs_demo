@@ -97,7 +97,8 @@ router.route('/:id')
 
 router.get('/p/:page', async (req, res) => {
   try {
-    const result = await Transaction.paginate({page: req.params.page, limit: req.query.limit, ps: req.query.ps, user: req.query.user})
+    req.query.page = req.params.page
+    const result = await Transaction.paginate(req.query)
     return res.json({
       success: true,
       data: result

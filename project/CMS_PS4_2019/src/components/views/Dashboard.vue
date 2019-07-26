@@ -13,36 +13,29 @@
       </div>
 
       <!-- Info boxes -->
-      <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="col-md-4 col-sm-6 col-xs-12">
         <info-box color-class="bg-aqua"
-                  :icon-classes="['ion', 'ion-ios-gear-outline']"
-                  text="CPU Traffic"
-                  number="90%"></info-box>
-      </div>
-      <!-- /.col -->
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <info-box color-class="bg-red"
-                  :icon-classes="['fa', 'fa-google-plus']"
-                  text="Likes"
-                  number="41,410"></info-box>
+                  :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
+                  text="Số lượng Máy"
+                  :number="numberPS"></info-box>
       </div>
       <!-- /.col -->
 
       <!-- fix for small devices only -->
       <div class="clearfix visible-sm-block"></div>
       
-      <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="col-md-4 col-sm-6 col-xs-12">
         <info-box color-class="bg-green"
                   :icon-classes="['ion', 'ion-ios-cart-outline']"
-                  text="Sales"
-                  number="760"></info-box>
+                  text="Số Giao dịch trong tháng"
+                  :number="numberTransaction"></info-box>
       </div>
       <!-- /.col -->
-      <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="col-md-4 col-sm-6 col-xs-12">
         <info-box color-class="bg-yellow"
                   :icon-classes="['ion', 'ion-ios-people-outline']"
-                  text="New Members"
-                  number="2,000"></info-box>
+                  text="Thành viên"
+                  :number="numberMember"></info-box>
       </div>
       <!-- /.col -->
     </div>
@@ -124,6 +117,8 @@ import Chart from 'chart.js'
 import Alert from '../widgets/Alert'
 import InfoBox from '../widgets/InfoBox'
 import ProcessInfoBox from '../widgets/ProcessInfoBox'
+import api from '../../api'
+import moment from 'moment'
 
 export default {
   name: 'Dashboard',
@@ -141,7 +136,10 @@ export default {
         }
         return a
       },
-      hasNetwork: this.$store.getters.hasNetwork
+      hasNetwork: this.$store.getters.hasNetwork,
+      numberPS: 0,
+      numberMember: 0,
+      numberTransaction: 0
     }
   },
   computed: {
@@ -154,6 +152,9 @@ export default {
     isMobile () {
       return (window.innerWidth <= 800 && window.innerHeight <= 600)
     }
+  },
+  async created() {
+    await Promise.all([this.getTotalPS(), this.getTotalMember(), this.getTotalTrans()])
   },
   mounted () {
     this.$nextTick(() => {
@@ -218,9 +219,49 @@ export default {
 
       new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
     })
+  },
+  methods: {
+    async getTotalPS() {
+      try {
+        // get total number ps4 active
+        const result = await api.request('get', '/ps/get/count?status=1')
+        if (result.data.success) {
+          this.numberPS = result.data.data
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async getTotalMember() {
+      try {
+        // get total members active
+        const result = await api.request('get', '/user/count?status=1')
+        if (result.data.success) {
+          this.numberMember = result.data.data
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async getTotalTrans() {
+      try {
+        const currentDate = new Date()
+        let from = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+        from = moment(from).format('YYYY-MM-DD')
+        let to = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+        to = moment(to).format('YYYY-MM-DD')
+        const result = await api.request('get', `/trans/get/count?from=${from}&to=${to}`)
+        if (result.data.success) {
+          this.numberTransaction = result.data.data
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
   }
 }
 </script>
+
 <style>
 .info-box {
   cursor: pointer;

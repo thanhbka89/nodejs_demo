@@ -44,4 +44,8 @@ How to fix different node module version?
 
 *PM2*
 http://stayregular.net/blog/make-a-nodejs-api-with-mysql
+
+*QUEUE*
+https://codewithhugo.com/bring-redux-to-your-queue-logic-an-express-setup-with-es6-and-bull-queue/
+https://medium.com/@shabir/sequential-job-processing-in-nodejs-4408bce3943b
     

@@ -17,7 +17,7 @@ class Transaction {
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {ps, user} = input || {}
+        const {ps, user, from, to} = input || {}
         if (ps) {
             if (Array.isArray(ps)) {
                 $where = $where.concat(` ${check ? 'AND' : ''} id_ps IN (${ps.toString()})`)
@@ -29,6 +29,14 @@ class Transaction {
         if (user) {
 			$where = $where.concat(` ${check ? 'AND' : ''} id_user = ${user}`)
 			check ++
+        }
+        if (from) {
+            $where = $where.concat(` ${check ? 'AND' : ''} created_at >= '${from}'`)
+            check ++
+        }
+        if (to) {
+            $where = $where.concat(` ${check ? 'AND' : ''} created_at <= '${to}'`)
+            check ++
         }
         
         return {
