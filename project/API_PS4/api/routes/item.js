@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+    req.body.created_by = req.decoded.username || null
     Item.create(new Item(req.body), (err, response) => {
         if (err) 
 			return res.json({
@@ -98,6 +99,21 @@ router.get('/f/get_price', async (req, res) => {
         if (err) throw err
         return res.json(reponse)
     })
+})
+
+router.get('/get/count', async (req, res) => {
+	Item.count(req.query, (err, response) => {
+		if (err) 
+			return res.json({
+				success: false,
+				message: err
+			})
+
+		return res.json({
+			success: true,
+			data: response[0].count
+		})
+	})
 })
 
 export default router

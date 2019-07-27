@@ -11,8 +11,8 @@ class Item {
         this.gia_ban = obj.gia_ban
         this.category = obj.category
         this.status = obj.status
-        this.created_by = 'SYSTEM'
-        this.updated_by = 'SYSTEM'
+        this.created_by = obj.created_by || 'SYSTEM'
+        this.updated_by = obj.updated_by || 'SYSTEM'
         this.updated_at = new Date
     }
     static getAll(result) {
@@ -154,6 +154,19 @@ class Item {
                 result(null, err)
             } else {
              result(null, res)
+            }
+        })
+    }
+
+    static count(input, result) {
+        const condition = this.getCondition(input)
+        let sql = `SELECT COUNT(*) AS count FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
+        db.query(sql, (err, res) => {
+            if (err) {
+                result(err, null)
+            }
+            else {
+                result(null, res)
             }
         })
     }

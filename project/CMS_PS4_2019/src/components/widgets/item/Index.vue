@@ -13,7 +13,7 @@
 
     <div class="filters row">
         <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm dịch vụ ..." aria-label="Search" @keyup.enter="search"/>
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm dịch vụ ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
         </div>
     </div>
 
@@ -80,7 +80,7 @@ export default {
     return {
       searchKey: '',
       page: 1,
-      limit: 5,
+      limit: 15,
       totalPage: 10,
       items: []
     }
@@ -93,35 +93,27 @@ export default {
       return this.items
     }
   },
-  created() {
-    this.fetchItems()
-    this.paginateCallback()
+  async created() {
+    // run parallel
+    await Promise.all([this.fetchItems(), this.paginateCallback()])
   },
 
   methods: {
-    paginateCallback(page = 1) {
-      let query = this.searchKey ? `?name=${this.searchKey}` : ''
-      api
-        .request('get', `/item/p/${page}` + query)
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async paginateCallback(page = 1) {
+      let query = this.build_query()
+      try {
+        const response = await api.request('get', `/item/p/${page}` + query)
+        this.items = response.data
+      } catch (err) {
+        console.error(err)
+      }
     },
-    fetchItems() {
-      api
-        .request('get', '/item')
-        .then(response => {
-          const number = response.data.data.length
-          this.totalPage = number > this.limit
-            ? Math.ceil(number / this.limit)
-            : 1
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async fetchItems() {
+      try {
+        await this.count()
+      } catch (err) {
+        console.error(err)
+      }
     },
     addItem() {
       this.openModal({category: 1, status: 1})
@@ -143,17 +135,42 @@ export default {
           console.error(e)
         })
     },
-    search() {
-      api.request('get', `/item/s/query?q=${this.searchKey}`)
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async count(filter = null) {
+      filter = filter || ''
+      try {
+        const response = await api.request('get', `/item/get/count${filter}`)
+        if (response.data.success) {
+          let number = response.data.data
+          this.totalPage = number > this.limit
+            ? Math.ceil(number / this.limit)
+            : 1
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async search() {
+      let query = this.build_query()
+      try {
+        await this.count(query)
+        await this.paginateCallback()
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    build_query() {
+      let query = '?'
+      if (this.searchKey) {
+        query = query.concat(`name=${this.searchKey}`)
+      }
+      if (this.limit) {
+        query = query.concat(`&limit=${this.limit}`)
+      }
+
+      return query
     },
     showAlert() {
-      this.$swal('Chuc nang sap co')
+      this.$swal('Chức năng đang hoàn thiện!')
     },
     showToast(type = 'success', message = '') {
       this.$swal({
