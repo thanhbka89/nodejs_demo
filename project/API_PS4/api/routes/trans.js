@@ -23,9 +23,10 @@ router.post('/', async (req, res) => {
       req.body.created_by = req.decoded.username || null
       let result = await Transaction.create(new Transaction(req.body))
       const {items} = req.body // get items in order
-      if (items && items.length) {
+      const numberItems = items.length
+      if (items && numberItems) {
         // items.forEach(function(item) {
-        for (let index = 0; index < items.length; index += 1) {
+        for (let index = 0; index < numberItems; index += 1) {
           let data = {
             id_trans: result.insertId,
             id_item: items[index].name.id,

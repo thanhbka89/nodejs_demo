@@ -105,7 +105,7 @@
       <div class="col-xs-12 text-center" v-if="show && isCheckout">        
         <button type="button" class="btn btn-success" @click="showAlertConfirm">
           <i class="fa fa-credit-card-alt text-orange" aria-hidden="true"></i> 
-          Thanh toán
+          Thanh Toán
         </button>
       </div>
     </div>
@@ -123,7 +123,7 @@
 
 <script>
 import moment from 'moment'
-import api from '../../api'
+import api from '@/api'
 import Multiselect from 'vue-multiselect'
 
 export default {
@@ -272,7 +272,8 @@ export default {
         ps: this.ps4.id_ps || 1,
         user: this.memberSelected.id || 0,
         money: this.total,
-        items: this.ps4.items || []
+        items: this.ps4.items || [],
+        start: this.ps4.end // bat dau cua giao dich
       }
       // push gio choi ps4
       data.items.push({id: 0, name: this.api_ps4, quantity: (this.ps4.elapsed / 60).toFixed(2), start: this.ps4.end})

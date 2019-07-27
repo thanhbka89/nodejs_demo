@@ -13,7 +13,7 @@
 
     <div class="filters row">
         <div class="form-group col-sm-2">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm user ..." aria-label="Search" @keyup.enter="search"/>
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm user ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
         </div>
         <div class="form-group col-sm-6">
           <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
@@ -76,9 +76,9 @@
   </div>
 </template>
 <script>
-import api from '../../../api'
+import api from '@/api'
 import DatePicker from 'vue2-datepicker'
-import moment from 'moment'
+import { formatDate } from '@/helpers'
 
 export default {
   name: 'UserIndex',
@@ -226,10 +226,10 @@ export default {
         query = query.concat(`&limit=${this.limit}`)
       }
       if (this.dateFrom) {
-        query = query.concat(`&from=${moment(this.dateFrom).format('YYYY-MM-DD')}`)
+        query = query.concat(`&from=${formatDate({date: this.dateFrom})}`)
       }
       if (this.dateTo) {
-        query = query.concat(`&to=${moment(this.dateTo).format('YYYY-MM-DD')}`)
+        query = query.concat(`&to=${formatDate({date: this.dateTo})}`)
       }
 
       return query

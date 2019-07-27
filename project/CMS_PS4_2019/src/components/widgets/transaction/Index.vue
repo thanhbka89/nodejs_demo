@@ -10,7 +10,11 @@
 
     <div class="filters row">
         <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm giao dịch ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm theo khách hàng ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+        </div>
+        <div class="form-group col-sm-6">
+          <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
+          <date-picker v-model="dateTo" format="YYYY-MM-DD" lang="en" confirm placeholder="Đến ngày" @change="search"></date-picker>
         </div>
     </div>
 
@@ -62,18 +66,23 @@
   </div>
 </template>
 <script>
-import api from '../../../api'
+import api from '@/api'
+import DatePicker from 'vue2-datepicker'
+import { formatDate } from '@/helpers'
 
 export default {
   name: 'TransactionIndex',
+  components: { DatePicker },
   data() {
     return {
       searchKey: '',
       page: 1,
-      limit: 10,
+      limit: 15,
       totalPage: 10,
       items: [],
-      listPS: [] // get list PS from API
+      listPS: [], // get list PS from API
+      dateFrom: '',
+      dateTo: new Date().setDate(new Date().getDate() + 1) // get date tomorrow
     }
   },
   props: {
@@ -116,14 +125,14 @@ export default {
       }
       this.$router.push(route)
     },
-    search() {
-      api.request('get', `/item/s/query?q=${this.searchKey}`)
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async search() {
+      let query = this.build_query()
+      try {
+        await this.count(query)
+        await this.paginateCallback()
+      } catch (err) {
+        console.error(err)
+      }
     },
     async count(filter = null) {
       filter = filter || ''
@@ -141,18 +150,18 @@ export default {
     },
     build_query() {
       let query = '?'
-      if (this.searchKey) {
-        query = query.concat(`user=${this.searchKey}`)
-      }
+      // if (this.searchKey) {
+      //   query = query.concat(`user=${this.searchKey}`)
+      // }
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)
       }
-      // if (this.dateFrom) {
-      //   query = query.concat(`&from=${moment(this.dateFrom).format('YYYY-MM-DD')}`)
-      // }
-      // if (this.dateTo) {
-      //   query = query.concat(`&to=${moment(this.dateTo).format('YYYY-MM-DD')}`)
-      // }
+      if (this.dateFrom) {
+        query = query.concat(`&from=${formatDate({date: this.dateFrom})}`)
+      }
+      if (this.dateTo) {
+        query = query.concat(`&to=${formatDate({date: this.dateTo})}`)
+      }
 
       return query
     },

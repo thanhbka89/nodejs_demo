@@ -9,6 +9,7 @@ class Transaction {
         this.id_user = obj.user
         this.total_money = obj.money
         this.created_by = obj.created_by || 'SYSTEM'
+        this.created_at = obj.start || new Date
         this.updated_by = obj.updated_by || 'SYSTEM'
         this.updated_at = new Date
     }
