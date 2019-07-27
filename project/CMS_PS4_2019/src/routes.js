@@ -128,6 +128,12 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ './components/views/ListPS'),
         name: 'ListPS',
         meta: {description: 'Quản lý máy PS', requiresAuth: true}
+      },
+      {
+        path: 'chamcong',
+        component: () => import(/* webpackChunkName: "about" */ './components/views/ChamCong'),
+        name: 'ChamCong',
+        meta: {description: 'Chấm công Đi làm / Về', requiresAuth: true}
       }
     ]
   }, {

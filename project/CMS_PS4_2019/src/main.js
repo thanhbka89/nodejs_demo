@@ -14,6 +14,7 @@ import Vuelidate from 'vuelidate'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import Axios from 'axios'
+import PrettyRadio from 'pretty-checkbox-vue/radio'
 
 Vue.prototype.$http = Axios  // globally
 
@@ -23,6 +24,7 @@ Vue.use(VueSweetalert2)
 Vue.use(Vuelidate)
 Vue.component('paginate', Paginate)
 Vue.component('v-select', vSelect)
+Vue.component('p-radio', PrettyRadio)
 
 // Import Helpers for filters
 import { domain, count, prettyDate, pluralize, toVND, fDate, fDateTime } from './filters'

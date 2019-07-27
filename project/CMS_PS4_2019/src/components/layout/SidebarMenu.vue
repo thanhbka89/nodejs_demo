@@ -19,24 +19,30 @@
         <span class="page"> Giao dịch</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/chamcong">
+      <a>
+        <i class="fa fa-calendar-check-o text-olive"></i>
+        <span class="page"> Chấm công</span>
+      </a>
+    </router-link>
 
     <template v-if="is_admin">
     <li class="header">CÀI ĐẶT</li>
     <router-link tag="li" class="pageLink" to="/item">
       <a>
-        <i class="fa fa-university text-yellow"></i>
+        <i class="fa fa-shopping-cart text-red"></i>
         <span class="page"> DS Dịch vụ</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/code">
       <a>
-        <i class="fa fa-university text-yellow"></i>
+        <i class="fa fa-qrcode text-aqua"></i>
         <span class="page"> Master Code</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/ps">
       <a>
-        <i class="fa fa-university text-yellow"></i>
+        <i class="fa fa-futbol-o text-orange"></i>
         <span class="page"> DS máy PS</span>
       </a>
     </router-link>
@@ -52,7 +58,7 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/customers">
       <a>
-        <i class="fa fa-users text-light-blue"></i>
+        <i class="fa fa-users text-fuchsia"></i>
         <span class="page"> DS khách hàng</span>
       </a>
     </router-link>
