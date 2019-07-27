@@ -13,7 +13,7 @@
 
     <div class="filters row">
         <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Search vendor ..." aria-label="Search" @keyup.enter="search"/>
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm nhà cung cấp ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
         </div>
     </div>
 
@@ -22,8 +22,8 @@
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Address</th>
           <th>Phone</th>
+          <th>Address</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -31,10 +31,10 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-3">{{ item.name }}</td>
-          <td class="col-md-4">{{ item.address }}</td>
+          <td class="col-md-2">{{ item.name }}</td>
           <td class="col-md-2">{{ item.phone }}</td>
-          <td class="col-md-2">
+          <td class="col-md-4">{{ item.address }}</td>
+          <td class="col-md-3">
             <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
             <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
             <a href="#" class="icon">
@@ -78,6 +78,7 @@ export default {
     return {
       searchKey: '',
       page: 1,
+      limit: 10,
       totalPage: 10,
       items: []
     }
@@ -90,35 +91,27 @@ export default {
       return this.items
     }
   },
-  created: function() {
-    this.fetchItems()
-    this.paginateCallback()
+  async created() {
+    // run parallel
+    await Promise.all([this.fetchItems(), this.paginateCallback()])
   },
 
   methods: {
-    paginateCallback(page = 1) {
-      let query = this.searchKey ? `?name=${this.searchKey}` : ''
-      api
-        .request('get', `/vendor/p/${page}` + query)
-        .then(response => {
-          console.log(response)
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async paginateCallback(page = 1) {
+      let query = this.build_query()
+      try {
+        const response = await api.request('get', `/vendor/p/${page}` + query)
+        this.items = response.data
+      } catch (err) {
+        console.error(err)
+      }
     },
-    fetchItems() {
-      api
-        .request('get', '/vendor')
-        .then(response => {
-          console.log(response)
-          this.items = response.data
-          this.totalPage = Math.ceil(response.data.length / 5)
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async fetchItems() {
+      try {
+        await this.count()
+      } catch (err) {
+        console.error(err)
+      }
     },
     editItem(item) {
       this.openModal(item)
@@ -137,17 +130,42 @@ export default {
           console.error(e)
         })
     },
-    search() {
-      api.request('get', `/vendor/s/query?q=${this.searchKey}`)
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async search() {
+      let query = this.build_query()
+      try {
+        await this.paginateCallback()
+        await this.count(query)
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async count(filter = null) {
+      filter = filter || ''
+      try {
+        const response = await api.request('get', `/vendor/get/count${filter}`)
+        if (response.data.success) {
+          let number = response.data.data
+          this.totalPage = number > this.limit
+            ? Math.ceil(number / this.limit)
+            : 1
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    build_query() {
+      let query = '?'
+      if (this.searchKey) {
+        query = query.concat(`name=${this.searchKey}`)
+      }
+      if (this.limit) {
+        query = query.concat(`&limit=${this.limit}`)
+      }
+
+      return query
     },
     showAlert() {
-      this.$swal('Chuc nang sap co')
+      this.$swal('Chức năng đang hoàn thiện!')
     }
   }
 }

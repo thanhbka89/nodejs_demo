@@ -3,7 +3,7 @@
     <div class="row">
       <vendor-create v-if="showModal">
         <h3 slot="header" class="modal-title">
-          {{item.id ? 'Update' : 'Create'}}
+          {{item.id ? 'Cập nhật' : 'Thêm mới'}}
         </h3>
         <div slot="body">
           <div class="form-group">
@@ -15,9 +15,13 @@
               <input type="text" class="form-control" v-model="item.phone"/>
           </div>
           <div class="form-group">
-							<label>Address:</label>
-							<textarea class="form-control" v-model="item.address"></textarea>
-						</div>
+            <label>Address:</label>
+            <textarea class="form-control" v-model="item.address"></textarea>
+					</div>
+          <div class="form-group">
+            <label>Description:</label>
+            <textarea class="form-control" v-model="item.description"></textarea>
+					</div>
         </div>
         <div slot="footer">
           <button type="button" class="btn btn-outline-info" @click="closeModal()"> Close </button>
@@ -34,9 +38,9 @@
 </template>
 
 <script>
-import api from '../../api'
-import Index from '../widgets/vendor/Index'
-import VendorCreate from '../widgets/Modal'
+import api from '@/api'
+import Index from '@/components/widgets/vendor/Index'
+import VendorCreate from '@/components/widgets/Modal'
 
 export default {
   name: 'Vendor',

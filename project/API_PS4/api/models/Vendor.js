@@ -6,6 +6,7 @@ class Vendor {
         this.name = obj.name
         this.address = obj.address
         this.phone = obj.phone
+        this.description = obj.description
     }
     static getAll(result) {
         let sql = `select * from ${TABLE_NAME}`
@@ -64,7 +65,7 @@ class Vendor {
         }
         const condition = this.getCondition({name, phone})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
-        console.log(sql)
+
         db.query(sql, [limit, start], (err, res) => {
             if(err) {
                 result(null, err)
@@ -129,6 +130,19 @@ class Vendor {
                 result(err, null)
             }
             else{
+                result(null, res)
+            }
+        })
+    }
+
+    static count(input, result) {
+        const condition = this.getCondition(input)
+        let sql = `SELECT COUNT(*) AS count FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
+        db.query(sql, (err, res) => {
+            if (err) {
+                result(err, null)
+            }
+            else {
                 result(null, res)
             }
         })

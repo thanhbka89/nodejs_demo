@@ -70,5 +70,14 @@ module.exports = {
             if (err)  res.send(err)
             res.json(data)
         })
+    },
+    count: async (req, res) => {
+        Vendor.count(req.query, (err, data) => {
+            if (err)  res.send(err)
+            res.json({
+                success: true,
+			    data: data[0].count
+            })
+        })
     }
 }

@@ -14,5 +14,6 @@ router.route('/:id')
 
 router.get('/p/:page', vendorsCtrl.paginate)
 router.get('/s/query', vendorsCtrl.search)
+router.get('/get/count', vendorsCtrl.count)
 
 export default router

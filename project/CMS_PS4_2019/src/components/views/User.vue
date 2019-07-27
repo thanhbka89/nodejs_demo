@@ -19,13 +19,25 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="col-sm-3 z-label">Phone:</label>
+              <label class="col-sm-3 z-label">Họ Tên:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" v-model="item.fullname" placeholder="Họ và tên ..."/>
+              </div>              
+          </div>
+          <div class="form-group">
+              <label class="col-sm-3 z-label">Bí danh:</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" v-model="item.nickname" placeholder="Tên nick name ..."/>
+              </div>              
+          </div>
+          <div class="form-group">
+              <label class="col-sm-3 z-label">Điện thoại:</label>
               <div class="col-sm-9">
               <input type="text" class="form-control" v-model="item.phone"/>
               </div>
           </div>
           <div class="form-group">
-							<label class="col-sm-3 z-label">Address:</label>
+							<label class="col-sm-3 z-label">Địa chỉ:</label>
               <div class="col-sm-9">
 							<textarea class="form-control" v-model="item.address"></textarea>
               </div>
