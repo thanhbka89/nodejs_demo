@@ -36,7 +36,7 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-2">{{ item.username }}</td>
+          <td class="col-md-2"><router-link :to="{ name: 'UserDetail', params: { id: item.id }}">{{ item.username }}</router-link></td>
           <td class="col-md-3">{{ item.phone }}</td>
           <td class="col-md-2">{{ item.role === 1 ? 'Quản trị viên' : (item.role === 2 ? 'Nhân viên' : 'Khách hàng') }}</td>
           <td class="col-md-2">{{ item.status ? 'Đang hoạt động' : 'Không hoạt động' }}</td>
