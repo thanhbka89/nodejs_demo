@@ -1,11 +1,12 @@
 import DB from './Database'
-const TABLE_NAME = 'cham_cong'
+const TABLE_NAME = 'points'
 const OBJ_DB = new DB
 
-class ChamCong {
+class Point {
     constructor(obj) {
-        this.user_id = obj.user
-        this.time = obj.time || new Date
+        this.id_trans = obj.trans || 0
+        this.id_user = obj.user || 0
+        this.point = obj.point || 0
         this.type = obj.type || 1
         this.created_by = obj.created_by || 'SYSTEM'
     }
@@ -14,13 +15,13 @@ class ChamCong {
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {user_id, user, from, to} = input || {}
-        if (user_id) {
-			$where = $where.concat(` ${check ? 'AND' : ''} user_id = ${user_id}`)
+        const {id_user, id_trans, from, to} = input || {}
+        if (id_user) {
+			$where = $where.concat(` ${check ? 'AND' : ''} id_user = ${id_user}`)
 			check ++
         }
-        if (user) {
-			$where = $where.concat(` ${check ? 'AND' : ''} created_by = '${user}'`)
+        if (id_trans) {
+			$where = $where.concat(` ${check ? 'AND' : ''} id_trans = ${id_trans}`)
 			check ++
         }
         if (from) {
@@ -44,14 +45,14 @@ class ChamCong {
         return OBJ_DB.query(sql)
     }
 
-    static async paginate({page = 1, limit = 5,user_id, user, from, to}) {
+    static async paginate({page = 1, limit = 5, id_user, id_trans, from, to}) {
         let start = 0
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({user_id, user, from, to})
+        const condition = this.getCondition({id_user, id_trans, from, to})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} ORDER BY id DESC LIMIT ? OFFSET ?`
 
         return OBJ_DB.query(sql, [limit, start])
@@ -89,4 +90,4 @@ class ChamCong {
     }
 }
 
-export default ChamCong
+export default Point

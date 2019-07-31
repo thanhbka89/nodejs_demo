@@ -7,6 +7,8 @@ import code from './code'
 import inventory from './inventory'
 import authen from './authen'
 import ps from './ps'
+import point from './point'
+import chamcong from './cham_cong'
 
 export default {
     authen,
@@ -17,6 +19,8 @@ export default {
     transaction,
     code,
     inventory,
-    ps
+    ps,
+    point,
+    chamcong
 }
 

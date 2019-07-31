@@ -273,7 +273,10 @@ export default {
         user: this.memberSelected.id || 0,
         money: this.total,
         items: this.ps4.items || [],
-        start: this.ps4.end // bat dau cua giao dich
+        start: this.ps4.end, // bat dau cua giao dich
+        // Tich diem = thoi gian choi (phut) x 5%
+        point: Math.ceil(this.ps4.elapsed * 5 / 100),
+        tieu_diem: 0
       }
       // push gio choi ps4
       data.items.push({id: 0, name: this.api_ps4, quantity: (this.ps4.elapsed / 60).toFixed(2), start: this.ps4.end})

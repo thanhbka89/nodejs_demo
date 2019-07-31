@@ -33,7 +33,7 @@ const routes = [
         alias: '',
         component: DashboardView,
         name: 'Dashboard',
-        meta: {description: 'Overview of environment'}
+        meta: {description: 'Bảng điều khiển'}
       }, {
         path: 'tables',
         component: TablesView,
@@ -69,7 +69,7 @@ const routes = [
         path: 'play',
         component: PlayView,
         name: 'PlayPS',
-        meta: {description: 'Danh sách máy PS', requiresAuth: true}
+        meta: {description: 'Hệ thống tính giờ chơi PS', requiresAuth: true}
       },
       {
         path: 'customers',
@@ -81,7 +81,7 @@ const routes = [
         path: 'checkout/:id',
         component: CheckOutView,
         name: 'CheckOut',
-        meta: {description: 'Thanh Toán', requiresAuth: true}
+        meta: {description: 'Thanh Toán Dịch vụ', requiresAuth: true}
       },
       {
         path: 'vendor',
@@ -109,19 +109,19 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ './components/views/User'),
         name: 'User',
-        meta: {description: 'Thành viên', requiresAuth: true}
+        meta: {description: 'Quản lý Thành viên', requiresAuth: true}
       },
       {
         path: 'code',
         component: () => import(/* webpackChunkName: "about" */ './components/views/Mastercode'),
         name: 'MasterCode',
-        meta: {description: 'Mastercode', requiresAuth: true}
+        meta: {description: 'Hệ thống mã quản lý hàng hóa, dịch vụ, tài sản, ...', requiresAuth: true}
       },
       {
         path: 'inventory',
         component: () => import(/* webpackChunkName: "about" */ './components/views/Inventory'),
         name: 'Inventory',
-        meta: {description: 'Nhập kho', requiresAuth: true}
+        meta: {description: 'Các hoạt động Nhập kho', requiresAuth: true}
       },
       {
         path: 'ps',

@@ -174,8 +174,26 @@ class User {
         })
     }
 
+    // update Tich, Tieu diem
+    static updatePoint({id, type, point}, result) {
+        let sql = ''
+        // Tich diem, type = 1
+        if (type == 1) {
+            sql = `UPDATE ${TABLE_NAME} SET diem_tich = ? WHERE id = ?`
+        } else if (type == 1) {
+            sql = `UPDATE ${TABLE_NAME} SET diem_tieu = ? WHERE id = ?`
+        }
+        db.query(sql, [point, id], (err, res) => {
+            if(err) {
+                result(err, null)
+            }
+            else{
+                result(null, res)
+            }
+        })
+    }
+
     static count(input, result) {
-        console.log(input)
         const condition = this.getCondition(input)
         let sql = `SELECT COUNT(*) AS count FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
         db.query(sql, (err, res) => {

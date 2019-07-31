@@ -1,7 +1,10 @@
 import { Router } from 'express'
 import Transaction from '../models/Transaction'
 import TransactionDetail from '../models/TransactionDetail'
+// import Point from '../models/Point'
 const router = Router()
+const TICH_DIEM = 1
+const TIEU_DIEM = 2
 
 router.get('/', async (req, res) => {
     try {
@@ -22,10 +25,11 @@ router.post('/', async (req, res) => {
     try {
       req.body.created_by = req.decoded.username || null
       let result = await Transaction.create(new Transaction(req.body))
+
+      // Detail transaction
       const {items} = req.body // get items in order
       const numberItems = items.length
       if (items && numberItems) {
-        // items.forEach(function(item) {
         for (let index = 0; index < numberItems; index += 1) {
           let data = {
             id_trans: result.insertId,
@@ -40,6 +44,18 @@ router.post('/', async (req, res) => {
           }
         }        
       }
+
+      // Tich diem
+      // let point = {
+      //   trans: result.insertId,
+      //   user: req.body.user,
+      //   point: req.body.point,
+      //   type: TICH_DIEM,
+      //   created_by: req.decoded.username || null
+        
+      // }
+      // await Point.create(new Point(point))
+
       return res.json({
         success: true,
         data: 'Insert success'
