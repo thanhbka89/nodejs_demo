@@ -19,12 +19,12 @@
         <span class="page"> Giao dịch</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/chamcong">
+    <!-- <router-link tag="li" class="pageLink" to="/chamcong">
       <a>
         <i class="fa fa-calendar-check-o text-olive"></i>
         <span class="page"> Chấm công</span>
       </a>
-    </router-link>
+    </router-link> -->
 
     <template v-if="is_admin">
     <li class="header">CÀI ĐẶT</li>

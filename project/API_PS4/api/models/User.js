@@ -177,11 +177,11 @@ class User {
     // update Tich, Tieu diem
     static updatePoint({id, type, point}, result) {
         let sql = ''
-        // Tich diem, type = 1
+        // Diem tich, type = 1
         if (type == 1) {
-            sql = `UPDATE ${TABLE_NAME} SET diem_tich = ? WHERE id = ?`
-        } else if (type == 1) {
-            sql = `UPDATE ${TABLE_NAME} SET diem_tieu = ? WHERE id = ?`
+            sql = `UPDATE ${TABLE_NAME} SET diem_tich = diem_tich + ? WHERE id = ?`
+        } else if (type == 2) { // Diem tieu
+            sql = `UPDATE ${TABLE_NAME} SET diem_tieu = diem_tieu + ? WHERE id = ?`
         }
         db.query(sql, [point, id], (err, res) => {
             if(err) {

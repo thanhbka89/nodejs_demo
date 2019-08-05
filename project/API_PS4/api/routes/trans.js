@@ -2,6 +2,8 @@ import { Router } from 'express'
 import Transaction from '../models/Transaction'
 import TransactionDetail from '../models/TransactionDetail'
 // import Point from '../models/Point'
+import Point from '../models/User'
+import User from '../models/User';
 const router = Router()
 const TICH_DIEM = 1
 const TIEU_DIEM = 2
@@ -55,6 +57,7 @@ router.post('/', async (req, res) => {
         
       // }
       // await Point.create(new Point(point))
+      User.updatePoint({id: req.body.user, type: TICH_DIEM, point: req.body.diem_tich}, (err, response) => {})
 
       return res.json({
         success: true,

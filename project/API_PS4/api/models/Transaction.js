@@ -8,6 +8,8 @@ class Transaction {
         this.id_ps = obj.ps
         this.id_user = obj.user
         this.total_money = obj.money
+        this.diem_tich = obj.diem_tich
+        this.diem_tieu = obj.diem_tieu
         this.created_by = obj.created_by || 'SYSTEM'
         this.created_at = obj.start || new Date
         this.updated_by = obj.updated_by || 'SYSTEM'
