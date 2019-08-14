@@ -95,22 +95,32 @@ router.get('/get/:userId', (req, res) => {
 router.post('/register', (req, res) => {
 	let today = new Date()
 	const user = req.body
-	user.password = bcrypt.hashSync(req.body.password, 8)
+	user.password = bcrypt.hashSync(req.body.password || '123', 8)
 	// get username from payload jwt
 	user.created_by = req.decoded.username || null
 
-	User.create(new User(user), (err, reponse) => {
-		if (err) 
+	if (req.body.username && req.body.phone) {
+		User.create(new User(user), (err, reponse) => {
+			if (err) 
+				return res.json({
+					success: false,
+					message: err
+				})
+	
 			return res.json({
-				success: false,
-				message: err
+				success: true,
+				message: 'Insert success!'
 			})
-
-		return res.json({
-			success: true,
-			message: 'Insert success!'
 		})
-	})
+	} else {
+		return res.json({
+			success: false,
+			message: {
+				msg: 'Input data invalid',
+				code: 'INPUT_INVALID' 
+			}
+		})
+	}
 })
 
 router.route('/action/:id')

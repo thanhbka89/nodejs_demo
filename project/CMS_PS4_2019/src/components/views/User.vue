@@ -12,7 +12,7 @@
                 <input type="text" class="form-control" v-model="item.username" placeholder="username ..." :disabled="item.id"/>
               </div>              
           </div>
-          <div class="form-group">
+          <div class="form-group" v-if="is_admin">
               <label class="col-sm-3 z-label">Password:</label>
               <div class="col-sm-9">
               <input type="password" class="form-control" v-model="item.password" placeholder="passwd ..."/>
@@ -89,6 +89,11 @@ export default {
         role: 3,
         status: 1
       }
+    }
+  },
+  computed: {
+    is_admin() {
+      return this.$store.getters.isAdmin
     }
   },
   created() {

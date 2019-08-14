@@ -19,6 +19,12 @@
         <span class="page"> Giao dịch</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/user">
+      <a>
+        <i class="fa fa-user-plus text-light-blue"></i>
+        <span class="page"> DS thành viên</span>
+      </a>
+    </router-link>
     <!-- <router-link tag="li" class="pageLink" to="/chamcong">
       <a>
         <i class="fa fa-calendar-check-o text-olive"></i>
@@ -50,12 +56,6 @@
 
     <template v-if="is_admin">
     <li class="header">QUẢN LÝ</li>
-    <router-link tag="li" class="pageLink" to="/user">
-      <a>
-        <i class="fa fa-user-plus text-light-blue"></i>
-        <span class="page"> DS thành viên</span>
-      </a>
-    </router-link>
     <router-link tag="li" class="pageLink" to="/customers">
       <a>
         <i class="fa fa-users text-fuchsia"></i>
