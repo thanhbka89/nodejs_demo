@@ -17,10 +17,16 @@
           <date-picker v-model="dateTo" format="YYYY-MM-DD" lang="en" confirm placeholder="Đến ngày" @change="search"></date-picker>
         </div>
     </div>
-
+    <div class="row">
+      <div class="col-sm-12">
+        <button class="btn btn-success" 
+        @click="calcTotalMoney()">Tính tổng tiền các máy</button>           
+      </div>
+    </div>
     <table class="table table-striped table-hover">
       <thead class="z-header">
         <tr>
+          <th><input type="checkbox" @click="select" v-model="allSelected" title="Chọn tất cả"></th>
           <th>ID</th>
           <th>Ngày</th>
           <th>Máy</th>
@@ -32,13 +38,16 @@
 
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
+          <td>
+            <input type="checkbox" v-model="transIds" :value="item.id">
+          </td>
           <td class="col-md-1">{{ item.id }}</td>
           <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
           <td class="col-md-2">{{ getPSName(item.id_ps) || 'Máy PS' }}</td>
           <td class="col-md-2">{{ item.id_user || 'Khách lẻ' }}</td>
           <td class="col-md-2">{{ item.total_money | toVnd }}</td>
           <td class="col-md-2">
-            <button class="btn btn-primary" @click="viewItem(item)">Xem chi tiết</button>           
+            <button class="btn btn-primary" @click="viewItem(item)">Chi tiết</button>           
           </td>
         </tr>
       </tbody>
@@ -68,7 +77,7 @@
 <script>
 import api from '@/api'
 import DatePicker from 'vue2-datepicker'
-import { formatDate } from '@/helpers'
+import { formatDate, toVND } from '@/helpers'
 
 export default {
   name: 'TransactionIndex',
@@ -82,7 +91,9 @@ export default {
       items: [],
       listPS: [], // get list PS from API
       dateFrom: '',
-      dateTo: new Date().setDate(new Date().getDate() + 1) // get date tomorrow
+      dateTo: new Date().setDate(new Date().getDate() + 1), // get date tomorrow
+      allSelected: false,
+      transIds: []
     }
   },
   props: {
@@ -184,6 +195,32 @@ export default {
       }
 
       return name
+    },
+    select: function() {
+      this.transIds = []
+      if (!this.allSelected) {
+        for (let idx in this.filteredResources) {
+          this.transIds.push(this.filteredResources[idx].id)
+        }
+      }
+    },
+    calcTotalMoney() {
+      let sum = 0
+      for (let idx in this.transIds) {
+        let res = this.filteredResources.find(item => item.id === this.transIds[idx])
+        if (res) {
+          sum += res.total_money
+        }
+      }
+      this.transIds = []
+      this.showAlert(toVND(sum))
+    },
+    showAlert(id) {
+      this.$swal(
+            'Tổng tiền cần thanh toán : ' + id,
+            '',
+            'success'
+          )
     }
   }
 }

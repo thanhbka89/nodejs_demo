@@ -128,9 +128,11 @@ export default {
       api
         .request('put', `/user/action/${this.item.id}`, this.item)
         .then(response => {
-          if (response.data) {
+          if (response.data.success) {
             this.closeModal()
             this.showToast()
+          } else {
+            this.showToast('error', response.data.data.sqlMessage)
           }
         })
         .catch(e => {

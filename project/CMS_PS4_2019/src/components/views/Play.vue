@@ -63,65 +63,29 @@
         </ps4-detail>
       </div>
 
-      <!-- PS4 boxes -->
-      <!-- <div class="col-md-4 col-sm-6 col-xs-12">
-        <ps4-box
-          :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
-          :id-ps="1"
-          text="Máy 1"
-          number="ps4_01"
-          :ps4-start="togglePs4('ps4_01')"
-          :openModal="openModal"
-          @created="handleCreate"
-        ></ps4-box>
+       <div class="col-xs-12">
+        <ps4-detail v-if="showChange">
+            <h3 slot="header" class="modal-title">
+              Thực hiện chuyển Máy số {{getPs4.id}}
+            </h3>
+
+            <div slot="body">
+              <div class="row z-bottom mb-change">
+                <div class="col-sm-5">
+                  <strong>Chuyển sang máy:</strong>
+                </div>
+                <div class="col-sm-7">
+                  <v-select v-model="selectedPS" label="name" :options="psOff"></v-select>
+                </div>
+              </div>
+             </div>
+                
+            <div slot="footer">
+                <button type="button" class="btn btn-outline-info" @click="closeModalChange()"> Đóng </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="showAlertConfirm(getPs4.id)"> Cập nhật </button>
+            </div>
+        </ps4-detail>
       </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-        <ps4-box
-          :icon-classes="['ion', 'ion-ios-football-outline']"
-          :id-ps="2"
-          text="Máy 2"
-          number="ps4_02"
-          :ps4-start="togglePs4('ps4_02')"
-          :openModal="openModal"
-          @created="handleCreate"
-          :key="componentKey"
-        ></ps4-box>
-      </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-        <ps4-box
-          :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
-          :id-ps="3"
-          text="Máy 3"
-          number="ps4_03"
-          :ps4-start="togglePs4('ps4_03')"
-          :openModal="openModal"
-          @created="handleCreate"
-        ></ps4-box>
-      </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-        <ps4-box
-          :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
-          :id-ps="4"
-          text="Máy 4"
-          number="ps4_04"
-          :ps4-start="togglePs4('ps4_04')"
-          :openModal="openModal"
-          @created="handleCreate"
-          :key="componentKey"
-        ></ps4-box>
-      </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-        <ps4-box
-          :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
-          :id-ps="5"
-          text="Máy 5"
-          number="ps4_05"
-          :ps4-start="togglePs4('ps4_05')"
-          :openModal="openModal"
-          @created="handleCreate"
-        ></ps4-box>
-      </div> -->
-      <!-- /.col -->
       <hr />
       <div class="col-md-4 col-sm-6 col-xs-12" 
         v-for="item in listPS4" :key="item.id">
@@ -133,16 +97,16 @@
           :number="item.code + '_' + item.id"
           :ps4-start="togglePs4(item.code + '_' + item.id)"
           :openModal="openModal"
+          :openModalChange="openModalChange"
           @created="handleCreate"
         ></ps4-box>
       </div>
-
     </div>
   </section>
 </template>
 
 <script>
-import api from '../../api'
+import api from '@/api'
 import Ps4Box from '../widgets/PS4Box'
 import Ps4Detail from '../widgets/Modal'
 import moment from 'moment'
@@ -153,16 +117,21 @@ export default {
   data() {
     return {
       showModal: false,
+      showChange: false,
       listPS4: [],
       componentKey: 0,
       getPs4: {},
       selectedDV: '',
-      options: []
+      options: [],
+      lsListOff: 'listPSOff',
+      selectedPS: '',
+      psOff: []
     }
   },
   async created() {
     await this.getListPS4()
     this.getActiveServices()
+    this.setListOff()
   },
   methods: {
     openModal(val = 'Open') {
@@ -180,6 +149,13 @@ export default {
     closeModal() {
       console.log('Call CLOSE Parent')
       this.showModal = false
+    },
+    openModalChange(val = 'Open') {
+      this.getPs4 = typeof val === 'object' ? val : {}
+      this.showChange = true
+    },
+    closeModalChange() {
+      this.showChange = false
     },
     submitAndClose(pNumber = 1) {
       let route = {
@@ -209,11 +185,36 @@ export default {
         window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
       }
     },
+    changePS(id, val) {
+      if (this.togglePs4(id) && val) {
+        this.selectedPS = null
+        const oldPS = JSON.parse(window.localStorage.getItem(id)) // may ban dau
+        this.getPs4 = JSON.parse(window.localStorage.getItem(id))
+        // update thong tin sang may can chuyen
+        this.getPs4.id = `${val.code}_${val.id}`
+        this.getPs4.code = val.code
+        this.getPs4.id_ps = val.id
+        this.getPs4.name = val.name
+        this.getPs4.origin = oldPS.id_ps
+        window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+        window.localStorage.removeItem(oldPS.id) // Xoa may cu
+        // update list ps off
+        this.psOff.push({
+          id: oldPS.id_ps, code: oldPS.code, name: oldPS.name
+        })
+        const filtered = this.psOff.filter(function(item, index, arr) {
+          return item.id !== val.id
+        })
+        this.psOff = filtered
+        window.localStorage.setItem(this.lsListOff, JSON.stringify(this.psOff))
+
+        this.$router.go() // reload page
+      }
+    },
     deleteService(id, index) {
       if (this.togglePs4(id)) {
         this.getPs4.items.splice(index, 1)
       }
-      console.log(this.getPs4)
     },
     getActiveServices() {
       api
@@ -236,12 +237,42 @@ export default {
         console.error(e)
       }
     },
+    setListOff() {
+      let listOff = this.listPS4.filter(item => {
+        return !(window.localStorage.getItem(`${item.code}_${item.id}`) || false)
+      })
+      this.psOff = listOff
+      window.localStorage.setItem(this.lsListOff, JSON.stringify(listOff))
+    },
     // ham duoc goi tu component con
     handleCreate(value) {
       console.log('Child has been created.', value)
     },
     forceRerender() {
       this.componentKey += 1
+    },
+    showAlertConfirm() {
+      this.showChange = false
+      if (this.selectedPS) {
+        this.$swal({
+          title: 'Bạn có chắc?',
+          text: 'Bạn có muốn thực hiện chuyển máy?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+          if (result.value) {
+            this.changePS(this.getPs4.id, this.selectedPS)
+          } else {
+            this.showChange = true
+          }
+        })
+      } else {
+        // this.showAlertMember()
+        this.showChange = true
+      }
     },
     showToast() {
       this.$swal({
@@ -276,6 +307,9 @@ export default {
 }
 .z-bottom {
   margin-bottom: 5px;
+}
+.mb-change {
+  height: 200px;
 }
 </style>
 

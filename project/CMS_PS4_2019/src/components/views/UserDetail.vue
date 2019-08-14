@@ -11,13 +11,48 @@
                     <tbody>
                       <tr>
                         <td class="col-md-1"></td>
-                        <td class="col-md-2">Call of Duty:</td>
-                        <td class="col-md-9">455-981-221</td>
+                        <td class="col-md-2">Username:</td>
+                        <td class="col-md-9 text-bold">{{ this.user.username}}</td>
                       </tr>
                       <tr>
-                        <td></td>
-                        <td>Need for Speed IV:</td>
-                        <td>247-925-726</td>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-2">Họ tên:</td>
+                        <td class="col-md-9 text-bold">{{ this.user.fullname}}</td>
+                      </tr>
+                      <tr>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-2">Nickname:</td>
+                        <td class="col-md-9 text-bold">{{ this.user.nickname}}</td>
+                      </tr>
+                      <tr>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-2">Số điện thoại:</td>
+                        <td class="col-md-9 text-bold">{{ this.user.phone}}</td>
+                      </tr>
+                      <tr>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-2">Địa chỉ:</td>
+                        <td class="col-md-9 text-bold">{{ this.user.address}}</td>
+                      </tr>
+                      <tr>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-2">Khách hàng:</td>
+                        <td class="col-md-9 text-bold">{{ type }}</td>
+                      </tr>
+                      <tr>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-2">Vai trò:</td>
+                        <td class="col-md-9 text-bold">{{ role }}</td>
+                      </tr>
+                      <tr>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-2">Ngày tạo:</td>
+                        <td class="col-md-9 text-bold">{{ this.user.created_by}} - {{ this.user.created_at | fDateTime}}</td>
+                      </tr>
+                      <tr>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-2">Ngày cập nhật:</td>
+                        <td class="col-md-9 text-bold">{{ this.user.updated_by}} - {{ this.user.updated_at | fDateTime}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -28,11 +63,11 @@
           </v-tab>
 
           <v-tab title="Point" icon="fa fa-money">
-            Second tab content {{ user_id }}
+            Số phút đã tích được: <span class="text-bold">{{ point }}</span>
           </v-tab>
 
           <v-tab title="History" icon="fa fa-history">
-            Third tab content {{ user_id }}
+            Lịch sử của người chơi <span class="text-bold">{{ this.user.username }}</span>
           </v-tab>
         </vue-tabs>
       </div>
@@ -41,27 +76,53 @@
 </template>
 
 <script>
-// import api from '@/api'
+import api from '@/api'
 import {VueTabs, VTab} from 'vue-nav-tabs/dist/vue-tabs.min.js'
 
 export default {
-  name: 'ChamCong',
+  name: 'UserDetail',
   data() {
     return {
-      user_id: this.$route.params.id
+      user_id: this.$route.params.id,
+      user: {}
+    }
+  },
+  computed: {
+    point() {
+      return this.user.diem_tich - this.user.diem_tieu
+    },
+    role() {
+      return this.user.role === 1 ? 'Administrator'
+        : (this.user.role === 2 ? 'Nhân viên' : 'Khách hàng')
+    },
+    type() {
+      return this.user.type === 1 ? 'Diamond'
+        : this.user.type === 2 ? 'VIP'
+        : this.user.type === 3 ? 'Khách hàng thân thiết' : 'Khách hàng thông thường'
     }
   },
   async created() {
+    await this.getUser()
   },
   methods: {
-    showToast() {
+    async getUser() {
+      try {
+        const response = await api.request('get', `/user/action/${this.user_id}`)
+        if (response.data.success) {
+          this.user = response.data.data[0]
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    showToast(type = 'success', message = '') {
       this.$swal({
-        type: 'success',
-        title: 'Cập nhật thành công',
+        type: type,
+        title: message || `Cập nhật thành công`,
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 3000
+        timer: 5000
       })
     }
   },

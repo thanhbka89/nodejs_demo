@@ -12,8 +12,9 @@
     </div>   
 
     <div class="filters row">
-        <div class="form-group col-sm-2">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm user ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+        <div class="form-group col-sm-3">
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" 
+            placeholder="Tìm kiếm username, phone ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
         </div>
         <div class="form-group col-sm-6">
           <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
@@ -178,9 +179,10 @@ export default {
       api
         .request('delete', `/user/action/${id}`)
         .then(response => {
-          console.log(response)
-          if (response.data) {
-            this.showToast(1)
+          if (response.data.success) {
+            this.showToast()
+          } else {
+            this.showToast('error', response.data.data.sqlMessage)
           }
         })
         .catch(e => {
@@ -192,13 +194,6 @@ export default {
       try {
         await this.paginateCallback()
         await this.count(query)
-        // const response = await api.request('get', `/user/count?${query}`)
-        // if (response.data.success) {
-        //   let number = response.data.data
-        //   this.totalPage = number > this.limit
-        //     ? Math.ceil(number / this.limit)
-        //     : 1
-        // }
       } catch (err) {
         console.error(err)
       }
@@ -220,7 +215,7 @@ export default {
     build_query() {
       let query = '?'
       if (this.searchKey) {
-        query = query.concat(`username=${this.searchKey}`)
+        query = query.concat(`username=${this.searchKey}&phone=[or]${this.searchKey}`)
       }
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)
@@ -252,14 +247,14 @@ export default {
     showAlert() {
       this.$swal('Chức năng đang hoàn thiện')
     },
-    showToast(id) {
+    showToast(type = 'success', message = '') {
       this.$swal({
-        type: 'success',
-        title: `${id ? 'Cập nhật' : 'Thêm mới'} thành công`,
+        type: type,
+        title: message || `Cập nhật thành công`,
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 3000
+        timer: 5000
       })
     }
   }

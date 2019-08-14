@@ -31,6 +31,14 @@
       <div class="col-md-10">
         <strong>{{ps4.start_hour}}</strong>
       </div>
+      <template v-if="!isCheckout">
+      <div class="col-md-2">
+        Kết thúc:
+      </div>
+      <div class="col-md-10">
+        <strong>{{ps4.finishedDate}}</strong>
+      </div>
+      </template>
       <template v-if="isCheckout">
       <div class="col-md-2">
         Số giờ đã chơi:
@@ -191,6 +199,7 @@ export default {
         this.ps4.id = tranObj.t1_id_ps
         this.ps4.name = objPs.name
         this.startDate = moment(tranObj.t1_created_at).format('DD/MM/YYYY')
+        this.ps4.finishedDate = moment(tranObj.t1_updated_at).format('DD/MM/YYYY HH:mm')
         this.ps4.start_hour = moment(tranObj.t2_start).format('HH:mm')
         this.total = tranObj.t1_total_money
         this.items = []

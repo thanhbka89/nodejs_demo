@@ -3,8 +3,8 @@ import {
 } from 'express'
 const router = Router()
 
-const db = require('../models/dbconnection')
-const jwt = require("jsonwebtoken")
+// const db = require('../models/dbconnection')
+// const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
 // import CONFIG from '../../config/config'
 import User from '../models/User'
@@ -116,8 +116,16 @@ router.post('/register', (req, res) => {
 router.route('/action/:id')
     .get(async (req, res) => {
         User.getById(req.params.id, (err, response) => {
-            if (err)  res.send(err)
-            return res.json(response)
+			if (err)
+				return res.json({
+					success: false,
+					message: 'Get failed',
+					data: err
+				})
+            return res.json({
+				success: true,
+				data: response
+			})
         })
     })
     .put((req, res) => {
@@ -126,14 +134,32 @@ router.route('/action/:id')
 			user.password = bcrypt.hashSync(req.body.password, 8)
 		}
         User.update(req.params.id, new User(user), (err, response) => {
-            if (err)  res.send(err)
-            res.json(response)
+			if (err)  
+				return res.json({
+					success: false,
+					message: 'Update failed',
+					data: err
+				})
+			return res.json({
+				success: true,
+				message: 'Update successfully',
+				data: response
+			})
         })
     })
     .delete((req, res) => {
         User.deleteSoft(req.params.id, (err, response) => {
-            if (err)  res.send(err)
-            res.json(response)
+			if (err)
+				return res.json({
+					success: false,
+					message: 'Delete failed',
+					data: err
+				})
+			return res.json({
+				success: true,
+				message: 'Delete successfully',
+				data: response
+			})
         })
 	})
 

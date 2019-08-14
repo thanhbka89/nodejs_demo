@@ -4,17 +4,25 @@
       <i :class="iconClasses"></i>
     </span>
     <div class="info-box-content">
-      <span class="info-box-text">{{ text }}</span>
-      <span>Trạng thái: </span>
-      <span :class="localPs4Start ? 'z-ps4-on' : ''">
-        {{ localPs4Start ? 'Bật' : 'Tắt' }}
-      </span>
+      <span class="info-box-text" style="text-align: left">{{ text }}</span>
+      <p style="text-align: left">
+        <span>Trạng thái: </span>
+        <span :class="localPs4Start ? 'z-ps4-on' : ''">
+          {{ localPs4Start ? 'Bật' : 'Tắt' }}
+        </span>
+      </p>
 
       <span class="info-box-more z-more">
-        <a v-if="localPs4Start" href="#" class="btn btn-xs" @click="open_modal()">
+        <template v-if="localPs4Start">
+        <a href="#" class="btn btn-xs" @click="open_modal()">
           Xem chi tiết
           <i class="fa fa-arrow-circle-right"></i>
         </a>
+        <a href="#" class="btn btn-xs" @click="change_machine()">
+          Chuyển máy
+          <i class="fa fa-arrow-circle-right"></i>
+        </a>
+        </template>
         <a v-else href="#" class="btn btn-xs" @click="play(number)">
           <strong>TÍNH GIỜ</strong>
           <i class="fa fa-play-circle-o"></i>
@@ -65,6 +73,7 @@ export default {
       default: []
     },
     openModal: { type: Function }, // openModal: Function,
+    openModalChange: Function,
     ps4Start: {
       type: Boolean,
       default: false
@@ -89,6 +98,12 @@ export default {
       this.getLS()
       if (this.lsPs4) {
         this.openModal(this.lsPs4) // ham tu cha truyen vao con
+      }
+    },
+    change_machine() {
+      this.getLS()
+      if (this.lsPs4) {
+        this.openModalChange(this.lsPs4) // ham tu cha truyen vao con
       }
     },
     play(pNumber = 1) {

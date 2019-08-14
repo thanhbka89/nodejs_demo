@@ -12,3 +12,9 @@ export function formatDate({date = new Date(), format = 'YYYY-MM-DD'}) {
   return moment(date).format(format)
 }
 
+export function toVND (number = 0) {
+  let x = number
+  x = x.toLocaleString('it-IT', {style: 'currency', currency: 'VND'})
+  return x
+}
+

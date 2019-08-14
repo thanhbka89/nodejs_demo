@@ -31,6 +31,7 @@ class User {
 
     static getCondition(input) {
         const filter = input || {}
+        let operation = []
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
@@ -40,7 +41,12 @@ class User {
 			check ++
         }
         if (phone) {
-			$where = $where.concat(` ${check ? 'AND' : ''} phone LIKE "%${phone}%"`)
+            operation = phone.split(']')
+            if (operation.length > 1) {
+                $where = $where.concat(` ${check ? 'OR' : ''} phone LIKE "%${operation[1]}%"`)
+            } else {
+                $where = $where.concat(` ${check ? 'AND' : ''} phone LIKE "%${phone}%"`)
+            }
 			check ++
         }
         // if (category) {
