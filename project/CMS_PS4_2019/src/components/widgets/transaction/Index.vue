@@ -9,8 +9,13 @@
     </div>   
 
     <div class="filters row">
-        <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm theo khách hàng ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+        <div class="form-group col-sm-4">
+          <multiselect v-model="memberSelected" :options="members" :custom-label="nameWithLang" placeholder="Tìm theo khách hàng ..." label="username" track-by="id" @select="searchByMember">
+          </multiselect>
+        </div>
+        <div class="form-group col-sm-2">
+          <multiselect v-model="psSelected" :options="listPS" placeholder="Tìm máy ..." label="name" track-by="id" @select="searchByPS" selectLabel="">
+          </multiselect>
         </div>
         <div class="form-group col-sm-6">
           <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
@@ -44,7 +49,7 @@
           <td class="col-md-1">{{ item.id }}</td>
           <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
           <td class="col-md-2">{{ getPSName(item.id_ps) || 'Máy PS' }}</td>
-          <td class="col-md-2">{{ item.id_user || 'Khách lẻ' }}</td>
+          <td class="col-md-2">{{ getMemberName(item.id_user) || 'Khách lẻ' }}</td>
           <td class="col-md-2">{{ item.total_money | toVnd }}</td>
           <td class="col-md-2">
             <button class="btn btn-primary" @click="viewItem(item)">Chi tiết</button>           
@@ -78,10 +83,11 @@
 import api from '@/api'
 import DatePicker from 'vue2-datepicker'
 import { formatDate, toVND } from '@/helpers'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'TransactionIndex',
-  components: { DatePicker },
+  components: { DatePicker, Multiselect },
   data() {
     return {
       searchKey: '',
@@ -93,7 +99,10 @@ export default {
       dateFrom: '',
       dateTo: new Date().setDate(new Date().getDate() + 1), // get date tomorrow
       allSelected: false,
-      transIds: []
+      transIds: [],
+      memberSelected: null,
+      members: [], // get list members from api
+      psSelected: null
     }
   },
   props: {
@@ -109,7 +118,12 @@ export default {
     // await this.getListPS()
 
     // run parallel
-    await Promise.all([this.fetchItems(), this.paginateCallback(), this.getListPS()])
+    await Promise.all([
+      this.fetchItems(),
+      this.paginateCallback(),
+      this.getListPS(),
+      this.getMembers()
+    ])
   },
   methods: {
     async paginateCallback(page = 1) {
@@ -167,6 +181,12 @@ export default {
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)
       }
+      if (this.memberSelected) {
+        query = query.concat(`&user=${this.memberSelected.id}`)
+      }
+      if (this.psSelected) {
+        query = query.concat(`&ps=${this.psSelected.id}`)
+      }
       if (this.dateFrom) {
         query = query.concat(`&from=${formatDate({date: this.dateFrom})}`)
       }
@@ -178,7 +198,6 @@ export default {
     },
     async getListPS() {
       try {
-        // get list ps4 active
         const result = await api.request('get', '/ps/p/1?limit=100')
         if (result.data.success) {
           this.listPS = result.data.data
@@ -192,6 +211,15 @@ export default {
       if (this.listPS.length) {
         const result = this.listPS.filter(item => item.id === id)
         name = result.length ? result[0].name : null
+      }
+
+      return name
+    },
+    getMemberName(id) {
+      let name = null
+      if (this.members.length) {
+        const result = this.members.filter(item => item.id === id)
+        name = result.length ? result[0].username : null
       }
 
       return name
@@ -215,12 +243,33 @@ export default {
       this.transIds = []
       this.showAlert(toVND(sum))
     },
+    async getMembers() {
+      try {
+        const response = await api.request('get', `/user/p/1?limit=1000`)
+        this.members = response.data
+        // add Khach le vao dau mang
+        this.members.unshift({id: 0, fullname: 'Khách lẻ', username: '', phone: '.'})
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    nameWithLang ({ username, fullname, phone }) {
+      return `[${username}] - ${fullname} - [${phone}]`
+    },
     showAlert(id) {
       this.$swal(
             'Tổng tiền cần thanh toán : ' + id,
             '',
             'success'
           )
+    },
+    searchByMember(option) {
+      this.memberSelected = option
+      this.search()
+    },
+    searchByPS(option) {
+      this.psSelected = option
+      this.search()
     }
   }
 }

@@ -1,6 +1,7 @@
 import {
 	Router
 } from 'express'
+import { asyncMiddleware } from '../middlewares/asyncMiddleware'
 const router = Router()
 
 // const db = require('../models/dbconnection')
@@ -212,5 +213,16 @@ router.get('/findCustomer', async (req, res) => {
 		})
 	})
 })
+
+router.get('/testAsync', asyncMiddleware(async (req, res, next) => {
+	/* 
+      if there is an error thrown in getUserFromDb, asyncMiddleware
+      will pass it to next() and express will handle the error;
+    */
+    // const user = await getUserFromDb({ id: req.params.id })
+	// res.json(user)
+	
+	throw new Error('PES2020')
+}))
 
 export default router

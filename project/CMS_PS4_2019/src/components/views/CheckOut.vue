@@ -267,14 +267,13 @@ export default {
     async getMemberDetail(id) {
       try {
         const response = await api.request('get', `/user/action/${id}`)
-        console.log(response)
-        this.memberSelected = response.data[0]
+        this.memberSelected = response.data.data[0]
       } catch (err) {
         console.error(err)
       }
     },
     nameWithLang ({ username, fullname, phone }) {
-      return `[ ${username}] - ${fullname} - [${phone}]`
+      return `[${username}] - ${fullname} - [${phone}]`
     },
     insert() {
       const data = {

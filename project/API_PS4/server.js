@@ -54,7 +54,7 @@ class HandlerGenerator {
   }
 }
 
-import cors from "cors";
+import cors from 'cors'
 import routes from './api/routes'
 import app1 from './app'
 import bird from './api/routes/router'
@@ -88,6 +88,15 @@ app.use(
 app.get('/check', (req, res) => {
   let data = 'PASSED -> ' + uuidv4()
   res.json({data})
+})
+
+// async try...catch
+app.get('/catch', async (req, res, next) => {
+  try {
+    throw new Error('2019')
+  } catch(err) {
+    next(err)
+  }
 })
 
 //https://appdividend.com/2018/02/03/express-middleware-tutorial-example-scratch/
@@ -192,9 +201,19 @@ app.use('/api/ps4/v1/time', routes.chamcong)
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại
 app.use((req, res) => {
-    res.status(404).json({
-        url: req.originalUrl + ' not found'
-    })
+  res.status(404).json({
+    success: false,
+    code: 'ERR_INVALID_404',
+    url: req.originalUrl + ' not found'
+  })
+})
+
+app.use((err, req, res, next) => {
+  console.error(err)
+  res.status(500).json({
+    success: false,
+    code: 'ERR_INVALID_500'
+  })
 })
 
 //start Express server on defined port
