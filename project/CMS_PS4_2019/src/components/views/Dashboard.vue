@@ -46,19 +46,6 @@
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
           <div class="box-body">
-            <!-- <div class="col-sm-6 col-xs-12">
-              <p class="text-center">
-                <strong>Doanh thu trong tháng {{ currentMonth }}</strong>
-              </p>
-              <canvas id="trafficBar" ></canvas>
-            </div>
-            <hr class="visible-xs-block">
-            <div class="col-sm-6 col-xs-12">
-              <p class="text-center">
-                <strong>Language Overview</strong>
-              </p>
-              <canvas id="languagePie"></canvas>
-            </div> -->
             <div class="col-sm-12 col-xs-12">
               <p class="text-center">
                 <strong>Doanh thu trong tháng {{ currentMonth }}</strong>
@@ -117,10 +104,10 @@
 
 <script>
 import Chart from 'chart.js'
-import Alert from '../widgets/Alert'
-import InfoBox from '../widgets/InfoBox'
-import ProcessInfoBox from '../widgets/ProcessInfoBox'
-import api from '../../api'
+import Alert from '@/components/widgets/Alert'
+import InfoBox from '@/components/widgets/InfoBox'
+import ProcessInfoBox from '@/components/widgets/ProcessInfoBox'
+import api from '@/api'
 import { formatDate } from '@/helpers'
 
 export default {
@@ -159,66 +146,13 @@ export default {
     }
   },
   async created() {
-    await Promise.all([this.getTotalPS(), this.getTotalMember(), this.getTotalTrans()])
+    await Promise.all([
+      this.getTotalPS(),
+      this.getTotalMember(),
+      this.getTotalTrans()
+    ])
   },
   async mounted () {
-    // this.$nextTick(() => {
-    //   var ctx = document.getElementById('trafficBar').getContext('2d')
-    //   var config = {
-    //     type: 'line',
-    //     data: {
-    //       labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-    //       datasets: [{
-    //         label: 'CoPilot',
-    //         fill: false,
-    //         borderColor: '#284184',
-    //         pointBackgroundColor: '#284184',
-    //         backgroundColor: 'rgba(0, 0, 0, 0)',
-    //         data: this.coPilotNumbers
-    //       }]
-    //     },
-    //     options: {
-    //       responsive: true,
-    //       maintainAspectRatio: !this.isMobile,
-    //       legend: {
-    //         position: 'bottom',
-    //         display: true
-    //       },
-    //       tooltips: {
-    //         mode: 'label',
-    //         xPadding: 10,
-    //         yPadding: 10,
-    //         bodySpacing: 10
-    //       }
-    //     }
-    //   }
-
-    //   new Chart(ctx, config) // eslint-disable-line no-new
-
-    //   var pieChartCanvas = document.getElementById('languagePie').getContext('2d')
-    //   var pieConfig = {
-    //     type: 'pie',
-    //     data: {
-    //       labels: ['HTML', 'JavaScript', 'CSS'],
-    //       datasets: [{
-    //         data: [56.6, 37.7, 4.1],
-    //         backgroundColor: ['#00a65a', '#f39c12', '#00c0ef'],
-    //         hoverBackgroundColor: ['#00a65a', '#f39c12', '#00c0ef']
-    //       }]
-    //     },
-    //     options: {
-    //       responsive: true,
-    //       maintainAspectRatio: !this.isMobile,
-    //       legend: {
-    //         position: 'bottom',
-    //         display: true
-    //       }
-    //     }
-    //   }
-
-    //   new Chart(pieChartCanvas, pieConfig) // eslint-disable-line no-new
-    // })
-
     await this.getRevenueInMonth()
     const chartData = {
       type: 'line',
@@ -339,6 +273,16 @@ export default {
 
       return groups
     },
+    // async getTotalRevenueInMonth() {
+    //   try {
+    //      const data = await this.getTransByDay()
+    //      let temp = data.reduce((sum, current) => {
+    //       return sum + current.total_money
+    //     }, 0)
+    //   } catch (e) {
+    //     console.error(e)
+    //   }
+    // },
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId)
       const t = new Chart(ctx, {
