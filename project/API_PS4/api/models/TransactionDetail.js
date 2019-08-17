@@ -6,7 +6,10 @@ class TransactionDetail {
     constructor(obj) {
         this.id_trans = obj.id_trans
         this.id_item = obj.id_item
+        this.code_item = obj.code_item
+        this.price = obj.price
         this.quantity = obj.quantity
+        this.discount = obj.discount
         this.start = obj.start
     }
 

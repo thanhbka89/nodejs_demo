@@ -38,6 +38,24 @@
       <div class="col-md-10">
         <strong>{{ps4.finishedDate}}</strong>
       </div>
+      <div class="col-md-2">
+        Điểm tích được:
+      </div>
+      <div class="col-md-4">
+        <strong>{{ ps4.t1_diem_tich }}</strong>
+      </div>
+      <div class="col-md-2">
+        Điểm đã tiêu:
+      </div>
+      <div class="col-md-4">
+        <strong>{{ ps4.t1_diem_tieu }}</strong>
+      </div>
+      <div class="col-md-2">
+        Người tạo:
+      </div>
+      <div class="col-md-10">
+        <strong>{{ ps4.t1_created_by }}</strong>
+      </div>
       </template>
       <template v-if="isCheckout">
       <div class="col-md-2">
@@ -45,6 +63,42 @@
       </div>      
       <div class="col-md-10">
         <strong>{{ps4.play_hour}} ({{ps4.elapsed}} phút)</strong>
+      </div>
+      </template>
+
+      <template v-if="isCheckout && this.memberSelected && this.memberSelected.id">
+        <div class="col-xs-12">
+          <br />
+          <p>
+            Khách hàng <strong>{{this.memberSelected.username || 'N/A'}}</strong> 
+            có thể sử dụng số điểm để thanh toán: <strong>{{avaliablePoint}}</strong>
+          </p>
+          <p>
+            <p-check name="check" color="success" v-model="usePoint" @change="clearErrorMsg">
+              <strong>SỬ DỤNG ĐIỂM ĐỂ THANH TOÁN</strong>
+            </p-check>
+          </p>
+          
+          <div class="row" v-if="usePoint">
+            <div class="col-md-3">
+              Chọn số điểm sẽ dùng:
+            </div>  
+            <div class="col-md-9">
+              <input v-model="numberPoint" @input="clearErrorMsg"
+              style="padding: 3px" />
+              <span style="color: red; margin-left: 20px;">{{ errorMsg }}</span>
+              <br /><br /><br />
+              <vue-slider
+                v-model="numberPoint"
+                :min="0"
+                :max="avaliablePoint"
+                :tooltip="errorMsg ? 'none' : 'always'"
+                :marks="[0, avaliablePoint]"
+                @error="error"
+                @change="clearErrorMsg"
+              ></vue-slider>
+            </div>
+          </div>
       </div>
       </template>
 
@@ -84,12 +138,12 @@
                   <td class="col-xs-4">{{ api_ps4.name || 'Giờ chơi PS4' }}</td>
                   <td class="col-xs-2">{{ api_ps4.gia_ban || 0 | toVnd }}</td>
                   <td class="col-xs-1 text-center">
-                    {{(ps4.elapsed / 60).toFixed(2)}}
+                    {{ so_giochoi }}
                   </td>
                   <td class="col-xs-2 text-right">
                   </td>
                   <td class="col-xs-2 text-right">
-                   {{Math.ceil((ps4.elapsed / 60).toFixed(2) * (api_ps4.gia_ban || 0)) | toVnd}}
+                   {{ Math.ceil(so_giochoi * (api_ps4.gia_ban || 0)) | toVnd }}
                   </td>
                 </tr>
                 <tr v-for="(item, index) in items" :key="index">
@@ -133,13 +187,25 @@
 import moment from 'moment'
 import api from '@/api'
 import Multiselect from 'vue-multiselect'
+import VueSlider from 'vue-slider-component'
+
+const ERROR_TYPE = {
+  VALUE: 1,
+  INTERVAL: 2,
+  MIN: 3,
+  MAX: 4,
+  ORDER: 5
+}
 
 export default {
   name: 'CheckOut',
-  components: { Multiselect },
+  components: { Multiselect, VueSlider },
   data() {
     return {
-      ps4: {},
+      ps4: {
+        elapsed: 0
+      },
+      psLocal: {},
       items: [],
       startDate: '',
       total: 0,
@@ -147,7 +213,11 @@ export default {
       isCheckout: false,
       api_ps4: {}, // gia choi PS4 tu api
       memberSelected: null,
-      members: [] // get list members from api
+      members: [], // get list members from api
+
+      numberPoint: 0,
+      usePoint: false,
+      errorMsg: ''
     }
   },
   computed: {
@@ -156,6 +226,16 @@ export default {
         ? `${this.memberSelected.username} - ${this.memberSelected.phone || ''}`
         : 'Khách lẻ'
       return name
+    },
+    avaliablePoint() {
+      return this.memberSelected
+        ? this.memberSelected.diem_tich - this.memberSelected.diem_tieu
+        : 0
+    },
+    so_giochoi() {
+      return this.ps4.elapsed
+        ? (this.ps4.elapsed / 60).toFixed(2)
+        : 0
     }
   },
   async created() {
@@ -168,6 +248,7 @@ export default {
       if (local) {
         this.show = this.isCheckout = true
         this.ps4 = local
+        this.psLocal = JSON.parse(window.localStorage.getItem(id) || 'null') // info ps on localstorage
         if (local.items && local.items.length) {
           this.items = local.items
         }
@@ -196,6 +277,7 @@ export default {
         let tranObj = result.data.data[0]
         await this.getMemberDetail(tranObj.t1_id_user)
         let objPs = await this.getPSDetail(tranObj.t1_id_ps)
+        this.ps4 = tranObj
         this.ps4.id = tranObj.t1_id_ps
         this.ps4.name = objPs.name
         this.startDate = moment(tranObj.t1_created_at).format('DD/MM/YYYY')
@@ -221,7 +303,7 @@ export default {
       // const result = await api.request('get', '/item/f/get_price_ps4')
       // const result = await api.request('get', `/item/f/get_price?status=1&code=${this.ps4.code}`)
       // this.api_ps4 = result.data[0]
-      this.total = Math.ceil((this.ps4.elapsed / 60).toFixed(2) * this.api_ps4.gia_ban) // Math.ceil(20000 / 60 * this.ps4.elapsed)
+      this.total = Math.ceil(this.so_giochoi * this.api_ps4.gia_ban) // Math.ceil(20000 / 60 * this.ps4.elapsed)
 
       // tinh tien dich vu
       if (this.ps4.items && this.ps4.items.length) {
@@ -284,10 +366,15 @@ export default {
         start: this.ps4.end, // bat dau cua giao dich
         // Tich diem = thoi gian choi (phut) x 5%
         diem_tich: Math.ceil(this.ps4.elapsed * 5 / 100),
-        diem_tieu: 0
+        diem_tieu: this.usePoint ? this.numberPoint : 0
       }
       // push gio choi ps4
-      data.items.push({id: 0, name: this.api_ps4, quantity: (this.ps4.elapsed / 60).toFixed(2), start: this.ps4.end})
+      data.items.push({
+        id: 0,
+        name: this.api_ps4,
+        quantity: (this.ps4.elapsed / 60).toFixed(2),
+        start: this.ps4.end
+      })
       api
         .request('post', '/trans', data)
         .then(response => {
@@ -304,6 +391,32 @@ export default {
     },
     onBack() {
       this.$router.go(-1)
+    },
+    error(type, msg) {
+      switch (type) {
+        case ERROR_TYPE.MIN:
+          break
+        case ERROR_TYPE.MAX:
+          break
+        case ERROR_TYPE.VALUE:
+          break
+      }
+      this.errorMsg = msg
+
+      // Neu co loi xay ra, gan lai so phut da choi
+      this.ps4.elapsed = this.psLocal.elapsed
+    },
+    clearErrorMsg() {
+      // Neu check nut su dung diem
+      if (this.usePoint && !this.errorMsg.length) {
+        this.ps4.elapsed = this.psLocal.elapsed - this.numberPoint
+      } else {
+        this.ps4.elapsed = this.psLocal.elapsed
+      }
+      // Tinh toan lai tong tien
+      this.caclTotal()
+
+      this.errorMsg = ''
     },
     showAlertMember() {
       this.$swal(

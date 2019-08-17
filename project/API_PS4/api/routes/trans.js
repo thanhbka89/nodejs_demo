@@ -36,8 +36,11 @@ router.post('/', async (req, res) => {
           let data = {
             id_trans: result.insertId,
             id_item: items[index].name.id,
+            code_item: items[index].name.code,
             quantity: items[index].quantity,
-            start: items[index].start || ''
+            price: items[index].name.gia_ban,
+            discount: 0,
+            start: items[index].start || new Date()
           }
           try {
             await TransactionDetail.create(new TransactionDetail(data))
@@ -57,7 +60,11 @@ router.post('/', async (req, res) => {
         
       // }
       // await Point.create(new Point(point))
-      User.updatePoint({id: req.body.user, type: TICH_DIEM, point: req.body.diem_tich}, (err, response) => {})
+      User.updatePoint({
+        id: req.body.user,
+        diem_tich: req.body.diem_tich,
+        diem_tieu: req.body.diem_tieu
+      }, (err, response) => {})
 
       return res.json({
         success: true,

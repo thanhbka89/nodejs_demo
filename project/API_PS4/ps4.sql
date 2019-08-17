@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='QL nhap kho, ton kho : nuoc, thuoc, do an';
 
--- Dumping data for table cms_ps_dev.inventory: ~2 rows (approximately)
+-- Dumping data for table cms_ps_dev.inventory: ~5 rows (approximately)
 DELETE FROM `inventory`;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
 INSERT INTO `inventory` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `quantity`, `category`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
 
--- Dumping data for table cms_ps_dev.items: ~16 rows (approximately)
+-- Dumping data for table cms_ps_dev.items: ~14 rows (approximately)
 DELETE FROM `items`;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `category`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `points` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Quan ly tich, tieu diem cho khach hang';
 
--- Dumping data for table cms_ps_dev.points: ~0 rows (approximately)
+-- Dumping data for table cms_ps_dev.points: ~1 rows (approximately)
 DELETE FROM `points`;
 /*!40000 ALTER TABLE `points` DISABLE KEYS */;
 INSERT INTO `points` (`id`, `id_trans`, `id_user`, `point`, `type`, `created_by`, `created_at`) VALUES
@@ -252,9 +252,9 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
 
--- Dumping data for table cms_ps_dev.transactions: ~26 rows (approximately)
+-- Dumping data for table cms_ps_dev.transactions: ~49 rows (approximately)
 DELETE FROM `transactions`;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
 INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `diem_tich`, `diem_tieu`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -283,7 +283,30 @@ INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `diem_tich`
 	(23, 7, 1, 1309000, 0, 0, 'thanhnm', '2019-07-25 01:00:30', 'thanhnm', '2019-07-27 18:28:19'),
 	(24, 6, 1, 1339000, 0, 0, 'thanhnm', '2019-07-25 00:59:51', 'thanhnm', '2019-07-27 18:33:49'),
 	(25, 1, 10, 27400, 0, 0, 'thanhnm', '2019-07-27 17:50:29', 'thanhnm', '2019-07-27 18:43:25'),
-	(26, 4, 2, 48600, 0, 0, 'thanhnm', '2019-07-27 17:50:28', 'thanhnm', '2019-07-27 18:46:52');
+	(26, 4, 2, 48600, 0, 0, 'thanhnm', '2019-07-27 17:50:28', 'thanhnm', '2019-07-27 18:46:52'),
+	(27, 7, 1, 21000, 1, 0, 'thanhbka', '2019-08-05 20:45:59', 'thanhbka', '2019-08-05 21:04:52'),
+	(28, 6, 1, 8000, 2, 0, 'thanhbka', '2019-08-05 20:46:00', 'thanhbka', '2019-08-05 21:10:13'),
+	(29, 5, 1, 8400, 2, 0, 'thanhbka', '2019-08-05 20:46:02', 'thanhbka', '2019-08-05 21:11:35'),
+	(30, 1, 1, 8600, 2, 0, 'thanhbka', '2019-08-05 20:46:01', 'thanhbka', '2019-08-05 21:13:10'),
+	(31, 4, 0, 9000, 2, 0, 'thanhbka', '2019-08-05 20:46:01', 'thanhbka', '2019-08-05 21:13:46'),
+	(32, 7, 1, 1600, 1, 0, 'thanhbka', '2019-08-05 21:10:03', 'thanhbka', '2019-08-05 21:16:09'),
+	(33, 1, 23, 15000, 0, 0, 'test', '2019-08-06 22:30:52', 'test', '2019-08-06 22:35:04'),
+	(34, 1, 1, 23400, 4, 0, 'thanhbka', '2019-08-08 23:30:07', 'thanhbka', '2019-08-09 00:40:52'),
+	(35, 1, 1, 28400, 2, 0, 'thanhbka', '2019-08-09 21:25:15', 'thanhbka', '2019-08-09 21:51:20'),
+	(36, 4, 0, 13400, 2, 0, 'thanhbka', '2019-08-09 21:25:16', 'thanhbka', '2019-08-09 22:06:06'),
+	(37, 5, 1, 14400, 3, 0, 'thanhbka', '2019-08-09 21:25:17', 'thanhbka', '2019-08-09 22:08:53'),
+	(38, 6, 1, 51400, 8, 0, 'thanhbka', '2019-08-09 21:47:39', 'thanhbka', '2019-08-10 00:22:15'),
+	(39, 7, 1, 1000, 1, 0, 'thanhbka', '2019-08-10 00:22:36', 'thanhbka', '2019-08-10 00:26:06'),
+	(40, 6, 2, 11000, 2, 0, 'thanhbka', '2019-08-09 23:52:40', 'thanhbka', '2019-08-10 00:26:18'),
+	(41, 4, 1, 11000, 2, 0, 'thanhbka', '2019-08-09 23:52:40', 'thanhbka', '2019-08-10 00:26:32'),
+	(42, 5, 2, 40400, 7, 0, 'thanhbka', '2019-08-12 20:28:18', 'thanhbka', '2019-08-12 22:29:32'),
+	(43, 4, 11, 41600, 7, 0, 'thanhbka', '2019-08-12 20:28:19', 'thanhbka', '2019-08-12 22:33:29'),
+	(44, 4, 1, 31400, 4, 0, 'test', '2019-08-14 20:19:26', 'test', '2019-08-14 21:24:27'),
+	(45, 7, 1, 21600, 4, 0, 'test', '2019-08-14 20:19:27', 'test', '2019-08-14 21:24:36'),
+	(47, 1, 1, 26400, 2, 0, 'thanhnm', '2019-08-16 19:34:10', 'thanhnm', '2019-08-16 20:08:50'),
+	(48, 1, 1, 16600, 1, 0, 'thanhnm', '2019-08-17 14:13:29', 'thanhnm', '2019-08-17 14:19:01'),
+	(49, 4, 1, 80000, 8, 15, 'thanhnm', '2019-08-17 14:13:30', 'thanhnm', '2019-08-17 16:59:15'),
+	(50, 7, 1, 63000, 8, 20, 'thanhnm', '2019-08-17 14:13:31', 'thanhnm', '2019-08-17 17:13:49');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.trans_detail
@@ -291,70 +314,104 @@ CREATE TABLE IF NOT EXISTS `trans_detail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_trans` int(10) unsigned NOT NULL,
   `id_item` int(10) unsigned NOT NULL,
+  `code_item` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `price` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `discount` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Ty le % giam gia cho khach VIP',
   `start` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
 
--- Dumping data for table cms_ps_dev.trans_detail: ~53 rows (approximately)
+-- Dumping data for table cms_ps_dev.trans_detail: ~86 rows (approximately)
 DELETE FROM `trans_detail`;
 /*!40000 ALTER TABLE `trans_detail` DISABLE KEYS */;
-INSERT INTO `trans_detail` (`id`, `id_trans`, `id_item`, `quantity`, `start`) VALUES
-	(1, 1, 3, '0.03', '2019-07-05 18:06:04'),
-	(2, 2, 1, '2', '2019-07-05 18:14:23'),
-	(3, 2, 5, '1', '2019-07-05 18:14:23'),
-	(4, 2, 3, '0.02', '2019-07-05 18:14:23'),
-	(5, 3, 3, '2.35', '2019-07-15 21:23:38'),
-	(6, 4, 3, '0.12', '2019-07-20 16:24:32'),
-	(7, 5, 3, '7.33', '2019-07-20 16:31:54'),
-	(8, 6, 3, '0.42', '2019-07-20 23:26:48'),
-	(9, 7, 3, '99.68', '2019-07-20 16:24:33'),
-	(10, 8, 3, '99.72', '2019-07-20 16:24:32'),
-	(11, 9, 3, '101.82', '2019-07-20 14:46:45'),
-	(12, 10, 18, '1', '2019-07-24 21:22:23'),
-	(13, 10, 2, '1', '2019-07-24 21:22:23'),
-	(14, 10, 8, '2', '2019-07-24 21:22:23'),
-	(15, 10, 3, '0.03', '2019-07-24 21:22:23'),
-	(16, 11, 8, '2', '2019-07-24 21:27:52'),
-	(17, 11, 2, '1', '2019-07-24 21:27:52'),
-	(18, 11, 3, '0.18', '2019-07-24 21:27:52'),
-	(19, 12, 1, '1', '2019-07-24 21:28:43'),
-	(20, 12, 3, '0.17', '2019-07-24 21:28:43'),
-	(21, 13, 2, '1', '2019-07-24 21:36:26'),
-	(22, 13, 5, '1', '2019-07-24 21:36:26'),
-	(23, 13, 3, '1.25', '2019-07-24 21:36:26'),
-	(24, 14, 2, '3', '2019-07-24 22:52:28'),
-	(25, 14, 8, '1', '2019-07-24 22:52:28'),
-	(26, 14, 3, '1.72', '2019-07-24 22:52:28'),
-	(27, 15, 1, '1', '2019-07-25 20:35:12'),
-	(28, 15, 3, '0.27', '2019-07-25 20:35:12'),
-	(29, 16, 2, '1', '2019-07-25 20:35:13'),
-	(30, 16, 3, '0.45', '2019-07-25 20:35:13'),
-	(31, 17, 8, '1', '2019-07-25 22:08:59'),
-	(32, 17, 2, '1', '2019-07-25 22:08:59'),
-	(33, 17, 3, '0.02', '2019-07-25 22:08:59'),
-	(34, 18, 7, '2', '2019-07-25 22:12:41'),
-	(35, 18, 2, '1', '2019-07-25 22:12:41'),
-	(36, 18, 8, '3', '2019-07-25 22:12:41'),
-	(37, 18, 3, '0.02', '2019-07-25 22:12:41'),
-	(38, 19, 1, '1', '2019-07-25 22:17:03'),
-	(39, 19, 3, '1.75', '2019-07-25 22:17:03'),
-	(40, 20, 3, '1.75', '2019-07-25 22:25:16'),
-	(41, 21, 5, '1', '2019-07-25 22:25:17'),
-	(42, 21, 3, '2.15', '2019-07-25 22:25:17'),
-	(43, 22, 7, '1', '2019-07-26 21:53:42'),
-	(44, 22, 2, '1', '2019-07-26 21:53:42'),
-	(45, 22, 11, '1', '2019-07-26 21:53:42'),
-	(46, 22, 3, '0.02', '2019-07-26 21:53:42'),
-	(47, 23, 3, '65.45', '2019-07-25 01:00:30'),
-	(48, 24, 1, '1', '2019-07-25 00:59:51'),
-	(49, 24, 8, '1', '2019-07-25 00:59:51'),
-	(50, 24, 5, '1', '2019-07-25 00:59:51'),
-	(51, 24, 3, '65.55', '2019-07-25 00:59:51'),
-	(52, 25, 1, '1', '2019-07-27 17:50:29'),
-	(53, 25, 3, '0.87', '2019-07-27 17:50:29'),
-	(54, 26, 2, '2', '2019-07-27 17:50:28'),
-	(55, 26, 3, '0.93', '2019-07-27 17:50:28');
+INSERT INTO `trans_detail` (`id`, `id_trans`, `id_item`, `code_item`, `quantity`, `price`, `discount`, `start`) VALUES
+	(1, 1, 3, '', '0.03', '0', 0, '2019-07-05 18:06:04'),
+	(2, 2, 1, '', '2', '0', 0, '2019-07-05 18:14:23'),
+	(3, 2, 5, '', '1', '0', 0, '2019-07-05 18:14:23'),
+	(4, 2, 3, '', '0.02', '0', 0, '2019-07-05 18:14:23'),
+	(5, 3, 3, '', '2.35', '0', 0, '2019-07-15 21:23:38'),
+	(6, 4, 3, '', '0.12', '0', 0, '2019-07-20 16:24:32'),
+	(7, 5, 3, '', '7.33', '0', 0, '2019-07-20 16:31:54'),
+	(8, 6, 3, '', '0.42', '0', 0, '2019-07-20 23:26:48'),
+	(9, 7, 3, '', '99.68', '0', 0, '2019-07-20 16:24:33'),
+	(10, 8, 3, '', '99.72', '0', 0, '2019-07-20 16:24:32'),
+	(11, 9, 3, '', '101.82', '0', 0, '2019-07-20 14:46:45'),
+	(12, 10, 18, '', '1', '0', 0, '2019-07-24 21:22:23'),
+	(13, 10, 2, '', '1', '0', 0, '2019-07-24 21:22:23'),
+	(14, 10, 8, '', '2', '0', 0, '2019-07-24 21:22:23'),
+	(15, 10, 3, '', '0.03', '0', 0, '2019-07-24 21:22:23'),
+	(16, 11, 8, '', '2', '0', 0, '2019-07-24 21:27:52'),
+	(17, 11, 2, '', '1', '0', 0, '2019-07-24 21:27:52'),
+	(18, 11, 3, '', '0.18', '0', 0, '2019-07-24 21:27:52'),
+	(19, 12, 1, '', '1', '0', 0, '2019-07-24 21:28:43'),
+	(20, 12, 3, '', '0.17', '0', 0, '2019-07-24 21:28:43'),
+	(21, 13, 2, '', '1', '0', 0, '2019-07-24 21:36:26'),
+	(22, 13, 5, '', '1', '0', 0, '2019-07-24 21:36:26'),
+	(23, 13, 3, '', '1.25', '0', 0, '2019-07-24 21:36:26'),
+	(24, 14, 2, '', '3', '0', 0, '2019-07-24 22:52:28'),
+	(25, 14, 8, '', '1', '0', 0, '2019-07-24 22:52:28'),
+	(26, 14, 3, '', '1.72', '0', 0, '2019-07-24 22:52:28'),
+	(27, 15, 1, '', '1', '0', 0, '2019-07-25 20:35:12'),
+	(28, 15, 3, '', '0.27', '0', 0, '2019-07-25 20:35:12'),
+	(29, 16, 2, '', '1', '0', 0, '2019-07-25 20:35:13'),
+	(30, 16, 3, '', '0.45', '0', 0, '2019-07-25 20:35:13'),
+	(31, 17, 8, '', '1', '0', 0, '2019-07-25 22:08:59'),
+	(32, 17, 2, '', '1', '0', 0, '2019-07-25 22:08:59'),
+	(33, 17, 3, '', '0.02', '0', 0, '2019-07-25 22:08:59'),
+	(34, 18, 7, '', '2', '0', 0, '2019-07-25 22:12:41'),
+	(35, 18, 2, '', '1', '0', 0, '2019-07-25 22:12:41'),
+	(36, 18, 8, '', '3', '0', 0, '2019-07-25 22:12:41'),
+	(37, 18, 3, '', '0.02', '0', 0, '2019-07-25 22:12:41'),
+	(38, 19, 1, '', '1', '0', 0, '2019-07-25 22:17:03'),
+	(39, 19, 3, '', '1.75', '0', 0, '2019-07-25 22:17:03'),
+	(40, 20, 3, '', '1.75', '0', 0, '2019-07-25 22:25:16'),
+	(41, 21, 5, '', '1', '0', 0, '2019-07-25 22:25:17'),
+	(42, 21, 3, '', '2.15', '0', 0, '2019-07-25 22:25:17'),
+	(43, 22, 7, '', '1', '0', 0, '2019-07-26 21:53:42'),
+	(44, 22, 2, '', '1', '0', 0, '2019-07-26 21:53:42'),
+	(45, 22, 11, '', '1', '0', 0, '2019-07-26 21:53:42'),
+	(46, 22, 3, '', '0.02', '0', 0, '2019-07-26 21:53:42'),
+	(47, 23, 3, '', '65.45', '0', 0, '2019-07-25 01:00:30'),
+	(48, 24, 1, '', '1', '0', 0, '2019-07-25 00:59:51'),
+	(49, 24, 8, '', '1', '0', 0, '2019-07-25 00:59:51'),
+	(50, 24, 5, '', '1', '0', 0, '2019-07-25 00:59:51'),
+	(51, 24, 3, '', '65.55', '0', 0, '2019-07-25 00:59:51'),
+	(52, 25, 1, '', '1', '0', 0, '2019-07-27 17:50:29'),
+	(53, 25, 3, '', '0.87', '0', 0, '2019-07-27 17:50:29'),
+	(54, 26, 2, '', '2', '0', 0, '2019-07-27 17:50:28'),
+	(55, 26, 3, '', '0.93', '0', 0, '2019-07-27 17:50:28'),
+	(56, 27, 2, '', '1', '0', 0, '2019-08-05 20:45:59'),
+	(57, 27, 3, '', '0.30', '0', 0, '2019-08-05 20:45:59'),
+	(58, 28, 3, '', '0.40', '0', 0, '2019-08-05 20:46:00'),
+	(59, 29, 3, '', '0.42', '0', 0, '2019-08-05 20:46:02'),
+	(60, 30, 3, '', '0.43', '0', 0, '2019-08-05 20:46:01'),
+	(61, 31, 3, '', '0.45', '0', 0, '2019-08-05 20:46:01'),
+	(62, 32, 3, '', '0.08', '0', 0, '2019-08-05 21:10:03'),
+	(63, 33, 2, '', '1', '0', 0, '2019-08-06 22:30:52'),
+	(64, 33, 3, '', '0.00', '0', 0, '2019-08-06 22:30:52'),
+	(65, 34, 3, '', '1.17', '0', 0, '2019-08-08 23:30:07'),
+	(66, 35, 1, '', '1', '0', 0, '2019-08-09 21:25:15'),
+	(67, 35, 1, '', '1', '0', 0, '2019-08-09 21:25:15'),
+	(68, 35, 3, '', '0.42', '0', 0, '2019-08-09 21:25:15'),
+	(69, 36, 3, '', '0.67', '0', 0, '2019-08-09 21:25:16'),
+	(70, 37, 3, '', '0.72', '0', 0, '2019-08-09 21:25:17'),
+	(71, 38, 3, '', '2.57', '0', 0, '2019-08-09 21:47:39'),
+	(72, 39, 3, '', '0.05', '0', 0, '2019-08-10 00:22:36'),
+	(73, 40, 3, '', '0.55', '0', 0, '2019-08-09 23:52:40'),
+	(74, 41, 3, '', '0.55', '0', 0, '2019-08-09 23:52:40'),
+	(75, 42, 3, '', '2.02', '0', 0, '2019-08-12 20:28:18'),
+	(76, 43, 3, '', '2.08', '0', 0, '2019-08-12 20:28:19'),
+	(77, 44, 1, '', '1', '0', 0, '2019-08-14 20:19:26'),
+	(78, 44, 3, '', '1.07', '0', 0, '2019-08-14 20:19:26'),
+	(79, 45, 3, '', '1.08', '0', 0, '2019-08-14 20:19:27'),
+	(80, 48, 2, 'REDBULL', '1', '15000', 0, '2019-08-17 14:13:29'),
+	(81, 48, 3, 'PS4', '0.08', '20000', 0, '2019-08-17 14:13:29'),
+	(82, 49, 2, 'REDBULL', '1', '15000', 0, '2019-08-17 14:13:30'),
+	(83, 49, 1, 'COCA', '1', '10000', 0, '2019-08-17 14:13:30'),
+	(84, 49, 3, 'PS4', '2.50', '20000', 0, '2019-08-17 14:13:30'),
+	(85, 50, 5, 'DULICH', '1', '10000', 0, '2019-08-17 14:13:31'),
+	(86, 50, 3, 'PS4', '2.65', '20000', 0, '2019-08-17 14:13:31');
 /*!40000 ALTER TABLE `trans_detail` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.users
@@ -364,7 +421,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `fullname` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nickname` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `passwd` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `diem_tich` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Tổng điểm đã tích',
   `diem_tieu` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Tổng điểm đã tiêu',
@@ -376,31 +433,34 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `phone` (`phone`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table cms_ps_dev.users: ~16 rows (approximately)
+-- Dumping data for table cms_ps_dev.users: ~20 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`, `address`, `diem_tich`, `diem_tieu`, `role`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-	(1, 'thanhnm', 'Nguyễn Mai Thành', 'mr.Lun', '$2b$08$Jxl0fBDTxbEjumxvaiyVAuCU2w9vj/Re7wBI5BlbxFZD1iNWoaG0i', '0349617930', 'Hà Nội', 0, 0, 1, 5, 1, 'SYSTEM', '2019-06-16 14:21:17', 'thanhnm', '2019-07-27 16:01:18'),
-	(2, 'thanhbka', NULL, NULL, '$2b$08$bY0d8RzwaS1SPdJsKSOTve3pnt2T0b3lncGW/WZh/cBXb/odyH7N2', NULL, NULL, 0, 0, 1, 5, 1, 'SYSTEM', '2019-06-16 19:04:38', 'SYSTEM', '2019-06-16 19:04:38'),
-	(9, 'thanhbka89', NULL, NULL, '$2b$08$a.103X0TBIFqUhZeKs15FeYa/VJSCVPGYoaI8ekNWkpifpYw8ZVAu', NULL, NULL, 0, 0, 2, 5, 0, 'SYSTEM', '2019-06-20 20:43:24', 'SYSTEM', '2019-06-20 20:43:24'),
-	(10, 'thanhnm90', NULL, NULL, '$2b$08$2J/vnHTpMKQdAnHUuLjJS.4.UrKlutjoqlg4IA.5wtwc4YxsDFucu', NULL, NULL, 0, 0, 2, 5, 1, 'SYSTEM', '2019-06-21 23:06:20', 'SYSTEM', '2019-06-21 23:06:20'),
-	(11, 'thanhnm1990', NULL, NULL, '$2b$08$tard1a3J6p8U9hgLJL0SfOSNQ1yfYXUmVZ21lAqvNFD1Da1spztum', NULL, NULL, 0, 0, 2, 5, 1, 'SYSTEM', '2019-06-21 23:09:22', 'SYSTEM', '2019-06-21 23:09:22'),
-	(12, 'test', NULL, NULL, '123', '0987987', 'HN', 0, 0, 2, 5, 0, 'SYSTEM', '2019-07-06 11:28:35', 'SYSTEM', '2019-07-06 11:28:35'),
+	(1, 'thanhnm', 'Nguyễn Mai Thành', 'mr.Lun', '$2b$08$Jxl0fBDTxbEjumxvaiyVAuCU2w9vj/Re7wBI5BlbxFZD1iNWoaG0i', '0349617930', 'Gia Lam, Hà Nội', 53, 35, 1, 5, 1, 'SYSTEM', '2019-06-16 14:21:17', 'khach1', '2019-08-14 20:39:31'),
+	(2, 'thanhbka', NULL, NULL, '$2b$08$bY0d8RzwaS1SPdJsKSOTve3pnt2T0b3lncGW/WZh/cBXb/odyH7N2', '1', NULL, 9, 0, 1, 5, 1, 'SYSTEM', '2019-06-16 19:04:38', 'SYSTEM', '2019-06-16 19:04:38'),
+	(9, 'thanhbka89', NULL, NULL, '$2b$08$a.103X0TBIFqUhZeKs15FeYa/VJSCVPGYoaI8ekNWkpifpYw8ZVAu', '2', NULL, 0, 0, 2, 5, 0, 'SYSTEM', '2019-06-20 20:43:24', 'SYSTEM', '2019-06-20 20:43:24'),
+	(10, 'thanhnm90', NULL, NULL, '$2b$08$2J/vnHTpMKQdAnHUuLjJS.4.UrKlutjoqlg4IA.5wtwc4YxsDFucu', '3', NULL, 0, 0, 2, 5, 0, 'SYSTEM', '2019-06-21 23:06:20', 'SYSTEM', '2019-06-21 23:06:20'),
+	(11, 'thanhnm1990', 'abc', NULL, '$2b$08$tard1a3J6p8U9hgLJL0SfOSNQ1yfYXUmVZ21lAqvNFD1Da1spztum', '111', NULL, 7, 0, 2, 5, 1, 'SYSTEM', '2019-06-21 23:09:22', 'thanhbka', '2019-08-06 20:01:16'),
+	(12, 'test', NULL, NULL, '$2b$08$kvz3j0k2S.d9XCH8CssBleL3GP9/AUzZpNTAhmiHvAy5E3PoQhnSy', '0987987', 'HN', 0, 0, 2, 5, 1, 'SYSTEM', '2019-07-06 11:28:35', 'thanhbka', '2019-08-14 20:36:34'),
 	(13, 'test2', NULL, NULL, NULL, '0987789161', 'hn', 0, 0, 2, 5, 1, 'SYSTEM', '2019-07-06 11:33:22', 'SYSTEM', '2019-07-06 11:38:03'),
 	(14, 'test3', NULL, NULL, '$2b$08$lYfpwWS/fjMk3VkuIRbjK.G9oT2h3hF8tlftvaynGAwRQUQkspT7K', '123', 'hn', 0, 0, 3, 5, 1, 'SYSTEM', '2019-07-06 11:41:19', 'SYSTEM', '2019-07-06 11:55:19'),
-	(16, 'test4', NULL, NULL, '$2b$08$3yWKJvZRLEh8VfGCn6KfPuPd.Xt9/yTCywkslbGznV4SzmFK9stDW', NULL, NULL, 0, 0, 3, 5, 0, 'SYSTEM', '2019-07-06 12:38:32', 'thanhnm', '2019-07-20 16:18:20'),
-	(17, 'test5', NULL, NULL, '$2b$08$.4m8aqwli9FlAEDy02PbDuTiOnF8wvXH6luVSaqm/AkL7w9nY4GLW', NULL, NULL, 0, 0, 2, 5, 1, 'SYSTEM', '2019-07-06 12:38:40', 'SYSTEM', '2019-07-06 12:38:41'),
-	(18, 'test6', NULL, NULL, '$2b$08$X.KCUl0hox9yRLOIX2CVaeEPKvP0nI3.GKB96PlljBUyp/xenRm72', NULL, NULL, 0, 0, 2, 5, 1, 'SYSTEM', '2019-07-06 12:38:48', 'SYSTEM', '2019-07-06 12:38:49'),
-	(19, 'test1', NULL, NULL, '$2b$08$9PLNknvK2E69FGpTpY6U4.RMaZIXqB2WOmYRCw.iaOHbxbYYZGrWq', NULL, NULL, 0, 0, 2, 5, 1, 'SYSTEM', '2019-07-06 12:41:08', 'SYSTEM', '2019-07-06 12:41:09'),
-	(22, 'test7', NULL, NULL, '$2b$08$9CcoqQ2UIK9LDupmKZ1JBuI3JFyDfa3Mt8cs1ZUwcdsoocHWrVATG', NULL, NULL, 0, 0, 3, 5, 1, 'SYSTEM', '2019-07-20 14:48:32', 'SYSTEM', '2019-07-20 14:48:32'),
-	(23, 'test8', NULL, NULL, '$2b$08$F.5bLR2RVSzJOEdEDo9qKeDk5s0lNg8oomD720fzojDyA70LKx29O', NULL, NULL, 0, 0, 3, 5, 1, 'SYSTEM', '2019-07-20 15:42:33', 'SYSTEM', '2019-07-20 15:42:33'),
-	(24, 'test9', NULL, NULL, '$2b$08$3imjNva1D8hwyxrKcMJzKOuMsc2qtFfyE2VyzaXNwPp7poCfwFoGO', NULL, NULL, 0, 0, 3, 5, 1, 'SYSTEM', '2019-07-20 15:55:11', 'SYSTEM', '2019-07-20 15:55:11'),
+	(16, 'test4', NULL, NULL, '$2b$08$3yWKJvZRLEh8VfGCn6KfPuPd.Xt9/yTCywkslbGznV4SzmFK9stDW', '12', NULL, 0, 0, 3, 5, 0, 'SYSTEM', '2019-07-06 12:38:32', 'thanhnm', '2019-07-20 16:18:20'),
+	(17, 'test5', NULL, NULL, '$2b$08$.4m8aqwli9FlAEDy02PbDuTiOnF8wvXH6luVSaqm/AkL7w9nY4GLW', '13', NULL, 0, 0, 2, 5, 1, 'SYSTEM', '2019-07-06 12:38:40', 'SYSTEM', '2019-07-06 12:38:41'),
+	(18, 'test6', NULL, NULL, '$2b$08$X.KCUl0hox9yRLOIX2CVaeEPKvP0nI3.GKB96PlljBUyp/xenRm72', '14', NULL, 0, 0, 2, 5, 1, 'SYSTEM', '2019-07-06 12:38:48', 'SYSTEM', '2019-07-06 12:38:49'),
+	(19, 'test1', NULL, NULL, '$2b$08$9PLNknvK2E69FGpTpY6U4.RMaZIXqB2WOmYRCw.iaOHbxbYYZGrWq', '21', NULL, 0, 0, 2, 5, 1, 'SYSTEM', '2019-07-06 12:41:08', 'SYSTEM', '2019-07-06 12:41:09'),
+	(22, 'test7', NULL, NULL, '$2b$08$9CcoqQ2UIK9LDupmKZ1JBuI3JFyDfa3Mt8cs1ZUwcdsoocHWrVATG', '22', NULL, 0, 0, 3, 5, 1, 'SYSTEM', '2019-07-20 14:48:32', 'SYSTEM', '2019-07-20 14:48:32'),
+	(23, 'test8', NULL, NULL, '$2b$08$F.5bLR2RVSzJOEdEDo9qKeDk5s0lNg8oomD720fzojDyA70LKx29O', '23', NULL, 0, 0, 3, 5, 1, 'SYSTEM', '2019-07-20 15:42:33', 'SYSTEM', '2019-07-20 15:42:33'),
+	(24, 'test9', NULL, NULL, '$2b$08$3imjNva1D8hwyxrKcMJzKOuMsc2qtFfyE2VyzaXNwPp7poCfwFoGO', '24', NULL, 0, 0, 3, 5, 1, 'SYSTEM', '2019-07-20 15:55:11', 'SYSTEM', '2019-07-20 15:55:11'),
 	(25, 'test10', NULL, NULL, '$2b$08$Nfa4nVmF7YbP5cNTiETO3.VdtEQC0a1cKrNbn/t3BSlIKDjKmtgry', '0123987789', 'HN', 0, 0, 3, 5, 1, 'thanhnm', '2019-07-20 15:59:08', 'thanhnm', '2019-07-20 16:14:26'),
 	(26, 'test11', NULL, NULL, '$2b$08$7JeA7ct6xLRznUCk1TlVCe6iF4y5r4wniCTidBHo2SULRfjtf6RbC', '0347504904', NULL, 0, 0, 3, 5, 1, 'thanhnm', '2019-07-20 16:13:30', 'thanhbka', '2019-07-26 00:28:50'),
-	(27, 'thai', NULL, NULL, '$2b$08$3L2.lw1OVQOkwiIqxCCfNuIrkPTrFP.c.A99kN79an5BZFUYE0Ytq', NULL, NULL, 0, 0, 2, 5, 1, 'thanhbka', '2019-07-25 22:08:27', 'thanhbka', '2019-07-25 22:08:27');
+	(27, 'thai', NULL, NULL, '$2b$08$3L2.lw1OVQOkwiIqxCCfNuIrkPTrFP.c.A99kN79an5BZFUYE0Ytq', '34', NULL, 0, 0, 2, 5, 1, 'thanhbka', '2019-07-25 22:08:27', 'thanhbka', '2019-07-25 22:08:27'),
+	(28, 'khach1', 'ABC', NULL, '$2b$08$VDuH1gq1nQjZLMIpH5NhMO.ZegceuIGC2din.o3w0a17EJd3bsmv6', '12332', NULL, 0, 0, 3, 5, 1, 'test', '2019-08-14 20:38:01', 'test', '2019-08-14 20:38:36'),
+	(31, 'thanh0930', 'Nguyen thanh', NULL, '$2b$08$b8kbu5IuUEsE6atPKo4BbOxh9/H6koCIYywG0Az1j7yRTxpPXzWqO', '0349617938', NULL, 0, 0, 3, 5, 1, 'test', '2019-08-14 21:27:11', 'test', '2019-08-14 21:27:11');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.vendors
