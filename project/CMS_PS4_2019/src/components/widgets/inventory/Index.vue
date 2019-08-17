@@ -12,8 +12,13 @@
     </div>   
 
     <div class="filters row">
-        <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm ..." aria-label="Search" @keyup.enter="search"/>
+        <div class="form-group col-sm-5">
+          <multiselect v-model="codeSelected" :options="codes" :custom-label="nameWithLang" placeholder="Tìm theo mastercode ..." label="code" track-by="id" @select="searchByCode">
+          </multiselect>
+        </div>
+        <div class="form-group col-sm-6">
+          <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
+          <date-picker v-model="dateTo" format="YYYY-MM-DD" lang="en" confirm placeholder="Đến ngày" @change="search"></date-picker>
         </div>
     </div>
 
@@ -72,56 +77,61 @@
   </div>
 </template>
 <script>
-import api from '../../../api'
+import api from '@/api'
+import DatePicker from 'vue2-datepicker'
+import { formatDate } from '@/helpers'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'InventoryIndex',
+  components: { DatePicker, Multiselect },
   data() {
     return {
       searchKey: '',
       page: 1,
-      limit: 10,
+      limit: 15,
       totalPage: 10,
-      items: []
+      items: [],
+      dateFrom: '',
+      dateTo: new Date().setDate(new Date().getDate() + 1), // get date tomorrow
+      codeSelected: null
     }
   },
   props: {
-    openModal: Function
+    openModal: Function,
+    codes: Array
   },
   computed: {
     filteredResources() {
       return this.items
     }
   },
-  created: function() {
-    this.fetchItems()
-    this.paginateCallback()
+  async created() {
+    // this.fetchItems()
+    // this.paginateCallback()
+
+    // run parallel
+    await Promise.all([
+      this.fetchItems(),
+      this.paginateCallback()
+    ])
   },
 
   methods: {
     async paginateCallback(page = 1) {
-      let query = this.searchKey ? `code=${this.searchKey}` : ''
-      query = this.limit ? `${query}&limit=${this.limit}` : query
+      let query = this.build_query()
       try {
-        const result = await api.request('get', `/inventory/p/${page}?` + query)
-        if (result.data.success) {
-          this.items = result.data.data
-        }
-      } catch (e) {
-        console.error(e)
+        const response = await api.request('get', `/inventory/p/${page}` + query)
+        this.items = response.data.data
+      } catch (err) {
+        console.error(err)
       }
     },
     async fetchItems() {
       try {
-        const result = await api.request('get', '/inventory')
-        if (result.data.success) {
-          const number = result.data.data.length
-          this.totalPage = number > this.limit
-            ? Math.ceil(number / this.limit)
-            : 1
-        }
-      } catch (e) {
-        console.error(e)
+        await this.count()
+      } catch (err) {
+        console.error(err)
       }
     },
     addItem() {
@@ -140,17 +150,55 @@ export default {
         console.error(e)
       }
     },
-    search() {
-      api.request('get', `/item/s/query?q=${this.searchKey}`)
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async count(filter = null) {
+      filter = filter || ''
+      try {
+        const response = await api.request('get', `/inventory/get/count${filter}`)
+        if (response.data.success) {
+          let number = response.data.data
+          this.totalPage = number > this.limit
+            ? Math.ceil(number / this.limit)
+            : 1
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    build_query() {
+      let query = '?'
+      if (this.limit) {
+        query = query.concat(`&limit=${this.limit}`)
+      }
+      if (this.codeSelected) {
+        query = query.concat(`&code=${this.codeSelected.code}`)
+      }
+      if (this.dateFrom) {
+        query = query.concat(`&from=${formatDate({date: this.dateFrom})}`)
+      }
+      if (this.dateTo) {
+        query = query.concat(`&to=${formatDate({date: this.dateTo})}`)
+      }
+
+      return query
+    },
+    async search() {
+      let query = this.build_query()
+      try {
+        await this.count(query)
+        await this.paginateCallback()
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    nameWithLang ({ code, name }) {
+      return `[${code}] - ${name}`
+    },
+    searchByCode(option) {
+      this.codeSelected = option
+      this.search()
     },
     showAlert() {
-      this.$swal('Chuc nang sap co')
+      this.$swal('Chức năng đang hoàn thiện')
     },
     showToast(id) {
       this.$swal({

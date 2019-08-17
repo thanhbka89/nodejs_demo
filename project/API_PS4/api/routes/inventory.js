@@ -19,6 +19,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
+      req.body.created_by = req.decoded.username || null
       let result = await Inventory.create(new Inventory(req.body))
       
       return res.json({
@@ -79,18 +80,27 @@ router.route('/:id')
 
 router.get('/p/:page', async (req, res) => {
   try {
-    const {page} = req.params
-    const {limit, code, status} = req.query
-    const result = await Inventory.paginate(
-      { page,
-        limit, 
-        code,
-        status 
-      })
+    req.query.page = req.params.page
+    const result = await Inventory.paginate(req.query)
     return res.json({
       success: true,
       data: result
     })
+  } catch (e) {
+    return res.json({
+      success: false,
+      data: e
+    })
+  }
+})
+
+router.get('/get/count', async (req, res) => {
+  try {
+    const result = await Inventory.count(req.query)
+    return res.json({
+			success: true,
+			data: result[0].count
+		})
   } catch (e) {
     return res.json({
       success: false,

@@ -19,11 +19,10 @@ class Inventory {
     }
 
     static getCondition(input) {
-        const filter = input || {}
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {code, status} = filter
+        const {code, status, from, to} = input || {}
         if (code) {
 			$where = $where.concat(` ${check ? 'AND' : ''} code = '${code}'`)
 			check ++
@@ -31,6 +30,14 @@ class Inventory {
         if (status) {
 			$where = $where.concat(` ${check ? 'AND' : ''} status = ${status}`)
 			check ++
+        }
+        if (from) {
+            $where = $where.concat(` ${check ? 'AND' : ''} created_at >= '${from}'`)
+            check ++
+        }
+        if (to) {
+            $where = $where.concat(` ${check ? 'AND' : ''} created_at <= '${to}'`)
+            check ++
         }
         
         return {
@@ -45,14 +52,14 @@ class Inventory {
         return OBJ_DB.query(sql)
     }
 
-    static async paginate({page = 1, limit = 5, code, status}) {
+    static async paginate({page = 1, limit = 5, code, status, from, to}) {
         let start = 0
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({code, status})
+        const condition = this.getCondition({code, status, from, to})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} ORDER BY id DESC LIMIT ? OFFSET ?`
         return OBJ_DB.query(sql, [limit, start])
     }
@@ -85,6 +92,13 @@ class Inventory {
         let sql = `UPDATE ${TABLE_NAME} SET status = ? WHERE id = ?`
 
         return OBJ_DB.query(sql, [STATUS_INACTIVE, id])
+    }
+
+    static async count(input) {
+        const condition = this.getCondition(input)
+        let sql = `SELECT COUNT(*) AS count FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
+        
+        return OBJ_DB.query(sql)
     }
 }
 

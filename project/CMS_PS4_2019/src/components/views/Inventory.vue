@@ -58,7 +58,7 @@
         </div>
       </service-create>
       <div class="col-xs-12">
-        <index :openModal="openModal"></index>
+        <index :openModal="openModal" :codes="options"></index>
       </div>
       
     </div>
@@ -66,9 +66,9 @@
 </template>
 
 <script>
-import api from '../../api'
-import Index from '../widgets/inventory/Index'
-import ServiceCreate from '../widgets/Modal'
+import api from '@/api'
+import Index from '@/components/widgets/inventory/Index'
+import ServiceCreate from '@/components/widgets/Modal'
 
 export default {
   name: 'Inventory',
@@ -85,8 +85,8 @@ export default {
       options: []
     }
   },
-  created() {
-    this.getActiveCodes()
+  async created() {
+    await this.getActiveCodes()
   },
   methods: {
     openModal(obj = this.item) {
@@ -122,8 +122,10 @@ export default {
         })
     },
     update() {
-      let objCode = this.item.code
-      this.item.code = objCode.code
+      if (typeof this.item.code === 'object' && this.item.code !== null) {
+        let objCode = this.item.code
+        this.item.code = objCode.code
+      }
       api
         .request('put', `/inventory/${this.item.id}`, this.item)
         .then(response => {
