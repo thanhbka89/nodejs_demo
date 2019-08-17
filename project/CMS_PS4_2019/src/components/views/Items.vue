@@ -58,7 +58,7 @@
         </div>
       </service-create>
       <div class="col-xs-12">
-        <index :openModal="openModal"></index>
+        <index :openModal="openModal" :codes="options"></index>
       </div>
       
     </div>
@@ -66,9 +66,9 @@
 </template>
 
 <script>
-import api from '../../api'
-import Index from '../widgets/item/Index'
-import ServiceCreate from '../widgets/Modal'
+import api from '@/api'
+import Index from '@/components/widgets/item/Index'
+import ServiceCreate from '@/components/widgets/Modal'
 
 export default {
   name: 'Item',

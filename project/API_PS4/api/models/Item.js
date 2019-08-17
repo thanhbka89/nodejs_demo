@@ -34,7 +34,7 @@ class Item {
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
         const {name, code, category, status} = filter
         if (code) {
-			$where = $where.concat(` ${check ? 'AND' : ''} code LIKE "%${code}%"`)
+			$where = $where.concat(` ${check ? 'AND' : ''} code = '${code}'`)
 			check ++
         }
         if (name) {

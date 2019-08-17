@@ -12,9 +12,13 @@
     </div>   
 
     <div class="filters row">
-        <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm dịch vụ ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
-        </div>
+      <div class="form-group col-sm-5">
+        <multiselect v-model="codeSelected" :options="codes" :custom-label="nameWithLang" placeholder="Tìm theo mastercode ..." label="code" track-by="id" @select="searchByCode">
+        </multiselect>
+      </div>
+      <div class="form-group col-sm-3">
+        <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm tên dịch vụ ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+      </div>
     </div>
 
     <table class="table table-striped table-hover">
@@ -72,21 +76,25 @@
   </div>
 </template>
 <script>
-import api from '../../../api'
+import api from '@/api'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'ItemIndex',
+  components: { Multiselect },
   data() {
     return {
       searchKey: '',
       page: 1,
       limit: 15,
       totalPage: 10,
-      items: []
+      items: [],
+      codeSelected: null
     }
   },
   props: {
-    openModal: Function
+    openModal: Function,
+    codes: Array
   },
   computed: {
     filteredResources() {
@@ -95,7 +103,10 @@ export default {
   },
   async created() {
     // run parallel
-    await Promise.all([this.fetchItems(), this.paginateCallback()])
+    await Promise.all([
+      this.fetchItems(),
+      this.paginateCallback()
+    ])
   },
 
   methods: {
@@ -166,8 +177,18 @@ export default {
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)
       }
+      if (this.codeSelected) {
+        query = query.concat(`&code=${this.codeSelected.code}`)
+      }
 
       return query
+    },
+    nameWithLang ({ code, name }) {
+      return `[${code}] - ${name}`
+    },
+    searchByCode(option) {
+      this.codeSelected = option
+      this.search()
     },
     showAlert() {
       this.$swal('Chức năng đang hoàn thiện!')
