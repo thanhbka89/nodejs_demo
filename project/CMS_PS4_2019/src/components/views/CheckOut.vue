@@ -409,6 +409,10 @@ export default {
     clearErrorMsg() {
       // Neu check nut su dung diem
       if (this.usePoint && !this.errorMsg.length) {
+        if (this.numberPoint > this.psLocal.elapsed) {
+          this.showWarning('Số điểm sử dụng phải <= số phút đã chơi !')
+          this.numberPoint = this.psLocal.elapsed
+        }
         this.ps4.elapsed = this.psLocal.elapsed - this.numberPoint
       } else {
         this.ps4.elapsed = this.psLocal.elapsed
@@ -418,10 +422,10 @@ export default {
 
       this.errorMsg = ''
     },
-    showAlertMember() {
+    showWarning(msg = null) {
       this.$swal(
             'Cảnh báo!',
-            'Vui lòng chọn khách hàng!',
+            msg || 'Vui lòng chọn khách hàng!',
             'warning'
           )
     },
@@ -448,7 +452,7 @@ export default {
           }
         })
       } else {
-        this.showAlertMember()
+        this.showWarning()
       }
     },
     showToast(type = 'success', message = '') {
