@@ -181,7 +181,19 @@ export default {
         this.getPs4 = JSON.parse(window.localStorage.getItem(id))
         this.getPs4.items = this.getPs4.items || []
         let index = this.getPs4.items.length
-        this.getPs4.items.push({id: ++index, name: val, quantity: 1, start: this.getPs4.end})
+
+        // tim kiem xem dich vu nay da them chua
+        const idxFound = this.getPs4.items.findIndex((element) => {
+          return element.name.id === val.id
+        })
+        if (idxFound >= 0) {
+          let parsed = parseInt(this.getPs4.items[idxFound].quantity)
+          if (!isNaN(parsed)) {
+            this.getPs4.items[idxFound].quantity = parsed + 1
+          }
+        } else {
+          this.getPs4.items.push({id: ++index, name: val, quantity: 1, start: this.getPs4.end})
+        }
         window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
       }
     },
