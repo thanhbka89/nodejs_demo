@@ -35,7 +35,7 @@ class User {
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {username, phone, status, from, to} = filter
+        const {username, fullname, phone, status, from, to} = filter
         if (username) {
 			$where = $where.concat(` ${check ? 'AND' : ''} username LIKE '%${username}%'`)
 			check ++
@@ -46,6 +46,15 @@ class User {
                 $where = $where.concat(` ${check ? 'OR' : ''} phone LIKE "%${operation[1]}%"`)
             } else {
                 $where = $where.concat(` ${check ? 'AND' : ''} phone LIKE "%${phone}%"`)
+            }
+			check ++
+        }
+        if (fullname) {
+            operation = fullname.split(']')
+            if (operation.length > 1) {
+                $where = $where.concat(` ${check ? 'OR' : ''} fullname LIKE "%${operation[1]}%"`)
+            } else {
+                $where = $where.concat(` ${check ? 'AND' : ''} fullname LIKE "%${phone}%"`)
             }
 			check ++
         }
@@ -76,14 +85,14 @@ class User {
         }
     }
 
-    static paginate({page = 1, limit = 5, username, phone, status, from, to}, result) {
+    static paginate({page = 1, limit = 5, username, fullname, phone, status, from, to}, result) {
         let start = 0
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({username, phone, status, from, to})
+        const condition = this.getCondition({username, fullname, phone, status, from, to})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
         console.log(sql)
         db.query(sql, [limit, start], (err, res) => {

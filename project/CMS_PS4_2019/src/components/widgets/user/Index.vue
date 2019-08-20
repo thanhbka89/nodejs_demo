@@ -27,6 +27,7 @@
         <tr>
           <th>ID</th>
           <th>Username</th>
+          <th>FullName</th>
           <th>Phone</th>
           <th>Role</th>
           <th>Trạng thái</th>
@@ -37,8 +38,9 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-2"><router-link :to="{ name: 'UserDetail', params: { id: item.id }}">{{ item.username }}</router-link></td>
-          <td class="col-md-3">{{ item.phone }}</td>
+          <td class="col-md-1"><router-link :to="{ name: 'UserDetail', params: { id: item.id }}">{{ item.username }}</router-link></td>
+          <td class="col-md-3">{{ item.fullname }}</td>
+          <td class="col-md-1">{{ item.phone }}</td>
           <td class="col-md-2">{{ item.role === 1 ? 'Quản trị viên' : (item.role === 2 ? 'Nhân viên' : 'Khách hàng') }}</td>
           <td class="col-md-2">{{ item.status ? 'Đang hoạt động' : 'Không hoạt động' }}</td>
           <td class="col-md-2">
@@ -215,7 +217,7 @@ export default {
     build_query() {
       let query = '?'
       if (this.searchKey) {
-        query = query.concat(`username=${this.searchKey}&phone=[or]${this.searchKey}`)
+        query = query.concat(`username=${this.searchKey}&phone=[or]${this.searchKey}&fullname=[or]${this.searchKey}`)
       }
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)

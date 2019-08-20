@@ -175,9 +175,8 @@ router.route('/action/:id')
 	})
 
 router.get('/p/:page', (req, res) => {
-	const {page} = req.params
-	const {limit, username, phone, status, from, to} = req.query
-	User.paginate({page, limit, username, phone, status, from, to}, (err, reponse) => {
+	req.query.page = req.params.page
+	User.paginate(req.query, (err, reponse) => {
 		if (err) throw err
 		res.json(reponse)
 	})
