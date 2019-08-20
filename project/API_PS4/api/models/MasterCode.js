@@ -15,6 +15,7 @@ class MasterCode {
 
     static getCondition(input) {
         let $where = 'WHERE'
+        let operation = []
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
         const {code, name, status, category} = input || {}
@@ -23,7 +24,12 @@ class MasterCode {
 			check ++
         }
         if (name) {
-            $where = $where.concat(` ${check ? 'AND' : ''} name LIKE "%${name}%"`)
+            operation = name.split(']')
+            if (operation.length > 1) {
+                $where = $where.concat(` ${check ? 'OR' : ''} name LIKE "%${operation[1]}%"`)
+            } else {
+                $where = $where.concat(` ${check ? 'AND' : ''} name LIKE "%${name}%"`)
+            }
 			check ++
         }
         if (category) {
@@ -104,6 +110,13 @@ class MasterCode {
         const condition = this.getCondition({category: danhmuc, status})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
 
+        return OBJ_DB.query(sql)
+    }
+
+    static async count(input) {
+        const condition = this.getCondition(input)
+        let sql = `SELECT COUNT(*) AS count FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''}`
+        
         return OBJ_DB.query(sql)
     }
 }

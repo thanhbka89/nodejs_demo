@@ -13,7 +13,7 @@
 
     <div class="filters row">
         <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm codes ..." aria-label="Search" @keyup.enter="search"/>
+            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm codes, name ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
         </div>
     </div>
 
@@ -70,7 +70,7 @@
   </div>
 </template>
 <script>
-import api from '../../../api'
+import api from '@/api'
 
 export default {
   name: 'CodeIndex',
@@ -78,7 +78,7 @@ export default {
     return {
       searchKey: '',
       page: 1,
-      limit: 10,
+      limit: 15,
       totalPage: 10,
       items: []
     }
@@ -91,35 +91,29 @@ export default {
       return this.items
     }
   },
-  created: function() {
-    this.fetchItems()
-    this.paginateCallback()
+  async created() {
+    // run parallel
+    await Promise.all([
+      this.fetchItems(),
+      this.paginateCallback()
+    ])
   },
 
   methods: {
     async paginateCallback(page = 1) {
-      let query = this.searchKey ? `code=${this.searchKey}` : ''
-      query = this.limit ? `${query}&limit=${this.limit}` : query
+      let query = this.build_query()
       try {
-        const result = await api.request('get', `/code/p/${page}?` + query)
-        if (result.data.success) {
-          this.items = result.data.data
-        }
-      } catch (e) {
-        console.error(e)
+        const response = await api.request('get', `/code/p/${page}` + query)
+        this.items = response.data.data
+      } catch (err) {
+        console.error(err)
       }
     },
     async fetchItems() {
       try {
-        const result = await api.request('get', '/code')
-        if (result.data.success) {
-          const number = result.data.data.length
-          this.totalPage = number > this.limit
-            ? Math.ceil(number / this.limit)
-            : 1
-        }
-      } catch (e) {
-        console.error(e)
+        await this.count()
+      } catch (err) {
+        console.error(err)
       }
     },
     addItem() {
@@ -139,17 +133,38 @@ export default {
       }
     },
     async search() {
-      let page = 1
-      let query = this.searchKey ? `code=${this.searchKey}` : ''
-      query = this.limit ? `${query}&limit=${this.limit}` : query
+      let query = this.build_query()
       try {
-        const result = await api.request('get', `/code/p/${page}?` + query)
-        if (result.data.success) {
-          this.items = result.data.data
-        }
-      } catch (e) {
-        console.error(e)
+        await this.count(query)
+        await this.paginateCallback()
+      } catch (err) {
+        console.error(err)
       }
+    },
+    async count(filter = null) {
+      filter = filter || ''
+      try {
+        const response = await api.request('get', `/code/get/count${filter}`)
+        if (response.data.success) {
+          let number = response.data.data
+          this.totalPage = number > this.limit
+            ? Math.ceil(number / this.limit)
+            : 1
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    build_query() {
+      let query = '?'
+      if (this.searchKey) {
+        query = query.concat(`code=${this.searchKey}&name=[or]${this.searchKey}`)
+      }
+      if (this.limit) {
+        query = query.concat(`&limit=${this.limit}`)
+      }
+
+      return query
     },
     showAlert() {
       this.$swal('Chức năng đang hoàn thiện')
