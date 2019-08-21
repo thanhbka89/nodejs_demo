@@ -140,6 +140,12 @@ const routes = [
         component: () => import('./components/views/UserDetail'),
         name: 'UserDetail',
         meta: {description: 'User profile', requiresAuth: true}
+      },
+      {
+        path: 'report/bcnxt',
+        component: () => import('./components/views/ReportNXT'),
+        name: 'ReportNXT',
+        meta: {description: 'Nhập xuất tồn kho', requiresAuth: true}
       }
     ]
   }, {

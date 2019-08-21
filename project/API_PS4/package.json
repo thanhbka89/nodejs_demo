@@ -36,8 +36,11 @@
     "moment": "^2.24.0",
     "mongoose": "^5.4.17",
     "morgan": "^1.9.1",
+    "multer": "^1.4.2",
     "mysql": "^2.16.0",
     "request": "^2.88.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "xls-to-json-lc": "^0.3.4",
+    "xlsx-to-json-lc": "^0.5.0"
   }
 }

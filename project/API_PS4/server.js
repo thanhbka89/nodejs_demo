@@ -187,6 +187,7 @@ const apiLimiter = rateLimit({
 })
 app.use('/api/ps4/v1/', apiLimiter) // only apply to requests that begin with
 app.use('/api/ps4/v1/authen', routes.authen)
+app.use('/api/ps4/v1/upload', routes.upload)
 app.use('/api/ps4/v1/', middleware.checkToken) // check JWT
 app.use('/api/ps4/v1/user', routes.user)
 app.use('/api/ps4/v1/vendor', routes.vendor)

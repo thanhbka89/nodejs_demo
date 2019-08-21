@@ -9,6 +9,7 @@ import authen from './authen'
 import ps from './ps'
 import point from './point'
 import chamcong from './cham_cong'
+import upload from './upload'
 
 export default {
     authen,
@@ -21,6 +22,7 @@ export default {
     inventory,
     ps,
     point,
-    chamcong
+    chamcong,
+    upload
 }
 

@@ -2,8 +2,7 @@ import { Router } from 'express'
 import Transaction from '../models/Transaction'
 import TransactionDetail from '../models/TransactionDetail'
 // import Point from '../models/Point'
-import Point from '../models/User'
-import User from '../models/User';
+import User from '../models/User'
 const router = Router()
 const TICH_DIEM = 1
 const TIEU_DIEM = 2
@@ -183,5 +182,20 @@ router.get('/get/count', async (req, res) => {
   }
 })
 
+router.get('/trans_detail/p/:page', async (req, res) => {
+  try {
+    req.query.page = req.params.page
+    const result = await TransactionDetail.paginate(req.query)
+    return res.json({
+      success: true,
+      data: result
+    })
+  } catch (e) {
+    return res.json({
+      success: false,
+      data: e
+    })
+  }
+})
 
 export default router

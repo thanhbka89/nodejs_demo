@@ -14,23 +14,26 @@ class TransactionDetail {
     }
 
     static getCondition(input) {
-        const filter = input || {}
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        // const {ps, user} = filter
-        // if (ps) {
-        //     if (Array.isArray(ps)) {
-        //         $where = $where.concat(` ${check ? 'AND' : ''} id_ps IN (${ps.toString()})`)
-        //     } else {
-        //         $where = $where.concat(` ${check ? 'AND' : ''} id_ps = ${ps}`)
-        //     }            
-		// 	check ++ 
-        // }
-        // if (user) {
-		// 	$where = $where.concat(` ${check ? 'AND' : ''} id_user = ${user}`)
-		// 	check ++
-        // }
+        const {id_item, code_item, from, to} = input || {}
+        if (id_item) {
+            $where = $where.concat(` ${check ? 'AND' : ''} id_item = ${id_item}`)   
+			check ++ 
+        }
+        if (code_item) {
+			$where = $where.concat(` ${check ? 'AND' : ''} code_item = ${code_item}`)
+			check ++
+        }
+        if (from) {
+            $where = $where.concat(` ${check ? 'AND' : ''} start >= '${from}'`)
+            check ++
+        }
+        if (to) {
+            $where = $where.concat(` ${check ? 'AND' : ''} start <= '${to}'`)
+            check ++
+        }
         
         return {
             query: $where,
@@ -44,14 +47,14 @@ class TransactionDetail {
         return OBJ_DB.query(sql)
     }
 
-    static async paginate({page = 1, limit = 5, ps, user}) {
+    static async paginate({page = 1, limit = 5, id_item, code_item, from, to}) {
         let start = 0
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({ps, user})
+        const condition = this.getCondition({id_item, code_item, from, to})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
 
         return OBJ_DB.query(sql, [limit, start])

@@ -34,22 +34,32 @@
 
     <template v-if="is_admin">
     <li class="header">CÀI ĐẶT</li>
-    <router-link tag="li" class="pageLink" to="/item">
-      <a>
-        <i class="fa fa-shopping-cart text-red"></i>
-        <span class="page"> DS Dịch vụ</span>
-      </a>
-    </router-link>
     <router-link tag="li" class="pageLink" to="/code">
       <a>
         <i class="fa fa-qrcode text-aqua"></i>
         <span class="page"> Master Code</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/item">
+      <a>
+        <i class="fa fa-shopping-cart text-red"></i>
+        <span class="page"> DS Dịch vụ</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/ps">
       <a>
         <i class="fa fa-futbol-o text-orange"></i>
         <span class="page"> DS máy PS</span>
+      </a>
+    </router-link>
+    </template>
+
+    <template v-if="is_admin">
+    <li class="header">BÁO CÁO</li>
+    <router-link tag="li" class="pageLink" to="report/bcnxt">
+      <a>
+        <i class="fa fa-qrcode text-aqua"></i>
+        <span class="page"> Nhập xuất tồn kho</span>
       </a>
     </router-link>
     </template>
