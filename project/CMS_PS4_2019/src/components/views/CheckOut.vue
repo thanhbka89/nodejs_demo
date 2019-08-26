@@ -116,18 +116,18 @@
                   <th>Dịch vụ</th>
                   <th>Đơn giá</th>
                   <th class="text-center">Số lượng</th>
-                  <th class="text-right">Khuyến mại</th>
                   <th class="text-right">Thành tiền</th>
+                  <th class="text-right">Giảm giá %</th>
+                  <th class="text-right">Tổng tiền</th>
                 </tr>
               </thead>
               <tfoot>
                 <tr>
-                  <td colspan="4" class="text-right"></td>
-                  <td class="text-right"><br /></td>
-                  <td class="text-right"></td>
+                  <td colspan="5" class="text-right"></td>
+                  <td colspan="2" class="text-right"><br /></td>
                 </tr>
                 <tr>
-                  <td colspan="4" class="text-right">
+                  <td colspan="5" class="text-right">
                     <strong>Tổng tiền thanh toán:</strong></td>
                   <td colspan="2" class="text-right"><strong>{{total | toVnd }}</strong></td>
                 </tr>
@@ -135,28 +135,36 @@
               <tbody>
                 <tr v-if="isCheckout">
                   <td class="col-xs-1">0</td>
-                  <td class="col-xs-4">{{ api_ps4.name || 'Giờ chơi PS4' }}</td>
-                  <td class="col-xs-2">{{ api_ps4.gia_ban || 0 | toVnd }}</td>
+                  <td class="col-xs-3">{{ api_ps4.name || 'Giờ chơi PS4' }}</td>
+                  <td class="col-xs-1">{{ api_ps4.gia_ban || 0 | toVnd }}</td>
                   <td class="col-xs-1 text-center">
                     {{ so_giochoi }}
                   </td>
                   <td class="col-xs-2 text-right">
+                    {{ Math.ceil(so_giochoi * (api_ps4.gia_ban || 0)) | toVnd }}
                   </td>
                   <td class="col-xs-2 text-right">
-                   {{ Math.ceil(so_giochoi * (api_ps4.gia_ban || 0)) | toVnd }}
+                    {{ percentDiscount }} %
+                  </td>
+                  <td class="col-xs-2 text-right">
+                   {{ Math.ceil(so_giochoi * (api_ps4.gia_ban || 0) * (100 - this.percentDiscount) / 100) | toVnd }}
                   </td>
                 </tr>
                 <tr v-for="(item, index) in items" :key="index">
                   <td class="col-xs-1">{{ ++index }}</td>
-                  <td class="col-xs-4">{{ item.name.name }}</td>
-                  <td class="col-xs-2">{{ item.name.gia_ban | toVnd }}</td>
+                  <td class="col-xs-3">{{ item.name.name }}</td>
+                  <td class="col-xs-1">{{ item.name.gia_ban | toVnd }}</td>
                   <td class="col-xs-1 text-center">
-                    {{item.quantity}}
+                    {{ item.quantity }}
                   </td>
                   <td class="col-xs-2 text-right">
+                    {{ item.name.gia_ban * item.quantity | toVnd }}
                   </td>
                   <td class="col-xs-2 text-right">
-                   {{item.name.gia_ban * item.quantity | toVnd}}
+                    {{ item.discount || 0 }} %
+                  </td>
+                  <td class="col-xs-2 text-right">
+                   {{ item.name.gia_ban * item.quantity * (1 - (item.discount || 0) / 100) | toVnd }}
                   </td>
                 </tr>
               </tbody>
@@ -316,7 +324,12 @@ export default {
           let temp = await api.request('get', `/item/${tranObj.t2_id_item}`)
           if (temp.data.length) {
             let item = temp.data[0]
-            items.push({id: index, quantity: tranObj.t2_quantity, name: {name: item.name, gia_ban: item.gia_ban}})
+            items.push({
+              id: index,
+              quantity: tranObj.t2_quantity,
+              name: {name: item.name, gia_ban: item.gia_ban},
+              discount: tranObj.t2_discount
+            })
           }
         }
         this.items = items
@@ -325,7 +338,6 @@ export default {
     caclTotal() {
       // tinh tien gio choi PS
       // @26.08.2019 : dang chi ap dung chiet khau cho gio choi PS
-      debugger
       let moneyPS = this.so_giochoi * this.api_ps4.gia_ban
       // neu ap dung chiet khau
       if (this.discountType === CheckOutSetting.TYPE_DISCOUNT_PS) {
@@ -414,6 +426,7 @@ export default {
         .request('post', '/trans', data)
         .then(response => {
           if (response.data.success) {
+            data.items.pop() // Xoa last element, ko cho hien thi len man hinh
             this.showAlert()
           } else {
             this.showToast('warning', response.data.data.code)
