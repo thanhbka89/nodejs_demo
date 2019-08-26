@@ -32,10 +32,11 @@
       </div>
       <!-- /.col -->
       <div class="col-md-4 col-sm-6 col-xs-12">
-        <info-box color-class="bg-yellow"
-                  :icon-classes="['ion', 'ion-ios-people-outline']"
-                  text="Thành viên"
-                  :number="numberMember"></info-box>
+        <info-box color-class="bg-red"
+                  :icon-classes="['ion', 'ion-social-usd-outline']"
+                  :text="'Doanh thu tháng ' + currentMonth"
+                  :is-currency="true"
+                  :number="revenue"></info-box>
       </div>
       <!-- /.col -->
     </div>
@@ -61,12 +62,10 @@
     <!-- Main row -->
     <div class="row">
       <div class="col-md-3 col-sm-6 col-xs-12">
-        <process-info-box color-class="bg-yellow"
-                          :icon-classes="['ion', 'ion-ios-pricetag-outline']"
-                          text="Inventory"
-                          number="5,200"
-                          :progress="50"
-                          description="50% increase since May"></process-info-box>
+        <info-box color-class="bg-yellow"
+                  :icon-classes="['ion', 'ion-ios-people-outline']"
+                  text="Thành viên"
+                  :number="numberMember"></info-box>
       </div>
       <!-- /.col -->
       <div class="col-md-3 col-sm-6 col-xs-12">
@@ -131,7 +130,8 @@ export default {
       numberMember: 0,
       numberTransaction: 0,
       currentMonth: formatDate({format: 'MM/YYYY'}),
-      chartRevenue: {labels: [], datasets: []}
+      chartRevenue: {labels: [], datasets: []},
+      revenue: 0
     }
   },
   computed: {
@@ -149,7 +149,8 @@ export default {
     await Promise.all([
       this.getTotalPS(),
       this.getTotalMember(),
-      this.getTotalTrans()
+      this.getTotalTrans(),
+      this.getTotalRevenueInMonth()
     ])
   },
   async mounted () {
@@ -273,16 +274,17 @@ export default {
 
       return groups
     },
-    // async getTotalRevenueInMonth() {
-    //   try {
-    //      const data = await this.getTransByDay()
-    //      let temp = data.reduce((sum, current) => {
-    //       return sum + current.total_money
-    //     }, 0)
-    //   } catch (e) {
-    //     console.error(e)
-    //   }
-    // },
+    async getTotalRevenueInMonth() {
+      try {
+        const data = await this.getTransByDay()
+        let revenue = data.reduce((sum, current) => {
+          return sum + current.total_money
+        }, 0)
+        this.revenue = revenue
+      } catch (e) {
+        console.error(e)
+      }
+    },
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId)
       const t = new Chart(ctx, {
