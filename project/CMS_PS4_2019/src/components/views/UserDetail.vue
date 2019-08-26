@@ -77,7 +77,8 @@
 
 <script>
 import api from '@/api'
-import {VueTabs, VTab} from 'vue-nav-tabs/dist/vue-tabs.min.js'
+import { VueTabs, VTab } from 'vue-nav-tabs/dist/vue-tabs.min.js'
+import { UserSetting } from '@/settings'
 
 export default {
   name: 'UserDetail',
@@ -92,13 +93,14 @@ export default {
       return this.user.diem_tich - this.user.diem_tieu
     },
     role() {
-      return this.user.role === 1 ? 'Administrator'
-        : (this.user.role === 2 ? 'Nhân viên' : 'Khách hàng')
+      return this.user.role === UserSetting.ROLE_ADMINISTRATOR ? 'Administrator'
+        : (this.user.role === UserSetting.ROLE_EMPLOYEE ? 'Nhân viên' : 'Khách hàng')
     },
     type() {
-      return this.user.type === 1 ? 'Diamond'
-        : this.user.type === 2 ? 'VIP'
-        : this.user.type === 3 ? 'Khách hàng thân thiết' : 'Khách hàng thông thường'
+      return this.user.type === UserSetting.TYPE_DIAMOND ? 'Diamond'
+        : this.user.type === UserSetting.TYPE_VIP ? 'VIP'
+        : this.user.type === UserSetting.TYPE_LOYAL ? 'Khách hàng thân thiết'
+        : 'Khách hàng thông thường'
     }
   },
   async created() {

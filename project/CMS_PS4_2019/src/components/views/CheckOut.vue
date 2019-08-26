@@ -21,7 +21,7 @@
       </div>
       <div class="col-md-10">
         <div v-if="isCheckout">
-          <multiselect v-model="memberSelected" :options="members" :custom-label="nameWithLang" placeholder="Chọn khách hàng" label="username" track-by="username"></multiselect>
+          <multiselect v-model="memberSelected" :options="members" :custom-label="nameWithLang" placeholder="Chọn khách hàng" label="username" track-by="username" @input="caclTotal"></multiselect>
         </div>
         <strong v-else>{{ displayName }}</strong>
       </div>
@@ -66,7 +66,7 @@
       </div>
       </template>
 
-      <template v-if="isCheckout && this.memberSelected && this.memberSelected.id">
+      <template v-if="isCheckout && this.memberSelected && this.memberSelected.id && hasPointSetting">
         <div class="col-xs-12">
           <br />
           <p>
@@ -122,9 +122,9 @@
               </thead>
               <tfoot>
                 <tr>
-                  <td colspan="4" class="text-right">Chiết khấu:</td>
-                  <td class="text-right">0%</td>
-                  <td class="text-right">0</td>
+                  <td colspan="4" class="text-right"></td>
+                  <td class="text-right"><br /></td>
+                  <td class="text-right"></td>
                 </tr>
                 <tr>
                   <td colspan="4" class="text-right">
@@ -188,6 +188,7 @@ import moment from 'moment'
 import api from '@/api'
 import Multiselect from 'vue-multiselect'
 import VueSlider from 'vue-slider-component'
+import { UserSetting, CheckOutSetting } from '@/settings'
 
 const ERROR_TYPE = {
   VALUE: 1,
@@ -215,9 +216,14 @@ export default {
       memberSelected: null,
       members: [], // get list members from api
 
+      hasPointSetting: CheckOutSetting.HAS_POINT, // ap dung tich diem
       numberPoint: 0,
       usePoint: false,
-      errorMsg: ''
+      errorMsg: '',
+
+      // ap dung chiet khau va chon hinh thuc chiet khau
+      discountType: CheckOutSetting.HAS_DISCOUNT
+        ? CheckOutSetting.SELECT_TYPE_DISCOUNT : null
     }
   },
   computed: {
@@ -236,6 +242,24 @@ export default {
       return this.ps4.elapsed
         ? (this.ps4.elapsed / 60).toFixed(2)
         : 0
+    },
+    percentDiscount() {
+      let discount = 0
+      if (this.memberSelected && this.discountType) {
+        switch (this.memberSelected.type) {
+          case UserSetting.TYPE_DIAMOND:
+            discount = CheckOutSetting.DISCOUNT_DIAMOND
+            break
+          case UserSetting.TYPE_VIP:
+            discount = CheckOutSetting.DISCOUNT_VIP
+            break
+          case UserSetting.TYPE_LOYAL:
+            discount = CheckOutSetting.DISCOUNT_LOYAL
+            break
+        }
+      }
+
+      return discount
     }
   },
   async created() {
@@ -299,11 +323,15 @@ export default {
       }
     },
     caclTotal() {
-      // tinh tien gio choi
-      // const result = await api.request('get', '/item/f/get_price_ps4')
-      // const result = await api.request('get', `/item/f/get_price?status=1&code=${this.ps4.code}`)
-      // this.api_ps4 = result.data[0]
-      this.total = Math.ceil(this.so_giochoi * this.api_ps4.gia_ban) // Math.ceil(20000 / 60 * this.ps4.elapsed)
+      // tinh tien gio choi PS
+      // @26.08.2019 : dang chi ap dung chiet khau cho gio choi PS
+      debugger
+      let moneyPS = this.so_giochoi * this.api_ps4.gia_ban
+      // neu ap dung chiet khau
+      if (this.discountType === CheckOutSetting.TYPE_DISCOUNT_PS) {
+        moneyPS = moneyPS * (100 - this.percentDiscount) / 100
+      }
+      this.total = Math.ceil(moneyPS)
 
       // tinh tien dich vu
       if (this.ps4.items && this.ps4.items.length) {
@@ -365,15 +393,22 @@ export default {
         items: this.ps4.items || [],
         start: this.ps4.end, // bat dau cua giao dich
         // Tich diem = thoi gian choi (phut) x 5%
-        diem_tich: Math.ceil(this.ps4.elapsed * 5 / 100),
-        diem_tieu: this.usePoint ? this.numberPoint : 0
+        diem_tich: this.hasPointSetting
+          ? Math.ceil(this.ps4.elapsed * CheckOutSetting.POINT_EARN / 100)
+          : 0,
+        diem_tieu: this.hasPointSetting && this.usePoint
+          ? this.numberPoint : 0
       }
       // push gio choi ps4
       data.items.push({
         id: 0,
         name: this.api_ps4,
-        quantity: (this.ps4.elapsed / 60).toFixed(2),
-        start: this.ps4.end
+        quantity: this.so_giochoi,
+        start: this.ps4.end,
+        // hien dang chi ap dung chiet khau cho gio choi
+        discount: this.discountType
+          ? this.percentDiscount
+          : 0
       })
       api
         .request('post', '/trans', data)

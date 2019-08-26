@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
             code_item: items[index].name.code,
             quantity: items[index].quantity,
             price: items[index].name.gia_ban,
-            discount: 0,
+            discount: items[index].discount || 0,
             start: items[index].start || new Date()
           }
           try {
