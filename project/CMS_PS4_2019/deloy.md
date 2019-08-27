@@ -104,4 +104,31 @@ B5 (Option) : Danh cho cac lan deploy sau, hoan thien tinh nang
         hoặc
         `pm2 reload all`
 
+B6: Backup MySQL
+B6.1 : Moi truong Linux, su dung file : `project\CMS_PS4_2019\mysql-backup.sh`
+- Testing backup:
+    + Chay lenh : `/usr/local/bin/mysql-backups.sh`
+    + Kiem tra: `ls -l /data/db-backups`
+
+- Tu dong chay script:
+    + Chay voi user root: `chmod 744 /usr/local/bin/mysql-backup.sh`
+    + Go lenh : `crontab -e` và thêm vào dòng sau
+    `30 22 * * * /usr/local/bin/mysql-backups.sh > /dev/null 2>&1`
+    --> Basically this will enable the script to run at 10:30pm every day. It will also hide any output from the program as the program logs to disk.
+- Khoi phuc file backup:
+    `cd /data/db-backups`
+    `gunzip db-mybigdatabase-20140305-152229.sql.gz`
+    `mysql -u [username] -p [DB name] < db-mybigdatabase-20140305-152229.sql`
+
+B6.2: Moi truong Window, su dung file : `project\CMS_PS4_2019\mysql_backup.bat`
+chinh sua thong so phu hop
+- Lap lich tu dong su dung Task Schedule:
+    + Mở Task Scheduler -> click tab Action -> Chọn Create Basic Task : để tạo mới 1 tác vụ
+    + Đặt tên trong mục Name : MySQLBackupDaily 
+    và nhập DEscription
+    + Phần TRigger: thời gian mà thực hiện tác vụ
+    + Phần Action chọn Start a program và trỏ đường dẫn tới file .bat
+    `C:\working\code\nodejs_demo\project\CMS_PS4_2019\mysql_backup.bat`
+
+
 	
