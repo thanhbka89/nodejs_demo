@@ -16,7 +16,6 @@ import 'vue-select/dist/vue-select.css'
 import Axios from 'axios'
 import PrettyRadio from 'pretty-checkbox-vue/radio'
 import PrettyCheck from 'pretty-checkbox-vue/check'
-import JsonExcel from 'vue-json-excel'
 
 Vue.prototype.$http = Axios  // globally
 
@@ -28,7 +27,6 @@ Vue.component('paginate', Paginate)
 Vue.component('v-select', vSelect)
 Vue.component('p-radio', PrettyRadio)
 Vue.component('p-check', PrettyCheck)
-Vue.component('downloadExcel', JsonExcel)
 
 // Import Helpers for filters
 import { domain, count, prettyDate, pluralize, toVND, fDate, fDateTime } from './filters'

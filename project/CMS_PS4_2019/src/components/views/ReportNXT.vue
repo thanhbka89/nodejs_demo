@@ -5,13 +5,7 @@
         <upload-file></upload-file>
       </div>
       <div class="col-xs-12">
-        <download-excel
-          class   = "btn btn-default"
-          :data   = "json_data"
-          :fields = "json_fields"
-          name    = "BCNXT.xls">
-          Download Excel
-        </download-excel>
+        <button type="button" class="btn btn-default" @click="onexport">Excel Download</button>
 
         <div class="table-wrapper">
           <div class="table-title">
@@ -74,6 +68,7 @@ import DatePicker from 'vue2-datepicker'
 import api from '@/api'
 import { formatDate } from '@/helpers'
 import UploadFile from '@/components/views/UploadSingleFile'
+import XLSX from 'xlsx'
 
 export default {
   name: 'ReportNXT',
@@ -99,47 +94,14 @@ export default {
       nhap_trong_ky: [],
       xuat_trong_ky: [],
 
-      json_fields: {
-        'Complete name': 'name',
-        'City': 'city',
-        'Telephone': 'phone.mobile',
-        'Telephone 2': {
-          field: 'phone.landline',
-          callback: (value) => {
-            return `Landline Phone - ${value}`
-          }
-        }
-      },
-      json_data: [
-        {
-          'name': 'Tony Peña Tony Peña Tony Peña Tony Peña Tony Peña Tony Peña',
-          'city': 'New York',
-          'country': 'United States',
-          'birthdate': '1978-03-15',
-          'phone': {
-            'mobile': '1-541-754-3010',
-            'landline': '(541) 754-3010'
-          }
-        },
-        {
-          'name': 'Thessaloniki',
-          'city': 'Athens',
-          'country': 'Greece',
-          'birthdate': '1987-11-23',
-          'phone': {
-            'mobile': '+1 855 275 5071',
-            'landline': '(2741) 2621-244'
-          }
-        }
-      ],
-      json_meta: [
-        [
-          {
-            'key': 'charset',
-            'value': 'utf-8'
-          }
+      datas: {
+        // We will make a Workbook contains 2 Worksheets
+        'animals': [
+          {name: 'cat', category: 'animal'},
+          {name: 'dog', category: 'animal'},
+          {name: 'pig', category: 'animal'}
         ]
-      ]
+      }
     }
   },
   computed: {
@@ -249,6 +211,21 @@ export default {
       }
 
       return query
+    },
+    onexport () {
+      // export json to Worksheet of Excel
+      // only array possible
+      var animalWS = XLSX.utils.json_to_sheet(this.datas.animals)
+
+      // A workbook is the name given to an Excel file
+      var wb = XLSX.utils.book_new() // make Workbook of Excel
+
+      // add Worksheet to Workbook
+      // Workbook contains one or more worksheets
+      XLSX.utils.book_append_sheet(wb, animalWS, 'animals') // sheetAName is name of Worksheet
+
+      // export Excel file
+      XLSX.writeFile(wb, 'book.xlsx') // name of the file is 'book.xlsx'
     },
     showAlert(msg = null) {
       this.$swal(msg || 'Cảnh báo!')

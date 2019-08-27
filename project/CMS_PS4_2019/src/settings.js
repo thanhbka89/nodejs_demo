@@ -25,3 +25,16 @@ export class CheckOutSetting {
   static DISCOUNT_VIP = 20      // % discount cho KH VIP
   static DISCOUNT_LOYAL = 0     // % discount cho KH than thiet
 }
+
+export class CommonSetting {
+  // Danh muc
+  static CATEGORY_DRINK = 1 // Nuoc uong
+  static CATEGORY_EAT = 2 // Do an
+  static CATEGORY_PS = 3 // PS
+  static CATEGORY_OTHER = 4 // Khac
+
+  // Trang thai
+  static STATUS_INACTIVE = 0 // Khong Ap dung
+  static STATUS_ACTIVE = 1 // Ap dung
+}
+
