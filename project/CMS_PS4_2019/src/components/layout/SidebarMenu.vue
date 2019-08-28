@@ -56,10 +56,22 @@
 
     <template v-if="is_admin">
     <li class="header">BÁO CÁO</li>
-    <router-link tag="li" class="pageLink" to="report/bcnxt">
+    <router-link tag="li" class="pageLink" to="/report/bcnxt">
+      <a>
+        <i class="fa fa-list text-aqua"></i>
+        <span class="page"> Nhập xuất tồn kho</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/">
       <a>
         <i class="fa fa-qrcode text-aqua"></i>
-        <span class="page"> Nhập xuất tồn kho</span>
+        <span class="page"> Report Thu Chi</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/">
+      <a>
+        <i class="fa fa-qrcode text-aqua"></i>
+        <span class="page"> Chart Biến động đơn giá</span>
       </a>
     </router-link>
     </template>

@@ -17,7 +17,7 @@
           <div class="table-title">
               <div class="row">
                   <div class="col-sm-6">
-                      <h2>Báo cáo <b>Nhập Xuất Tồn kho</b></h2>
+                      <h2>Report Nhập Xuất Tồn kho</h2>
                   </div>
               </div>
           </div>   
@@ -75,14 +75,16 @@ import api from '@/api'
 import { formatDate } from '@/helpers'
 import UploadFile from '@/components/views/UploadSingleFile'
 
+const curDate = new Date()
+
 export default {
   name: 'ReportNXT',
   components: { DatePicker, UploadFile },
   data() {
     return {
       items: [],
-      dateFrom: '',
-      dateTo: new Date().setDate(new Date().getDate() + 1),
+      dateFrom: new Date(curDate.getFullYear(), curDate.getMonth(), 1),
+      dateTo: new Date().setDate(curDate.getDate() + 1),
       data: [
         {
           ma_service: '',
@@ -149,7 +151,8 @@ export default {
   },
   async created() {
     await Promise.all([
-      this.getItems()
+      this.getItems(),
+      this.search()
     ])
   },
   methods: {
