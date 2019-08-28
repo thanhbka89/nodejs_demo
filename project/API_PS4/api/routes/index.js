@@ -10,6 +10,7 @@ import ps from './ps'
 import point from './point'
 import chamcong from './cham_cong'
 import upload from './upload'
+import kiemke from './kiemke'
 
 export default {
     authen,
@@ -23,6 +24,7 @@ export default {
     ps,
     point,
     chamcong,
-    upload
+    upload,
+    kiemke
 }
 

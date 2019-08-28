@@ -28,11 +28,10 @@ class Item {
     }
 
     static getCondition(input) {
-        const filter = input || {}
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {name, code, category, status} = filter
+        const {name, code, category, status} = input || {}
         if (code) {
 			$where = $where.concat(` ${check ? 'AND' : ''} code = '${code}'`)
 			check ++
@@ -72,14 +71,14 @@ class Item {
         })
     }
 
-    static paginate({page = 1, limit = 5, name, code}, result) {
+    static paginate({page = 1, limit = 5, name, code, status}, result) {
         let start = 0
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({name, code})
+        const condition = this.getCondition({name, code, status})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
         console.log(sql)
         db.query(sql, [limit, start], (err, res) => {

@@ -71,9 +71,8 @@ router.route('/:id')
     })
 
 router.get('/p/:page', (req, res) => {
-    const {page} = req.params
-    const {limit, name, code} = req.query
-    Item.paginate({page, limit, name, code}, (err, reponse) => {
+    req.query.page = req.params.page
+    Item.paginate(req.query, (err, reponse) => {
         if (err) throw err
         res.json(reponse)
     })

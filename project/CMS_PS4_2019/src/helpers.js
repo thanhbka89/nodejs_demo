@@ -18,3 +18,7 @@ export function toVND (number = 0) {
   return x
 }
 
+export function getPreviousMonth({date = new Date(), format = 'YYYY-MM-DD'}) {
+  return moment(date).subtract(1, 'months').endOf('month').format(format)
+}
+

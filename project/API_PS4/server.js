@@ -185,19 +185,21 @@ const apiLimiter = rateLimit({
   message:
     'Too many accounts created from this IP, please try again after an hour'
 })
-app.use('/api/ps4/v1/', apiLimiter) // only apply to requests that begin with
-app.use('/api/ps4/v1/authen', routes.authen)
-app.use('/api/ps4/v1/upload', routes.upload)
-app.use('/api/ps4/v1/', middleware.checkToken) // check JWT
-app.use('/api/ps4/v1/user', routes.user)
-app.use('/api/ps4/v1/vendor', routes.vendor)
-app.use('/api/ps4/v1/item', routes.item)
-app.use('/api/ps4/v1/trans', routes.transaction)
-app.use('/api/ps4/v1/code', routes.code)
-app.use('/api/ps4/v1/inventory', routes.inventory)
-app.use('/api/ps4/v1/ps', routes.ps)
-app.use('/api/ps4/v1/point', routes.point)
-app.use('/api/ps4/v1/time', routes.chamcong)
+const url_api = '/api/ps4/v1/'
+app.use(url_api, apiLimiter) // only apply to requests that begin with
+app.use(`${url_api}authen`, routes.authen)
+app.use(url_api, middleware.checkToken) // check JWT
+app.use(`${url_api}user`, routes.user)
+app.use(`${url_api}vendor`, routes.vendor)
+app.use(`${url_api}item`, routes.item)
+app.use(`${url_api}trans`, routes.transaction)
+app.use(`${url_api}code`, routes.code)
+app.use(`${url_api}inventory`, routes.inventory)
+app.use(`${url_api}ps`, routes.ps)
+app.use(`${url_api}point`, routes.point)
+app.use(`${url_api}time`, routes.chamcong)
+app.use(`${url_api}kiemke`, routes.kiemke)
+app.use(`${url_api}upload`, routes.upload)
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại

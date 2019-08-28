@@ -52,6 +52,12 @@
         <span class="page"> DS máy PS</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/tondauky">
+      <a>
+        <i class="fa fa-futbol-o text-orange"></i>
+        <span class="page"> Nhập tồn đầu kỳ</span>
+      </a>
+    </router-link>
     </template>
 
     <template v-if="is_admin">

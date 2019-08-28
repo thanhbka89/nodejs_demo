@@ -1,17 +1,12 @@
 <template>
   <section class="content">
     <div class="row">
-      <div class="large-12 medium-12 small-12 cell">
-        <upload-file></upload-file>
-      </div>
       <div class="col-xs-12">
-        <button type="button" class="btn btn-default" @click="onexport">Excel Download</button>
-
         <div class="table-wrapper">
           <div class="table-title">
               <div class="row">
                   <div class="col-sm-6">
-                      <h2>Report Nhập Xuất Tồn kho</h2>
+                      <h2>Báo cáo nhập xuất tồn kho</h2>
                   </div>
               </div>
           </div>   
@@ -20,6 +15,9 @@
               <div class="form-group col-sm-6">
                 <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
                 <date-picker v-model="dateTo" format="YYYY-MM-DD" lang="en" confirm placeholder="Đến ngày" @change="search"></date-picker>
+              </div>
+              <div class="form-group col-sm-2">
+                <button type="button" class="btn btn-primary" @click="updateKiemKe">Cập nhật Kiểm kê</button>
               </div>
           </div>
           <table class="table table-bordered table-condensed">
@@ -66,15 +64,13 @@
 <script>
 import DatePicker from 'vue2-datepicker'
 import api from '@/api'
-import { formatDate } from '@/helpers'
-import UploadFile from '@/components/views/UploadSingleFile'
-import XLSX from 'xlsx'
+import { formatDate, getPreviousMonth } from '@/helpers'
 
 const curDate = new Date()
 
 export default {
   name: 'ReportNXT',
-  components: { DatePicker, UploadFile },
+  components: { DatePicker },
   data() {
     return {
       items: [],
@@ -95,15 +91,7 @@ export default {
       ],
       nhap_trong_ky: [],
       xuat_trong_ky: [],
-
-      datas: {
-        // We will make a Workbook contains 2 Worksheets
-        'animals': [
-          {name: 'cat', category: 'animal'},
-          {name: 'dog', category: 'animal'},
-          {name: 'pig', category: 'animal'}
-        ]
-      }
+      ton_dau_ky: []
     }
   },
   computed: {
@@ -133,7 +121,8 @@ export default {
       }
       await Promise.all([
         this.getNhapTrongKy(),
-        this.getXuatTrongKy()
+        this.getXuatTrongKy(),
+        this.getTonkhoDauKy()
       ])
 
       this.data = []
@@ -143,8 +132,16 @@ export default {
         item.id = idx + 1
         item.ma_service = element.code
         item.name = element.name
+        // Ton dau ky
+        let found = this.ton_dau_ky.find((el) => {
+          return element.code === el.code && element.id === el.id_item
+        })
+        if (found) {
+          item.dauky_sl = found.sl_thucte
+        }
+
         // Nhap trong ky
-        let found = this.nhap_trong_ky.find((el) => {
+        found = this.nhap_trong_ky.find((el) => {
           return element.code === el.code
         })
         if (found) {
@@ -199,7 +196,20 @@ export default {
       }
     },
     async getTonkhoDauKy() {
-
+      // Ton dau ky thang nay = ton cuoi ky da kiem ke cua thang truoc
+      let fromPeriod = formatDate({date: this.dateFrom, format: 'MM/YYYY'})
+      let toPeriod = formatDate({date: this.dateTo, format: 'MM/YYYY'})
+      // Chi thuc hien cho cùng kỳ
+      if (fromPeriod === toPeriod) {
+        try {
+          // get ky truoc
+          let lastPeriod = getPreviousMonth({date: this.dateFrom, format: 'MM/YYYY'})
+          const response = await api.request('get', `/kiemke/p/1?limit=1993&period=${lastPeriod}`)
+          this.ton_dau_ky = response.data.data
+        } catch (err) {
+          console.error(err)
+        }
+      }
     },
     getTonkhoCuoiKy(item) {
       return (parseInt(item.dauky_sl) || 0) + (parseInt(item.receive_trongky_sl) || 0) - (parseInt(item.issue_trongky_sl) || 0)
@@ -215,20 +225,8 @@ export default {
 
       return query
     },
-    onexport () {
-      // export json to Worksheet of Excel
-      // only array possible
-      var animalWS = XLSX.utils.json_to_sheet(this.datas.animals)
+    async updateKiemKe() {
 
-      // A workbook is the name given to an Excel file
-      var wb = XLSX.utils.book_new() // make Workbook of Excel
-
-      // add Worksheet to Workbook
-      // Workbook contains one or more worksheets
-      XLSX.utils.book_append_sheet(wb, animalWS, 'animals') // sheetAName is name of Worksheet
-
-      // export Excel file
-      XLSX.writeFile(wb, 'book.xlsx') // name of the file is 'book.xlsx'
     },
     showAlert(msg = null) {
       this.$swal(msg || 'Cảnh báo!')

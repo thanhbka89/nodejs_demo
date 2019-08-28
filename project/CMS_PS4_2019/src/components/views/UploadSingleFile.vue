@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div class="large-12 medium-12 small-12 cell">
-      <label>File
+      <label>{{ title }}
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
       </label>
-      <button v-on:click="submitFile()">Submit</button>
+      <button @click="submitFile()" class="btn btn-success">{{ buttonName }}</button>
     </div>
   </div>
 </template>
@@ -18,26 +18,59 @@ export default {
       file: ''
     }
   },
+  props: {
+    title: {
+      type: String,
+      default: 'File'
+    },
+    buttonName: {
+      type: String,
+      default: 'Submit'
+    },
+    method: {
+      type: String,
+      default: '/upload'
+    }
+  },
   methods: {
-    submitFile() {
+    async submitFile() {
       let formData = new FormData()
       formData.append('file', this.file)
-      api.request('post', '/upload',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+      try {
+        const response = await api.request('post', this.method,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
+        )
+        if (response.data.error_code) {
+          this.showAlert(response.data.err_desc)
+        } else {
+          this.showToast('success', 'Upload thành công!')
+          console.log('SUCCESS!!', response)
         }
-        ).then(function() {
-          console.log('SUCCESS!!')
-        })
-        .catch(function() {
-          console.log('FAILURE!!')
-        })
+      } catch (err) {
+        this.showToast('error', 'Có lỗi xảy ra trong quá trình Upload')
+        console.error('FAILURE!!', err)
+      }
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0]
+    },
+    showAlert(msg = null) {
+      this.$swal(msg || 'Cảnh báo!')
+    },
+    showToast(type = 'success', message = '') {
+      this.$swal({
+        type: type,
+        title: message || `Cập nhật thành công`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
+      })
     }
   }
 }

@@ -146,6 +146,12 @@ const routes = [
         component: () => import('./components/views/ReportNXT'),
         name: 'ReportNXT',
         meta: {description: 'Nhập xuất tồn kho', requiresAuth: true}
+      },
+      {
+        path: 'tondauky',
+        component: () => import('./components/views/TonDauky'),
+        name: 'TonDauKy',
+        meta: {description: 'Nhập tồn kho đầu kỳ, kiểm tra chênh lệch', requiresAuth: true}
       }
     ]
   }, {
