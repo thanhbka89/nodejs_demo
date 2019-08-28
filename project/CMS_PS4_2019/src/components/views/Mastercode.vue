@@ -53,9 +53,9 @@
 </template>
 
 <script>
-import api from '../../api'
-import Index from '../widgets/mastercode/Index'
-import ServiceCreate from '../widgets/Modal'
+import api from '@/api'
+import Index from '@/components/widgets/mastercode/Index'
+import ServiceCreate from '@/components/widgets/Modal'
 
 export default {
   name: 'Mastercode',
