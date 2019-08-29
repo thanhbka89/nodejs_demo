@@ -151,7 +151,7 @@ const routes = [
         path: 'tondauky',
         component: () => import('./components/views/TonDauky'),
         name: 'TonDauKy',
-        meta: {description: 'Nhập tồn kho đầu kỳ, kiểm tra chênh lệch', requiresAuth: true}
+        meta: {description: 'Nhập tồn kho cuối kỳ sau kiểm kê thực tế, kiểm tra chênh lệch', requiresAuth: true}
       }
     ]
   }, {

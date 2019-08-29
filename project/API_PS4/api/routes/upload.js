@@ -113,6 +113,7 @@ router.post('/kiem_ke', (req, res) => {
 						page: 1, limit: 1, id_item: data.id_item, code: data.code, period: data.period
 					})
 					if (check.length) { // neu da co data trong table
+						data.updated_by = req.decoded.username
 						await KiemKe.update(check[0].id, new KiemKe(data))
 					} else { // tao moi
 						await KiemKe.create(new KiemKe(data))

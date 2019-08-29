@@ -10,8 +10,12 @@ class KiemKe {
         this.code = obj.code
         this.name = obj.name
         this.period = obj.period
-        this.sl_thucte = obj.sl_thucte
-        this.sl_tinhtoan = obj.sl_tinhtoan
+        if (obj.sl_thucte || obj.sl_thucte >= 0) {
+            this.sl_thucte = obj.sl_thucte
+        }
+        if (obj.sl_tinhtoan || obj.sl_tinhtoan >= 0) {
+            this.sl_tinhtoan = obj.sl_tinhtoan
+        }
         this.created_by = obj.created_by || 'SYSTEM'
         this.updated_by = obj.updated_by || 'SYSTEM'
         this.updated_at = new Date

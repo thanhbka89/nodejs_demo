@@ -44,14 +44,14 @@
             <tbody>
               <tr v-for="item in filteredResources" :key="item.id">
                 <td class="col-md-1">{{ item.id }}</td>
-                <td class="col-md-1 item-code">{{ item.ma_service }}</td>
+                <td class="col-md-1 item-code">{{ item.code }}</td>
                 <td class="col-md-3 item-code">{{ item.name }}</td>
                 <td class="col-md-1">{{ item.dauky_sl || 0 }}</td>
                 <td class="col-md-1">{{ item.receive_trongky_sl }}</td>
                 <td class="col-md-1">{{ item.receive_trongky_thanhtien | toVnd }}</td>
                 <td class="col-md-1">{{ item.issue_trongky_sl }}</td>
                 <td class="col-md-1">{{ item.issue_trongky_thanhtien | toVnd }}</td>
-                <td class="col-md-1">{{ getTonkhoCuoiKy(item) }}</td>
+                <td class="col-md-1">{{ item.sl_tinhtoan }}</td>
               </tr>
             </tbody>
           </table>
@@ -78,15 +78,14 @@ export default {
       dateTo: new Date().setDate(curDate.getDate() + 1),
       data: [
         {
-          ma_service: '',
+          code: '',
           name: '',
           dauky_sl: '',
           receive_trongky_sl: '',
           receive_trongky_thanhtien: '',
           issue_trongky_sl: '',
           issue_trongky_thanhtien: '',
-          cuoiky_sl: '',
-          cuoiky_thanhtien: ''
+          sl_tinhtoan: '' // Ton kho cuoi ky
         }
       ],
       nhap_trong_ky: [],
@@ -108,7 +107,7 @@ export default {
   methods: {
     async getItems() {
       try {
-        const response = await api.request('get', `/item/p/1?limit=1993&status=1`)
+        const response = await api.request('get', `/item/cate_active/1,2,4`)
         this.items = response.data
       } catch (err) {
         console.error(err)
@@ -130,7 +129,8 @@ export default {
       this.items.forEach((element, idx) => {
         item = {}
         item.id = idx + 1
-        item.ma_service = element.code
+        item.id_item = element.id
+        item.code = element.code
         item.name = element.name
         // Ton dau ky
         let found = this.ton_dau_ky.find((el) => {
@@ -158,10 +158,14 @@ export default {
           item.issue_trongky_thanhtien = found.total_money
         }
 
+        // Ton kho cuoi ky
+        item.sl_tinhtoan = this.getTonkhoCuoiKy(item)
+
         this.data.push(item)
       })
     },
     async getNhapTrongKy() {
+      this.nhap_trong_ky = []
       let query = this.build_query()
       try {
         const response = await api.request('get', `/inventory/p/1?limit=1993&status=1` + query)
@@ -179,6 +183,7 @@ export default {
       }
     },
     async getXuatTrongKy() {
+      this.xuat_trong_ky = []
       let query = this.build_query()
       try {
         const response = await api.request('get', `/trans/trans_detail/p/1?limit=21993` + query)
@@ -196,6 +201,7 @@ export default {
       }
     },
     async getTonkhoDauKy() {
+      this.ton_dau_ky = []
       // Ton dau ky thang nay = ton cuoi ky da kiem ke cua thang truoc
       let fromPeriod = formatDate({date: this.dateFrom, format: 'MM/YYYY'})
       let toPeriod = formatDate({date: this.dateTo, format: 'MM/YYYY'})
@@ -226,10 +232,39 @@ export default {
       return query
     },
     async updateKiemKe() {
-
+      // Ton dau ky thang nay = ton cuoi ky da kiem ke cua thang truoc
+      let fromPeriod = formatDate({date: this.dateFrom, format: 'MM/YYYY'})
+      let toPeriod = formatDate({date: this.dateTo, format: 'MM/YYYY'})
+      // Chi thuc hien cho cùng kỳ
+      if (fromPeriod === toPeriod) {
+        try {
+          const data = {
+            items: this.data,
+            period: fromPeriod
+          }
+          const response = await api.request('post', `/kiemke/post/mass_save`, data)
+          if (response.data.success) {
+            this.showToast()
+          } else {
+            this.showToast('error', response.data.data.code)
+          }
+        } catch (err) {
+          console.error(err)
+        }
+      }
     },
     showAlert(msg = null) {
       this.$swal(msg || 'Cảnh báo!')
+    },
+    showToast(type = 'success', message = '') {
+      this.$swal({
+        type: type,
+        title: message || `Cập nhật thành công`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
+      })
     }
   }
 }

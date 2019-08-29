@@ -2,8 +2,9 @@
   <section class="content">
     <div class="row">
       <div class="large-12 medium-12 small-12 cell">
-        <upload-file title="Chọn file upload" 
-        buttonName="Upload kiểm kê thực tế Tồn đầu kỳ"
+        <upload-file title="Chọn file upload"
+        tooltip="Kiểm kê thực tế Tồn cuối kỳ, đầu tiên chọn Kỳ rồi click nút Xuất Excel. Cập nhật dữ liệu kiểm kê ở cột sl_thucte trong file excel. Sau đó, chọn file vừa chỉnh sửa và click nút Upload để post lên hệ thống."
+        buttonName="Upload"
         method="/upload/kiem_ke">
         </upload-file>
       </div>
@@ -12,7 +13,7 @@
           <div class="table-title">
               <div class="row">
                   <div class="col-sm-6">
-                      <h2>Tồn kho đầu kỳ</h2>
+                      <h2>Tồn kho cuối kỳ</h2>
                   </div>
               </div>
           </div>   
@@ -96,7 +97,7 @@ export default {
   methods: {
     async getItems() {
       try {
-        const response = await api.request('get', `/item/p/1?limit=1993&status=1`)
+        const response = await api.request('get', `/item/cate_active/1,2,4`)
         this.items = response.data
       } catch (err) {
         console.error(err)

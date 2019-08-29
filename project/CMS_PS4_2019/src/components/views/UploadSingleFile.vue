@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="large-12 medium-12 small-12 cell">
-      <label>{{ title }}
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+      <label :title="tooltip">{{ title }}
+        <input type="file" id="file" ref="file" @change="handleFileUpload()"/>
       </label>
       <button @click="submitFile()" class="btn btn-success">{{ buttonName }}</button>
     </div>
@@ -23,6 +23,7 @@ export default {
       type: String,
       default: 'File'
     },
+    tooltip: String,
     buttonName: {
       type: String,
       default: 'Submit'

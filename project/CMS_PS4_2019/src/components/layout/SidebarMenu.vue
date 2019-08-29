@@ -54,8 +54,8 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/tondauky">
       <a>
-        <i class="fa fa-futbol-o text-orange"></i>
-        <span class="page"> Nhập tồn đầu kỳ</span>
+        <i class="fa fa-folder-o text-orange"></i>
+        <span class="page"> Nhập tồn cuối kỳ</span>
       </a>
     </router-link>
     </template>
