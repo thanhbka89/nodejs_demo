@@ -61,6 +61,7 @@ B3: DEV, Truy cap vao thu muc code, go:
     fix lai : https://kuanhsuh.github.io/How-to-implement-multi-language-with-Vue-i18n.html
               https://github.com/kuanhsuh/vue-i18n-sandbox/blob/master/src/App.vue
     https://itnext.io/setting-language-with-i18n-by-os-language-in-vue-router-vuex-e42c9318c9ec
+
 - VueX: Centralized State Management for Vue.js
     https://viblo.asia/p/tim-hieu-ve-vuex-6J3ZggqqZmB
     https://viblo.asia/p/gioi-thieu-ve-vuex-phan-2-924lJd7YKPM
@@ -69,13 +70,17 @@ B3: DEV, Truy cap vao thu muc code, go:
     https://viblo.asia/p/vuex-va-vi-du-don-gian-GrLZDpzgZk0
     https://medium.com/dailyjs/mastering-vuex-zero-to-hero-e0ca1f421d45
     https://github.com/vanquynguyen/my-task-vuex
+    https://viblo.asia/p/vuex-cho-nguoi-moi-bat-dau-4dbZNYLLKYM
+
 - Axios Get API: là một thư viện HTTP Client dựa trên Promise
     Tim hieu them : Transforms và Interceptors
     Ref: https://viblo.asia/p/call-api-trong-vuejs-theo-cach-thong-minh-nhat-07LKXx7EKV4
+
 - Mixin :
   https://viblo.asia/p/vuejs-tim-hieu-ve-mixins-Ljy5VLD9Zra
 
 - Watch : https://viblo.asia/p/vue-js-thay-doi-cua-data-voi-watch-bWrZn6orZxw
+    https://viblo.asia/p/vai-dieu-chua-biet-ve-watcher-trong-vuejs-3Q75wGnG5Wb
 
 - Tham khao structure project :
     https://medium.com/hong-kong-tech/reusable-scalable-and-easy-to-organize-project-using-vuejs-part-2-c7e82044d7fc

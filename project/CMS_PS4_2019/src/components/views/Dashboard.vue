@@ -131,7 +131,9 @@ export default {
       numberTransaction: 0,
       currentMonth: formatDate({format: 'MM/YYYY'}),
       chartRevenue: {labels: [], datasets: []},
-      revenue: 0
+      revenue: 0,
+      testArr: [],
+      testText: ''
     }
   },
   computed: {
@@ -293,6 +295,26 @@ export default {
         options: chartData.options
       })
       console.log(t)
+    }
+  },
+  watch: {
+    testArr: {
+      // This will let Vue know to look inside the array, object
+      deep: true,
+      handler() {
+        console.log('testArr changed')
+      }
+    },
+    testText: {
+      // Will fire as soon as the component is created
+      immediate: true, // khi load trang, watcher sẽ tự động được kích hoạt
+      handler(movie) {
+        // Fetch data about the movie
+        // fetch(`/${movie}`).then((data) => {
+        //   this.movieData = data;
+        // })
+        console.log('New value: ' + movie)
+      }
     }
   }
 }

@@ -137,19 +137,19 @@ const routes = [
       },
       {
         path: 'user/detail/:id',
-        component: () => import('./components/views/UserDetail'),
+        component: () => import(/* webpackPrefetch: true */ './components/views/UserDetail'),
         name: 'UserDetail',
         meta: {description: 'User profile', requiresAuth: true}
       },
       {
         path: 'report/bcnxt',
-        component: () => import('./components/views/ReportNXT'),
+        component: () => import(/* webpackPrefetch: true */ './components/views/ReportNXT'),
         name: 'ReportNXT',
         meta: {description: 'Nhập xuất tồn kho', requiresAuth: true}
       },
       {
         path: 'tondauky',
-        component: () => import('./components/views/TonDauky'),
+        component: () => import(/* webpackPrefetch: true */ './components/views/TonDauky'),
         name: 'TonDauKy',
         meta: {description: 'Nhập tồn kho cuối kỳ sau kiểm kê thực tế, kiểm tra chênh lệch', requiresAuth: true}
       }

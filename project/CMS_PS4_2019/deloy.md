@@ -1,3 +1,11 @@
+B0: Moi truong:
+- Version:
+    node : v10.16.0
+    npm: 6.9.0
+    vuejs: 2.2.2
+    vue-cli: 3.8.4
+- Show package installed : `npm list --depth=0`
+
 B1: Cai dat pm2: 
     npm install pm2@latest -g
 - Mot so lenh hay dung:
