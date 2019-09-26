@@ -152,6 +152,12 @@ const routes = [
         component: () => import(/* webpackPrefetch: true */ './components/views/TonDauky'),
         name: 'TonDauKy',
         meta: {description: 'Nhập tồn kho cuối kỳ sau kiểm kê thực tế, kiểm tra chênh lệch', requiresAuth: true}
+      },
+      {
+        path: 'doanhthu',
+        component: () => import(/* webpackPrefetch: true */ './components/views/DoanhThu'),
+        name: 'DoanhThu',
+        meta: {description: 'Báo cáo chi tiết Doanh thu theo tháng', requiresAuth: true, is_admin: true}
       }
     ]
   }, {

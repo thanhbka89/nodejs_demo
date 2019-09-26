@@ -80,6 +80,32 @@
         <span class="page"> Chart Biến động đơn giá</span>
       </a>
     </router-link>
+    <li class="treeview">
+      <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span class="treeview-title">Report</span>
+        <span class="pull-right-container pull-right">
+          <i class="fa fa-angle-left fa-fw"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu">
+        <li>
+          <a href="/doanhthu">
+            <i class="fa fa-file-word-o"></i> BC Doanh thu
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-file-picture-o"></i> BC Thu chi
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-file-pdf-o"></i> Item 3
+          </a>
+        </li>
+      </ul>
+    </li>
     </template>
 
     <template v-if="is_admin">
@@ -117,32 +143,6 @@
         <span class="page">Settings</span>
       </a>
     </router-link>
-    <li class="treeview">
-      <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span class="treeview-title">Files</span>
-        <span class="pull-right-container pull-right">
-          <i class="fa fa-angle-left fa-fw"></i>
-        </span>
-      </a>
-      <ul class="treeview-menu">
-        <li>
-          <a href="#">
-            <i class="fa fa-file-word-o"></i> Item 1
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-picture-o"></i> Item 2
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa fa-file-pdf-o"></i> Item 3
-          </a>
-        </li>
-      </ul>
-    </li>
 
     <li class="header">LOGS</li>
     <router-link tag="li" class="pageLink" to="/access">

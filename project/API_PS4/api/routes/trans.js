@@ -137,7 +137,7 @@ router.get('/p/:page', async (req, res) => {
   }
 })
 
-router.get('/detail/:id', async(req, res) => {
+router.get('/detail/:id', async (req, res) => {
   try {
     const result = await Transaction.getDetailById(req.params.id)
     return res.json({
@@ -152,7 +152,22 @@ router.get('/detail/:id', async(req, res) => {
   }
 })
 
-router.get('/filter_ps/:id', async(req, res) => {
+router.get('/get/all_detail', async (req, res) => {
+  try {
+    const result = await Transaction.getDetailByDays(req.query)
+    return res.json({
+      success: true,
+      data: result
+    })
+  } catch (e) {
+    return res.json({
+      success: false,
+      data: e
+    })
+  }
+})
+
+router.get('/filter_ps/:id', async (req, res) => {
   try {
     const result = await Transaction.getByPs(req.params.id)
     return res.json({
