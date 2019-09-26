@@ -141,7 +141,9 @@ export default {
         item.period = this.getDate
         item.code = el.code
         item.name = found ? found.name : 'N/A'
-        item.quantity = el.quan.toFixed(2)
+        item.quantity = Number.isInteger(el.quan)
+          ? el.quan
+          : el.quan.toFixed(2)
 
         item.gia_nhap = found ? found.gia_nhap : 0
         item.tien_von = item.gia_nhap * el.quan
