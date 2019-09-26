@@ -4,6 +4,15 @@
       <div class="col-xs-12 text-center">
         <h2>HÓA ĐƠN DỊCH VỤ</h2>
       </div>
+      <template v-if="isCheckout">
+        <div class="col-xs-12">
+          <p>
+            <p-check name="check" color="success" v-model="tranNoPlay" @change="confirmOtherTrans">
+              <strong>GIAO DỊCH KHÁC (Không tính giờ chơi)</strong>
+            </p-check>
+          </p>
+        </div>
+      </template>
       <div class="col-md-2">
         Máy số:
       </div>
@@ -231,7 +240,9 @@ export default {
 
       // ap dung chiet khau va chon hinh thuc chiet khau
       discountType: CheckOutSetting.HAS_DISCOUNT
-        ? CheckOutSetting.SELECT_TYPE_DISCOUNT : null
+        ? CheckOutSetting.SELECT_TYPE_DISCOUNT : null,
+      tranNoPlay: false, // Giao dich phat sinh, ko tinh gio choi
+      moneyPS: 0 // So tien choi PS
     }
   },
   computed: {
@@ -344,6 +355,7 @@ export default {
         moneyPS = moneyPS * (100 - this.percentDiscount) / 100
       }
       this.total = Math.ceil(moneyPS)
+      this.moneyPS = Math.ceil(moneyPS)
 
       // tinh tien dich vu
       if (this.ps4.items && this.ps4.items.length) {
@@ -412,16 +424,22 @@ export default {
           ? this.numberPoint : 0
       }
       // push gio choi ps4
-      data.items.push({
-        id: 0,
-        name: this.api_ps4,
-        quantity: this.so_giochoi,
-        start: this.ps4.end,
-        // hien dang chi ap dung chiet khau cho gio choi
-        discount: this.discountType
-          ? this.percentDiscount
-          : 0
-      })
+      if (!this.tranNoPlay) { // giao dich binh thuong
+        data.items.push({
+          id: 0,
+          name: this.api_ps4,
+          quantity: this.so_giochoi,
+          start: this.ps4.end,
+          // hien dang chi ap dung chiet khau cho gio choi
+          discount: this.discountType
+            ? this.percentDiscount
+            : 0
+        })
+      } else { // giao dich Dịch vụ
+        data.money = Math.ceil(this.total - this.moneyPS)
+        data.diem_tich = 0
+        data.diem_tieu = 0
+      }
       api
         .request('post', '/trans', data)
         .then(response => {
@@ -512,6 +530,23 @@ export default {
         showConfirmButton: false,
         timer: 5000
       })
+    },
+    confirmOtherTrans() {
+      if (this.tranNoPlay) {
+        this.$swal({
+          title: 'Thực hiện giao dịch Dịch vụ?',
+          text: 'Bạn có muốn thực hiện ?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+          if (!result.value) {
+            this.tranNoPlay = false
+          }
+        })
+      }
     }
   }
 }
