@@ -130,25 +130,25 @@ export default {
       let item = {}
       result.forEach((el, idx) => {
         item = {}
-        item.stt = idx + 1
-        item.id_item = el.id_item
-        item.period = this.getDate
-        item.code = el.code
-        // item.name = element.name
-        item.quantity = el.quan
-        item.gia_ban = el.gia_ban
-        item.discount = el.discount
-        item.doanh_thu = el.thanh_tien
 
         // Lay thong tin chi tiet dich vu trong master data
         let found = this.items.find((elem) => {
           return el.code === elem.code
         })
-        if (found) {
-          item.gia_nhap = found.gia_nhap
-          item.name = found.name
-        }
-        item.tien_von = (item.gia_nhap || 0) * el.quan
+
+        item.stt = idx + 1
+        item.id_item = el.id_item
+        item.period = this.getDate
+        item.code = el.code
+        item.name = found ? found.name : 'N/A'
+        item.quantity = el.quan.toFixed(2)
+
+        item.gia_nhap = found ? found.gia_nhap : 0
+        item.tien_von = item.gia_nhap * el.quan
+
+        item.gia_ban = el.gia_ban
+        item.discount = el.discount
+        item.doanh_thu = el.thanh_tien
 
         item.tien_lai = item.doanh_thu - item.tien_von
 
