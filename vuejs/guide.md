@@ -87,8 +87,9 @@ B3: DEV, Truy cap vao thu muc code, go:
     https://medium.com/hong-kong-tech/reusable-scalable-and-easy-to-organize-project-using-vuejs-part-3-ed8cba6b4dfe
 
 *Deploy project vue to Heroku*
-ref: https://hoanguyenit.com/deploying-vuejs-to-heroku.html
+https://hoanguyenit.com/deploying-vuejs-to-heroku.html
 https://medium.com/netscape/deploying-a-vue-js-2-x-app-to-heroku-in-5-steps-tutorial-a69845ace489
+https://convoicoi.wordpress.com/2018/09/14/vuejs-huong-dan-deploy-vue-project-len-netlify/
 
 *Links*
 https://itnext.io/vue-js-app-performance-optimization-part-1-introduction-to-performance-optimization-and-lazy-29e4ff101019

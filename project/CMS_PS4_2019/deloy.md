@@ -5,6 +5,15 @@ B0: Moi truong:
     vuejs: 2.2.2
     vue-cli: 3.8.4
 - Show package installed : `npm list --depth=0`
+- Su dung npm:
+    + Cai package global : `npm install -g gulp`
+    + Go bo package global : `npm uninstall -g jshint`
+
+    + Cai dat trong local project, muc devDependencies : `npm i lodash --save-dev`
+    + Cài đặt một package và lưu nó vào dependencies: `npm i –S express`
+    + Remove local package và gỡ ra khỏi package.json:
+    `npm uninstall --save lodash` // go bo trong "dependencies"
+    `npm uninstall --save-dev lodash`  // go bo trong "devDependency"
 
 B1: Cai dat pm2: 
     npm install pm2@latest -g
@@ -137,6 +146,36 @@ chinh sua thong so phu hop
     + Phần TRigger: thời gian mà thực hiện tác vụ
     + Phần Action chọn Start a program và trỏ đường dẫn tới file .bat
     `C:\working\code\nodejs_demo\project\CMS_PS4_2019\mysql_backup.bat`
+
+B7 (Option) : Deploy CMS (vuejs) lên Internet
+B7.1 : Deploy CMS (vuejs) lên Heroku
+- Login vào https://dashboard.heroku.com tạo app mới hoặc dùng app đã tạo trước đó.
+- 
+
+B7.2 : Deploy CMS (vuejs) lên Netlify
+
+B8 (Option) : MySQL command in Linux
+- SSH : 149.28.231.149 với root/R4m(zmba)j$rXSRH
+    MySQL: root/nguyenmaithanh89
+
+- Check server mysql running : `mysqladmin -u root -p ping`
+- Checl mysql version: `mysqladmin -u root -p version`
+- Show status mysql server: `mysqladmin -u root -ptmppassword status`
+- Check status of all MySQL Server Variable’s and value’s:
+    `mysqladmin -u root -p extended-status`
+- Check all the running Process of MySQL server: `mysqladmin -u root -p processlist`
+- Create a Database: `mysqladmin -u root -p create databasename`
+- Drop a db : `mysqladmin -u root -p drop databasename`
+- Reload/refresh MySQL Privileges:
+    # mysqladmin -u root -p reload;
+    # mysqladmin -u root -p refresh
+- Shutdown MySQL server Safely: `mysqladmin -u root -p shutdown`
+
+### Thao tác cơ bản:
+- Truy cập mysql shell: `mysql -u root -p`
+- Xem các DBs: `SHOW DATABASES;`
+- Chọn DB cần làm việc: `USE dbName;`
+- Xem các tables trong DB : `SHOW TABLES;`
 
 
 	
