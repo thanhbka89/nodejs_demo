@@ -158,6 +158,12 @@ const routes = [
         component: () => import(/* webpackPrefetch: true */ './components/views/DoanhThu'),
         name: 'DoanhThu',
         meta: {description: 'Báo cáo chi tiết Doanh thu theo tháng', requiresAuth: true, is_admin: true}
+      },
+      {
+        path: 'thuchi',
+        component: () => import(/* webpackPrefetch: true */ './components/views/ThuChi'),
+        name: 'ThuChi',
+        meta: {description: 'Nhập các giao dịch Thu Chi', requiresAuth: true, is_admin: true}
       }
     ]
   }, {

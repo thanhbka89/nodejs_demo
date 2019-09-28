@@ -200,6 +200,7 @@ app.use(`${url_api}point`, routes.point)
 app.use(`${url_api}time`, routes.chamcong)
 app.use(`${url_api}kiemke`, routes.kiemke)
 app.use(`${url_api}upload`, routes.upload)
+app.use(`${url_api}thuchi`, routes.thuchi)
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại

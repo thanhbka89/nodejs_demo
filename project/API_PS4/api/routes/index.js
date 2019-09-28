@@ -11,6 +11,7 @@ import point from './point'
 import chamcong from './cham_cong'
 import upload from './upload'
 import kiemke from './kiemke'
+import thuchi from './thuchi'
 
 export default {
     authen,
@@ -25,6 +26,7 @@ export default {
     point,
     chamcong,
     upload,
-    kiemke
+    kiemke,
+    thuchi
 }
 

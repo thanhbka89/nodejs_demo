@@ -71,12 +71,6 @@
     <router-link tag="li" class="pageLink" to="/">
       <a>
         <i class="fa fa-qrcode text-aqua"></i>
-        <span class="page"> Report Thu Chi</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/">
-      <a>
-        <i class="fa fa-qrcode text-aqua"></i>
         <span class="page"> Chart Biến động đơn giá</span>
       </a>
     </router-link>
@@ -101,7 +95,7 @@
         </li>
         <li>
           <a href="#">
-            <i class="fa fa-file-pdf-o"></i> Item 3
+            <i class="fa fa-file-pdf-o"></i> BC Khác
           </a>
         </li>
       </ul>
@@ -126,6 +120,12 @@
       <a>
         <i class="fa fa-university text-yellow"></i>
         <span class="page"> QL Nhập kho</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/thuchi">
+      <a>
+        <i class="fa fa-university text-yellow"></i>
+        <span class="page"> Nhập Thu Chi</span>
       </a>
     </router-link>
     </template>
