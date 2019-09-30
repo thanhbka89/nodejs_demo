@@ -3,13 +3,13 @@
     <div class="row">
       <div class="col-xs-12">
         <index></index>
-      </div>    
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-import Index from '../widgets/transaction/Index'
+import Index from '@/components/widgets/transaction/Index'
 
 export default {
   name: 'Transaction',

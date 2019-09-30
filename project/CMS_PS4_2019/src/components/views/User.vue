@@ -10,7 +10,7 @@
               <label class="col-sm-3 z-label">Username:</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" v-model="item.username" placeholder="username ..." :disabled="item.id"/>
-              </div>              
+              </div>
           </div>
           <div class="form-group" v-if="is_admin">
               <label class="col-sm-3 z-label">Password:</label>
@@ -22,13 +22,13 @@
               <label class="col-sm-3 z-label">Họ Tên:</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" v-model="item.fullname" placeholder="Họ và tên ..."/>
-              </div>              
+              </div>
           </div>
           <div class="form-group">
               <label class="col-sm-3 z-label">Bí danh:</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" v-model="item.nickname" placeholder="Tên nick name ..."/>
-              </div>              
+              </div>
           </div>
           <div class="form-group">
               <label class="col-sm-3 z-label">Điện thoại:</label>
@@ -57,7 +57,7 @@
                 <select class="form-control" v-model="item.status">
                   <option value="1">Hoạt động</option>
                   <option value="0">Không hoạt động</option>
-                </select>                
+                </select>
               </div>
 					</div>
         </div>
@@ -69,15 +69,15 @@
       <div class="col-xs-12">
         <index :openModal="openModal"></index>
       </div>
-      
+
     </div>
   </section>
 </template>
 
 <script>
-import api from '../../api'
-import Index from '../widgets/user/Index'
-import UserCreate from '../widgets/Modal'
+import api from '@/api'
+import Index from '@/components/widgets/user/Index'
+import UserCreate from '@/components/widgets/Modal'
 
 export default {
   name: 'User',
