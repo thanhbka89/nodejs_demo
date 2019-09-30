@@ -167,7 +167,19 @@ chinh sua thong so phu hop
 B7 (Option) : Deploy CMS (vuejs) lên Internet
 B7.1 : Deploy CMS (vuejs) lên Heroku
 - Login vào https://dashboard.heroku.com tạo app mới hoặc dùng app đã tạo trước đó.
--
+- Copy thu muc cms ra cho khac, ex: D:\Deploy\CMS_PS4_2019
+- Truy cap thu muc tren, :  D:\Deploy\CMS_PS4_2019
+  + Sua file .gitigore : remove thu muc `dist/`
+  + Chuot phai chon Terminal, go :
+    `npm run build`
+    `heroku login`
+    `git init`
+    `heroku git:remote -a psbaonguyen`
+    `git add .` \\thuc hien lenh nay moi khi co thay doi code
+    `git commit -am "init"` \\thuc hien lenh nay moi khi co thay doi code
+    `git push heroku master` \\thuc hien lenh nay moi khi co thay doi code
+  --> Sau do truy cap de test : https://psbaonguyen.herokuapp.com/
+
 
 B7.2 : Deploy CMS (vuejs) lên Netlify
 
