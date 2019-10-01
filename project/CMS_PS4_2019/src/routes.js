@@ -149,7 +149,7 @@ const routes = [
       },
       {
         path: 'tondauky',
-        component: () => import(/* webpackPrefetch: true */ './components/views/TonDauky'),
+        component: () => import(/* webpackPrefetch: true */ './components/views/TonDauKy'),
         name: 'TonDauKy',
         meta: {description: 'Nhập tồn kho cuối kỳ sau kiểm kê thực tế, kiểm tra chênh lệch', requiresAuth: true}
       },

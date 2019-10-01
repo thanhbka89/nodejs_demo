@@ -11,7 +11,7 @@
               <div class="col-sm-9">
                 <!-- <input type="text" class="form-control" v-model="item.code" placeholder="Mã code ..."/> -->
                 <v-select v-model="item.code" label="name" :options="options"></v-select>
-              </div>              
+              </div>
           </div>
           <div class="form-group">
               <label class="col-sm-3 z-label">Tên máy:</label>
@@ -25,7 +25,7 @@
                 <select class="form-control" v-model="item.status">
                   <option value="1">Áp dụng</option>
                   <option value="0">Không áp dụng</option>
-                </select>                
+                </select>
               </div>
 					</div>
         </div>
@@ -37,15 +37,15 @@
       <div class="col-xs-12">
         <index :openModal="openModal"></index>
       </div>
-      
+
     </div>
   </section>
 </template>
 
 <script>
-import api from '../../api'
-import Index from '../widgets/ps/Index'
-import ServiceCreate from '../widgets/Modal'
+import api from '@/api'
+import Index from '@/components/widgets/ps/Index'
+import ServiceCreate from '@/components/widgets/Modal'
 
 export default {
   name: 'ListPS',

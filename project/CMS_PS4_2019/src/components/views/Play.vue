@@ -44,7 +44,7 @@
                             <input type="number" id="number" v-model="item.quantity" @change="updateService(getPs4.id, true)" value="1" min="1"/>
                           </td>
                           <td class="col-xs-3">
-                            <a href="#" class="icon" data-toggle="tooltip" title="Xóa dịch vụ"><i @click="deleteService(getPs4.id, --index)" class="fa fa-trash"></i></a>          
+                            <a href="#" class="icon" data-toggle="tooltip" title="Xóa dịch vụ"><i @click="deleteService(getPs4.id, --index)" class="fa fa-trash"></i></a>
                           </td>
                         </tr>
                       </tbody>
@@ -54,7 +54,7 @@
                  </div>
                </div>
              </div>
-                
+
             <div slot="footer">
                 <button type="button" class="btn btn-outline-info" @click="closeModal()"> Đóng </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" @click="updateService(getPs4.id)"> Cập nhật </button>
@@ -79,7 +79,7 @@
                 </div>
               </div>
              </div>
-                
+
             <div slot="footer">
                 <button type="button" class="btn btn-outline-info" @click="closeModalChange()"> Đóng </button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" @click="showAlertConfirm(getPs4.id)"> Cập nhật </button>
@@ -87,7 +87,7 @@
         </ps4-detail>
       </div>
       <hr />
-      <div class="col-md-4 col-sm-6 col-xs-12" 
+      <div class="col-md-4 col-sm-6 col-xs-12"
         v-for="item in listPS4" :key="item.id">
         <ps4-box
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
@@ -107,8 +107,8 @@
 
 <script>
 import api from '@/api'
-import Ps4Box from '../widgets/PS4Box'
-import Ps4Detail from '../widgets/Modal'
+import Ps4Box from '@/components/widgets/Ps4Box'
+import Ps4Detail from '@/components/widgets/Modal'
 import moment from 'moment'
 // https://github.com/waseembarcha/vuejs-crud/blob/master/src/components/Products.vue
 
