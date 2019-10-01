@@ -195,15 +195,20 @@ B8 (Option) : MySQL command in Linux
 - Check all the running Process of MySQL server: `mysqladmin -u root -p processlist`
 - Create a Database: `mysqladmin -u root -p create databasename`
 - Drop a db : `mysqladmin -u root -p drop databasename`
+- Export db : `mysqldump -u user_name -p database_name > demo.sql`
 - Reload/refresh MySQL Privileges:
     # mysqladmin -u root -p reload;
     # mysqladmin -u root -p refresh
 - Shutdown MySQL server Safely: `mysqladmin -u root -p shutdown`
 
-### Thao tác cơ bản:
+### Thao tác cơ bản cho import lai db:
 - Truy cập mysql shell: `mysql -u root -p`
 - Xem các DBs: `SHOW DATABASES;`
+- Drop db old: `DROP DATABASE cms_ps_dev;`
+- Tao moi lai db: `CREATE DATABASE cms_ps_dev;`
 - Chọn DB cần làm việc: `USE dbName;`
 - Xem các tables trong DB : `SHOW TABLES;`
+- Ket thuc session : `quit;`
+- Import lai db : `mysql –u root –p cms_ps_dev < ps4.sql`
 
 
