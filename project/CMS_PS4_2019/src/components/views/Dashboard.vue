@@ -240,7 +240,7 @@ export default {
 
       for (let i = 1; i <= currentDay; i++) {
         index = i.toString()
-        qDate = `${year}-${month.length > 1 ? month : '0' + month}-${index.length > 1 ? index : '0' + index}`
+        qDate = `${year}-${month.toString().length > 1 ? month : '0' + month}-${index.length > 1 ? index : '0' + index}`
         filterData = result.filter(el => el.date === qDate)
         labels.push(index)
         datasets.push(filterData.length ? filterData[0].total : 0)
