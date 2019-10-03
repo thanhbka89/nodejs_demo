@@ -196,6 +196,7 @@ B8 (Option) : MySQL command in Linux
 - Create a Database: `mysqladmin -u root -p create databasename`
 - Drop a db : `mysqladmin -u root -p drop databasename`
 - Export db : `mysqldump -u user_name -p database_name > demo.sql`
+- Export (backup) db : `mysqldump -uroot -p123456a@ database_name > database_name-$(date +%Y%m%d).sql`
 - Reload/refresh MySQL Privileges:
     # mysqladmin -u root -p reload;
     # mysqladmin -u root -p refresh
