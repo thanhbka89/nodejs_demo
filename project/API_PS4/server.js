@@ -188,6 +188,7 @@ const apiLimiter = rateLimit({
 const url_api = '/api/ps4/v1/'
 app.use(url_api, apiLimiter) // only apply to requests that begin with
 app.use(`${url_api}authen`, routes.authen)
+app.use(`${url_api}history_login`, routes.history_login)
 app.use(url_api, middleware.checkToken) // check JWT
 app.use(`${url_api}user`, routes.user)
 app.use(`${url_api}vendor`, routes.vendor)

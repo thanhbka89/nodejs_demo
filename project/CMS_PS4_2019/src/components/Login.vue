@@ -31,7 +31,7 @@
             v-model="password"
           >
         </div>
-        <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Submit</button>
+        <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Đăng nhập</button>
       </form>
 
       <!-- errors -->
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import api from '../api'
+import api, { BN_API } from '@/api'
 
 export default {
   name: 'Login',
@@ -53,7 +53,10 @@ export default {
       loading: '',
       username: '',
       password: '',
-      response: ''
+      response: '',
+      history: {
+        ip: '127.0.0.1'
+      }
     }
   },
   methods: {
@@ -71,9 +74,14 @@ export default {
           this.toggleLoading()
 
           let data = response.data
+          data.redirect = this.$route.query.redirect || ''
 
           /* Setting user in the state and caching record to the localStorage */
           if (data.success) {
+            // Ghi log
+            this.history.id_user = data.user.id
+            this.saveHistoryLogin()
+
             let token = 'Bearer ' + data.token
 
             this.$store.commit('SET_USER', data.user)
@@ -105,6 +113,22 @@ export default {
     },
     resetResponse() {
       this.response = ''
+    },
+    async saveHistoryLogin() {
+      try {
+        await this.getIP()
+        await api.request('post', '/history_login', this.history)
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async getIP() {
+      try {
+        let res = await BN_API.get('https://api.ipify.org/?format=json')
+        this.history.ip = res.data.ip || '127.0.0.1'
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 }
@@ -112,7 +136,7 @@ export default {
 
 <style>
 #login {
-  padding: 10em;
+  padding: 5em;
 }
 
 html,

@@ -12,6 +12,7 @@ import chamcong from './cham_cong'
 import upload from './upload'
 import kiemke from './kiemke'
 import thuchi from './thuchi'
+import history_login from './history_login'
 
 export default {
     authen,
@@ -27,6 +28,7 @@ export default {
     chamcong,
     upload,
     kiemke,
-    thuchi
+    thuchi,
+    history_login
 }
 

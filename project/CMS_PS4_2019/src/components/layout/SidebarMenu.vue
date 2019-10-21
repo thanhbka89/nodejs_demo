@@ -94,8 +94,8 @@
           </a>
         </li>
         <li>
-          <a href="#">
-            <i class="fa fa-file-pdf-o"></i> BC Khác
+          <a href="/history_login">
+            <i class="fa fa-file-pdf-o"></i> BC Lịch sử login
           </a>
         </li>
       </ul>

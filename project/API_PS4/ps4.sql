@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               10.4.6-MariaDB - mariadb.org binary distribution
+-- Host:                         localhost
+-- Server version:               5.7.19 - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             10.2.0.5599
+-- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -13,17 +13,19 @@
 
 
 -- Dumping database structure for cms_ps_dev
+DROP DATABASE IF EXISTS `cms_ps_dev`;
 CREATE DATABASE IF NOT EXISTS `cms_ps_dev` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `cms_ps_dev`;
 
 -- Dumping structure for table cms_ps_dev.cham_cong
+DROP TABLE IF EXISTS `cham_cong`;
 CREATE TABLE IF NOT EXISTS `cham_cong` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `time` datetime NOT NULL DEFAULT current_timestamp(),
-  `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '{1: checkin, 2: checkout}',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '{1: checkin, 2: checkout}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Du lieu cham cong danh cho nhan vien';
 
@@ -33,6 +35,7 @@ DELETE FROM `cham_cong`;
 /*!40000 ALTER TABLE `cham_cong` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.giai_dau
+DROP TABLE IF EXISTS `giai_dau`;
 CREATE TABLE IF NOT EXISTS `giai_dau` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -51,12 +54,13 @@ DELETE FROM `giai_dau`;
 /*!40000 ALTER TABLE `giai_dau` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.history_customer
+DROP TABLE IF EXISTS `history_customer`;
 CREATE TABLE IF NOT EXISTS `history_customer` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_user` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'Khoa ngoai voi bang users',
-  `time` datetime NOT NULL DEFAULT current_timestamp(),
+  `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Khoa ngoai voi bang users',
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Lich su choi cua Khach hang';
 
@@ -65,22 +69,65 @@ DELETE FROM `history_customer`;
 /*!40000 ALTER TABLE `history_customer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `history_customer` ENABLE KEYS */;
 
+-- Dumping structure for table cms_ps_dev.history_login
+DROP TABLE IF EXISTS `history_login`;
+CREATE TABLE IF NOT EXISTS `history_login` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Khoa ngoai voi bang users',
+  `ip` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Lich su danh nhap he thong';
+
+-- Dumping data for table cms_ps_dev.history_login: ~26 rows (approximately)
+DELETE FROM `history_login`;
+/*!40000 ALTER TABLE `history_login` DISABLE KEYS */;
+INSERT INTO `history_login` (`id`, `id_user`, `ip`, `created_at`) VALUES
+	(1, 21, '', '2019-10-05 00:22:57'),
+	(2, 22, '127.0.0.1', '2019-10-05 00:24:39'),
+	(3, 1, '14.162.39.208', '2019-10-05 00:25:03'),
+	(4, 21, '127.0.0.1', '2019-10-05 00:31:30'),
+	(5, 22, '14.162.39.208', '2019-10-05 00:37:08'),
+	(6, 21, '127.0.0.1', '2019-10-05 00:37:29'),
+	(7, 21, '127.0.0.1', '2019-10-05 00:38:11'),
+	(8, 21, '127.0.0.1', '2019-10-05 00:38:37'),
+	(9, 21, '127.0.0.1', '2019-10-05 00:49:42'),
+	(10, 21, '127.0.0.1', '2019-10-05 01:00:21'),
+	(11, 22, '127.0.0.1', '2019-10-05 01:01:20'),
+	(12, 21, '127.0.0.1', '2019-10-05 01:07:11'),
+	(13, 21, '127.0.0.1', '2019-10-05 01:08:06'),
+	(14, 21, '127.0.0.1', '2019-10-05 01:09:44'),
+	(15, 21, '127.0.0.1', '2019-10-05 01:10:54'),
+	(16, 21, '127.0.0.1', '2019-10-05 01:14:23'),
+	(17, 22, '127.0.0.1', '2019-10-05 01:17:01'),
+	(18, 21, '127.0.0.1', '2019-10-05 01:19:47'),
+	(19, 1, '14.232.172.69', '2019-10-21 23:11:06'),
+	(20, 21, '127.0.0.1', '2019-10-21 23:12:47'),
+	(21, 22, '127.0.0.1', '2019-10-21 23:17:05'),
+	(22, 21, '14.232.172.69', '2019-10-21 23:21:39'),
+	(23, 22, '127.0.0.1', '2019-10-21 23:22:34'),
+	(24, 1, '127.0.0.1', '2019-10-21 23:24:32'),
+	(25, 22, '127.0.0.1', '2019-10-21 23:34:59'),
+	(26, 1, '127.0.0.1', '2019-10-21 23:38:07');
+/*!40000 ALTER TABLE `history_login` ENABLE KEYS */;
+
 -- Dumping structure for table cms_ps_dev.inventory
+DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE IF NOT EXISTS `inventory` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_vendor` int(10) unsigned DEFAULT 0 COMMENT 'Ma dai ly',
+  `id_vendor` int(10) unsigned DEFAULT '0' COMMENT 'Ma dai ly',
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ma san pham',
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gia_nhap` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Gia nhap hang',
-  `quantity` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'So luong',
-  `category` tinyint(2) unsigned NOT NULL DEFAULT 1 COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '{1: dang ap dung, 0: ko ap dung}',
+  `gia_nhap` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Gia nhap hang',
+  `quantity` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'So luong',
+  `category` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '{1: dang ap dung, 0: ko ap dung}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='QL nhap kho, ton kho : nuoc, thuoc, do an';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='QL nhap kho, ton kho : nuoc, thuoc, do an';
 
 -- Dumping data for table cms_ps_dev.inventory: ~14 rows (approximately)
 DELETE FROM `inventory`;
@@ -103,19 +150,20 @@ INSERT INTO `inventory` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `quantit
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.items
+DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_vendor` int(10) unsigned DEFAULT 0 COMMENT 'Ma dai ly',
+  `id_vendor` int(10) unsigned DEFAULT '0' COMMENT 'Ma dai ly',
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT 'Ma san pham',
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `gia_nhap` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Gia nhap hang',
-  `gia_ban` int(10) unsigned NOT NULL DEFAULT 0,
-  `category` tinyint(2) unsigned NOT NULL DEFAULT 1 COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
-  `status` tinyint(2) unsigned NOT NULL DEFAULT 1 COMMENT '{1: dang ap dung, 0: ko ap dung}',
+  `gia_nhap` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Gia nhap hang',
+  `gia_ban` int(10) unsigned NOT NULL DEFAULT '0',
+  `category` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
+  `status` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: dang ap dung, 0: ko ap dung}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
 
@@ -161,18 +209,19 @@ INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.kiem_ke
+DROP TABLE IF EXISTS `kiem_ke`;
 CREATE TABLE IF NOT EXISTS `kiem_ke` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_item` int(10) unsigned NOT NULL DEFAULT 0,
+  `id_item` int(10) unsigned NOT NULL DEFAULT '0',
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `period` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kỳ',
-  `sl_thucte` int(10) DEFAULT 0 COMMENT 'Kiem ke vat ly',
-  `sl_tinhtoan` int(10) DEFAULT 0 COMMENT 'He thong tinh toan',
+  `sl_thucte` int(10) unsigned DEFAULT '0' COMMENT 'Kiem ke vat ly',
+  `sl_tinhtoan` int(10) unsigned DEFAULT '0' COMMENT 'He thong tinh toan',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bang kiem ke hang hoa trong Kho';
 
@@ -180,19 +229,19 @@ CREATE TABLE IF NOT EXISTS `kiem_ke` (
 DELETE FROM `kiem_ke`;
 /*!40000 ALTER TABLE `kiem_ke` DISABLE KEYS */;
 INSERT INTO `kiem_ke` (`id`, `id_item`, `code`, `name`, `period`, `sl_thucte`, `sl_tinhtoan`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-	(1, 0, 'REDBULL', 'Bo Huc', '08/2019', 0, -86, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
+	(1, 0, 'REDBULL', 'Bo Huc', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
 	(2, 0, 'RONGDO', 'Nuoc ngot rong do', '08/2019', 0, 24, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
-	(3, 0, 'LAVIE', 'Nuoc loc Lavie', '08/2019', 0, -12, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
+	(3, 0, 'LAVIE', 'Nuoc loc Lavie', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
 	(4, 0, 'COCA', 'CocaCola', '08/2019', 0, 79, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
-	(5, 0, 'PEPSI', 'Nuoc ngot Pepsi', '08/2019', 0, -4, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
+	(5, 0, 'PEPSI', 'Nuoc ngot Pepsi', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
 	(6, 6, 'CHANHMUOI', 'Chanh muối', '08/2019', 72, 72, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:36'),
 	(7, 7, 'C2', 'Nước C2', '08/2019', 53, 53, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:36'),
 	(8, 8, 'NUMBER_ONE', 'Nước Number One', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-30 00:38:09'),
-	(9, 0, 'DULICH', 'Thuoc la Du Lich', '08/2019', 0, -4, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
-	(10, 0, '3SO', '3 số', '08/2019', 0, -8, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
+	(9, 0, 'DULICH', 'Thuoc la Du Lich', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
+	(10, 0, '3SO', '3 số', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
 	(11, 12, 'AQUARIUS', 'Nước khoáng Aquarius', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-30 00:38:09'),
 	(12, 13, 'AQUAFINA', 'Nước lọc Aquafina', '08/2019', 57, 57, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:36'),
-	(13, 0, 'VINA', 'Thuoc la Vina', '08/2019', 0, -8, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
+	(13, 0, 'VINA', 'Thuoc la Vina', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-29 23:09:52'),
 	(14, 15, 'BIDAO', 'Nước Bí đao', '08/2019', 1, 1, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:36'),
 	(15, 16, 'MOUNTAIN_DEW', 'Nước Mountain Dew', '08/2019', 28, 28, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:37'),
 	(16, 17, 'THUNDER', 'Nước trái cây Thunder', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-30 00:38:09'),
@@ -203,7 +252,7 @@ INSERT INTO `kiem_ke` (`id`, `id_item`, `code`, `name`, `period`, `sl_thucte`, `
 	(21, 22, 'SPTYTE', 'Nước Spyte', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-30 00:38:09'),
 	(22, 23, 'FUZE TEA', 'Trà chanh dây& hạt chia', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-30 00:38:09'),
 	(23, 24, 'BANHMY', 'Bánh mì', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-30 00:38:09'),
-	(24, 25, 'TRADA', 'Trà đá', '08/2019', 0, -7, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:37'),
+	(24, 25, 'TRADA', 'Trà đá', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:37'),
 	(25, 26, 'MATCHA', 'Trà xanh Matcha Nhật Bản nhỏ', '08/2019', 3, 3, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:37'),
 	(26, 27, 'RIVIVE', 'Revive vị chanh muối', '08/2019', 0, 0, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-08-30 00:38:09'),
 	(27, 28, 'NUTRI', 'Nước Nutri', '08/2019', 4, 4, 'thanhnm', '2019-08-29 19:47:10', 'thanhnm', '2019-09-03 17:58:37'),
@@ -253,19 +302,20 @@ INSERT INTO `kiem_ke` (`id`, `id_item`, `code`, `name`, `period`, `sl_thucte`, `
 /*!40000 ALTER TABLE `kiem_ke` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.list_ps
+DROP TABLE IF EXISTS `list_ps`;
 CREATE TABLE IF NOT EXISTS `list_ps` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT 'Ma san pham',
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `status` tinyint(2) unsigned NOT NULL DEFAULT 1 COMMENT '{1: dang ap dung, 0: ko ap dung}',
+  `status` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: dang ap dung, 0: ko ap dung}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sach may PS';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sach may PS';
 
--- Dumping data for table cms_ps_dev.list_ps: ~4 rows (approximately)
+-- Dumping data for table cms_ps_dev.list_ps: ~5 rows (approximately)
 DELETE FROM `list_ps`;
 /*!40000 ALTER TABLE `list_ps` DISABLE KEYS */;
 INSERT INTO `list_ps` (`id`, `code`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -277,14 +327,15 @@ INSERT INTO `list_ps` (`id`, `code`, `name`, `status`, `created_by`, `created_at
 /*!40000 ALTER TABLE `list_ps` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.mastercode
+DROP TABLE IF EXISTS `mastercode`;
 CREATE TABLE IF NOT EXISTS `mastercode` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` tinyint(1) unsigned NOT NULL DEFAULT 0 COMMENT 'Trang thai {0: inactive, 1: active}',
-  `category` tinyint(2) unsigned NOT NULL DEFAULT 1 COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Trang thai {0: inactive, 1: active}',
+  `category` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '{1: Nuoc uong, 2: Do an, 3: PS, 4: Khac}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='QL ma code';
 
@@ -331,16 +382,17 @@ INSERT INTO `mastercode` (`id`, `code`, `name`, `status`, `category`, `created_b
 /*!40000 ALTER TABLE `mastercode` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.points
+DROP TABLE IF EXISTS `points`;
 CREATE TABLE IF NOT EXISTS `points` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_trans` int(10) unsigned NOT NULL DEFAULT 0,
-  `id_user` int(10) unsigned NOT NULL DEFAULT 0,
-  `point` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'So phut tich duoc',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '{1: tich, 2: tieu}',
+  `id_trans` int(10) unsigned NOT NULL DEFAULT '0',
+  `id_user` int(10) unsigned NOT NULL DEFAULT '0',
+  `point` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'So phut tich duoc',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '{1: tich, 2: tieu}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Quan ly tich, tieu diem cho khach hang';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Quan ly tich, tieu diem cho khach hang';
 
 -- Dumping data for table cms_ps_dev.points: ~0 rows (approximately)
 DELETE FROM `points`;
@@ -348,10 +400,11 @@ DELETE FROM `points`;
 /*!40000 ALTER TABLE `points` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.setting
+DROP TABLE IF EXISTS `setting`;
 CREATE TABLE IF NOT EXISTS `setting` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `option` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`option`)),
+  `option` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bang cau hinh';
 
@@ -361,17 +414,18 @@ DELETE FROM `setting`;
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.tai_san
+DROP TABLE IF EXISTS `tai_san`;
 CREATE TABLE IF NOT EXISTS `tai_san` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `so_luong` int(11) DEFAULT 0,
-  `gia_nhap` int(11) DEFAULT 0,
-  `noted` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `so_luong` int(11) DEFAULT '0',
+  `gia_nhap` int(11) DEFAULT '0',
+  `noted` text COLLATE utf8mb4_unicode_ci,
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Quan ly Tai san';
 
@@ -381,19 +435,20 @@ DELETE FROM `tai_san`;
 /*!40000 ALTER TABLE `tai_san` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.thu_chi
+DROP TABLE IF EXISTS `thu_chi`;
 CREATE TABLE IF NOT EXISTS `thu_chi` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ma san pham',
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `gia_nhap` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Gia nhap hang',
-  `quantity` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'So luong',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '{1: Chi, 2: Thu}',
+  `gia_nhap` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Gia nhap hang',
+  `quantity` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'So luong',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '{1: Chi, 2: Thu}',
   `description` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '{1: dang ap dung, 0: ko ap dung}',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '{1: dang ap dung, 0: ko ap dung}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Giao dich Thu Chi : luong nv, tien dien, tien nha, tien mang, tien da, mua do dac...';
 
@@ -403,21 +458,22 @@ DELETE FROM `thu_chi`;
 /*!40000 ALTER TABLE `thu_chi` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.transactions
+DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_ps` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'May PS nao',
-  `id_user` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'Id Khach hang',
-  `total_money` int(10) unsigned NOT NULL DEFAULT 0,
-  `diem_tich` int(10) unsigned NOT NULL DEFAULT 0,
-  `diem_tieu` int(10) unsigned NOT NULL DEFAULT 0,
+  `id_ps` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'May PS nao',
+  `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Id Khach hang',
+  `total_money` int(10) unsigned NOT NULL DEFAULT '0',
+  `diem_tich` int(10) unsigned NOT NULL DEFAULT '0',
+  `diem_tieu` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=476 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
 
--- Dumping data for table cms_ps_dev.transactions: ~433 rows (approximately)
+-- Dumping data for table cms_ps_dev.transactions: ~444 rows (approximately)
 DELETE FROM `transactions`;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
 INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `diem_tich`, `diem_tieu`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -868,6 +924,7 @@ INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `diem_tich`
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.trans_detail
+DROP TABLE IF EXISTS `trans_detail`;
 CREATE TABLE IF NOT EXISTS `trans_detail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_trans` int(10) unsigned NOT NULL,
@@ -875,12 +932,12 @@ CREATE TABLE IF NOT EXISTS `trans_detail` (
   `code_item` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `price` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-  `discount` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Ty le % giam gia cho khach VIP',
-  `start` datetime NOT NULL DEFAULT current_timestamp(),
+  `discount` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Ty le % giam gia cho khach VIP',
+  `start` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1114 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
 
--- Dumping data for table cms_ps_dev.trans_detail: ~1,049 rows (approximately)
+-- Dumping data for table cms_ps_dev.trans_detail: ~1,075 rows (approximately)
 DELETE FROM `trans_detail`;
 /*!40000 ALTER TABLE `trans_detail` DISABLE KEYS */;
 INSERT INTO `trans_detail` (`id`, `id_trans`, `id_item`, `code_item`, `quantity`, `price`, `discount`, `start`) VALUES
@@ -1962,6 +2019,7 @@ INSERT INTO `trans_detail` (`id`, `id_trans`, `id_item`, `code_item`, `quantity`
 /*!40000 ALTER TABLE `trans_detail` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.users
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1970,15 +2028,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `passwd` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `diem_tich` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Tổng điểm đã tích',
-  `diem_tieu` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Tổng điểm đã tiêu',
-  `role` tinyint(1) unsigned NOT NULL DEFAULT 2 COMMENT '{1: admin, 2: employee, 3: customer}',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT 5 COMMENT 'Danh hieu {1: kim cuong, 2: vang, 3: bac, 4: dong, 5: thuong}',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT 'Trạng thái {0: inactive, 1: active}',
+  `diem_tich` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tổng điểm đã tích',
+  `diem_tieu` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tổng điểm đã tiêu',
+  `role` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '{1: admin, 2: employee, 3: customer}',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '5' COMMENT 'Danh hieu {1: kim cuong, 2: vang, 3: bac, 4: dong, 5: thuong}',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Trạng thái {0: inactive, 1: active}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `phone` (`phone`)
@@ -2044,6 +2102,7 @@ INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.vendors
+DROP TABLE IF EXISTS `vendors`;
 CREATE TABLE IF NOT EXISTS `vendors` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -2051,7 +2110,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Thong tin dai ly';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Thong tin dai ly';
 
 -- Dumping data for table cms_ps_dev.vendors: ~1 rows (approximately)
 DELETE FROM `vendors`;

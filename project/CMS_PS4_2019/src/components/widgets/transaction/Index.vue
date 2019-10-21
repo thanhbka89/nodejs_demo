@@ -6,7 +6,7 @@
                 <h2>Manage <b>Transactions</b></h2>
             </div>
         </div>
-    </div>   
+    </div>
 
     <div class="filters row">
         <div class="form-group col-sm-4">
@@ -24,39 +24,41 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <button class="btn btn-success" 
-        @click="calcTotalMoney()">Tính tổng tiền các máy</button>           
+        <button class="btn btn-success"
+        @click="calcTotalMoney()">Tính tổng tiền các máy</button>
       </div>
     </div>
-    <table class="table table-striped table-hover">
-      <thead class="z-header">
-        <tr>
-          <th><input type="checkbox" @click="select" v-model="allSelected" title="Chọn tất cả"></th>
-          <th>ID</th>
-          <th>Ngày</th>
-          <th>Máy</th>
-          <th>Khách hàng</th>
-          <th>Tổng tiền</th>          
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="z-header">
+          <tr>
+            <th><input type="checkbox" @click="select" v-model="allSelected" title="Chọn tất cả"></th>
+            <th>ID</th>
+            <th>Ngày</th>
+            <th>Máy</th>
+            <th>Khách hàng</th>
+            <th>Tổng tiền</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <tr v-for="item in filteredResources" :key="item.id">
-          <td>
-            <input type="checkbox" v-model="transIds" :value="item.id">
-          </td>
-          <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
-          <td class="col-md-2">{{ getPSName(item.id_ps) || 'Máy PS' }}</td>
-          <td class="col-md-2">{{ getMemberName(item.id_user) || 'Khách lẻ' }}</td>
-          <td class="col-md-2">{{ item.total_money | toVnd }}</td>
-          <td class="col-md-2">
-            <button class="btn btn-primary" @click="viewItem(item)">Chi tiết</button>           
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr v-for="item in filteredResources" :key="item.id">
+            <td>
+              <input type="checkbox" v-model="transIds" :value="item.id">
+            </td>
+            <td class="col-md-1">{{ item.id }}</td>
+            <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
+            <td class="col-md-2">{{ getPSName(item.id_ps) || 'Máy PS' }}</td>
+            <td class="col-md-2">{{ getMemberName(item.id_user) || 'Khách lẻ' }}</td>
+            <td class="col-md-2">{{ item.total_money | toVnd }}</td>
+            <td class="col-md-2">
+              <button class="btn btn-primary" @click="viewItem(item)">Chi tiết</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="clearfix">
         <paginate
