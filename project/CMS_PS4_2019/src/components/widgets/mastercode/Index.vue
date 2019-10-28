@@ -3,17 +3,20 @@
     <div class="table-title">
         <div class="row">
             <div class="col-sm-6">
-                <h2>Manage <b>Mastercodes</b></h2>
+              <h2>Manage <b>Mastercodes</b></h2>
             </div>
             <div class="col-sm-6">
-                <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Thêm code</span></a>		
+              <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Thêm code</span></a>
             </div>
         </div>
-    </div>   
+    </div>
 
     <div class="filters row">
         <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm codes, name ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+          <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm codes, name ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+        </div>
+        <div class="col-sm-2">
+          <v-select v-model="status" label="name" :options="options" @input="search" placeholder="Chọn trạng thái"/>
         </div>
     </div>
 
@@ -35,14 +38,14 @@
           <td class="col-md-3">{{ item.name }}</td>
           <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
           <td class="col-md-2">
-            <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
+            <button class="btn btn-primary" @click="editItem(item)">Edit</button>
             <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
             <a href="#" class="icon">
                 <i v-on:click="showAlert()" class="fa fa-pencil"></i>
             </a>
             <a href="#" class="icon">
                 <i @click="showAlert" class="fa fa-trash"></i>
-            </a>            
+            </a>
           </td>
         </tr>
       </tbody>
@@ -77,6 +80,12 @@ export default {
   data() {
     return {
       searchKey: '',
+      status: '',
+      options: [
+        {name: 'All', value: ''},
+        {name: 'Không áp dụng', value: '0'},
+        {name: 'Áp dụng', value: '1'}
+      ],
       page: 1,
       limit: 15,
       totalPage: 10,
@@ -162,6 +171,9 @@ export default {
       }
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)
+      }
+      if (this.status) {
+        query = query.concat(`&status=${this.status.value}`)
       }
 
       return query
