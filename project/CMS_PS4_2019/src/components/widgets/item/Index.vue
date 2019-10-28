@@ -2,57 +2,62 @@
   <div class="table-wrapper">
     <div class="table-title">
         <div class="row">
-            <div class="col-sm-6">
-                <h2>Manage <b>Services</b></h2>
-            </div>
-            <div class="col-sm-6">
-                <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Thêm dịch vụ</span></a>		
-            </div>
+          <div class="col-sm-6">
+            <h2>Manage <b>Services</b></h2>
+          </div>
+          <div class="col-sm-6">
+            <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Thêm dịch vụ</span></a>
+          </div>
         </div>
-    </div>   
+    </div>
 
     <div class="filters row">
-      <div class="form-group col-sm-5">
+      <div class="form-group col-sm-4">
         <multiselect v-model="codeSelected" :options="codes" :custom-label="nameWithLang" placeholder="Tìm theo mastercode ..." label="code" track-by="id" @select="searchByCode">
         </multiselect>
       </div>
       <div class="form-group col-sm-3">
         <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm tên dịch vụ ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
       </div>
+      <div class="form-group col-sm-2">
+        <v-select v-model="status" label="name" :options="options" @input="search" placeholder="Chọn trạng thái"/>
+      </div>
     </div>
 
-    <table class="table table-striped table-hover">
-      <thead class="z-header">
-        <tr>
-          <th>ID</th>
-          <th>Code</th>
-          <th>Name</th>
-          <th>Giá bán</th>
-          <th>Trạng thái</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="z-header">
+          <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Giá bán</th>
+            <th>Trạng thái</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <tr v-for="item in filteredResources" :key="item.id">
-          <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-2">{{ item.code }}</td>
-          <td class="col-md-3">{{ item.name }}</td>
-          <td class="col-md-2">{{ item.gia_ban | toVnd }}</td>
-          <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
-          <td class="col-md-2">
-            <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
-            <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
-            <a href="#" class="icon">
-                <i v-on:click="showAlert()" class="fa fa-pencil"></i>
-            </a>
-            <a href="#" class="icon">
-                <i @click="showAlert" class="fa fa-trash"></i>
-            </a>            
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr v-for="item in filteredResources" :key="item.id">
+            <td class="col-md-1">{{ item.id }}</td>
+            <td class="col-md-2">{{ item.code }}</td>
+            <td class="col-md-3">{{ item.name }}</td>
+            <td class="col-md-2">{{ item.gia_ban | toVnd }}</td>
+            <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
+            <td class="col-md-2">
+              <button class="btn btn-primary" @click="editItem(item)">Edit</button>
+              <button class="btn btn-danger" @click="confirmDelete(item.id)">Delete</button>
+              <a href="#" class="icon">
+                  <i v-on:click="showAlert()" class="fa fa-pencil"></i>
+              </a>
+              <a href="#" class="icon">
+                  <i @click="showAlert" class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="clearfix">
         <paginate
@@ -89,7 +94,13 @@ export default {
       limit: 15,
       totalPage: 10,
       items: [],
-      codeSelected: null
+      codeSelected: null,
+      status: '',
+      options: [
+        {name: 'All', value: ''},
+        {name: 'Không áp dụng', value: '0'},
+        {name: 'Áp dụng', value: '1'}
+      ]
     }
   },
   props: {
@@ -180,6 +191,9 @@ export default {
       if (this.codeSelected) {
         query = query.concat(`&code=${this.codeSelected.code}`)
       }
+      if (this.status) {
+        query = query.concat(`&status=${this.status.value}`)
+      }
 
       return query
     },
@@ -202,6 +216,25 @@ export default {
         showConfirmButton: false,
         timer: 3000
       })
+    },
+    confirmDelete(id) {
+      if (id) {
+        this.$swal({
+          title: 'Bạn có chắc?',
+          text: 'Bạn có muốn thực hiện xóa?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+          if (result.value) {
+            this.deleteItem(id)
+          }
+        })
+      } else {
+        this.showToast('error', 'Không tìm thấy Id để xóa!')
+      }
     }
   }
 }

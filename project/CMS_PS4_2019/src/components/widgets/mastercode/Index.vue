@@ -20,36 +20,38 @@
         </div>
     </div>
 
-    <table class="table table-striped table-hover">
-      <thead class="z-header">
-        <tr>
-          <th>ID</th>
-          <th>Code</th>
-          <th>Name</th>
-          <th>Trạng thái</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="z-header">
+          <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Trạng thái</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-      <tbody>
-        <tr v-for="item in filteredResources" :key="item.id">
-          <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-2">{{ item.code }}</td>
-          <td class="col-md-3">{{ item.name }}</td>
-          <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
-          <td class="col-md-2">
-            <button class="btn btn-primary" @click="editItem(item)">Edit</button>
-            <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
-            <a href="#" class="icon">
-                <i v-on:click="showAlert()" class="fa fa-pencil"></i>
-            </a>
-            <a href="#" class="icon">
-                <i @click="showAlert" class="fa fa-trash"></i>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <tbody>
+          <tr v-for="item in filteredResources" :key="item.id">
+            <td class="col-md-1">{{ item.id }}</td>
+            <td class="col-md-2">{{ item.code }}</td>
+            <td class="col-md-3">{{ item.name }}</td>
+            <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
+            <td class="col-md-2">
+              <!-- <button class="btn btn-primary" @click="editItem(item)">Edit</button>
+              <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button> -->
+              <a href="#" class="icon margin-small-right" title="Chỉnh sửa">
+                  <i v-on:click="editItem(item)" class="fa fa-pencil"></i>
+              </a>
+              <a href="#" class="icon" title="Xóa">
+                  <i @click="deleteItem(item.id)" class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="clearfix">
         <paginate
@@ -223,5 +225,8 @@ export default {
     outline: none !important;
     margin-left: 10px;
     margin-top: 15px;
+}
+.margin-small-right {
+  margin-right: 10px;
 }
 </style>
