@@ -3,62 +3,61 @@
     <div class="table-title">
         <div class="row">
             <div class="col-sm-6">
-                <h2>Manage <b>Users</b></h2>
+              <h2>Manage <b>Users</b></h2>
             </div>
             <div class="col-sm-6">
-                <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Add user</span></a>		
+              <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Add user</span></a>
             </div>
-        </div>
-    </div>   
-
-    <div class="filters row">
-        <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" 
-            placeholder="Tìm kiếm username, phone ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
-        </div>
-        <div class="form-group col-sm-6">
-          <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
-          <date-picker v-model="dateTo" format="YYYY-MM-DD" lang="en" confirm placeholder="Đến ngày" @change="search"></date-picker>
         </div>
     </div>
 
-    <table class="table table-striped table-hover">
-      <thead class="z-header">
-        <tr>
-          <th>ID</th>
-          <th>Username</th>
-          <th>FullName</th>
-          <th>Phone</th>
-          <th>Role</th>
-          <th>Trạng thái</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <div class="filters row">
+        <div class="form-group col-sm-3">
+          <input v-model="searchKey" class="form-control" id="search-element" type="text"
+          placeholder="Tìm kiếm username, phone ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
+        </div>
+        <div class="form-group col-sm-5">
+          <date-picker v-model="dateFrom" format="YYYY-MM-DD" lang="en" confirm placeholder="Từ ngày" @change="search"></date-picker>
+          <date-picker v-model="dateTo" format="YYYY-MM-DD" lang="en" confirm placeholder="Đến ngày" @change="search"></date-picker>
+        </div>
+        <div class="form-group col-sm-3">
+          <v-select v-model="status" label="name" :options="options" @input="search" placeholder="Chọn trạng thái"/>
+        </div>
+    </div>
 
-      <tbody>
-        <tr v-for="item in filteredResources" :key="item.id">
-          <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-1"><router-link :to="{ name: 'UserDetail', params: { id: item.id }}">{{ item.username }}</router-link></td>
-          <td class="col-md-3">{{ item.fullname }}</td>
-          <td class="col-md-1">{{ item.phone }}</td>
-          <td class="col-md-2">{{ item.role === 1 ? 'Quản trị viên' : (item.role === 2 ? 'Nhân viên' : 'Khách hàng') }}</td>
-          <td class="col-md-2">{{ item.status ? 'Đang hoạt động' : 'Không hoạt động' }}</td>
-          <td class="col-md-2">
-            <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
-            <button class="btn btn-danger" @click="showAlertConfirm(item.id)">Khóa</button>
-            <a href="#" class="icon">
-                <i v-on:click="showAlert()" class="fa fa-pencil"></i>
-            </a>
-            <a href="#" class="icon">
-                <i @click="showAlert" class="fa fa-trash"></i>
-            </a>            
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="z-header">
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>FullName</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Trạng thái</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="item in filteredResources" :key="item.id">
+            <td class="col-md-1">{{ item.id }}</td>
+            <td class="col-md-1"><router-link :to="{ name: 'UserDetail', params: { id: item.id }}">{{ item.username }}</router-link></td>
+            <td class="col-md-3">{{ item.fullname }}</td>
+            <td class="col-md-1">{{ item.phone }}</td>
+            <td class="col-md-2">{{ item.role === 1 ? 'Quản trị viên' : (item.role === 2 ? 'Nhân viên' : 'Khách hàng') }}</td>
+            <td class="col-md-2">{{ item.status ? 'Đang hoạt động' : 'Không hoạt động' }}</td>
+            <td class="col-md-2">
+              <button class="btn btn-primary" @click="editItem(item)">Sửa</button>
+              <button class="btn btn-danger" @click="showAlertConfirm(item.id)">Khóa</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="clearfix">
-        <paginate
+      <paginate
         v-model="page"
         :page-count="totalPage"
         :margin-pages="2"
@@ -78,6 +77,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import api from '@/api'
 import DatePicker from 'vue2-datepicker'
@@ -89,6 +89,12 @@ export default {
   data() {
     return {
       searchKey: '',
+      status: '',
+      options: [
+        {name: 'All', value: ''},
+        {name: 'Không hoạt động', value: '0'},
+        {name: 'Đang hoạt động', value: '1'}
+      ],
       page: 1,
       limit: 10,
       totalPage: 10,
@@ -227,6 +233,9 @@ export default {
       }
       if (this.dateTo) {
         query = query.concat(`&to=${formatDate({date: this.dateTo})}`)
+      }
+      if (this.status) {
+        query = query.concat(`&status=${this.status.value}`)
       }
 
       return query
