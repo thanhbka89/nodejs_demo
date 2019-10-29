@@ -1,78 +1,78 @@
 <template>
   <div class="table-wrapper">
     <div class="table-title">
-        <div class="row">
-            <div class="col-sm-6">
-                <h2>Manage <b>PS</b></h2>
-            </div>
-            <div class="col-sm-6">
-                <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Thêm máy</span></a>		
-            </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <h2>Manage <b>PS</b></h2>
         </div>
-    </div>   
-
-    <div class="filters row">
-        <div class="form-group col-sm-3">
-            <input v-model="searchKey" class="form-control" id="search-element" type="text" 
-            @keyup.enter="search" placeholder="Tìm kiếm ..." aria-label="Search"
-            autocomplete="off"/>
+        <div class="col-sm-6">
+          <a href="#" class="btn btn-success" data-toggle="modal" @click="addItem"><span>Thêm máy</span></a>
         </div>
+      </div>
     </div>
 
-    <table class="table table-striped table-hover">
-      <thead class="z-header">
-        <tr>
-          <th>ID</th>
-          <th>Code</th>
-          <th>Name</th>
-          <th>Trạng thái</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <div class="filters row">
+      <div class="form-group col-sm-3">
+        <input v-model="searchKey" class="form-control" id="search-element" type="text"
+        @keyup.enter="search" placeholder="Tìm kiếm ..." aria-label="Search"
+        autocomplete="off"/>
+      </div>
+    </div>
 
-      <tbody>
-        <tr v-for="item in filteredResources" :key="item.id">
-          <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-2">{{ item.code }}</td>
-          <td class="col-md-2">{{ item.name }}</td>
-          <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
-          <td class="col-md-5">
-            <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
-            <button class="btn btn-danger" @click="confirmDelete(item.id)">Delete</button>
-            <a href="#" class="icon">
-                <i v-on:click="showAlert()" class="fa fa-pencil"></i>
-            </a>
-            <a href="#" class="icon">
-                <i @click="showAlert" class="fa fa-trash"></i>
-            </a>            
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="z-header">
+          <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Trạng thái</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="item in filteredResources" :key="item.id">
+            <td class="col-md-1">{{ item.id }}</td>
+            <td class="col-md-2">{{ item.code }}</td>
+            <td class="col-md-2">{{ item.name }}</td>
+            <td class="col-md-2">{{ item.status ? 'Đang áp dụng' : 'Không áp dụng' }}</td>
+            <td class="col-md-5">
+              <a href="#" class="icon margin-small-right" title="Chỉnh sửa">
+                <i v-on:click="editItem(item)" class="fa fa-pencil"></i>
+              </a>
+              <a href="#" class="icon" title="Xóa">
+                <i @click="confirmDelete(item.id)" class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="clearfix">
-        <paginate
-        v-model="page"
-        :page-count="totalPage"
-        :margin-pages="2"
-        :page-range="5"
-        :click-handler="paginateCallback"
-        :container-class="'pagination'"
-        :page-class="'page-item'"
-        :page-link-class="'page-link-item'"
-        :prev-class="'prev-item'"
-        :prev-link-class="'prev-link-item'"
-        :next-class="'next-item'"
-        :next-link-class="'next-link-item'"
-        :break-view-class="'break-view'"
-        :break-view-link-class="'break-view-link'"
-        :first-last-button="true"
+      <paginate
+      v-model="page"
+      :page-count="totalPage"
+      :margin-pages="2"
+      :page-range="5"
+      :click-handler="paginateCallback"
+      :container-class="'pagination'"
+      :page-class="'page-item'"
+      :page-link-class="'page-link-item'"
+      :prev-class="'prev-item'"
+      :prev-link-class="'prev-link-item'"
+      :next-class="'next-item'"
+      :next-link-class="'next-link-item'"
+      :break-view-class="'break-view'"
+      :break-view-link-class="'break-view-link'"
+      :first-last-button="true"
       ></paginate>
     </div>
   </div>
 </template>
 <script>
-import api from '../../../api'
+import api from '@/api'
 
 export default {
   name: 'PSIndex',
@@ -132,14 +132,14 @@ export default {
         console.error(e)
       }
     },
-    search() {
-      api.request('get', `/item/s/query?q=${this.searchKey}`)
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async search() {
+      let query = this.build_query()
+      try {
+        await this.count(query)
+        await this.paginateCallback()
+      } catch (err) {
+        console.error(err)
+      }
     },
     async count(filter = null) {
       filter = filter || ''
@@ -158,7 +158,7 @@ export default {
     build_query() {
       let query = '?'
       if (this.searchKey) {
-        query = query.concat(`code=${this.searchKey}`)
+        query = query.concat(`name=${this.searchKey}`)
       }
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)
@@ -234,5 +234,8 @@ export default {
     outline: none !important;
     margin-left: 10px;
     margin-top: 15px;
+}
+.margin-small-right {
+  margin-right: 10px;
 }
 </style>

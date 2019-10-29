@@ -80,14 +80,8 @@ router.route('/:id')
 
 router.get('/p/:page', async (req, res) => {
   try {
-    const {page} = req.params
-    const {limit, code, status} = req.query
-    const result = await ListPS.paginate(
-      { page,
-        limit, 
-        code,
-        status 
-      })
+    req.query.page = req.params.page
+    const result = await ListPS.paginate(req.query)
     return res.json({
       success: true,
       data: result

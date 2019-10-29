@@ -15,13 +15,16 @@ class ListPS {
     }
 
     static getCondition(input) {
-        const filter = input || {}
         let $where = 'WHERE'
         let check = 0 // điều kiện đầu tiên (check == 0)
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
-        const {code, status} = filter
+        const {code, name, status} = input || {}
         if (code) {
 			$where = $where.concat(` ${check ? 'AND' : ''} code = '${code}'`)
+			check ++
+        }
+        if (name) {
+			$where = $where.concat(` ${check ? 'AND' : ''} name LIKE "%${name}%"`)
 			check ++
         }
         if (status) {
@@ -48,14 +51,14 @@ class ListPS {
         return OBJ_DB.query(sql)
     }
 
-    static async paginate({page = 1, limit = 5, code, status}) {
+    static async paginate({page = 1, limit = 5, code, name, status}) {
         let start = 0
         page = parseInt(page, 10) || 1
 		limit  = parseInt(limit, 10)  || 5
         if (page > 1) {
             start = (page - 1) * limit
         }
-        const condition = this.getCondition({code, status})
+        const condition = this.getCondition({code, name, status})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
         return OBJ_DB.query(sql, [limit, start])
     }
