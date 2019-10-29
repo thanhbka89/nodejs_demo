@@ -1,6 +1,6 @@
 <template>
   <section class="content">
-    <div class="row">
+    <div class="row doPrint">
       <div class="col-xs-12 text-center">
         <h2>HÓA ĐƠN DỊCH VỤ</h2>
       </div>
@@ -69,7 +69,7 @@
       <template v-if="isCheckout">
       <div class="col-md-2">
         Số giờ đã chơi:
-      </div>      
+      </div>
       <div class="col-md-10">
         <strong>{{ps4.play_hour}} ({{ps4.elapsed}} phút)</strong>
       </div>
@@ -79,7 +79,7 @@
         <div class="col-xs-12">
           <br />
           <p>
-            Khách hàng <strong>{{this.memberSelected.username || 'N/A'}}</strong> 
+            Khách hàng <strong>{{this.memberSelected.username || 'N/A'}}</strong>
             có thể sử dụng số điểm để thanh toán: <strong>{{avaliablePoint}}</strong>
           </p>
           <p>
@@ -87,11 +87,11 @@
               <strong>SỬ DỤNG ĐIỂM ĐỂ THANH TOÁN</strong>
             </p-check>
           </p>
-          
+
           <div class="row" v-if="usePoint">
             <div class="col-md-3">
               Chọn số điểm sẽ dùng:
-            </div>  
+            </div>
             <div class="col-md-9">
               <input v-model="numberPoint" @input="clearErrorMsg"
               style="padding: 3px" />
@@ -181,9 +181,9 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 text-center" v-if="show && isCheckout">        
+      <div class="col-xs-12 text-center" v-if="show && isCheckout">
         <button type="button" class="btn btn-success" @click="showAlertConfirm">
-          <i class="fa fa-credit-card-alt text-orange" aria-hidden="true"></i> 
+          <i class="fa fa-credit-card-alt text-orange" aria-hidden="true"></i>
           Thanh Toán
         </button>
       </div>
@@ -192,9 +192,12 @@
     <div class="row">
       <div class="col-xs-12 text-left">
          <button type="button" class="btn btn-default" @click="onBack">
-           <i class="fa fa-backward text-red" aria-hidden="true"></i> 
+           <i class="fa fa-backward text-red" aria-hidden="true"></i>
            Quay lại
           </button>
+          <button class="btn btn-default pull-right" @click="doPrintVue">
+            <i class="fa fa-print text-blue" aria-hidden="true"></i>
+            Print</button>
       </div>
     </div>
   </section>
@@ -547,6 +550,12 @@ export default {
           }
         })
       }
+    },
+    doPrintVue() {
+      let newstr = document.getElementsByClassName('doPrint')[0].innerHTML
+      document.body.innerHTML = newstr
+      window.print()
+      this.$router.go() // reload page
     }
   }
 }
