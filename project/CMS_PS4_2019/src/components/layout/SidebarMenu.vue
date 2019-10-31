@@ -58,12 +58,38 @@
         <span class="page"> Nhập tồn cuối kỳ</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/setting">
-      <a>
-        <i class="fa fa-cog"></i>
-        <span class="page">Settings</span>
+
+    <li class="treeview">
+      <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span class="treeview-title">Cấu hình chung</span>
+        <span class="pull-right-container pull-right">
+          <i class="fa fa-angle-left fa-fw"></i>
+        </span>
       </a>
-    </router-link>
+      <ul class="treeview-menu">
+        <li>
+          <a href="/setting">
+            <i class="fa fa-cog"></i> Cài đặt thông tin quán
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-cog"></i> Cài đặt Người dùng
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-cog"></i> Cài đặt Máy
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-cog"></i> Cài đặt khác
+          </a>
+        </li>
+      </ul>
+    </li>
     </template>
 
     <template v-if="is_admin">
