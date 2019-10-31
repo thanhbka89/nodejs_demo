@@ -1,17 +1,23 @@
 <template>
   <transition name="fade">
-    <div id="app">  
-      <router-view :key="$route.fullPath"></router-view>  
+    <div id="app">
+      <router-view :key="$route.fullPath"></router-view>
     </div>
   </transition>
 </template>
 
 <script>
+  import Factory from '@/repositories/RepositoryFactory'
+  import { LocalStorageSetting } from '@/settings'
+  const SettingR = Factory.get('setting')
+  const KEY_SETTING = LocalStorageSetting.KEY_SETTING
+
   export default {
     name: 'App',
     data () {
       return {
-        section: 'Head'
+        section: 'Head',
+        lsSetting: {}
       }
     },
     created() {
@@ -33,8 +39,33 @@
           throw err
         })
       })
+
+      this.init()
     },
     methods: {
+      async init() {
+        // init localStorage for settings dynamic
+        const settings = JSON.parse(window.localStorage.getItem(KEY_SETTING) || 'null')
+        if (!settings) { // load lan dau tien, khi key chua co trong localStorage
+          await this.getSettings()
+          this.saveLocalStorage()
+        }
+      },
+      async getSettings() {
+        try {
+          const result = await SettingR.get()
+          const data = result.data.data
+          let len = data.length
+          for (let i = 0; i < len; i++) {
+            this.lsSetting[data[i].name] = data[i] // them attribute cho object
+          }
+        } catch (err) {
+          console.error(err)
+        }
+      },
+      saveLocalStorage() {
+        window.localStorage.setItem(KEY_SETTING, JSON.stringify(this.lsSetting))
+      }
     }
   }
 </script>

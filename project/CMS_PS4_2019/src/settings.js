@@ -42,6 +42,6 @@ export class CommonSetting {
 }
 
 export class LocalStorageSetting {
-  static KEY_SETTING = 'settings'
+  static KEY_SETTING = 'settings' // node root
 }
 
