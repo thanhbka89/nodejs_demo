@@ -16,7 +16,7 @@ class Setting {
         // thì ko cần dùng phép AND. Còn là điều kiện thứ N thì phải có AND
         const {name} = input || {}
         if (name) {
-			$where = $where.concat(` ${check ? 'AND' : ''} code = '${name}'`)
+			$where = $where.concat(` ${check ? 'AND' : ''} name = '${name}'`)
 			check ++
         }
         
@@ -50,6 +50,12 @@ class Setting {
         let sql = `SELECT * FROM ${TABLE_NAME} WHERE id = ?`
 
         return OBJ_DB.query(sql, [id])
+    }
+
+    static async getByName(name) {
+        let sql = `SELECT * FROM ${TABLE_NAME} WHERE name = ? LIMIT 1`
+
+        return OBJ_DB.query(sql, [name])
     }
 
     static async create(newObj) {

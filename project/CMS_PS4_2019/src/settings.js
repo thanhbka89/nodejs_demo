@@ -27,6 +27,9 @@ export class CheckOutSetting {
 }
 
 export class CommonSetting {
+  // Thong tin Ten, sdt, address, MST cong ty
+  static KEY_COMPANY = 'COMPANY'
+
   // Danh muc
   static CATEGORY_DRINK = 1 // Nuoc uong
   static CATEGORY_EAT = 2 // Do an
@@ -36,5 +39,9 @@ export class CommonSetting {
   // Trang thai
   static STATUS_INACTIVE = 0 // Khong Ap dung
   static STATUS_ACTIVE = 1 // Ap dung
+}
+
+export class LocalStorageSetting {
+  static KEY_SETTING = 'settings'
 }
 

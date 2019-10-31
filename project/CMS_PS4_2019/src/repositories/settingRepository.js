@@ -12,6 +12,18 @@ export default {
   },
 
   getById(id) {
-    return api.request('get', `${resource}/detail/${id}`)
+    return api.request('get', `${resource}/${id}`)
+  },
+
+  getByName(name) {
+    return api.request('get', `${resource}/get/by_name/?name=${name}`)
+  },
+
+  update(id, payload) {
+    return api.request('put', `${resource}/${id}`, payload)
+  },
+
+  delete(id) {
+    return api.request('delete', `${resource}/${id}`)
   }
 }

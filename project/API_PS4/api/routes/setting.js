@@ -94,6 +94,21 @@ router.get('/p/:page', async (req, res) => {
   }
 })
 
+router.get('/get/by_name', async (req, res) => {
+  try {
+    const result = await Setting.getByName(req.query.name)
+    return res.json({
+			success: true,
+			data: result[0]
+		})
+  } catch (e) {
+    return res.json({
+      success: false,
+      data: e
+    })
+  }
+})
+
 router.get('/get/count', async (req, res) => {
   try {
     const result = await Setting.count(req.query)

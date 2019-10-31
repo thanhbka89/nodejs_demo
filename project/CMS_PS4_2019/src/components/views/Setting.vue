@@ -10,28 +10,31 @@
               <h3 class="box-title">Thông tin Quán</h3>
             </div>
 
-            <div class="box-body">
+            <div class="box-body form-horizontal">
               <div class="form-group">
                 <label class="col-sm-2 z-label">Tên quán:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" v-model="item.option.name" placeholder="Tên quán ..."/>
-                </div>              
+                  <input type="text" class="form-control" v-model="option.name" placeholder="Tên quán ..."/>
+                </div>
               </div>
-              <br /><br />
               <div class="form-group">
                 <label class="col-sm-2">Địa chỉ:</label>
                 <div class="col-sm-10">
-                  <textarea class="form-control" v-model="item.option.address"></textarea>
+                  <textarea class="form-control" v-model="option.address"></textarea>
                 </div>
               </div>
-              <br /><br />
               <div class="form-group">
                 <label class="col-sm-2 z-label">Số điện thoại:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" v-model="item.option.phone" placeholder="Số điện thoại ..."/>
-                </div>              
+                  <input type="text" class="form-control" v-model="option.phone" placeholder="Số điện thoại ..."/>
+                </div>
               </div>
-              <br />
+              <div class="form-group">
+                <label class="col-sm-2 z-label">Mã số thuế:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="option.vat" placeholder="Mã số thuế ..."/>
+                </div>
+              </div>
             </div>
             <!-- /.box-body -->
           </div>
@@ -46,38 +49,91 @@
 
 <script>
 import Factory from '@/repositories/RepositoryFactory'
+import { CommonSetting, LocalStorageSetting } from '@/settings'
 const SettingR = Factory.get('setting')
-
+const KEY_COMPANY = CommonSetting.KEY_COMPANY
+const KEY_SETTING = LocalStorageSetting.KEY_SETTING
 export default {
   name: 'Settings',
   data() {
     return {
-      item: {option: {}}
+      item: {},
+      option: {},
+      lsSetting: {}
     }
   },
   computed: {
+    optionJson() {
+      return JSON.stringify(this.option) // convert object to string
+    }
   },
   async created() {
-    const result = await SettingR.get()
-    console.log(result)
+    await Promise.all([
+      this.find()
+    ])
+    try {
+      const settings = JSON.parse(window.localStorage.getItem(KEY_SETTING) || 'null')
+      if (settings) {
+        this.lsSetting = settings
+      }
+    } catch (e) {
+      console.error(e)
+    }
   },
   methods: {
-    clearInput (vueModel) {
-      vueModel = ''
-    },
     modify() {
       if (this.item.id) {
         this.update()
       } else {
         this.insert()
       }
+
+      this.lsSetting[KEY_COMPANY] = this.item
+      this.saveLocalStorage()
     },
     async insert() {
+      let type = 'success'
+      let msg = ''
+      this.item.name = KEY_COMPANY
+      this.item.option = this.optionJson
       const result = await SettingR.create(this.item)
-      console.log(result)
+      if (!result.data.success) {
+        type = 'error'
+        msg = result.data.data.code
+      }
+      this.showToast(type, msg)
     },
-    update() {
+    async update() {
+      let type = 'success'
+      let msg = ''
+      this.item.option = this.optionJson
+      const result = await SettingR.update(this.item.id, this.item)
+      if (!result.data.success) {
+        type = 'error'
+        msg = result.data.data.code
+      }
+      this.showToast(type, msg)
+    },
+    async find() {
+      try {
+        const result = await SettingR.getByName(KEY_COMPANY)
+        if (result.data.data) {
+          this.item = result.data.data
+          let option = {}
+          try {
+            option = JSON.parse(result.data.data.option) // convert string to object
+          } catch (e) {
+            console.error(e)
+          }
 
+          this.option = option
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    saveLocalStorage() {
+      window.localStorage.setItem(KEY_SETTING, JSON.stringify(this.lsSetting))
     },
     showToast(type = 'success', message = '') {
       this.$swal({
