@@ -14,21 +14,21 @@
               <div class="form-group">
                 <label class="col-sm-2 z-label">Tên quán:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" v-model="company.name" placeholder="Tên quán ..."/>
+                  <input type="text" class="form-control" v-model="item.option.name" placeholder="Tên quán ..."/>
                 </div>              
               </div>
               <br /><br />
               <div class="form-group">
                 <label class="col-sm-2">Địa chỉ:</label>
                 <div class="col-sm-10">
-                  <textarea class="form-control" v-model="company.address"></textarea>
+                  <textarea class="form-control" v-model="item.option.address"></textarea>
                 </div>
               </div>
               <br /><br />
               <div class="form-group">
                 <label class="col-sm-2 z-label">Số điện thoại:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" v-model="company.phone" placeholder="Số điện thoại ..."/>
+                  <input type="text" class="form-control" v-model="item.option.phone" placeholder="Số điện thoại ..."/>
                 </div>              
               </div>
               <br />
@@ -52,13 +52,10 @@ export default {
   name: 'Settings',
   data() {
     return {
-      company: {}
+      item: {option: {}}
     }
   },
   computed: {
-    datetime () {
-      return new Date()
-    }
   },
   async created() {
     const result = await SettingR.get()
@@ -69,7 +66,28 @@ export default {
       vueModel = ''
     },
     modify() {
-      alert(123)
+      if (this.item.id) {
+        this.update()
+      } else {
+        this.insert()
+      }
+    },
+    async insert() {
+      const result = await SettingR.create(this.item)
+      console.log(result)
+    },
+    update() {
+
+    },
+    showToast(type = 'success', message = '') {
+      this.$swal({
+        type: type,
+        title: message || `${this.item.id ? 'Cập nhật' : 'Thêm mới'} thành công`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
+      })
     }
   }
 }

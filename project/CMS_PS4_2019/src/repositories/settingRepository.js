@@ -8,7 +8,7 @@ export default {
   },
 
   create(payload) {
-
+    return api.request('post', `${resource}`, payload)
   },
 
   getById(id) {
