@@ -7,112 +7,69 @@
           <div class="box box-info">
             <!-- Input Addons -->
             <div class="box-header with-border">
-              <h3 class="box-title">Inputs</h3>
+              <h3 class="box-title">Thông tin Quán</h3>
             </div>
 
             <div class="box-body">
-              <!-- calendar group -->
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="fa fa-fw fa-calendar"></i>
-                </span>
-                <datepicker :readonly="true" format="MMM/D/YYYY" id="dateInput" width="100%"></datepicker>
-              </div>
-              <br />
-              <br />
-
-              <!-- with characthers -->
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="fa fa-fw fa-at" aria-hidden="true"></i>
-                </span>
-                <input class="form-control" placeholder="Username" type="text">
-              </div>
-              <br />
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="fa fa-fw fa-usd" aria-hidden="true"></i>
-                </span>
-                <input class="form-control" type="text">
-                <span class="input-group-addon">.00</span>
-              </div>
-              <br />
-
-              <!-- with icons from font awesome -->
-              <h4>With icons</h4>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
-                <input class="form-control" placeholder="Email" type="email">
-              </div>
-              <br />
-              <div class="input-group">
-                <input class="form-control" type="text">
-                <span class="input-group-addon"><i class="fa fa-fw fa-check"></i></span>
-              </div>
-              <br>
-
-              <!-- Success/Error heads up input -->
-              <h4>With border indicator</h4>
-              <div class="form-group has-success">
-                <label class="control-label" for="inputSuccess"><i class="fa fa-fw fa-check"></i> Input with success</label>
-                <input class="form-control" id="inputSuccess" placeholder="Enter ..." type="text">
-                <span class="help-block">Help block with success</span>
-              </div>
-              <br />
-              <div class="form-group has-error">
-                <label class="control-label" for="inputError"><i class="fa fa-fw fa-times-circle-o"></i> Input with error</label>
-                <input class="form-control" id="inputError" placeholder="Enter ..." type="text">
-                <span class="help-block">Help block with error</span>
-              </div>
-
-              <!-- select examples -->
-              <h4>Select Options</h4>
               <div class="form-group">
-                <label>Select</label>
-                <select class="form-control">
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                  <option>option 5</option>
-                </select>
+                <label class="col-sm-2 z-label">Tên quán:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="company.name" placeholder="Tên quán ..."/>
+                </div>              
+              </div>
+              <br /><br />
+              <div class="form-group">
+                <label class="col-sm-2">Địa chỉ:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" v-model="company.address"></textarea>
+                </div>
+              </div>
+              <br /><br />
+              <div class="form-group">
+                <label class="col-sm-2 z-label">Số điện thoại:</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" v-model="company.phone" placeholder="Số điện thoại ..."/>
+                </div>              
               </div>
               <br />
-              <div class="form-group">
-                <label>Select Multiple</label>
-                <select multiple="" class="form-control">
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                  <option>option 5</option>
-                </select>
-              </div>
-
-              <!-- /input-group -->
             </div>
             <!-- /.box-body -->
           </div>
+        </div>
+        <div class="col-xs-12">
+          <button type="button" class="btn btn-success" @click="modify">Save Changes</button>
         </div>
       </div>
     </section>
   </div>
 </template>
+
 <script>
-require('moment')
-import datepicker from 'vue-date-picker'
+import Factory from '@/repositories/RepositoryFactory'
+const SettingR = Factory.get('setting')
 
 export default {
   name: 'Settings',
-  components: { datepicker },
+  data() {
+    return {
+      company: {}
+    }
+  },
   computed: {
     datetime () {
       return new Date()
     }
   },
+  async created() {
+    const result = await SettingR.get()
+    console.log(result)
+  },
   methods: {
     clearInput (vueModel) {
       vueModel = ''
+    },
+    modify() {
+      alert(123)
     }
   }
 }

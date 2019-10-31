@@ -13,6 +13,7 @@ import upload from './upload'
 import kiemke from './kiemke'
 import thuchi from './thuchi'
 import history_login from './history_login'
+import setting from './setting'
 
 export default {
     authen,
@@ -29,6 +30,7 @@ export default {
     upload,
     kiemke,
     thuchi,
-    history_login
+    history_login,
+    setting
 }
 

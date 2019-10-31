@@ -58,6 +58,12 @@
         <span class="page"> Nhập tồn cuối kỳ</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/setting">
+      <a>
+        <i class="fa fa-cog"></i>
+        <span class="page">Settings</span>
+      </a>
+    </router-link>
     </template>
 
     <template v-if="is_admin">
