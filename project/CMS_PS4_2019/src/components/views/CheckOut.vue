@@ -208,7 +208,12 @@ import moment from 'moment'
 import api from '@/api'
 import Multiselect from 'vue-multiselect'
 import VueSlider from 'vue-slider-component'
-import { UserSetting, CheckOutSetting } from '@/settings'
+import { UserSetting, CheckOutSetting, LocalStorageSetting } from '@/settings'
+import Factory from '@/repositories/RepositoryFactory'
+
+const UserR = Factory.get('user')
+const KEY_SETTING = LocalStorageSetting.KEY_SETTING // node root in localStorage
+const KEY_RANK_MEMBER = LocalStorageSetting.KEY_RANK_MEMBER
 
 const ERROR_TYPE = {
   VALUE: 1,
@@ -245,7 +250,8 @@ export default {
       discountType: CheckOutSetting.HAS_DISCOUNT
         ? CheckOutSetting.SELECT_TYPE_DISCOUNT : null,
       tranNoPlay: false, // Giao dich phat sinh, ko tinh gio choi
-      moneyPS: 0 // So tien choi PS
+      moneyPS: 0, // So tien choi PS
+      lsSetting: {} // data setting in localStorage
     }
   },
   computed: {
@@ -309,12 +315,19 @@ export default {
     } else if (command === 'view') {
       this.getCheckoutDetail(id)
     }
+
+    // get data settting in LS
+    this.getLocalStorage()
   },
   methods: {
     checkout() {
       window.localStorage.removeItem(this.ps4.id)
       this.show = false
-      this.insert()
+
+      // update Xep hang thanh vien
+      this.updateUserRank()
+
+      this.insert() // save giao dich
     },
     async getCheckoutDetail(id) {
       const result = await api.request('get', `/trans/detail/${id}`)
@@ -556,6 +569,39 @@ export default {
       document.body.innerHTML = newstr
       window.print()
       this.$router.go() // reload page
+    },
+    async updateUserRank() {
+      let type = null
+      let data = {}
+      let lsOption = null
+      if (this.lsSetting[KEY_RANK_MEMBER]) {
+        lsOption = JSON.parse(this.lsSetting[KEY_RANK_MEMBER].option || 'null')
+      }
+      debugger
+      // chay khi flag su dung Xep hang thanh vien = true, va da chon Khach hang
+      if (this.memberSelected && lsOption && lsOption.status) {
+        const playNumber = this.memberSelected.play_number
+        if (playNumber > lsOption.diamond) { // Diamond
+          type = UserSetting.TYPE_DIAMOND
+        } else if (playNumber > lsOption.vip) { // VIP
+          type = UserSetting.TYPE_VIP
+        }
+        data = {
+          id: this.memberSelected.id,
+          type: type
+        }
+      }
+      if (type) {
+        await UserR.updateRank(data)
+      }
+    },
+    getLocalStorage() {
+      try {
+        const settings = JSON.parse(window.localStorage.getItem(KEY_SETTING) || 'null')
+        this.lsSetting = settings || {}
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 }

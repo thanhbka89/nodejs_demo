@@ -170,6 +170,12 @@ const routes = [
         component: () => import(/* webpackPrefetch: true */ './components/views/ReportLogin'),
         name: 'HistoryLogin',
         meta: {description: 'History Login', requiresAuth: true, is_admin: true}
+      },
+      {
+        path: 'setting_checkout',
+        component: () => import(/* webpackPrefetch: true */ './components/views/SettingCheckOut'),
+        name: 'CheckOut_Setting',
+        meta: {description: 'Cài đặt chi tiết: Tích điểm, chiết khấu, ...', requiresAuth: true, is_admin: true}
       }
     ]
   }, {

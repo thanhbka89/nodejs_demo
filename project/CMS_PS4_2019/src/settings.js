@@ -43,5 +43,9 @@ export class CommonSetting {
 
 export class LocalStorageSetting {
   static KEY_SETTING = 'settings' // node root
+
+  static KEY_RANK_MEMBER = 'RANK_MEMBER' // Xep loai thanh vien
+  static KEY_HAS_POINT = 'HAS_POINT' // Co|khong ap dung tich diem
+  static KEY_HAS_DISCOUNT = 'HAS_DISCOUNT' // Co|khong ap dung chiet khau
 }
 

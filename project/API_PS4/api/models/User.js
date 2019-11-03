@@ -94,7 +94,7 @@ class User {
         }
         const condition = this.getCondition({username, fullname, phone, status, from, to})
         let sql = `SELECT * FROM ${TABLE_NAME} ${condition.hasWhere ? condition.query : ''} LIMIT ? OFFSET ?`
-        console.log(sql)
+
         db.query(sql, [limit, start], (err, res) => {
             if(err) {
                 result(null, err)
@@ -190,9 +190,22 @@ class User {
     }
 
     // update Tich, Tieu diem
-    static updatePoint({id, diem_tich = 0, diem_tieu = 0}, result) {
-        let sql = `UPDATE ${TABLE_NAME} SET diem_tich = diem_tich + ?, diem_tieu = diem_tieu + ? WHERE id = ?`
-        db.query(sql, [diem_tich, diem_tieu, id], (err, res) => {
+    static updatePoint({id, diem_tich = 0, diem_tieu = 0, so_lan_choi = 1}, result) {
+        let sql = `UPDATE ${TABLE_NAME} SET diem_tich = diem_tich + ?, diem_tieu = diem_tieu + ?, play_number = play_number + ? WHERE id = ?`
+        db.query(sql, [diem_tich, diem_tieu, so_lan_choi, id], (err, res) => {
+            if(err) {
+                result(err, null)
+            }
+            else{
+                result(null, res)
+            }
+        })
+    }
+
+    // update Xep hang thanh vien
+    static updateRank({id, type = 5}, result) {
+        let sql = `UPDATE ${TABLE_NAME} SET type = ? WHERE id = ?`
+        db.query(sql, [type, id], (err, res) => {
             if(err) {
                 result(err, null)
             }

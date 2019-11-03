@@ -213,6 +213,23 @@ router.get('/findCustomer', async (req, res) => {
 	})
 })
 
+router.put('/updateRank', async (req, res) => {
+	User.updateRank(req.body, (err, response) => {
+		if (err) 
+			return res.json({
+				success: false,
+				message: 'Fail!',
+				data: err
+			})
+
+		return res.json({
+			success: true,
+			message: 'Update successfully',
+			data: response
+		})
+	})
+})
+
 router.get('/testAsync', asyncMiddleware(async (req, res, next) => {
 	/* 
       if there is an error thrown in getUserFromDb, asyncMiddleware

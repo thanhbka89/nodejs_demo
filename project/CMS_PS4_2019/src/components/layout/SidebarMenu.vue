@@ -74,8 +74,8 @@
           </a>
         </li>
         <li>
-          <a href="#">
-            <i class="fa fa-cog"></i> Cài đặt Người dùng
+          <a href="/setting_checkout">
+            <i class="fa fa-cog"></i> Cài đặt Thanh toán
           </a>
         </li>
         <li>
