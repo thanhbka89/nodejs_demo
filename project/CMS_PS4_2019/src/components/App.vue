@@ -9,6 +9,8 @@
 <script>
   import Factory from '@/repositories/RepositoryFactory'
   import { LocalStorageSetting } from '@/settings'
+  import { isObjectEmpty } from '@/helpers'
+
   const SettingR = Factory.get('setting')
   const KEY_SETTING = LocalStorageSetting.KEY_SETTING
 
@@ -46,7 +48,7 @@
       async init() {
         // init localStorage for settings dynamic
         const settings = JSON.parse(window.localStorage.getItem(KEY_SETTING) || 'null')
-        if (!settings) { // load lan dau tien, khi key chua co trong localStorage
+        if (!settings || isObjectEmpty(settings)) { // load lan dau tien, khi key chua co trong localStorage hoac key rong
           await this.getSettings()
           this.saveLocalStorage()
         }

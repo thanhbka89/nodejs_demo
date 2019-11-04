@@ -214,6 +214,7 @@ import Factory from '@/repositories/RepositoryFactory'
 const UserR = Factory.get('user')
 const KEY_SETTING = LocalStorageSetting.KEY_SETTING // node root in localStorage
 const KEY_RANK_MEMBER = LocalStorageSetting.KEY_RANK_MEMBER
+const KEY_HAS_POINT = LocalStorageSetting.KEY_HAS_POINT
 
 const ERROR_TYPE = {
   VALUE: 1,
@@ -236,14 +237,15 @@ export default {
       startDate: '',
       total: 0,
       show: true,
-      isCheckout: false,
+      isCheckout: false, // Thanh toan hay view giao dich
       api_ps4: {}, // gia choi PS4 tu api
       memberSelected: null,
       members: [], // get list members from api
 
-      hasPointSetting: CheckOutSetting.HAS_POINT, // ap dung tich diem
-      numberPoint: 0,
-      usePoint: false,
+      hasPointSetting: false, // ap dung tich diem
+      save_point_percent: CheckOutSetting.POINT_EARN, // % tich diem
+      numberPoint: 0, // so diem de tieu
+      usePoint: false, // ap dung tieu diem
       errorMsg: '',
 
       // ap dung chiet khau va chon hinh thuc chiet khau
@@ -318,6 +320,9 @@ export default {
 
     // get data settting in LS
     this.getLocalStorage()
+
+    // khoi tao Tich diem
+    this.initSavePoint()
   },
   methods: {
     checkout() {
@@ -434,7 +439,7 @@ export default {
         start: this.ps4.end, // bat dau cua giao dich
         // Tich diem = thoi gian choi (phut) x 5%
         diem_tich: this.hasPointSetting
-          ? Math.ceil(this.ps4.elapsed * CheckOutSetting.POINT_EARN / 100)
+          ? Math.ceil(this.ps4.elapsed * this.save_point_percent / 100)
           : 0,
         diem_tieu: this.hasPointSetting && this.usePoint
           ? this.numberPoint : 0
@@ -577,7 +582,7 @@ export default {
       if (this.lsSetting[KEY_RANK_MEMBER]) {
         lsOption = JSON.parse(this.lsSetting[KEY_RANK_MEMBER].option || 'null')
       }
-      debugger
+
       // chay khi flag su dung Xep hang thanh vien = true, va da chon Khach hang
       if (this.memberSelected && lsOption && lsOption.status) {
         const playNumber = this.memberSelected.play_number
@@ -601,6 +606,16 @@ export default {
         this.lsSetting = settings || {}
       } catch (e) {
         console.error(e)
+      }
+    },
+    initSavePoint() {
+      let lsOption = null
+      if (this.lsSetting[KEY_HAS_POINT]) {
+        lsOption = JSON.parse(this.lsSetting[KEY_HAS_POINT].option || 'null')
+      }
+      if (lsOption && lsOption.status) {
+        this.save_point_percent = lsOption.rate_tich_diem
+        this.hasPointSetting = lsOption.status
       }
     }
   }

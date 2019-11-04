@@ -44,3 +44,13 @@ export function getLastDayInMonth(date = null) {
   return new Date(date.getFullYear(), date.getMonth() + 1, 0)
 }
 
+/** Check variable is Object */
+export function isObject(obj = {}) {
+  return typeof obj === 'object' && obj !== null
+}
+
+/** Check Object is empty */
+export function isObjectEmpty(obj = {}) {
+  return isObject(obj) && Object.keys(obj).length === 0 && obj.constructor === Object
+}
+
