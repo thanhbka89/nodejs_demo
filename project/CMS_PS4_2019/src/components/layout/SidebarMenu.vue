@@ -54,7 +54,7 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/tondauky">
       <a>
-        <i class="fa fa-folder-o text-orange"></i>
+        <i class="fa fa-file-excel-o text-orange"></i>
         <span class="page"> Nhập tồn cuối kỳ</span>
       </a>
     </router-link>
@@ -80,11 +80,6 @@
         </li>
         <li>
           <a href="#">
-            <i class="fa fa-cog"></i> Cài đặt Máy
-          </a>
-        </li>
-        <li>
-          <a href="#">
             <i class="fa fa-cog"></i> Cài đặt khác
           </a>
         </li>
@@ -102,7 +97,7 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/">
       <a>
-        <i class="fa fa-qrcode text-aqua"></i>
+        <i class="fa fa-line-chart text-aqua"></i>
         <span class="page"> Chart Biến động đơn giá</span>
       </a>
     </router-link>
@@ -136,12 +131,12 @@
 
     <template v-if="is_admin">
     <li class="header">QUẢN LÝ</li>
-    <router-link tag="li" class="pageLink" to="/customers">
+    <!-- <router-link tag="li" class="pageLink" to="/customers">
       <a>
         <i class="fa fa-users text-fuchsia"></i>
         <span class="page"> DS khách hàng</span>
       </a>
-    </router-link>
+    </router-link> -->
     <router-link tag="li" class="pageLink" to="/vendor">
       <a>
         <i class="fa fa-car text-green"></i>
@@ -156,63 +151,16 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/thuchi">
       <a>
-        <i class="fa fa-university text-yellow"></i>
+        <i class="fa fa-balance-scale text-yellow"></i>
         <span class="page"> Nhập Thu Chi</span>
       </a>
     </router-link>
     </template>
-
-    <!-- <li class="header">ME</li>
-    <router-link tag="li" class="pageLink" to="/tasks">
-      <a>
-        <i class="fa fa-tasks"></i>
-        <span class="page">Tasks</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/setting">
-      <a>
-        <i class="fa fa-cog"></i>
-        <span class="page">Settings</span>
-      </a>
-    </router-link>
-
-    <li class="header">LOGS</li>
-    <router-link tag="li" class="pageLink" to="/access">
-      <a>
-        <i class="fa fa-book"></i>
-        <span class="page">Access</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/server">
-      <a>
-        <i class="fa fa-hdd-o"></i>
-        <span class="page">Server</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/repos">
-      <a>
-        <i class="fa fa-heart"></i>
-        <span class="page">Repos</span>
-        <small class="label pull-right bg-green">AJAX</small>
-      </a>
-    </router-link>
-
-    <li class="header">PAGES</li>
-    <router-link tag="li" class="pageLink" to="/login">
-      <a>
-        <i class="fa fa-circle-o text-yellow"></i>
-        <span class="page"> Login</span>
-      </a>
-    </router-link>
-    <router-link tag="li" class="pageLink" to="/404">
-      <a>
-        <i class="fa fa-circle-o text-red"></i>
-        <span class="page"> 404</span>
-      </a>
-    </router-link> -->
   </ul>
 </template>
+
 <script>
+
 export default {
   name: 'SidebarMenu',
   data() {
@@ -227,6 +175,7 @@ export default {
   }
 }
 </script>
+
 <style>
 /* override default */
 .sidebar-menu > li > a {

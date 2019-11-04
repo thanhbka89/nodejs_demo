@@ -215,6 +215,7 @@ const UserR = Factory.get('user')
 const KEY_SETTING = LocalStorageSetting.KEY_SETTING // node root in localStorage
 const KEY_RANK_MEMBER = LocalStorageSetting.KEY_RANK_MEMBER
 const KEY_HAS_POINT = LocalStorageSetting.KEY_HAS_POINT
+const KEY_HAS_DISCOUNT = LocalStorageSetting.KEY_HAS_DISCOUNT
 
 const ERROR_TYPE = {
   VALUE: 1,
@@ -249,8 +250,8 @@ export default {
       errorMsg: '',
 
       // ap dung chiet khau va chon hinh thuc chiet khau
-      discountType: CheckOutSetting.HAS_DISCOUNT
-        ? CheckOutSetting.SELECT_TYPE_DISCOUNT : null,
+      discountType: null,
+      lsOptionDiscount: {}, // discount in localStorage
       tranNoPlay: false, // Giao dich phat sinh, ko tinh gio choi
       moneyPS: 0, // So tien choi PS
       lsSetting: {} // data setting in localStorage
@@ -278,14 +279,19 @@ export default {
       if (this.memberSelected && this.discountType) {
         switch (this.memberSelected.type) {
           case UserSetting.TYPE_DIAMOND:
-            discount = CheckOutSetting.DISCOUNT_DIAMOND
+            // discount = CheckOutSetting.DISCOUNT_DIAMOND
+            discount = this.lsOptionDiscount.diamond
             break
           case UserSetting.TYPE_VIP:
-            discount = CheckOutSetting.DISCOUNT_VIP
+            // discount = CheckOutSetting.DISCOUNT_VIP
+            discount = this.lsOptionDiscount.vip
             break
           case UserSetting.TYPE_LOYAL:
-            discount = CheckOutSetting.DISCOUNT_LOYAL
+            // discount = CheckOutSetting.DISCOUNT_LOYAL
+            discount = this.lsOptionDiscount.loyal
             break
+          default:
+            discount = 0
         }
       }
 
@@ -323,6 +329,9 @@ export default {
 
     // khoi tao Tich diem
     this.initSavePoint()
+
+    // Khoi tao Khuyen mai (discount)
+    this.initDiscount()
   },
   methods: {
     checkout() {
@@ -616,6 +625,16 @@ export default {
       if (lsOption && lsOption.status) {
         this.save_point_percent = lsOption.rate_tich_diem
         this.hasPointSetting = lsOption.status
+      }
+    },
+    initDiscount() {
+      let lsOption = null
+      if (this.lsSetting[KEY_HAS_DISCOUNT]) {
+        lsOption = JSON.parse(this.lsSetting[KEY_HAS_DISCOUNT].option || 'null')
+      }
+      if (lsOption && lsOption.status) {
+        this.lsOptionDiscount = lsOption
+        this.discountType = CheckOutSetting.SELECT_TYPE_DISCOUNT // Ap dung Chiet khau cho Gio choi
       }
     }
   }

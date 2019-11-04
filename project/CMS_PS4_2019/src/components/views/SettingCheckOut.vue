@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-md-12">
           <vue-tabs active-tab-color="#f39c12" active-text-color="white">
-            <v-tab title="Xếp hạng thành viên" icon="fa fa-cog">
+            <v-tab title="Xếp hạng thành viên" icon="fa fa-cogs">
               <div class="row content">
                 <div class="col-xs-12">
                   <p class="margin_top">
@@ -78,15 +78,15 @@
               </div>
             </v-tab>
 
-            <v-tab title="Chiết khấu" icon="fa fa-cog">
+            <v-tab title="Chiết khấu" icon="fa fa-cogs">
               <div class="row content">
                 <div class="col-xs-12">
                   <p class="margin_top">
-                    <p-check name="check" color="success" v-model="hasRank" @change="changeRank">
+                    <p-check name="check" color="success" v-model="hasDiscount" @change="changeRank">
                       <strong>ÁP DỤNG CHIẾT KHẤU (KHUYẾN MÃI) CHO THÀNH VIÊN</strong>
                     </p-check>
                   </p>
-                  <template v-if="hasRank">
+                  <template v-if="hasDiscount">
                     <div class="margin_top">
                       <i><b>Chỉ áp dụng cho Giờ chơi, không áp dụng cho Dịch vụ (Nước uống, thuốc, ...).</b> Xếp hạng tăng dần theo thứ tự: <b>KH Thân thiết >> KH VIP >> KH Diamond</b></i>
                     </div>
@@ -353,5 +353,8 @@ export default {
 }
 .margin_top {
   margin-top: 15px;
+}
+div input[type="number"] {
+  padding-left: 5px;
 }
 </style>
