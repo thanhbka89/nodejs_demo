@@ -7,36 +7,36 @@
         </h3>
         <div slot="body" class="form-horizontal box-body">
           <div class="form-group">
-              <label class="col-sm-3 z-label">Mã code:</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" v-model="item.code" placeholder="Mã code ..."/>
-              </div>              
+            <label class="col-sm-3 z-label">Mã code:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" v-model="item.code" placeholder="Mã code ..." :disabled="item.id" />
+            </div>              
           </div>
           <div class="form-group">
-              <label class="col-sm-3 z-label">Tên code:</label>
-              <div class="col-sm-9">
+            <label class="col-sm-3 z-label">Tên code:</label>
+            <div class="col-sm-9">
               <input type="text" class="form-control" v-model="item.name" placeholder="Code name ..."/>
-              </div>
+            </div>
           </div>
           <div class="form-group">
-							<label class="col-sm-3 z-label">Danh mục:</label>
-              <div class="col-sm-9">
-                <select class="form-control" v-model="item.category">
-                  <option value="1">Nước uống</option>
-                  <option value="2">Đồ ăn</option>
-                  <option value="3">PS</option>
-                  <option value="4">Khác</option>
-                </select>
-              </div>
+            <label class="col-sm-3 z-label">Danh mục:</label>
+            <div class="col-sm-9">
+              <select class="form-control" v-model="item.category">
+                <option value="1">Nước uống</option>
+                <option value="2">Đồ ăn</option>
+                <option value="3">PS</option>
+                <option value="4">Khác</option>
+              </select>
+            </div>
 					</div>
           <div class="form-group">
-							<label class="col-sm-3 z-label">Trạng thái:</label>
-              <div class="col-sm-9">
-                <select class="form-control" v-model="item.status">
-                  <option value="1">Áp dụng</option>
-                  <option value="0">Không áp dụng</option>
-                </select>                
-              </div>
+            <label class="col-sm-3 z-label">Trạng thái:</label>
+            <div class="col-sm-9">
+              <select class="form-control" v-model="item.status">
+                <option value="1">Áp dụng</option>
+                <option value="0">Không áp dụng</option>
+              </select>                
+            </div>
 					</div>
         </div>
         <div slot="footer">
@@ -56,6 +56,9 @@
 import api from '@/api'
 import Index from '@/components/widgets/mastercode/Index'
 import ServiceCreate from '@/components/widgets/Modal'
+import Factory from '@/repositories/RepositoryFactory'
+
+const CodeR = Factory.get('code')
 
 export default {
   name: 'Mastercode',
@@ -102,18 +105,31 @@ export default {
           console.error(e)
         })
     },
-    update() {
-      api
-        .request('put', `/code/${this.item.id}`, this.item)
-        .then(response => {
-          if (response.data) {
-            this.closeModal()
-            this.showToast()
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        })
+    async update() {
+      // api.request('put', `/code/${this.item.id}`, this.item)
+      //   .then(response => {
+      //     if (response.data) {
+      //       this.closeModal()
+      //       this.showToast()
+      //     }
+      //   })
+      //   .catch(e => {
+      //     console.error(e)
+      //   })
+
+      let type = 'success'
+      let msg = null
+      try {
+        const result = await CodeR.update(this.item.id, this.item)
+        if (!result.data.success) {
+          type = 'error'
+          msg = result.data.data.code
+        }
+        this.closeModal()
+        this.showToast(type, msg)
+      } catch (err) {
+        console.error(err)
+      }
     },
     showToast(type = 'success', message = '') {
       this.$swal({

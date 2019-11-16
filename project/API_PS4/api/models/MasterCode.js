@@ -6,7 +6,7 @@ const STATUS_INACTIVE = 0
 
 class MasterCode {
     constructor(obj) {
-        this.code = obj.code
+        this.code = obj.code.toUpperCase().trim()
         this.name = obj.name
         this.category = obj.category
         this.status = obj.status

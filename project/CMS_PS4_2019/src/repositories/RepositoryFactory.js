@@ -1,9 +1,11 @@
 import SettingRepository from '@/repositories/settingRepository'
 import UserRepository from '@/repositories/userRepository'
+import CodeRepository from '@/repositories/codeRepository'
 
 const repositories = {
   setting: SettingRepository,
-  user: UserRepository
+  user: UserRepository,
+  code: CodeRepository
 }
 
 export default {
