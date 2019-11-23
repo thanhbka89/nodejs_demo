@@ -13,6 +13,7 @@ B0: Moi truong:
 
     + Cai dat trong local project, muc devDependencies : `npm i lodash --save-dev`
     + Cài đặt một package và lưu nó vào dependencies: `npm i –S express`
+    + Cai dat version cu the: `npm install sax@0.1.1`
     + Remove local package và gỡ ra khỏi package.json:
         `npm uninstall --save lodash` // go bo trong "dependencies"
         `npm uninstall --save-dev lodash`  // go bo trong "devDependency"
@@ -206,6 +207,7 @@ ref: https://dev.to/lucianopereira86/uploading-a-nodejs-web-api-to-heroku-32kn
 - Tao app tren Heroku : `apipsbaonguyen`
     + Copy thu muc API ra cho khac, ex: `D:\Deploy\API_PS4`
     + Truy cap thu muc tren, :  `D:\Deploy\API_PS4`
+    + Sua file package.json : copy cac package trong phan `devDependencies` xuong phan `dependencies`
     + Sua file config den db4free: `config.js`
         `const CONFIG = {
             secret: 'worldisfullofdevelopers',
@@ -261,15 +263,15 @@ B8 (Option) : MySQL command in Linux
 - Cai dat: NodeJS, Nginx, MarriaDB
 - Cai dat pm2: `npm install pm2@latest -g`
 - Download source: https://github.com/thanhbka89/nodejs_demo
-- Import database: 
+- Import database:
 https://github.com/thanhbka89/nodejs_demo/tree/master/project/API_PS4/ps4.sql
-- Truy cap thu muc `API_PS4`, go : 
-    `npm install` 
-    `npm run build`
-- Truy cap thu muc `CMS_PS4_2019`, go : 
+- Truy cap thu muc `API_PS4`, go :
     `npm install`
     `npm run build`
-- Edit file hosts, open notepad with Administrator then open path : 
+- Truy cap thu muc `CMS_PS4_2019`, go :
+    `npm install`
+    `npm run build`
+- Edit file hosts, open notepad with Administrator then open path :
 `C:\Windows\System32\drivers\etc\hosts`
 add new line with content : `127.0.0.1 domain_name.com`
 - Edit file config nginx : ref B2.1 (above)
