@@ -76,7 +76,8 @@ B2: Trong thu muc CMS_PS4_2019, gõ : DONE
 B2.1 : Cau hinh file hosts tren window, thêm :
     127.0.0.1 baonguyen.com
     127.0.0.1 api.baonguyen.com
-- Cau hinh nginx lam reverse proxy cho vuejs, them vào file D:\Tools\webserver\nginx-1.17.1\conf\nginx.conf
+- Cau hinh nginx lam reverse proxy cho vuejs, them vào file `D:\Tools\webserver\nginx-1.17.1\conf\nginx.conf`
+
   server {
 		listen 80;
 		server_name baonguyen.com;
@@ -106,7 +107,8 @@ B4 : run PM2 startup on window (https://blog.cloudboost.io/nodejs-pm2-startup-on
         ` pm2 start D:\Source\nodejs_demo\project\API_PS4\dist\server.js --name "API_PS4" `
 
     - Save current process list, gõ : `pm2 save`
-    * Cach 1:
+    - Run pm2 auto start when window statup:
+    * Cach 1 *:
       - Tạo service : `nssm.exe install PM2Service`
           Path: `D:\Source\nodejs_demo\project\CMS_PS4_2019\pm2_startup.bat`
           Startup Type: `Automatic delayed`
@@ -115,7 +117,8 @@ B4 : run PM2 startup on window (https://blog.cloudboost.io/nodejs-pm2-startup-on
       - Vao services.msc va Start service PM2Service
       - Just after restart window, open command prompt (as Administrator) and run
       `pm2 status` → our application is running
-    * Cach 2: Dung Task Scheduler
+
+    * Cach 2 *: Dung Task Scheduler
       + Chinh sua noi dung file `pm2_startup.bat` theo user dang cai dat cho phu hop
       + Mo `Task Scheduler` -> click `Create Basic Task` -> dat ten Task -> tai man hinh Trigger, chon `When the computer starts` -> tai man hinh Action, chon `Start a program` roi chon den file batch, ex: D:\SourceCode\Project\nodejs_demo\project\CMS_PS4_2019\pm2_startup.bat
 
@@ -171,11 +174,13 @@ chinh sua thong so phu hop
     + Phần Action chọn Start a program và trỏ đường dẫn tới file .bat
     `C:\working\code\nodejs_demo\project\CMS_PS4_2019\mysql_backup.bat`
 
-B7 (Option) : Deploy CMS (vuejs) lên Internet
+B7 (Option) : Deploy CMS (vuejs), API (nodejs, express) lên Internet cho Testing, Demo
 B7.1 : Deploy CMS (vuejs) lên Heroku
 - Login vào https://dashboard.heroku.com tạo app mới hoặc dùng app đã tạo trước đó.
 - Copy thu muc cms ra cho khac, ex: D:\Deploy\CMS_PS4_2019
 - Truy cap thu muc tren, :  D:\Deploy\CMS_PS4_2019
+  + Sua file config to API: `src/config/index.js`
+        `serverURI: 'https://apipsbaonguyen.herokuapp.com/api/ps4/v1'`
   + Sua file .gitigore : remove thu muc `dist/`
   + Chuot phai chon Terminal, go :
     `npm run build`
@@ -186,6 +191,42 @@ B7.1 : Deploy CMS (vuejs) lên Heroku
     `git commit -am "init"` \\thuc hien lenh nay moi khi co thay doi code
     `git push heroku master` \\thuc hien lenh nay moi khi co thay doi code
   --> Sau do truy cap de test : https://psbaonguyen.herokuapp.com/
+
+  Xem logs: `heroku logs`
+
+B7.2 : Deploy API (nodejs, express) lên Heroku
+ref: https://dev.to/lucianopereira86/uploading-a-nodejs-web-api-to-heroku-32kn
+- Tao DB free: `https://db4free.net/`
+    dbname: cms_ps_dev
+    user: thanhbka
+    pass: 12345678
+    host: db4free.net
+    port: 3306
+    Email: thanhbka@yahoo.com
+- Tao app tren Heroku : `apipsbaonguyen`
+    + Copy thu muc API ra cho khac, ex: `D:\Deploy\API_PS4`
+    + Truy cap thu muc tren, :  `D:\Deploy\API_PS4`
+    + Sua file config den db4free: `config.js`
+        `const CONFIG = {
+            secret: 'worldisfullofdevelopers',
+            mysql: {
+                host: 'db4free.net', ###
+                port: 3306,
+                user: 'thanhbka', ###
+                password: '12345678', ###
+                database: 'cms_ps_dev',
+                insecureAuth: true
+            }
+        }`
+    + Chuot phai chon Terminal, go :
+        `heroku login`
+        `git init`
+        `heroku git:remote -a apipsbaonguyen`
+        # deploy when any changes code
+        `git add .`
+       ` git commit -am "make it better"`
+        `git push heroku master`
+    --> Truy cap link de test: `https://apipsbaonguyen.herokuapp.com/`
 
 B8 (Option) : MySQL command in Linux
 - SSH : 149.28.231.149 với root/R4m(zmba)j$rXSRH
@@ -215,5 +256,24 @@ B8 (Option) : MySQL command in Linux
 - Xem các tables trong DB : `SHOW TABLES;`
 - Ket thuc session : `quit;`
 - Import lai db : `mysql –u root –p cms_ps_dev < ps4.sql`
+
+### Z. Setup a new client
+- Cai dat: NodeJS, Nginx, MarriaDB
+- Cai dat pm2: `npm install pm2@latest -g`
+- Download source: https://github.com/thanhbka89/nodejs_demo
+- Import database: 
+https://github.com/thanhbka89/nodejs_demo/tree/master/project/API_PS4/ps4.sql
+- Truy cap thu muc `API_PS4`, go : 
+    `npm install` 
+    `npm run build`
+- Truy cap thu muc `CMS_PS4_2019`, go : 
+    `npm install`
+    `npm run build`
+- Edit file hosts, open notepad with Administrator then open path : 
+`C:\Windows\System32\drivers\etc\hosts`
+add new line with content : `127.0.0.1 domain_name.com`
+- Edit file config nginx : ref B2.1 (above)
+- Run app with PM2 : ref B4 (above)
+
 
 
