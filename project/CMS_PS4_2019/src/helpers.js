@@ -54,3 +54,20 @@ export function isObjectEmpty(obj = {}) {
   return isObject(obj) && Object.keys(obj).length === 0 && obj.constructor === Object
 }
 
+export function isMobile() {
+  let sUserAgent = navigator.userAgent.toLowerCase()
+  let bIsIpad = /ipad/i.test(sUserAgent)
+  let bIsIphoneOs = /iphone os/i.test(sUserAgent)
+  let bIsMidp = /midp/i.test(sUserAgent)
+  let bIsUc7 = /rv:1.2.3.4/i.test(sUserAgent)
+  let bIsUc = /ucweb/i.test(sUserAgent)
+  let bIsAndroid = /android/i.test(sUserAgent)
+  let bIsCE = /windows ce/i.test(sUserAgent)
+  let bIsWM = /windows mobile/i.test(sUserAgent)
+  let bIsWx = /MicroMessenger/i.test(sUserAgent)
+
+  if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM || bIsWx) {
+    return true
+  }
+  return false
+}

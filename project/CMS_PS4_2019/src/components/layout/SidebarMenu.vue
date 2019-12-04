@@ -137,6 +137,12 @@
         <span class="page"> DS khách hàng</span>
       </a>
     </router-link> -->
+    <router-link tag="li" class="pageLink" to="/shops">
+      <a>
+        <i class="fa fa-sitemap text-green"></i>
+        <span class="page"> DS Shops</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/vendor">
       <a>
         <i class="fa fa-car text-green"></i>

@@ -203,6 +203,7 @@ app.use(`${url_api}kiemke`, routes.kiemke)
 app.use(`${url_api}upload`, routes.upload)
 app.use(`${url_api}thuchi`, routes.thuchi)
 app.use(`${url_api}setting`, routes.setting)
+app.use(`${url_api}shop`, routes.shop)
 
 //Error-handling middleware
 //middleware để check nếu request API không tồn tại

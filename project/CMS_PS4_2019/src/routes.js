@@ -176,6 +176,12 @@ const routes = [
         component: () => import(/* webpackPrefetch: true */ './components/views/SettingCheckOut'),
         name: 'CheckOut_Setting',
         meta: {description: 'Cài đặt chi tiết: Tích điểm, chiết khấu, ...', requiresAuth: true, is_admin: true}
+      },
+      {
+        path: 'shops',
+        component: () => import(/* webpackPrefetch: true */ './components/views/Shop'),
+        name: 'Shop',
+        meta: {description: 'Danh sách Shop', requiresAuth: true, is_admin: true}
       }
     ]
   }, {

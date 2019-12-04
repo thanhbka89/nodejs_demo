@@ -14,6 +14,7 @@ import kiemke from './kiemke'
 import thuchi from './thuchi'
 import history_login from './history_login'
 import setting from './setting'
+import shop from './shop'
 
 export default {
     authen,
@@ -31,6 +32,7 @@ export default {
     kiemke,
     thuchi,
     history_login,
-    setting
+    setting,
+    shop
 }
 
