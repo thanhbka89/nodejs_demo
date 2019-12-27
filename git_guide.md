@@ -322,3 +322,16 @@ grep -H -r '^=======$' *
 #Apply một patch không sử dụng git
 
 patch < file.patch
+
+# Untrack files already added to git repository based on .gitignore
+Step 1: Commit all your changes
+Before proceeding, make sure all your changes are committed, including your .gitignore file.
+
+Step 2: Remove everything from the repository
+    git rm -r --cached .
+
+Step 3: Re add everything
+    git add .
+
+Step 4: Commit
+    git commit -m ".gitignore fix"

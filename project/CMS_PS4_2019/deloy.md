@@ -7,12 +7,15 @@ B0: Moi truong:
     vuejs: 2.2.2
     vue-cli: 3.8.4
 - Show package installed : `npm list --depth=0`
+- `package.json` sẽ lưu trữ xem project của chúng ta cần sử dụng những module nào, version của nó là bao nhiêu. Chi tiết của nó sẽ được lưu trữ tại `package-lock.json` bao gồm phiên bản, nơi lưu trữ, những module cần thiết để chạy module mình cần chạy
 - Su dung npm:
     + Cai package global : `npm install -g gulp`
     + Go bo package global : `npm uninstall -g jshint`
 
     + Cai dat trong local project, muc devDependencies : `npm i lodash --save-dev`
-    + Cài đặt một package và lưu nó vào dependencies: `npm i –S express`
+    + Cài đặt một package và lưu nó vào dependencies: `npm i --save express`
+    + `npm i @terinjokes/gulp-uglify` // cài đặt 1 package từ Github của user terinjokes với tên package là gulp-uglify
+
     + Cai dat version cu the: `npm install sax@0.1.1`
     + Remove local package và gỡ ra khỏi package.json:
         `npm uninstall --save lodash` // go bo trong "dependencies"
