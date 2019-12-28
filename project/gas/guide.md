@@ -12,9 +12,13 @@
 - Liệt kê các bản Node.js đã được cài và bản Node.js đang được sử dụng: `nvm list`
 
 # API
-- Truy cap folder api_gas, go : `npm install`
+- Truy cap folder `api_gas`, go : `npm install`
 - Dev : `npm run dev`
 - Prod: `npm run build`
 
 # CMS
+- Ref: https://reactgo.com/vue-cli3-tutorial-creating-project/
 - Su dung VUE GUI, go : `vue ui`
+- Truy cap folder `cms_gas`, go: `npm install`
+- Dev: `npm run serve`
+- Prod: `npm run build` -> go: `node server.js` // run prod
