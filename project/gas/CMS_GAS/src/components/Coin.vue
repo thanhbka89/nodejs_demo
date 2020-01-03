@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import Common from '@/services/Common'
 
   export default {
     name: 'Coins',
@@ -29,13 +29,13 @@
 
     methods: {
       fetchData() {
-        axios.get('https://api.coinmarketcap.com/v1/ticker/' + this.$route.params.id+'/')
-        .then((resp) => {
-          this.coin = resp.data[0]     
+        Common.getCoin(this.$route.params.id)
+        .then(response => {
+          this.coin = response.data[0] 
         })
-        .catch((err) => {
-            // eslint-disable-next-line no-console
-            console.log(err)
+        .catch(e => {
+          // eslint-disable-next-line no-console
+          console.log(e)
         })
       }
     }

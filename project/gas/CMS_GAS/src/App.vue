@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 <template>
   <div id="app">
     <nav>
@@ -6,14 +7,31 @@
       <router-link to="/coin/bitcoin">Bitcoin</router-link>
     </nav>
     
-    <router-view></router-view>
+    <router-view />
 
   </div>
 </template>
 
 <script>
+import { G_API } from '@/api'
+
 export default {
-  name: 'app'
+  name: 'app',
+  created() {
+    this.getIP()
+  },
+  methods: {
+    async getIP() {
+      try {
+        let res = await G_API.get('https://api.ipify.org/?format=json')
+        // eslint-disable-next-line no-console
+        console.log(res)
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e)
+      }
+    }
+  }
 }
 </script>
 
