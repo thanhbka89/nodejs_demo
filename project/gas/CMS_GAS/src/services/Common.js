@@ -1,12 +1,16 @@
 import api, { G_API } from '@/api'
 
-class Common {
-    getAll() {
-      return api.get(`/tutorials`)
-    }
-  
+class Common { 
     get(id) {
       return api.get(`/tutorials/${id}`)
+    }
+
+    checkConnectApi() {
+      return api.get(`/healthcheck/api`)
+    }
+
+    checkConnectDb() {
+      return api.get(`/healthcheck/db`)
     }
 
     getCoin(coin) {
