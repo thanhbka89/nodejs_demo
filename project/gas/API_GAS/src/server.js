@@ -4,15 +4,13 @@ const app = express()
 import { json as _json, urlencoded } from 'body-parser'
 import cors from 'cors'
 
+//routes
+import routes from './routes'
+
 const port = process.env.PORT || 3000
 const node_env = process.env.NODE_ENV || 'development'
 
-import config, { mysql } from './configs'
-console.log(config, mysql)
 console.log(process.env.MY_SECRET)
-
-//routes
-import routes from './routes/index'
 
 // middleware
 app.use(json())

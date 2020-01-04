@@ -1,11 +1,13 @@
-module.exports = {
+export default {
     'secret': 'restapisecret',
-    'database': 'mongodb://127.0.0.1:27017/restAPI',
+    mongodb: 'mongodb://127.0.0.1:27017/restAPI',
     mysql : {
-        host: '',
-        db: '',
+        host: 'localhost',
+        port: 3306,
         user: 'root',
-        passwd: '123456a@'
+        password: '123456a@',
+        database: 'gas',
+        // debug: true
     },
     redis: {
         host: '127.0.0.1',
