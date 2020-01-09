@@ -13,10 +13,12 @@
 
 
 -- Dumping database structure for cms_ps_dev
+DROP DATABASE IF EXISTS `cms_ps_dev`;
 CREATE DATABASE IF NOT EXISTS `cms_ps_dev` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `cms_ps_dev`;
 
 -- Dumping structure for table cms_ps_dev.cham_cong
+DROP TABLE IF EXISTS `cham_cong`;
 CREATE TABLE IF NOT EXISTS `cham_cong` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -33,6 +35,7 @@ DELETE FROM `cham_cong`;
 /*!40000 ALTER TABLE `cham_cong` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.giai_dau
+DROP TABLE IF EXISTS `giai_dau`;
 CREATE TABLE IF NOT EXISTS `giai_dau` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -51,6 +54,7 @@ DELETE FROM `giai_dau`;
 /*!40000 ALTER TABLE `giai_dau` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.history_customer
+DROP TABLE IF EXISTS `history_customer`;
 CREATE TABLE IF NOT EXISTS `history_customer` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Khoa ngoai voi bang users',
@@ -66,15 +70,16 @@ DELETE FROM `history_customer`;
 /*!40000 ALTER TABLE `history_customer` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.history_login
+DROP TABLE IF EXISTS `history_login`;
 CREATE TABLE IF NOT EXISTS `history_login` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Khoa ngoai voi bang users',
   `ip` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Lich su danh nhap he thong';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Lich su danh nhap he thong';
 
--- Dumping data for table cms_ps_dev.history_login: ~8 rows (approximately)
+-- Dumping data for table cms_ps_dev.history_login: ~7 rows (approximately)
 DELETE FROM `history_login`;
 /*!40000 ALTER TABLE `history_login` DISABLE KEYS */;
 INSERT INTO `history_login` (`id`, `id_user`, `ip`, `created_at`) VALUES
@@ -86,10 +91,13 @@ INSERT INTO `history_login` (`id`, `id_user`, `ip`, `created_at`) VALUES
 	(6, 1, '127.0.0.1', '2019-11-23 10:10:34'),
 	(7, 1, '42.115.240.44', '2019-11-23 10:10:34'),
 	(8, 1, '42.115.240.44', '2019-11-30 11:04:10'),
-	(9, 1, '113.160.97.100', '2019-12-04 19:47:21');
+	(9, 1, '113.160.97.100', '2019-12-04 19:47:21'),
+	(10, 1, '42.115.240.44', '2019-12-07 11:48:27'),
+	(11, 1, '42.115.240.44', '2019-12-28 11:37:59');
 /*!40000 ALTER TABLE `history_login` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.inventory
+DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE IF NOT EXISTS `inventory` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_vendor` int(10) unsigned DEFAULT '0' COMMENT 'Ma dai ly',
@@ -127,6 +135,7 @@ INSERT INTO `inventory` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `quantit
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.items
+DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_vendor` int(10) unsigned DEFAULT '0' COMMENT 'Ma dai ly',
@@ -184,6 +193,7 @@ INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.kiem_ke
+DROP TABLE IF EXISTS `kiem_ke`;
 CREATE TABLE IF NOT EXISTS `kiem_ke` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_item` int(10) unsigned NOT NULL DEFAULT '0',
@@ -276,6 +286,7 @@ INSERT INTO `kiem_ke` (`id`, `id_item`, `code`, `name`, `period`, `sl_thucte`, `
 /*!40000 ALTER TABLE `kiem_ke` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.list_ps
+DROP TABLE IF EXISTS `list_ps`;
 CREATE TABLE IF NOT EXISTS `list_ps` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT 'Ma san pham',
@@ -300,6 +311,7 @@ INSERT INTO `list_ps` (`id`, `code`, `name`, `status`, `created_by`, `created_at
 /*!40000 ALTER TABLE `list_ps` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.mastercode
+DROP TABLE IF EXISTS `mastercode`;
 CREATE TABLE IF NOT EXISTS `mastercode` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -356,6 +368,7 @@ INSERT INTO `mastercode` (`id`, `code`, `name`, `status`, `category`, `created_b
 /*!40000 ALTER TABLE `mastercode` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.points
+DROP TABLE IF EXISTS `points`;
 CREATE TABLE IF NOT EXISTS `points` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_trans` int(10) unsigned NOT NULL DEFAULT '0',
@@ -373,6 +386,7 @@ DELETE FROM `points`;
 /*!40000 ALTER TABLE `points` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.setting
+DROP TABLE IF EXISTS `setting`;
 CREATE TABLE IF NOT EXISTS `setting` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -392,6 +406,7 @@ INSERT INTO `setting` (`id`, `name`, `option`) VALUES
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.shops
+DROP TABLE IF EXISTS `shops`;
 CREATE TABLE IF NOT EXISTS `shops` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) unsigned DEFAULT NULL COMMENT 'parent_shop',
@@ -415,6 +430,7 @@ INSERT INTO `shops` (`id`, `parent_id`, `code`, `name`, `description`, `path`, `
 /*!40000 ALTER TABLE `shops` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.tai_san
+DROP TABLE IF EXISTS `tai_san`;
 CREATE TABLE IF NOT EXISTS `tai_san` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
@@ -435,6 +451,7 @@ DELETE FROM `tai_san`;
 /*!40000 ALTER TABLE `tai_san` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.thu_chi
+DROP TABLE IF EXISTS `thu_chi`;
 CREATE TABLE IF NOT EXISTS `thu_chi` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ma san pham',
@@ -459,6 +476,7 @@ INSERT INTO `thu_chi` (`id`, `code`, `name`, `gia_nhap`, `quantity`, `type`, `de
 /*!40000 ALTER TABLE `thu_chi` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.transactions
+DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_ps` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'May PS nao',
@@ -937,6 +955,7 @@ INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `diem_tich`
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.trans_detail
+DROP TABLE IF EXISTS `trans_detail`;
 CREATE TABLE IF NOT EXISTS `trans_detail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_trans` int(10) unsigned NOT NULL,
@@ -2055,6 +2074,7 @@ INSERT INTO `trans_detail` (`id`, `id_trans`, `id_item`, `code_item`, `quantity`
 /*!40000 ALTER TABLE `trans_detail` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.users
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -2139,6 +2159,7 @@ INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.vendors
+DROP TABLE IF EXISTS `vendors`;
 CREATE TABLE IF NOT EXISTS `vendors` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
