@@ -44,6 +44,7 @@
 
 <script>
 import api, { BN_API } from '@/api'
+import { getBrowser } from '@/helpers'
 
 export default {
   name: 'Login',
@@ -117,6 +118,7 @@ export default {
     async saveHistoryLogin() {
       try {
         await this.getIP()
+        this.history.browser = getBrowser()
         await api.request('post', '/history_login', this.history)
       } catch (e) {
         console.error(e)
@@ -125,7 +127,7 @@ export default {
     async getIP() {
       try {
         let res = await BN_API.get('https://api.ipify.org/?format=json')
-        this.history.ip = res.data.ip || '127.0.0.1'
+        this.history.ip = res.data.ip || 'localhost'
       } catch (e) {
         console.error(e)
       }

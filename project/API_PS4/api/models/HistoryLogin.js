@@ -6,6 +6,7 @@ class HistoryLogin {
     constructor(obj) {
         this.id_user = obj.id_user
         this.ip = obj.ip
+        this.browser = obj.browser
     }
 
     static getCondition(input) {

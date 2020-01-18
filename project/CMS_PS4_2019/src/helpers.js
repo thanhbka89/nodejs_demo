@@ -71,3 +71,8 @@ export function isMobile() {
   }
   return false
 }
+
+/** Get name Browser */
+export function getBrowser() {
+  return navigator.userAgent
+}

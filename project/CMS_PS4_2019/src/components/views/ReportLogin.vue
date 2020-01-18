@@ -22,18 +22,20 @@
               <thead class="z-header">
                 <tr style="border: 1px solid #f39c12;">
                   <th>STT</th>
+                  <th>DateTime</th>
                   <th>User</th>
                   <th>IP</th>
-                  <th>Ngày</th>
+                  <th>Browser</th>                
                 </tr>
               </thead>
 
               <tbody>
                 <tr v-for="item in filteredResources" :key="item.id">
                   <td class="col-md-1">{{ item.id }}</td>
-                  <td class="col-md-5 item-code">{{ getMemberName(item.id_user) }}</td>
-                  <td class="col-md-3 item-code">{{ item.ip }}</td>
-                  <td class="col-md-3">{{ item.created_at | fDateTime  }}</td>
+                  <td class="col-md-2 item-code">{{ item.created_at | fDateTime  }}</td>
+                  <td class="col-md-1 item-code">{{ getMemberName(item.id_user) }}</td>
+                  <td class="col-md-2 item-code">{{ item.ip }}</td>
+                  <td class="col-md-6 item-code">{{ item.browser || 'N#A' }}</td>  
                 </tr>
               </tbody>
             </table>
