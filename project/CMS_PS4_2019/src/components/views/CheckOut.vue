@@ -144,7 +144,7 @@
               <tbody>
                 <tr v-if="isCheckout">
                   <td class="col-xs-1">0</td>
-                  <td class="col-xs-3">{{ api_ps4.name || 'Giờ chơi PS4' }}</td>
+                  <td class="col-xs-3">{{ api_ps4.name || 'Giờ chơi PS' }}</td>
                   <td class="col-xs-1">{{ api_ps4.gia_ban || 0 | toVnd }}</td>
                   <td class="col-xs-1 text-center">
                     {{ so_giochoi }}
@@ -396,10 +396,15 @@ export default {
       }
     },
     async getApiPs4() {
+      let ps = this.ps4
       // get price of ps
       try {
-        const result = await api.request('get', `/item/f/get_price?status=1&code=${this.ps4.code}`)
-        this.api_ps4 = result.data[0]
+        const result = await api.request('get', `/item/f/get_price?status=1&code=${ps.code}`)
+        if (result.data.length) {
+          this.api_ps4 = result.data[0]
+        } else {
+          this.showToast('error', `Chưa cài đặt Giá cho Dịch vụ ${ps.code}`, 8000)
+        }
       } catch (e) {
         console.error(e)
       }
@@ -551,14 +556,14 @@ export default {
         this.showWarning()
       }
     },
-    showToast(type = 'success', message = '') {
+    showToast(type = 'success', message = '', time = null) {
       this.$swal({
         type: type,
         title: message || `Cập nhật thành công`,
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 5000
+        timer: time || 5000
       })
     },
     confirmOtherTrans() {

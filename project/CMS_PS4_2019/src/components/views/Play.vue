@@ -4,13 +4,13 @@
       <div class="col-xs-12">
         <ps4-detail v-if="showModal" :transaction="showModal">
             <h3 slot="header" class="modal-title">
-              Chi tiết Máy số {{getPs4.id}}
+              Chi tiết Máy số {{ currentPS.id }}
             </h3>
 
             <div slot="body">
               <div class="row z-bottom">
-                <div class="col-sm-4"><strong>Bắt đầu: </strong> {{getPs4.start_hour}}</div>
-                <div class="col-sm-8"><strong>Số giờ đã chơi: </strong> {{getPs4.play_hour}} ({{getPs4.elapsed}} phút)</div>
+                <div class="col-sm-4"><strong>Bắt đầu: </strong> {{ currentPS.start_hour }}</div>
+                <div class="col-sm-8"><strong>Số giờ đã chơi: </strong> {{ currentPS.play_hour }} ({{ currentPS.elapsed }} phút)</div>
               </div>
               <div class="row z-bottom">
                 <div class="col-sm-4">
@@ -20,45 +20,45 @@
                   <v-select v-model="selectedDV" label="name" :options="options"></v-select>
                 </div>
               <div class="col-sm-3">
-                <button type="button" class="btn btn-success" @click="addService(getPs4.id, selectedDV)"> Thêm dịch vụ </button>
+                <button type="button" class="btn btn-success" @click="addService(currentPS.id, selectedDV)"> Thêm dịch vụ </button>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="box">
+                  <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Stt</th>
+                        <th>Mặt hàng</th>
+                        <th>Số lượng</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(item, index) in currentPS.items" :key="index">
+                      <td class="col-xs-1">{{++index}}</td>
+                      <td class="col-xs-5">{{item.name.name}}</td>
+                      <td class="col-xs-3">
+                        <input type="number" id="number" v-model="item.quantity" @change="updateService(currentPS.id, true)" value="1" min="1"/>
+                      </td>
+                      <td class="col-xs-3">
+                        <a href="#" class="icon" data-toggle="tooltip" title="Xóa dịch vụ"><i @click="deleteService(currentPS.id, --index)" class="fa fa-trash"></i></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  </table>
+                  </div>
+                </div>
+                </div>
               </div>
-               <div class="row">
-                 <div class="col-xs-12">
-                   <div class="box">
-                     <div class="box-body table-responsive no-padding">
-                       <table class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th>Stt</th>
-                            <th>Mặt hàng</th>
-                            <th>Số lượng</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(item, index) in getPs4.items" :key="index">
-                          <td class="col-xs-1">{{++index}}</td>
-                          <td class="col-xs-5">{{item.name.name}}</td>
-                          <td class="col-xs-3">
-                            <input type="number" id="number" v-model="item.quantity" @change="updateService(getPs4.id, true)" value="1" min="1"/>
-                          </td>
-                          <td class="col-xs-3">
-                            <a href="#" class="icon" data-toggle="tooltip" title="Xóa dịch vụ"><i @click="deleteService(getPs4.id, --index)" class="fa fa-trash"></i></a>
-                          </td>
-                        </tr>
-                      </tbody>
-                      </table>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             </div>
+            </div>
 
             <div slot="footer">
                 <button type="button" class="btn btn-outline-info" @click="closeModal()"> Đóng </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="updateService(getPs4.id)"> Cập nhật </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submitAndClose(getPs4.id)"> Thanh toán </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="updateService(currentPS.id)"> Cập nhật </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submitAndClose(currentPS.id)"> Thanh toán </button>
             </div>
         </ps4-detail>
       </div>
@@ -66,7 +66,7 @@
        <div class="col-xs-12">
         <ps4-detail v-if="showChange">
             <h3 slot="header" class="modal-title">
-              Thực hiện chuyển Máy số {{getPs4.id}}
+              Thực hiện chuyển Máy số {{ currentPS.id }}
             </h3>
 
             <div slot="body">
@@ -82,13 +82,20 @@
 
             <div slot="footer">
                 <button type="button" class="btn btn-outline-info" @click="closeModalChange()"> Đóng </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="showAlertConfirm(getPs4.id)"> Cập nhật </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click="showAlertConfirm(currentPS.id)"> Cập nhật </button>
             </div>
         </ps4-detail>
       </div>
-      <hr />
-      <div class="col-md-4 col-sm-6 col-xs-12"
-        v-for="item in listPS4" :key="item.id">
+
+      <template v-for="(code, index) in codesPS">
+        <div class="clearfix" :key="`${code}-${index}`"></div>
+        <div class="col-xs-12" :key="`${code}_${index}`">
+          <h3>
+            Danh sách máy {{ code }}
+          </h3>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12"
+        v-for="item in filterPS(code)" :key="'ps_' + item.id">
         <ps4-box
           :icon-classes="['ion', 'ion-ios-game-controller-b-outline']"
           :id-ps="item.id"
@@ -98,9 +105,11 @@
           :ps4-start="togglePs4(item.code + '_' + item.id)"
           :openModal="openModal"
           :openModalChange="openModalChange"
-          @created="handleCreate"
-        ></ps4-box>
+          @created="handleCreate">
+        </ps4-box>
       </div>
+      </template>     
+
     </div>
   </section>
 </template>
@@ -110,7 +119,6 @@ import api from '@/api'
 import Ps4Box from '@/components/widgets/Ps4Box'
 import Ps4Detail from '@/components/widgets/Modal'
 import moment from 'moment'
-// https://github.com/waseembarcha/vuejs-crud/blob/master/src/components/Products.vue
 
 export default {
   name: 'PlayPS',
@@ -119,13 +127,18 @@ export default {
       showModal: false,
       showChange: false,
       listPS4: [],
-      componentKey: 0,
       getPs4: {},
       selectedDV: '',
-      options: [],
-      lsListOff: 'listPSOff',
+      options: [], // list Dich vu
+      lsListOff: 'listPSOff', // name localStorage
       selectedPS: '',
-      psOff: []
+      psOff: [], // list may dang khong co nguoi choi
+      codesPS: [] // loai may PS
+    }
+  },
+  computed: {
+    currentPS() {
+      return this.getPs4
     }
   },
   async created() {
@@ -136,13 +149,15 @@ export default {
   methods: {
     openModal(val = 'Open') {
       console.log('Call OPEN Parent')
-      this.getPs4 = typeof val === 'object' ? val : {}
-      if (this.getPs4 != null) {
-        const {start} = this.getPs4
+      let ps = typeof val === 'object' ? val : {}
+      if (ps != null) {
+        const {start} = ps
         let elapsed = moment().diff(start, 'minutes')
-        this.getPs4.elapsed = elapsed
-        this.getPs4.play_hour = Math.floor(elapsed / 60) + ':' + elapsed % 60 // moment.utc().startOf('day').add({ minutes: elapsed }).format('H:mm')
-        window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+        ps.elapsed = elapsed
+        ps.play_hour = Math.floor(elapsed / 60) + ':' + elapsed % 60 // moment.utc().startOf('day').add({ minutes: elapsed }).format('H:mm')
+
+        this.getPs4 = ps
+        window.localStorage.setItem(ps.id, JSON.stringify(ps))
       }
       this.showModal = true
     },
@@ -166,9 +181,11 @@ export default {
       this.$router.push(route)
     },
     updateService(id = 1, showModal = false) {
+      let ps = null
       if (this.togglePs4(id)) {
         this.showModal = showModal
-        window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+        ps = this.getPs4
+        window.localStorage.setItem(ps.id, JSON.stringify(ps))
         this.showToast()
       }
     },
@@ -178,47 +195,52 @@ export default {
     addService(id, val) {
       if (this.togglePs4(id) && val) {
         this.selectedDV = ''
-        this.getPs4 = JSON.parse(window.localStorage.getItem(id))
-        this.getPs4.items = this.getPs4.items || []
-        let index = this.getPs4.items.length
+        let ps = JSON.parse(window.localStorage.getItem(id))
+        let items = ps.items || []
+        let index = items.length
 
         // tim kiem xem dich vu nay da them chua
-        const idxFound = this.getPs4.items.findIndex((element) => {
+        const idxFound = items.findIndex((element) => {
           return element.name.id === val.id
         })
         if (idxFound >= 0) {
-          let parsed = parseInt(this.getPs4.items[idxFound].quantity)
+          let parsed = parseInt(items[idxFound].quantity)
           if (!isNaN(parsed)) {
-            this.getPs4.items[idxFound].quantity = parsed + 1
+            items[idxFound].quantity = parsed + 1
           }
         } else {
-          this.getPs4.items.push({id: ++index, name: val, quantity: 1, start: this.getPs4.end})
+          items.push({id: ++index, name: val, quantity: 1, start: ps.end})
         }
-        window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+        ps.items = items
+        this.getPs4 = ps
+        window.localStorage.setItem(ps.id, JSON.stringify(ps))
       }
     },
     changePS(id, val) {
       if (this.togglePs4(id) && val) {
         this.selectedPS = null
         const oldPS = JSON.parse(window.localStorage.getItem(id)) // may ban dau
-        this.getPs4 = JSON.parse(window.localStorage.getItem(id))
+        let ps = JSON.parse(window.localStorage.getItem(id))
         // update thong tin sang may can chuyen
-        this.getPs4.id = `${val.code}_${val.id}`
-        this.getPs4.code = val.code
-        this.getPs4.id_ps = val.id
-        this.getPs4.name = val.name
-        this.getPs4.origin = oldPS.id_ps
-        window.localStorage.setItem(this.getPs4.id, JSON.stringify(this.getPs4))
+        ps.id = `${val.code}_${val.id}`
+        ps.code = val.code
+        ps.id_ps = val.id
+        ps.name = val.name
+        ps.origin = oldPS.id_ps
+        this.getPs4 = ps
+        window.localStorage.setItem(ps.id, JSON.stringify(ps))
         window.localStorage.removeItem(oldPS.id) // Xoa may cu
+
         // update list ps off
-        this.psOff.push({
+        let listPSOff = this.psOff
+        listPSOff.push({
           id: oldPS.id_ps, code: oldPS.code, name: oldPS.name
         })
-        const filtered = this.psOff.filter(function(item, index, arr) {
+        const filtered = listPSOff.filter(function(item, index, arr) {
           return item.id !== val.id
         })
         this.psOff = filtered
-        window.localStorage.setItem(this.lsListOff, JSON.stringify(this.psOff))
+        window.localStorage.setItem(this.lsListOff, JSON.stringify(filtered))
 
         this.$router.go() // reload page
       }
@@ -240,10 +262,15 @@ export default {
     },
     async getListPS4() {
       try {
-        // get list ps4 active
-        const result = await api.request('get', '/ps/p/1?limit=100&status=1&code=PS4')
+        // get list PS active
+        const result = await api.request('get', '/ps/p/1?limit=1000&status=1')
         if (result.data.success) {
           this.listPS4 = result.data.data
+
+          // get list codes PS
+          let codes = []
+          result.data.data.forEach(e => codes.push(e.code))
+          this.codesPS = [...new Set(codes)].sort() // mang unique
         }
       } catch (e) {
         console.error(e)
@@ -260,15 +287,22 @@ export default {
     handleCreate(value) {
       console.log('Child has been created.', value)
     },
-    forceRerender() {
-      this.componentKey += 1
+    filterPS(code) {
+      return this.listPS4.filter((item) => item.code === code)
     },
     showAlertConfirm() {
       this.showChange = false
-      if (this.selectedPS) {
+      let psOrigin = this.getPs4
+      let psDes = this.selectedPS
+      let msg = ''
+      if (psDes) {
+        // check code cua 2 may xem giong hay khac nhau ?
+        if (psOrigin.code !== psDes.code) {
+          msg = `${psOrigin.name} khác loại với ${psDes.name}, nếu bạn vẫn muốn chuyển máy thì có thể sai giá khi tính tiền!`
+        }
         this.$swal({
           title: 'Bạn có chắc?',
-          text: 'Bạn có muốn thực hiện chuyển máy?',
+          text: `Bạn có muốn thực hiện chuyển máy? ${msg}`,
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -276,13 +310,12 @@ export default {
           confirmButtonText: 'Đồng ý'
         }).then((result) => {
           if (result.value) {
-            this.changePS(this.getPs4.id, this.selectedPS)
+            this.changePS(psOrigin.id, psDes)
           } else {
             this.showChange = true
           }
         })
       } else {
-        // this.showAlertMember()
         this.showChange = true
       }
     },

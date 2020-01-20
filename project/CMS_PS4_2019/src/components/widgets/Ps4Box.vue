@@ -85,11 +85,11 @@ export default {
   created() {
     // goi ham cha
     this.$emit('created', this.msg) // communicate to parent components
-    console.log('PS Created')
+    console.log('PS Child Created')
     this.getLS()
   },
   mounted() {
-    console.log('PS Mounted', this.msg)
+    console.log('PS Child Mounted', this.msg)
     this.toggleOnClass()
   },
   methods: {
@@ -108,7 +108,7 @@ export default {
     },
     play(pNumber = 1) {
       let start = moment() // moment().subtract(2, 'hours')
-      this.ps = {
+      const ps = {
         id: pNumber,
         name: this.text,
         code: this.code,
@@ -121,8 +121,8 @@ export default {
         end: start.format('YYYY-MM-DD HH:mm:ss')
         // end: moment().add(7, 'hours').format('YYYY-MM-DD HH:mm:ss')
       }
-      this.lsPs4 = this.ps
-      window.localStorage.setItem(pNumber, JSON.stringify(this.ps))
+      this.lsPs4 = this.ps = ps
+      window.localStorage.setItem(pNumber, JSON.stringify(ps))
       this.toggleOnPS4()
       this.toggleOnClass()
     },
