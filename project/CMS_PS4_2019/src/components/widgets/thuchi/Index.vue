@@ -12,8 +12,12 @@
     </div>   
 
     <div class="filters row">
-        <div class="form-group col-sm-5">
+        <div class="form-group col-sm-4">
           <multiselect v-model="codeSelected" :options="codes" :custom-label="nameWithLang" placeholder="Tìm theo mastercode ..." label="code" track-by="id" @select="searchByCode">
+          </multiselect>
+        </div>
+        <div class="form-group col-sm-2">
+          <multiselect v-model="typeSelected" :options="types" :custom-label="nameWithLang" placeholder="Loại Thu/Chi" label="code" track-by="id" @select="searchByType">
           </multiselect>
         </div>
         <div class="form-group col-sm-6">
@@ -27,9 +31,10 @@
         <tr>
           <th>ID</th>
           <th>Ngày nhập</th>
-          <th>Code</th>
+          <th>Giao dịch</th>
           <th>Giá nhập</th>
           <th>Số lượng</th>
+          <th>Trạng thái</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -37,11 +42,12 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
-          <td class="col-md-1">{{ item.code }}</td>
+          <td class="col-md-2">{{ item.created_at | fDateTime }}</td>
+          <td class="col-md-4">{{ item.name }}</td>
           <td class="col-md-2">{{ item.gia_nhap | toVnd }}</td>
-          <td class="col-md-2">{{ item.quantity }}</td>
-          <td class="col-md-3">
+          <td class="col-md-1">{{ item.quantity }}</td>
+          <td class="col-md-1">{{ item.status ? 'Active' : 'Deleted' }}</td>
+          <td class="col-md-1">
             <a href="#" class="icon margin-small-right" title="Chỉnh sửa">
               <i v-on:click="editItem(item)" class="fa fa-pencil"></i>
             </a>
@@ -92,7 +98,12 @@ export default {
       items: [],
       dateFrom: '',
       dateTo: new Date().setDate(new Date().getDate() + 1), // get date tomorrow
-      codeSelected: null
+      codeSelected: null, // search by mastercode
+      types: [
+        { id: 1, code: 1, name: 'Chi' },
+        { id: 2, code: 2, name: 'Thu' }
+      ],
+      typeSelected: null // search by Thu/Chi
     }
   },
   props: {
@@ -105,9 +116,6 @@ export default {
     }
   },
   async created() {
-    // this.fetchItems()
-    // this.paginateCallback()
-
     // run parallel
     await Promise.all([
       this.fetchItems(),
@@ -170,6 +178,9 @@ export default {
       if (this.codeSelected) {
         query = query.concat(`&code=${this.codeSelected.code}`)
       }
+      if (this.typeSelected) {
+        query = query.concat(`&type=${this.typeSelected.code}`)
+      }
       if (this.dateFrom) {
         query = query.concat(`&from=${formatDate({date: this.dateFrom})}`)
       }
@@ -193,6 +204,10 @@ export default {
     },
     searchByCode(option) {
       this.codeSelected = option
+      this.search()
+    },
+    searchByType(option) {
+      this.typeSelected = option
       this.search()
     },
     showAlert() {

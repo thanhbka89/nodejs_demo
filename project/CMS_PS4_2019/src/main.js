@@ -16,6 +16,7 @@ import 'vue-select/dist/vue-select.css'
 import Axios from 'axios'
 import PrettyRadio from 'pretty-checkbox-vue/radio'
 import PrettyCheck from 'pretty-checkbox-vue/check'
+// import money from 'v-money'
 
 Vue.prototype.$http = Axios  // globally
 
@@ -23,6 +24,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueSweetalert2)
 Vue.use(Vuelidate)
+// Vue.use(money, {precision: 0}) // register globally directive v-money and component <money>
 Vue.component('paginate', Paginate)
 Vue.component('v-select', vSelect)
 Vue.component('p-radio', PrettyRadio)
