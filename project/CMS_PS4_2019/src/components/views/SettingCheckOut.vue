@@ -11,12 +11,23 @@
                   <p class="margin_top">
                     <p-check name="check" color="success" v-model="hasRank" @change="changeRank">
                       <strong>ÁP DỤNG PHÂN HẠNG THÀNH VIÊN</strong>
+                      <i>(Tick chọn nếu muốn áp dụng)</i>
                     </p-check>
                   </p>
                   <template v-if="hasRank">
                     <div class="margin_top">
                       <i>Xếp hạng tăng dần theo thứ tự: <b>KH Thân thiết >> KH VIP >> KH Diamond</b></i>
+                      <br /><i>(Nếu không muốn áp dụng tiêu chí nào thì điền số 0 hoặc để trống)</i>
                     </div>
+                    <div class="row margin_top">
+                      <div class="col-xs-7">
+                        Để là khách hàng <strong>Thân thiết</strong>, số lần giao dịch Khách hàng cần chơi >=
+                      </div>
+                      <div class="col-xs-5">
+                        <input type="number" v-model="optionRank.loyal" value="100" min="1"/>
+                      </div>
+                    </div>
+
                     <div class="row margin_top">
                       <div class="col-xs-7">
                         Để là khách hàng <strong>VIP</strong>, số lần giao dịch Khách hàng cần chơi >=

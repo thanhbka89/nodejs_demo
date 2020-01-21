@@ -280,15 +280,15 @@ export default {
         switch (this.memberSelected.type) {
           case UserSetting.TYPE_DIAMOND:
             // discount = CheckOutSetting.DISCOUNT_DIAMOND
-            discount = this.lsOptionDiscount.diamond
+            discount = this.lsOptionDiscount.diamond || 0
             break
           case UserSetting.TYPE_VIP:
             // discount = CheckOutSetting.DISCOUNT_VIP
-            discount = this.lsOptionDiscount.vip
+            discount = this.lsOptionDiscount.vip || 0
             break
           case UserSetting.TYPE_LOYAL:
             // discount = CheckOutSetting.DISCOUNT_LOYAL
-            discount = this.lsOptionDiscount.loyal
+            discount = this.lsOptionDiscount.loyal || 0
             break
           default:
             discount = 0
@@ -602,10 +602,12 @@ export default {
       // chay khi flag su dung Xep hang thanh vien = true, va da chon Khach hang
       if (this.memberSelected && lsOption && lsOption.status) {
         const playNumber = this.memberSelected.play_number
-        if (playNumber > lsOption.diamond) { // Diamond
+        if (lsOption.diamond > 0 && playNumber > lsOption.diamond) { // Diamond
           type = UserSetting.TYPE_DIAMOND
-        } else if (playNumber > lsOption.vip) { // VIP
+        } else if (lsOption.vip > 0 && playNumber > lsOption.vip) { // VIP
           type = UserSetting.TYPE_VIP
+        } else if (lsOption.loyal > 0 && playNumber > lsOption.loyal) { // KH Than thiet
+          type = UserSetting.TYPE_LOYAL
         }
         data = {
           id: this.memberSelected.id,
