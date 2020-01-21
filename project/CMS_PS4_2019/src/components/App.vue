@@ -46,11 +46,15 @@
     },
     methods: {
       async init() {
-        // init localStorage for settings dynamic
-        const settings = JSON.parse(window.localStorage.getItem(KEY_SETTING) || 'null')
-        if (!settings || isObjectEmpty(settings)) { // load lan dau tien, khi key chua co trong localStorage hoac key rong
-          await this.getSettings()
-          this.saveLocalStorage()
+        try {
+          // init localStorage for settings dynamic
+          const settings = JSON.parse(window.localStorage.getItem(KEY_SETTING) || 'null')
+          if (!settings || isObjectEmpty(settings)) { // load lan dau tien, khi key chua co trong localStorage hoac key rong
+            await this.getSettings()
+            this.saveLocalStorage()
+          }
+        } catch (e) {
+          console.error(e)
         }
       },
       async getSettings() {

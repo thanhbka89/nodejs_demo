@@ -342,6 +342,8 @@ export default {
       this.updateUserRank()
 
       this.insert() // save giao dich
+
+      this.delPlaying() // remove ps in list playing
     },
     async getCheckoutDetail(id) {
       const result = await api.request('get', `/trans/detail/${id}`)
@@ -640,6 +642,15 @@ export default {
       if (lsOption && lsOption.status) {
         this.lsOptionDiscount = lsOption
         this.discountType = CheckOutSetting.SELECT_TYPE_DISCOUNT // Ap dung Chiet khau cho Gio choi
+      }
+    },
+    async delPlaying() {
+      try {
+        let ps = this.ps4
+        const result = await api.request('delete', `/ps/playing/action/${ps.id_ps}`)
+        console.log(result)
+      } catch (e) {
+        console.error(e)
       }
     }
   }

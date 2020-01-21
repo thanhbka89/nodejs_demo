@@ -158,6 +158,9 @@ export default {
 
         this.getPs4 = ps
         window.localStorage.setItem(ps.id, JSON.stringify(ps))
+
+        // write db
+        this.postPSPlaying(ps)
       }
       this.showModal = true
     },
@@ -289,6 +292,26 @@ export default {
     },
     filterPS(code) {
       return this.listPS4.filter((item) => item.code === code)
+    },
+    async postPSPlaying(ps = {}) {
+      let playing = {
+        id_ps: ps.id_ps,
+        code: ps.code,
+        key: ps.id,
+        content: JSON.stringify(ps)
+      }
+      try {
+        const result = await api.request('get', `/ps/playing/p/1?limit=1&id_ps=${ps.id_ps}`)
+        if (result.data.data.length) { // update
+          const psUpdated = result.data.data[0]
+          psUpdated.content = JSON.stringify(ps)
+          await api.request('put', `/ps/playing/action/${psUpdated.id}`, psUpdated)
+        } else { // create
+          await api.request('post', '/ps/playing/create', playing)
+        }
+      } catch (e) {
+        console.error(e)
+      }
     },
     showAlertConfirm() {
       this.showChange = false
