@@ -22,10 +22,9 @@
             <label class="col-sm-3 z-label">Danh mục:</label>
             <div class="col-sm-9">
               <select class="form-control" v-model="item.category">
-                <option value="1">Nước uống</option>
-                <option value="2">Đồ ăn</option>
-                <option value="3">PS</option>
-                <option value="4">Khác</option>
+                <option v-for="option in options" v-bind:value="option.value" :key="option.value">
+                  {{ option.name }}
+                </option>
               </select>
             </div>
 					</div>
@@ -45,7 +44,7 @@
         </div>
       </service-create>
       <div class="col-xs-12">
-        <index :openModal="openModal"></index>
+        <index :openModal="openModal" :optionsCategory="options"></index>
       </div>
       
     </div>
@@ -57,6 +56,7 @@ import api from '@/api'
 import Index from '@/components/widgets/mastercode/Index'
 import ServiceCreate from '@/components/widgets/Modal'
 import Factory from '@/repositories/RepositoryFactory'
+import { CommonSetting } from '@/settings'
 
 const CodeR = Factory.get('code')
 
@@ -70,7 +70,8 @@ export default {
         code: '',
         name: '',
         status: 1
-      }
+      },
+      options: CommonSetting.MASTER_CATEGORY
     }
   },
   created() {
@@ -106,17 +107,6 @@ export default {
         })
     },
     async update() {
-      // api.request('put', `/code/${this.item.id}`, this.item)
-      //   .then(response => {
-      //     if (response.data) {
-      //       this.closeModal()
-      //       this.showToast()
-      //     }
-      //   })
-      //   .catch(e => {
-      //     console.error(e)
-      //   })
-
       let type = 'success'
       let msg = null
       try {

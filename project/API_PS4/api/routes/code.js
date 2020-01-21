@@ -80,9 +80,8 @@ router.route('/:id')
 
 router.get('/p/:page', async (req, res) => {
   try {
-    const {page} = req.params
-    const {limit, code, name, status, category} = req.query
-    const result = await MasterCode.paginate({ page, limit, code, name, status, category })
+    req.query.page = req.params.page
+    const result = await MasterCode.paginate(req.query)
     return res.json({
       success: true,
       data: result

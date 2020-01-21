@@ -29,6 +29,7 @@
     "jquery": "^2.2.2",
     "moment": "^2.12.0",
     "pretty-checkbox-vue": "^1.1.9",
+    "v-money": "^0.8.1",
     "vue": "^2.2.2",
     "vue-date-picker": "^1.0.2",
     "vue-multiselect": "^2.1.6",

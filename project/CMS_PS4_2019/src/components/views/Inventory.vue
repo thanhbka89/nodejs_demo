@@ -22,7 +22,7 @@
           <div class="form-group">
               <label class="col-sm-3 z-label">Giá nhập:</label>
               <div class="col-sm-9">
-              <input type="text" class="form-control" v-model="item.gia_nhap"/>
+               <money class="form-control" v-model="item.gia_nhap"></money> 
               </div>
           </div>
           <div class="form-group">
@@ -35,10 +35,9 @@
 							<label class="col-sm-3 z-label">Danh mục:</label>
               <div class="col-sm-9">
                 <select class="form-control" v-model="item.category">
-                  <option value="1">Nước uống</option>
-                  <option value="2">Đồ ăn</option>
-                  <option value="3">PS</option>
-                  <option value="4">Khác</option>
+                  <option v-for="option in categories" v-bind:value="option.value" :key="option.value">
+                    {{ option.name }}
+                  </option>
                 </select>
               </div>
 					</div>
@@ -69,6 +68,7 @@
 import api from '@/api'
 import Index from '@/components/widgets/inventory/Index'
 import ServiceCreate from '@/components/widgets/Modal'
+import { CommonSetting } from '@/settings'
 
 export default {
   name: 'Inventory',
@@ -82,7 +82,8 @@ export default {
         category: 1,
         status: 1
       },
-      options: []
+      options: [],
+      categories: CommonSetting.MASTER_CATEGORY
     }
   },
   async created() {

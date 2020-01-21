@@ -28,10 +28,10 @@
               </div>
           </div>
           <div class="form-group">
-              <label class="col-sm-3 z-label">Giá nhập:</label>
-              <div class="col-sm-9">
-              <input type="text" class="form-control" v-model="item.gia_nhap"/>
-              </div>
+            <label class="col-sm-3 z-label">Giá nhập:</label>
+            <div class="col-sm-9">
+              <money class="form-control" v-model="item.gia_nhap"></money>
+            </div>
           </div>
           <div class="form-group">
 							<label class="col-sm-3 z-label">Số lượng:</label>

@@ -35,6 +35,12 @@ export class CommonSetting {
   static CATEGORY_EAT = 2 // Do an
   static CATEGORY_PS = 3 // PS
   static CATEGORY_OTHER = 4 // Khac
+  static MASTER_CATEGORY = [
+    { value: CommonSetting.CATEGORY_DRINK, name: 'Nước uống' },
+    { value: CommonSetting.CATEGORY_EAT, name: 'Đồ ăn' },
+    { value: CommonSetting.CATEGORY_PS, name: 'PS' },
+    { value: CommonSetting.CATEGORY_OTHER, name: 'Khác' }
+  ]
 
   // Trang thai
   static STATUS_INACTIVE = 0 // Khong Ap dung

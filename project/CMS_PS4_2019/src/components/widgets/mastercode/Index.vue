@@ -15,7 +15,10 @@
         <div class="form-group col-sm-3">
           <input v-model="searchKey" class="form-control" id="search-element" type="text" placeholder="Tìm kiếm codes, name ..." aria-label="Search" @keyup.enter="search" autocomplete="off"/>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-3">
+          <v-select v-model="category" label="name" :options="categories" @input="search" placeholder="Chọn danh mục"/>
+        </div>
+        <div class="col-sm-3">
           <v-select v-model="status" label="name" :options="options" @input="search" placeholder="Chọn trạng thái"/>
         </div>
     </div>
@@ -83,8 +86,8 @@ export default {
     return {
       searchKey: '',
       status: '',
+      category: '',
       options: [
-        {name: 'All', value: ''},
         {name: 'Không áp dụng', value: '0'},
         {name: 'Áp dụng', value: '1'}
       ],
@@ -95,14 +98,24 @@ export default {
     }
   },
   props: {
-    openModal: Function
+    openModal: Function,
+    optionsCategory: {
+      type: Array,
+      default: []
+    }
   },
   computed: {
     filteredResources() {
       return this.items
+    },
+    categories() {
+      return this.optionsCategory
     }
   },
   async created() {
+    // Add new items to the beginning of an array
+    // this.categories.unshift({ value: '', name: 'All' })
+
     // run parallel
     await Promise.all([
       this.fetchItems(),
@@ -173,6 +186,9 @@ export default {
       }
       if (this.limit) {
         query = query.concat(`&limit=${this.limit}`)
+      }
+      if (this.category) {
+        query = query.concat(`&category=${this.category.value}`)
       }
       if (this.status) {
         query = query.concat(`&status=${this.status.value}`)
