@@ -1,0 +1,34 @@
+{
+  "name": "sxmb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run prod",
+    "dev": "nodemon --exec babel-node src/server.js",
+    "test": "nodemon --exec babel-node src/test.js",
+    "build": "babel src -D --out-dir dist",
+    "prod": "npm run build && node dist/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "morgan": "^1.9.1",
+    "node-cron": "^2.0.3",
+    "nodemon": "^2.0.2",
+    "puppeteer": "^2.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/runtime": "^7.8.4"
+  }
+}
