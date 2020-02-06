@@ -13,12 +13,10 @@
 
 
 -- Dumping database structure for cms_ps_dev
-DROP DATABASE IF EXISTS `cms_ps_dev`;
 CREATE DATABASE IF NOT EXISTS `cms_ps_dev` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `cms_ps_dev`;
 
 -- Dumping structure for table cms_ps_dev.cham_cong
-DROP TABLE IF EXISTS `cham_cong`;
 CREATE TABLE IF NOT EXISTS `cham_cong` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -35,7 +33,6 @@ DELETE FROM `cham_cong`;
 /*!40000 ALTER TABLE `cham_cong` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.giai_dau
-DROP TABLE IF EXISTS `giai_dau`;
 CREATE TABLE IF NOT EXISTS `giai_dau` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -54,7 +51,6 @@ DELETE FROM `giai_dau`;
 /*!40000 ALTER TABLE `giai_dau` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.history_customer
-DROP TABLE IF EXISTS `history_customer`;
 CREATE TABLE IF NOT EXISTS `history_customer` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Khoa ngoai voi bang users',
@@ -70,34 +66,40 @@ DELETE FROM `history_customer`;
 /*!40000 ALTER TABLE `history_customer` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.history_login
-DROP TABLE IF EXISTS `history_login`;
 CREATE TABLE IF NOT EXISTS `history_login` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Khoa ngoai voi bang users',
-  `ip` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1',
+  `ip` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1' COMMENT 'IP user login',
+  `browser` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N/A' COMMENT 'Trinh duyet user su dung',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Lich su danh nhap he thong';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Lich su danh nhap he thong';
 
--- Dumping data for table cms_ps_dev.history_login: ~7 rows (approximately)
+-- Dumping data for table cms_ps_dev.history_login: ~14 rows (approximately)
 DELETE FROM `history_login`;
 /*!40000 ALTER TABLE `history_login` DISABLE KEYS */;
-INSERT INTO `history_login` (`id`, `id_user`, `ip`, `created_at`) VALUES
-	(1, 1, '42.115.240.44', '2019-11-02 10:55:20'),
-	(2, 1, '113.178.65.45', '2019-11-03 21:26:05'),
-	(3, 1, '45.122.233.61', '2019-11-04 20:25:16'),
-	(4, 1, '113.160.97.100', '2019-11-04 21:26:15'),
-	(5, 1, '42.115.240.44', '2019-11-16 11:50:38'),
-	(6, 1, '127.0.0.1', '2019-11-23 10:10:34'),
-	(7, 1, '42.115.240.44', '2019-11-23 10:10:34'),
-	(8, 1, '42.115.240.44', '2019-11-30 11:04:10'),
-	(9, 1, '113.160.97.100', '2019-12-04 19:47:21'),
-	(10, 1, '42.115.240.44', '2019-12-07 11:48:27'),
-	(11, 1, '42.115.240.44', '2019-12-28 11:37:59');
+INSERT INTO `history_login` (`id`, `id_user`, `ip`, `browser`, `created_at`) VALUES
+	(1, 1, '42.115.240.44', 'N/A', '2019-11-02 10:55:20'),
+	(2, 1, '113.178.65.45', 'N/A', '2019-11-03 21:26:05'),
+	(3, 1, '45.122.233.61', 'N/A', '2019-11-04 20:25:16'),
+	(4, 1, '113.160.97.100', 'N/A', '2019-11-04 21:26:15'),
+	(5, 1, '42.115.240.44', 'N/A', '2019-11-16 11:50:38'),
+	(6, 1, '127.0.0.1', 'N/A', '2019-11-23 10:10:34'),
+	(7, 1, '42.115.240.44', 'N/A', '2019-11-23 10:10:34'),
+	(8, 1, '42.115.240.44', 'N/A', '2019-11-30 11:04:10'),
+	(9, 1, '113.160.97.100', 'N/A', '2019-12-04 19:47:21'),
+	(10, 1, '42.115.240.44', 'N/A', '2019-12-07 11:48:27'),
+	(11, 1, '42.115.240.44', 'N/A', '2019-12-28 11:37:59'),
+	(12, 1, '127.0.0.1', 'N/A', '2020-01-11 11:52:38'),
+	(13, 1, '127.0.0.1', 'N/A', '2020-01-11 12:06:39'),
+	(14, 1, '127.0.0.1', 'N/A', '2020-01-18 10:49:55'),
+	(15, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', '2020-01-18 11:46:54'),
+	(16, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36', '2020-01-20 10:36:17'),
+	(17, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36', '2020-01-21 10:47:57'),
+	(18, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0', '2020-01-21 14:32:12');
 /*!40000 ALTER TABLE `history_login` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.inventory
-DROP TABLE IF EXISTS `inventory`;
 CREATE TABLE IF NOT EXISTS `inventory` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_vendor` int(10) unsigned DEFAULT '0' COMMENT 'Ma dai ly',
@@ -112,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='QL nhap kho, ton kho : nuoc, thuoc, do an';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='QL nhap kho, ton kho : nuoc, thuoc, do an';
 
 -- Dumping data for table cms_ps_dev.inventory: ~14 rows (approximately)
 DELETE FROM `inventory`;
@@ -129,13 +131,14 @@ INSERT INTO `inventory` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `quantit
 	(9, 0, 'XUC_XICH', 'xx', 54000, 5, 2, 1, 'thanhnm', '2019-09-11 21:18:03', 'thanhnm', '2019-09-11 21:18:03'),
 	(10, 0, 'RONGDO', 'rd', 436000, 72, 1, 1, 'thanhnm', '2019-09-11 21:19:00', 'thanhnm', '2019-09-11 21:19:00'),
 	(11, 0, 'NUTRI', 'nutri', 180000, 24, 1, 1, 'thanhnm', '2019-09-11 21:24:08', 'thanhnm', '2019-09-11 21:24:08'),
-	(12, 0, 'DULICH', 'thuốc lá', 83000, 10, 4, 1, 'thanhnm', '2019-09-11 21:25:54', 'thanhnm', '2019-09-11 21:25:54'),
-	(13, 0, 'DULICH', 'thăng long', 80000, 10, 4, 1, 'thanhnm', '2019-09-11 21:49:30', 'thanhnm', '2019-09-11 21:49:30'),
-	(14, 0, '3SO', '555', 330000, 10, 4, 1, 'thanhnm', '2019-09-11 21:49:54', 'thanhnm', '2019-09-11 21:49:54');
+	(12, 0, 'DULICH', 'thuốc lá', 83000, 10, 2, 1, 'thanhnm', '2019-09-11 21:25:54', 'thanhnm', '2020-01-21 23:04:19'),
+	(13, 0, 'DULICH', 'thăng long', 80000, 10, 2, 1, 'thanhnm', '2019-09-11 21:49:30', 'thanhnm', '2020-01-21 23:04:01'),
+	(14, 0, '3SO', '555', 330000, 10, 2, 1, 'thanhnm', '2019-09-11 21:49:54', 'thanhnm', '2020-01-21 23:03:49'),
+	(15, 0, 'REDBULL', 'Nhập 2 thùng Bò húc', 400000, 48, 1, 1, 'thanhnm', '2020-01-21 23:05:56', 'thanhnm', '2020-01-21 23:05:57'),
+	(16, 0, 'RONGDO', 'Nhập 3 thùng Rồng đỏ', 360000, 72, 1, 1, 'thanhnm', '2020-01-21 23:23:03', 'thanhnm', '2020-01-21 23:23:04');
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.items
-DROP TABLE IF EXISTS `items`;
 CREATE TABLE IF NOT EXISTS `items` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_vendor` int(10) unsigned DEFAULT '0' COMMENT 'Ma dai ly',
@@ -150,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cac mat hang ban kem : nuoc, thuoc, do an';
 
 -- Dumping data for table cms_ps_dev.items: ~35 rows (approximately)
 DELETE FROM `items`;
@@ -165,7 +168,7 @@ INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `
 	(7, 0, 'C2', 'Nước C2', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-15 21:39:56', 'SYSTEM', '2019-07-15 21:39:56'),
 	(8, 0, 'NUMBER_ONE', 'Nước Number One', 8000, 12000, 1, 0, 'SYSTEM', '2019-07-15 21:40:27', 'thanhnm', '2019-08-30 00:58:05'),
 	(9, 0, 'PS4', 'Giờ chơi PS4', 0, 20000, 3, 1, 'SYSTEM', '2019-07-15 21:40:49', 'SYSTEM', '2019-07-16 00:14:02'),
-	(10, 0, 'DULICH', 'Thuốc Du lịch', 8000, 10000, 4, 1, 'SYSTEM', '2019-07-15 21:41:16', 'SYSTEM', '2019-07-15 21:41:16'),
+	(10, 0, 'DULICH', 'Thuốc Du lịch', 8000, 10000, 2, 1, 'SYSTEM', '2019-07-15 21:41:16', 'thanhnm', '2020-01-21 23:27:54'),
 	(11, 0, '3SO', 'Thuốc 3 số', 40000, 45000, 4, 1, 'SYSTEM', '2019-07-15 21:41:56', 'SYSTEM', '2019-07-15 21:41:56'),
 	(12, 0, 'AQUARIUS', 'Nước khoáng Aquarius', 5000, 10000, 1, 0, 'SYSTEM', '2019-07-26 18:58:05', 'thanhnm', '2019-08-30 00:58:26'),
 	(13, 0, 'AQUAFINA', 'Nước lọc Aquafina', 4000, 7000, 1, 1, 'SYSTEM', '2019-07-26 19:01:17', 'SYSTEM', '2019-07-26 19:01:17'),
@@ -179,7 +182,7 @@ INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `
 	(22, 0, 'SPTYTE', 'Nước Spyte', 5000, 10000, 1, 0, 'xuandt', '2019-08-06 14:42:00', 'thanhnm', '2019-08-30 00:59:28'),
 	(23, 0, 'FUZE TEA', 'Trà chanh dây& hạt chia', 8000, 12000, 1, 1, 'thanhbka', '2019-08-09 15:12:01', 'thanhnm', '2019-09-08 21:07:28'),
 	(24, 0, 'BANHMY', 'Bánh mì', 12000, 12000, 2, 0, 'thanhnm', '2019-08-18 15:13:16', 'thanhnm', '2019-08-30 01:00:00'),
-	(25, 0, 'TRADA', 'Trà đá', 1, 3000, 1, 1, 'thanhnm', '2019-08-18 15:34:22', 'thanhnm', '2019-08-18 15:34:22'),
+	(25, 0, 'TRADA', 'Trà đá', 1000, 3000, 1, 1, 'thanhnm', '2019-08-18 15:34:22', 'thanhnm', '2020-01-18 12:21:51'),
 	(26, 0, 'MATCHA', 'Trà xanh Matcha Nhật Bản nhỏ', 1, 10000, 1, 1, 'thanhnm', '2019-08-18 15:35:10', 'thanhnm', '2019-08-18 15:35:10'),
 	(27, 0, 'RIVIVE', 'Revive vị chanh muối', 1, 12000, 1, 1, 'thanhnm', '2019-08-18 15:35:56', 'thanhnm', '2019-09-08 21:07:35'),
 	(28, 0, 'NUTRI', 'Nước Nutri', 8000, 15000, 1, 1, 'thanhnm', '2019-08-18 21:06:25', 'thanhnm', '2019-08-18 21:06:25'),
@@ -189,11 +192,12 @@ INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `
 	(32, 0, 'WAKEUP_247', 'Nước wakeup cafe 247', 8000, 12000, 1, 1, 'thanhnm', '2019-09-08 21:22:28', 'thanhnm', '2019-09-12 21:50:55'),
 	(33, 0, 'XUC_XICH', 'Xúc xích ăn liền', 11000, 15000, 2, 1, 'thanhnm', '2019-09-08 21:28:52', 'thanhnm', '2019-09-08 21:28:52'),
 	(34, 0, 'LUONG_KHO', 'Bánh lương khô', 2500, 5000, 2, 1, 'thanhnm', '2019-09-08 21:29:27', 'thanhnm', '2019-09-26 19:55:31'),
-	(35, 0, 'ORION', 'Bánh Orion', 11000, 15000, 2, 1, 'thanhnm', '2019-09-08 21:31:10', 'thanhnm', '2019-09-08 21:31:10');
+	(35, 0, 'ORION', 'Bánh Orion', 11000, 15000, 2, 1, 'thanhnm', '2019-09-08 21:31:10', 'thanhnm', '2019-09-08 21:31:10'),
+	(36, 0, 'PS5', 'Giờ chơi PS5', 10000, 25000, 3, 1, 'thanhnm', '2020-01-20 16:03:38', 'thanhnm', '2020-01-20 16:03:39'),
+	(37, 0, 'PS3', 'Giờ chơi PS3', 8000, 15000, 3, 1, 'thanhnm', '2020-01-21 14:40:05', 'thanhnm', '2020-01-21 23:30:27');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.kiem_ke
-DROP TABLE IF EXISTS `kiem_ke`;
 CREATE TABLE IF NOT EXISTS `kiem_ke` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_item` int(10) unsigned NOT NULL DEFAULT '0',
@@ -286,7 +290,6 @@ INSERT INTO `kiem_ke` (`id`, `id_item`, `code`, `name`, `period`, `sl_thucte`, `
 /*!40000 ALTER TABLE `kiem_ke` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.list_ps
-DROP TABLE IF EXISTS `list_ps`;
 CREATE TABLE IF NOT EXISTS `list_ps` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT 'Ma san pham',
@@ -297,9 +300,9 @@ CREATE TABLE IF NOT EXISTS `list_ps` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sach may PS';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sach may PS';
 
--- Dumping data for table cms_ps_dev.list_ps: ~5 rows (approximately)
+-- Dumping data for table cms_ps_dev.list_ps: ~9 rows (approximately)
 DELETE FROM `list_ps`;
 /*!40000 ALTER TABLE `list_ps` DISABLE KEYS */;
 INSERT INTO `list_ps` (`id`, `code`, `name`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -307,11 +310,34 @@ INSERT INTO `list_ps` (`id`, `code`, `name`, `status`, `created_by`, `created_at
 	(2, 'PS4', '[PS4] Máy 2', 1, 'thanhbka', '2019-07-25 21:46:27', 'thanhbka', '2019-07-25 21:46:27'),
 	(3, 'PS4', '[PS4] Máy 3', 1, 'thanhbka', '2019-07-25 21:46:38', 'thanhbka', '2019-07-25 21:46:38'),
 	(4, 'PS4', '[PS4] Máy 4', 1, 'thanhbka', '2019-07-25 21:46:55', 'thanhbka', '2019-07-25 21:46:55'),
-	(5, 'PS4', '[PS4] Máy 5', 1, 'thanhbka', '2019-07-25 21:47:02', 'thanhbka', '2019-07-25 21:47:02');
+	(5, 'PS4', '[PS4] Máy 5', 1, 'thanhbka', '2019-07-25 21:47:02', 'thanhbka', '2019-07-25 21:47:02'),
+	(6, 'PS3', '[PS3] Máy 1', 1, 'thanhnm', '2020-01-20 11:42:11', 'thanhnm', '2020-01-21 23:40:13'),
+	(7, 'PS3', '[PS3] Máy 2', 1, 'thanhnm', '2020-01-20 11:42:17', 'thanhnm', '2020-01-20 14:44:57'),
+	(8, 'PS5', '[PS5] Máy 1', 1, 'thanhnm', '2020-01-20 11:42:27', 'thanhnm', '2020-01-20 11:42:27'),
+	(9, 'PS5', '[PS5] Máy 2', 1, 'thanhnm', '2020-01-20 11:42:33', 'thanhnm', '2020-01-20 11:42:34'),
+	(10, 'PS5', '[PS5] Máy 3', 1, 'thanhnm', '2020-01-20 11:42:39', 'thanhnm', '2020-01-20 11:42:40');
 /*!40000 ALTER TABLE `list_ps` ENABLE KEYS */;
 
+-- Dumping structure for table cms_ps_dev.list_ps_playing
+CREATE TABLE IF NOT EXISTS `list_ps_playing` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id_ps` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'ID may PS',
+  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Loai PS',
+  `key` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci,
+  `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'System',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'System',
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Danh sach may PS dang choi trong quan';
+
+-- Dumping data for table cms_ps_dev.list_ps_playing: ~0 rows (approximately)
+DELETE FROM `list_ps_playing`;
+/*!40000 ALTER TABLE `list_ps_playing` DISABLE KEYS */;
+/*!40000 ALTER TABLE `list_ps_playing` ENABLE KEYS */;
+
 -- Dumping structure for table cms_ps_dev.mastercode
-DROP TABLE IF EXISTS `mastercode`;
 CREATE TABLE IF NOT EXISTS `mastercode` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -322,17 +348,17 @@ CREATE TABLE IF NOT EXISTS `mastercode` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='QL ma code';
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='QL ma code';
 
 -- Dumping data for table cms_ps_dev.mastercode: ~36 rows (approximately)
 DELETE FROM `mastercode`;
 /*!40000 ALTER TABLE `mastercode` DISABLE KEYS */;
 INSERT INTO `mastercode` (`id`, `code`, `name`, `status`, `category`, `created_by`, `created_at`) VALUES
 	(1, 'REDBULL', 'Bò Húc', 1, 1, 'SYSTEM', '2019-07-15 21:28:25'),
-	(2, 'RONGDO', 'Nước Rồng đỏ', 1, 1, 'SYSTEM', '2019-07-15 21:28:47'),
+	(2, 'RONGDO', 'Rồng đỏ', 1, 1, 'SYSTEM', '2019-07-15 21:28:47'),
 	(3, 'LAVIE', 'Nước lọc Lavie', 1, 1, 'SYSTEM', '2019-07-15 21:29:14'),
-	(4, 'COCA', 'Nước ngọt Coca Cola', 1, 1, 'SYSTEM', '2019-07-15 21:29:43'),
-	(5, 'PEPSI', 'Nước ngọt Pepsi', 1, 1, 'SYSTEM', '2019-07-15 21:30:04'),
+	(4, 'COCA', 'Coca Cola', 1, 1, 'SYSTEM', '2019-07-15 21:29:43'),
+	(5, 'PEPSI', 'Pepsi', 1, 1, 'SYSTEM', '2019-07-15 21:30:04'),
 	(6, 'CHANHMUOI', 'Nước chanh muối', 1, 1, 'SYSTEM', '2019-07-15 21:30:40'),
 	(7, 'C2', 'Trà C2', 1, 1, 'SYSTEM', '2019-07-15 21:31:20'),
 	(8, 'NUMBER_ONE', 'Nước Numner One', 1, 1, 'SYSTEM', '2019-07-15 21:32:35'),
@@ -363,12 +389,16 @@ INSERT INTO `mastercode` (`id`, `code`, `name`, `status`, `category`, `created_b
 	(34, 'XUC_XICH', 'Xúc xích', 0, 2, 'thanhnm', '2019-09-08 21:27:30'),
 	(35, 'LUONG_KHO', 'Bánh lương khô', 1, 2, 'thanhnm', '2019-09-08 21:27:53'),
 	(36, 'ORION', 'Bánh Orion', 1, 2, 'thanhnm', '2019-09-08 21:30:49'),
-	(37, 'COCA123', 'coal321', 0, 1, 'thanhnm', '2019-11-16 12:41:09'),
-	(38, 'DA_VIEN', 'Mua đá', 1, 4, 'thanhnm', '2019-11-30 11:22:16');
+	(38, 'DA_VIEN', 'Mua đá', 1, 4, 'thanhnm', '2019-11-30 11:22:16'),
+	(39, 'LUONG_NHAN_VIEN', 'Lương Nhân viên', 1, 4, 'thanhnm', '2020-01-18 12:01:33'),
+	(40, 'TIEN_DIEN', 'Tiền điện', 1, 4, 'thanhnm', '2020-01-18 12:06:17'),
+	(41, 'TIEN_NHA', 'Tiền nhà', 1, 4, 'thanhnm', '2020-01-18 12:06:30'),
+	(42, 'TIEN_INTERNET', 'Tiền mạng internet', 1, 4, 'thanhnm', '2020-01-18 12:06:46'),
+	(43, 'PS5', 'Máy PS5', 1, 3, 'thanhnm', '2020-01-20 11:40:54'),
+	(44, 'PS3', 'Máy PS3', 1, 3, 'thanhnm', '2020-01-20 11:41:04');
 /*!40000 ALTER TABLE `mastercode` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.points
-DROP TABLE IF EXISTS `points`;
 CREATE TABLE IF NOT EXISTS `points` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_trans` int(10) unsigned NOT NULL DEFAULT '0',
@@ -386,7 +416,6 @@ DELETE FROM `points`;
 /*!40000 ALTER TABLE `points` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.setting
-DROP TABLE IF EXISTS `setting`;
 CREATE TABLE IF NOT EXISTS `setting` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -399,14 +428,13 @@ CREATE TABLE IF NOT EXISTS `setting` (
 DELETE FROM `setting`;
 /*!40000 ALTER TABLE `setting` DISABLE KEYS */;
 INSERT INTO `setting` (`id`, `name`, `option`) VALUES
-	(1, 'COMPANY', '{"name":"PS Bảo Nguyên","address":"Ngách 367/100, đường Cửu Việt 2, Ngô Xuân Quảng, Trâu Quỳ, Gia Lâm, Hà Nội","phone":"0987897161","vat":"789123"}'),
-	(2, 'RANK_MEMBER', '{"vip":"200","diamond":"500","status":true}'),
+	(1, 'COMPANY', '{"name":"PS Bảo Nguyên","address":"Ngách 367/100, đường Cửu Việt 2, Ngô Xuân Quảng, Trâu Quỳ, Gia Lâm, Hà Nội.","phone":"0367.305.882","vat":"012930247"}'),
+	(2, 'RANK_MEMBER', '{"vip":"200","diamond":"500","status":true,"loyal":"100"}'),
 	(3, 'HAS_POINT', '{"rate_tich_diem":"5","status":true}'),
-	(5, 'HAS_DISCOUNT', '{"status":true,"loyal":"5","vip":"20","diamond":"25"}');
+	(5, 'HAS_DISCOUNT', '{"status":true,"loyal":"3","vip":"20","diamond":"25"}');
 /*!40000 ALTER TABLE `setting` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.shops
-DROP TABLE IF EXISTS `shops`;
 CREATE TABLE IF NOT EXISTS `shops` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) unsigned DEFAULT NULL COMMENT 'parent_shop',
@@ -430,7 +458,6 @@ INSERT INTO `shops` (`id`, `parent_id`, `code`, `name`, `description`, `path`, `
 /*!40000 ALTER TABLE `shops` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.tai_san
-DROP TABLE IF EXISTS `tai_san`;
 CREATE TABLE IF NOT EXISTS `tai_san` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
@@ -451,7 +478,6 @@ DELETE FROM `tai_san`;
 /*!40000 ALTER TABLE `tai_san` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.thu_chi
-DROP TABLE IF EXISTS `thu_chi`;
 CREATE TABLE IF NOT EXISTS `thu_chi` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Ma san pham',
@@ -466,17 +492,24 @@ CREATE TABLE IF NOT EXISTS `thu_chi` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Giao dich Thu Chi : luong nv, tien dien, tien nha, tien mang, tien da, mua do dac...';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Giao dich Thu Chi : luong nv, tien dien, tien nha, tien mang, tien da, mua do dac...';
 
--- Dumping data for table cms_ps_dev.thu_chi: ~0 rows (approximately)
+-- Dumping data for table cms_ps_dev.thu_chi: ~8 rows (approximately)
 DELETE FROM `thu_chi`;
 /*!40000 ALTER TABLE `thu_chi` DISABLE KEYS */;
 INSERT INTO `thu_chi` (`id`, `code`, `name`, `gia_nhap`, `quantity`, `type`, `description`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-	(1, 'DA_VIEN', 'Mua 2 túi đá', 20000, 2, 1, 'Mua đá quán đầu ngõ', 1, 'thanhnm', '2019-11-30 11:23:06', 'thanhnm', '2019-11-30 11:23:06');
+	(1, 'DA_VIEN', 'Mua 2 túi đá', 20000, 2, 1, 'Mua đá quán đầu ngõ', 0, 'thanhnm', '2019-11-30 11:23:06', 'thanhnm', '2019-11-30 11:23:06'),
+	(2, 'LUONG_NHAN_VIEN', 'Trả lương Nhân viên tháng 11/2019', 4800000, 2, 1, NULL, 1, 'thanhnm', '2020-01-18 12:04:14', 'thanhnm', '2020-01-18 12:04:15'),
+	(3, 'TIEN_DIEN', 'Tiền điện tháng 11/2019', 1200000, 1, 1, NULL, 1, 'thanhnm', '2020-01-18 12:07:32', 'thanhnm', '2020-01-18 12:07:33'),
+	(4, 'TIEN_NHA', 'Tiền nhà tháng 11/2019', 6000000, 1, 1, NULL, 1, 'thanhnm', '2020-01-18 12:07:57', 'thanhnm', '2020-01-18 12:07:57'),
+	(5, 'TIEN_INTERNET', 'Tiền internet tháng 11/2019', 200000, 1, 1, NULL, 1, 'thanhnm', '2020-01-18 12:08:23', 'thanhnm', '2020-01-18 12:08:24'),
+	(6, 'TIEN_NHA', 'Tiền nhà tháng 12/2019', 6000000, 1, 1, NULL, 1, 'thanhnm', '2020-01-18 12:16:25', 'thanhnm', '2020-01-18 12:16:25'),
+	(7, 'TIEN_NHA', 'Tiền nhà tháng 1/2020', 6000000, 1, 1, NULL, 1, 'thanhnm', '2020-01-20 10:38:25', 'thanhnm', '2020-01-20 10:38:25'),
+	(8, 'TIEN_INTERNET', 'Tiền internet tháng 1/2020', 200000, 1, 1, NULL, 1, 'thanhnm', '2020-01-20 10:39:22', 'thanhnm', '2020-01-20 10:39:23'),
+	(9, 'TIEN_DIEN', 'Tiền điện tháng 1/2020', 1250000, 1, 1, NULL, 1, 'thanhnm', '2020-01-21 23:33:35', 'thanhnm', '2020-01-21 23:33:36');
 /*!40000 ALTER TABLE `thu_chi` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.transactions
-DROP TABLE IF EXISTS `transactions`;
 CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_ps` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'May PS nao',
@@ -489,7 +522,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=489 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
+) ENGINE=InnoDB AUTO_INCREMENT=516 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
 
 -- Dumping data for table cms_ps_dev.transactions: ~444 rows (approximately)
 DELETE FROM `transactions`;
@@ -951,11 +984,37 @@ INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `diem_tich`
 	(485, 5, 1, 38480, 2, 0, 'thanhnm', '2019-11-04 21:29:33', 'thanhnm', '2019-11-04 22:02:00'),
 	(486, 1, 0, 41600, 0, 0, 'thanhnm', '2019-11-16 11:51:06', 'thanhnm', '2019-11-16 12:27:09'),
 	(487, 5, 0, 37400, 3, 0, 'thanhnm', '2019-11-16 11:51:09', 'thanhnm', '2019-11-16 12:38:23'),
-	(488, 1, 25, 55600, 6, 0, 'thanhnm', '2019-11-23 10:41:38', 'thanhnm', '2019-11-23 12:29:28');
+	(488, 1, 25, 55600, 6, 0, 'thanhnm', '2019-11-23 10:41:38', 'thanhnm', '2019-11-23 12:29:28'),
+	(489, 1, 25, 154000, 24, 0, 'thanhnm', '2020-01-11 12:06:56', 'thanhnm', '2020-01-11 19:49:26'),
+	(490, 5, 25, 184000, 24, 0, 'thanhnm', '2020-01-11 12:06:57', 'thanhnm', '2020-01-11 19:49:48'),
+	(491, 1, 29, 58600, 5, 0, 'thanhnm', '2020-01-18 10:50:10', 'thanhnm', '2020-01-18 12:17:27'),
+	(492, 2, 32, 59000, 5, 0, 'thanhnm', '2020-01-18 10:50:11', 'thanhnm', '2020-01-18 12:17:55'),
+	(493, 5, 40, 35000, 5, 0, 'thanhnm', '2020-01-18 10:50:12', 'thanhnm', '2020-01-18 12:18:15'),
+	(494, 2, 24, 20600, 4, 0, 'thanhnm', '2020-01-20 13:52:57', 'thanhnm', '2020-01-20 14:55:24'),
+	(495, 5, 27, 16480, 4, 0, 'thanhnm', '2020-01-20 13:52:55', 'thanhnm', '2020-01-20 14:56:01'),
+	(496, 8, 26, 130001, 7, 0, 'thanhnm', '2020-01-20 13:52:50', 'thanhnm', '2020-01-20 16:05:12'),
+	(497, 9, 21, 55501, 7, 0, 'thanhnm', '2020-01-20 13:52:52', 'thanhnm', '2020-01-20 16:06:02'),
+	(498, 4, 22, 59401, 9, 0, 'thanhnm', '2020-01-20 14:50:31', 'thanhnm', '2020-01-20 17:49:38'),
+	(499, 4, 21, 15000, 0, 0, 'thanhnm', '2020-01-20 17:52:45', 'thanhnm', '2020-01-20 17:53:31'),
+	(500, 4, 21, 30000, 0, 0, 'thanhnm', '2020-01-20 17:53:59', 'thanhnm', '2020-01-20 17:54:20'),
+	(501, 10, 1, 80600, 13, 0, 'thanhnm', '2020-01-20 13:52:54', 'thanhnm', '2020-01-20 17:55:11'),
+	(502, 1, 24, 64600, 10, 0, 'thanhnm', '2020-01-20 14:40:34', 'thanhnm', '2020-01-20 17:55:33'),
+	(503, 3, 25, 65000, 10, 0, 'thanhnm', '2020-01-20 14:39:51', 'thanhnm', '2020-01-20 17:55:45'),
+	(504, 4, 27, 73280, 14, 0, 'thanhnm', '2020-01-21 10:02:40', 'thanhnm', '2020-01-21 14:38:33'),
+	(505, 8, 55, 144500, 14, 0, 'thanhnm', '2020-01-21 10:02:38', 'thanhnm', '2020-01-21 14:38:51'),
+	(506, 7, 85, 18161, 3, 0, 'thanhnm', '2020-01-21 14:14:31', 'thanhnm', '2020-01-21 14:57:08'),
+	(507, 1, 27, 15320, 1, 0, 'thanhnm', '2020-01-21 15:34:40', 'thanhnm', '2020-01-21 15:37:49'),
+	(508, 2, 25, 31401, 1, 0, 'thanhnm', '2020-01-21 15:34:41', 'thanhnm', '2020-01-21 15:42:50'),
+	(509, 3, 25, 18600, 1, 0, 'thanhnm', '2020-01-21 15:34:42', 'thanhnm', '2020-01-21 15:47:23'),
+	(510, 5, 25, 21000, 1, 0, 'thanhnm', '2020-01-21 15:45:05', 'thanhnm', '2020-01-21 15:49:44'),
+	(511, 1, 25, 4000, 1, 0, 'thanhnm', '2020-01-21 15:45:03', 'thanhnm', '2020-01-21 15:58:18'),
+	(512, 4, 25, 10600, 1, 0, 'thanhnm', '2020-01-21 15:45:04', 'thanhnm', '2020-01-21 16:00:28'),
+	(513, 2, 25, 5601, 1, 0, 'thanhnm', '2020-01-21 15:48:50', 'thanhnm', '2020-01-21 16:06:08'),
+	(514, 5, 25, 170112, 23, 0, 'thanhnm', '2020-01-21 16:05:59', 'thanhnm', '2020-01-21 23:35:40'),
+	(515, 3, 25, 145112, 23, 0, 'thanhnm', '2020-01-21 16:05:58', 'thanhnm', '2020-01-21 23:36:00');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.trans_detail
-DROP TABLE IF EXISTS `trans_detail`;
 CREATE TABLE IF NOT EXISTS `trans_detail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_trans` int(10) unsigned NOT NULL,
@@ -966,7 +1025,7 @@ CREATE TABLE IF NOT EXISTS `trans_detail` (
   `discount` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Ty le % giam gia cho khach VIP',
   `start` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
+) ENGINE=InnoDB AUTO_INCREMENT=1183 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
 
 -- Dumping data for table cms_ps_dev.trans_detail: ~1.075 rows (approximately)
 DELETE FROM `trans_detail`;
@@ -2070,11 +2129,55 @@ INSERT INTO `trans_detail` (`id`, `id_trans`, `id_item`, `code_item`, `quantity`
 	(1134, 487, 27, 'RIVIVE', '1', '12000', 0, '2019-11-16 11:51:09'),
 	(1135, 487, 9, 'PS4', '0.77', '20000', 0, '2019-11-16 11:51:09'),
 	(1136, 488, 2, 'RONGDO', '2', '10000', 0, '2019-11-23 10:41:38'),
-	(1137, 488, 9, 'PS4', '1.78', '20000', 0, '2019-11-23 10:41:38');
+	(1137, 488, 9, 'PS4', '1.78', '20000', 0, '2019-11-23 10:41:38'),
+	(1138, 489, 9, 'PS4', '7.70', '20000', 0, '2020-01-11 12:06:56'),
+	(1139, 490, 1, 'REDBULL', '2', '15000', 0, '2020-01-11 12:06:57'),
+	(1140, 490, 9, 'PS4', '7.70', '20000', 0, '2020-01-11 12:06:57'),
+	(1141, 491, 1, 'REDBULL', '2', '15000', 0, '2020-01-18 10:50:10'),
+	(1142, 491, 9, 'PS4', '1.43', '20000', 0, '2020-01-18 10:50:10'),
+	(1143, 492, 2, 'RONGDO', '2', '10000', 0, '2020-01-18 10:50:11'),
+	(1144, 492, 10, 'DULICH', '1', '10000', 0, '2020-01-18 10:50:11'),
+	(1145, 492, 9, 'PS4', '1.45', '20000', 0, '2020-01-18 10:50:11'),
+	(1146, 493, 25, 'TRADA', '2', '3000', 0, '2020-01-18 10:50:12'),
+	(1147, 493, 9, 'PS4', '1.45', '20000', 0, '2020-01-18 10:50:12'),
+	(1148, 494, 9, 'PS4', '1.03', '20000', 0, '2020-01-20 13:52:57'),
+	(1149, 495, 9, 'PS4', '1.03', '20000', 20, '2020-01-20 13:52:55'),
+	(1150, 496, 1, 'REDBULL', '2', '15000', 0, '2020-01-20 13:52:50'),
+	(1151, 496, 11, '3SO', '1', '45000', 0, '2020-01-20 13:52:50'),
+	(1152, 496, 36, 'PS5', '2.20', '25000', 0, '2020-01-20 13:52:50'),
+	(1153, 497, 36, 'PS5', '2.22', '25000', 0, '2020-01-20 13:52:52'),
+	(1154, 498, 9, 'PS4', '2.97', '20000', 0, '2020-01-20 14:50:31'),
+	(1155, 499, 1, 'REDBULL', '1', '15000', 0, '2020-01-20 17:52:45'),
+	(1156, 499, 9, 'PS4', '0', '20000', 0, '2020-01-20 17:52:45'),
+	(1157, 500, 1, 'REDBULL', '2', '15000', 0, '2020-01-20 17:53:59'),
+	(1158, 500, 9, 'PS4', '0', '20000', 0, '2020-01-20 17:53:59'),
+	(1159, 501, 36, 'PS5', '4.03', '25000', 20, '2020-01-20 13:52:54'),
+	(1160, 502, 9, 'PS4', '3.23', '20000', 0, '2020-01-20 14:40:34'),
+	(1161, 503, 9, 'PS4', '3.25', '20000', 0, '2020-01-20 14:39:51'),
+	(1162, 504, 9, 'PS4', '4.58', '20000', 20, '2020-01-21 10:02:40'),
+	(1163, 505, 1, 'REDBULL', '2', '15000', 0, '2020-01-21 10:02:38'),
+	(1164, 505, 36, 'PS5', '4.58', '25000', 0, '2020-01-21 10:02:38'),
+	(1165, 506, 2, 'RONGDO', '1', '10000', 0, '2020-01-21 14:14:31'),
+	(1166, 506, 37, 'PS3', '0.68', '12000', 0, '2020-01-21 14:14:31'),
+	(1167, 507, 1, 'REDBULL', '1', '15000', 0, '2020-01-21 15:34:40'),
+	(1168, 507, 9, 'PS4', '0.02', '20000', 20, '2020-01-21 15:34:40'),
+	(1169, 508, 1, 'REDBULL', '2', '15000', 0, '2020-01-21 15:34:41'),
+	(1170, 508, 9, 'PS4', '0.07', '20000', 0, '2020-01-21 15:34:41'),
+	(1171, 509, 1, 'REDBULL', '1', '15000', 0, '2020-01-21 15:34:42'),
+	(1172, 509, 9, 'PS4', '0.18', '20000', 0, '2020-01-21 15:34:42'),
+	(1173, 510, 2, 'RONGDO', '2', '10000', 0, '2020-01-21 15:45:05'),
+	(1174, 510, 9, 'PS4', '0.05', '20000', 0, '2020-01-21 15:45:05'),
+	(1175, 511, 9, 'PS4', '0.20', '20000', 0, '2020-01-21 15:45:03'),
+	(1176, 512, 25, 'TRADA', '2', '3000', 0, '2020-01-21 15:45:04'),
+	(1177, 512, 9, 'PS4', '0.23', '20000', 0, '2020-01-21 15:45:04'),
+	(1178, 513, 9, 'PS4', '0.28', '20000', 0, '2020-01-21 15:48:50'),
+	(1179, 514, 1, 'REDBULL', '1', '15000', 0, '2020-01-21 16:05:59'),
+	(1180, 514, 2, 'RONGDO', '1', '10000', 0, '2020-01-21 16:05:59'),
+	(1181, 514, 9, 'PS4', '7.48', '20000', 3, '2020-01-21 16:05:59'),
+	(1182, 515, 9, 'PS4', '7.48', '20000', 3, '2020-01-21 16:05:58');
 /*!40000 ALTER TABLE `trans_detail` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.users
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -2088,7 +2191,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `play_number` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Số lần chơi',
   `play_hours` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Tổng số giờ đã chơi',
   `role` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '{0: superadmin, 1: admin, 2: employee, 3: customer}',
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '5' COMMENT 'Danh hieu {1: kim cuong, 2: vang, 3: bac, 4: dong, 5: thuong}',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '5' COMMENT 'Danh hieu {1: diamond, 2: vip, 3: loyal, 4: dong, 5: thuong}',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Trạng thái {0: inactive, 1: active}',
   `created_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -2103,24 +2206,24 @@ CREATE TABLE IF NOT EXISTS `users` (
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`, `address`, `diem_tich`, `diem_tieu`, `play_number`, `play_hours`, `role`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-	(1, 'thanhnm', 'Nguyễn Mai Thành', 'mr.lun', '$2b$08$ehZ8TyV1KwuV3HHhCShz5./CxjmpVn.sFD4qeCn5cBl5F0jUyPI66', '0349617930', 'Thuận Tiến, Dương Xá, Gia Lâm, Hà Nội', 465, 0, 208, NULL, 1, 2, 1, 'SYSTEM', '2019-06-16 14:21:17', 'thanhbka', '2019-08-06 18:47:50'),
+	(1, 'thanhnm', 'Nguyễn Mai Thành', 'mr.lun', '$2b$08$ehZ8TyV1KwuV3HHhCShz5./CxjmpVn.sFD4qeCn5cBl5F0jUyPI66', '0349617930', 'Thuận Tiến, Dương Xá, Gia Lâm, Hà Nội', 478, 0, 209, NULL, 1, 2, 1, 'SYSTEM', '2019-06-16 14:21:17', 'thanhbka', '2019-08-06 18:47:50'),
 	(2, 'thanhbka', 'Thành Nguyễn', 'thanhlun', '$2b$08$9LyiDqATgV1tX6u5UDkAce0z/nQbbHHFGaRW5J3NACYVdMgnR4VQO', '0367105882', NULL, 6, 0, 1, NULL, 1, 5, 1, 'SYSTEM', '2019-06-16 19:04:38', 'thanhnm', '2019-08-20 19:58:06'),
-	(21, 'thai', NULL, NULL, '$2b$08$CaNj31HgH8zDAmLbR5tucup7CevMTT1hN9bB5WNSxBjhkBNB7h3De', '0383191869', NULL, 2, 0, 0, NULL, 2, 5, 1, 'SYSTEM', '2019-07-15 20:54:35', 'thanhbka', '2019-08-10 20:57:02'),
-	(22, 'son', NULL, NULL, '$2b$08$yn9kmpqKywM0cZMz2Lqg4.G/xkZxitAcEm58ZpGoHEg8.93/XhoRW', '0921119896', NULL, 14, 0, 0, NULL, 2, 5, 1, 'SYSTEM', '2019-07-15 20:54:47', 'thanhbka', '2019-08-10 19:02:29'),
-	(24, 'quan', NULL, NULL, '$2b$08$PMxD/ONDLIIJfIYYxkGCQOvpccOyMethtbfFuMYd2J0R8.49ZS2/S', '0342156263', NULL, 11, 0, 0, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:42:49', 'SYSTEM', '2019-07-16 23:42:49'),
-	(25, 'tung', 'Tùng Thanh Anh', NULL, '$2b$08$2.Nc2LHJEReGl4hRMMZeM.uB7tS7OSDCzD7DUKloYxBTyCxJFxh/K', '0961715555', 'https://www.facebook.com/tungmaichoi', 10, 0, 1, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:43:23', 'thanhnm', '2019-08-20 19:51:05'),
-	(26, 'sonbk', NULL, NULL, '$2b$08$EZRPopKm3S5S3qfgTVgk3uJxNv75NDAWjSsQE1k2tNYOkeSRJwSx.', '0961970347', NULL, 91, 60, 0, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:44:27', 'SYSTEM', '2019-07-16 23:44:27'),
-	(27, 'hung_batgioi', NULL, NULL, '$2b$08$uDVWH9b0rk2EAkTwTJNhYuJtZwHXj914wH4F4fDYM6WKcmJCuN9FG', '0911391444', NULL, 125, 0, 0, NULL, 3, 2, 1, 'SYSTEM', '2019-07-16 23:44:57', 'SYSTEM', '2019-07-16 23:44:57'),
+	(21, 'thai', NULL, NULL, '$2b$08$CaNj31HgH8zDAmLbR5tucup7CevMTT1hN9bB5WNSxBjhkBNB7h3De', '0383191869', NULL, 9, 0, 3, NULL, 2, 5, 1, 'SYSTEM', '2019-07-15 20:54:35', 'thanhbka', '2019-08-10 20:57:02'),
+	(22, 'son', NULL, NULL, '$2b$08$yn9kmpqKywM0cZMz2Lqg4.G/xkZxitAcEm58ZpGoHEg8.93/XhoRW', '0921119896', NULL, 23, 0, 1, NULL, 2, 5, 1, 'SYSTEM', '2019-07-15 20:54:47', 'thanhbka', '2019-08-10 19:02:29'),
+	(24, 'quan', NULL, NULL, '$2b$08$PMxD/ONDLIIJfIYYxkGCQOvpccOyMethtbfFuMYd2J0R8.49ZS2/S', '0342156263', NULL, 25, 0, 2, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:42:49', 'SYSTEM', '2019-07-16 23:42:49'),
+	(25, 'tung', 'Tùng Thanh Anh', NULL, '$2b$08$2.Nc2LHJEReGl4hRMMZeM.uB7tS7OSDCzD7DUKloYxBTyCxJFxh/K', '0961715555', 'https://www.facebook.com/tungmaichoi', 120, 0, 12, NULL, 3, 3, 1, 'SYSTEM', '2019-07-16 23:43:23', 'thanhnm', '2019-08-20 19:51:05'),
+	(26, 'sonbk', NULL, NULL, '$2b$08$EZRPopKm3S5S3qfgTVgk3uJxNv75NDAWjSsQE1k2tNYOkeSRJwSx.', '0961970347', NULL, 98, 60, 1, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:44:27', 'SYSTEM', '2019-07-16 23:44:27'),
+	(27, 'hung_batgioi', NULL, NULL, '$2b$08$uDVWH9b0rk2EAkTwTJNhYuJtZwHXj914wH4F4fDYM6WKcmJCuN9FG', '0911391444', NULL, 144, 0, 3, NULL, 3, 2, 1, 'SYSTEM', '2019-07-16 23:44:57', 'SYSTEM', '2019-07-16 23:44:57'),
 	(28, 'hoangxom', NULL, NULL, '$2b$08$RrQS2TjwT3YFBdD.qq5K2uuSsl0tgk6T6YRRkZ7XNUIH9TwkiJiCm', '0328216841', NULL, 112, 0, 0, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:45:22', 'SYSTEM', '2019-07-16 23:45:22'),
-	(29, 'thangboon', 'Thắng Boon', NULL, '$2b$08$/kxXgk5WquMQnNcmibdncu.xxsHRceXLVgv6ujnlrEywMCLsjK6i2', '0964211568', NULL, 61, 0, 0, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:53:41', 'thanhnm', '2019-08-20 20:32:56'),
-	(30, 'tientienle', NULL, NULL, '$2b$08$f/xPPOSnmVUdXg9czH1F5eqvaORNRxufDpSdEFH1RsxvpOPskOACW', '0968211095', '06.08.2019: gọi điện, Tiến báo tham gia được mai ra nộp lệ phí', 126, 60, 0, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 16:58:45', 'thanhbka', '2019-08-06 19:16:42'),
-	(31, 'Vuong', NULL, NULL, '$2b$08$6f3GazAUTo7aDgNCks.RoOypXhxS4ywIdr7NCEHbENn8IjQB1cuY.', '0363917227', 'Tiến tiền lẻ', 240, 201, 0, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 17:02:52', 'thanhbka', '2019-07-27 17:14:16'),
-	(32, 'Tienken', 'Tiến Ken', NULL, '$2b$08$dCHQqSwlXS6UmPmM.gW0sujkL7hMz0nVWkTprT.jsT1g04DAYUQ06', '0777166883', 'https://www.facebook.com/ken.dz93', 136, 100, 0, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 20:23:35', 'thanhnm', '2019-08-20 19:50:01'),
+	(29, 'thangboon', 'Thắng Boon', NULL, '$2b$08$/kxXgk5WquMQnNcmibdncu.xxsHRceXLVgv6ujnlrEywMCLsjK6i2', '0964211568', NULL, 66, 0, 1, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:53:41', 'thanhnm', '2019-08-20 20:32:56'),
+	(30, 'tientienle', 'Tiến tiền lẻ', NULL, '$2b$08$f/xPPOSnmVUdXg9czH1F5eqvaORNRxufDpSdEFH1RsxvpOPskOACW', '0968211095', '06.08.2019: gọi điện, Tiến báo tham gia được mai ra nộp lệ phí', 126, 60, 0, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 16:58:45', 'thanhnm', '2020-01-20 17:41:26'),
+	(31, 'Vuong', 'Vương SH', NULL, '$2b$08$6f3GazAUTo7aDgNCks.RoOypXhxS4ywIdr7NCEHbENn8IjQB1cuY.', '0363917227', 'Tiến tiền lẻ', 240, 201, 0, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 17:02:52', 'thanhnm', '2020-01-20 17:42:33'),
+	(32, 'Tienken', 'Tiến Ken', NULL, '$2b$08$dCHQqSwlXS6UmPmM.gW0sujkL7hMz0nVWkTprT.jsT1g04DAYUQ06', '0777166883', 'https://www.facebook.com/ken.dz93', 141, 100, 1, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 20:23:35', 'thanhnm', '2019-08-20 19:50:01'),
 	(34, 'tham', 'Thám', NULL, '$2b$08$d6IELa/s2tt6K7IAJWgYm.D1.eue265NxGrABeddA.WLVp5qtopvi', '0899414992', NULL, 43, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-07-30 01:12:00', 'thanhbka', '2019-08-06 23:02:02'),
 	(35, 'trungtq', 'Trần Quang Trung', NULL, '$2b$08$8xQWibE.LeVxguTP6VWN7.kHU6n/Bsu3Oj7AH8rEEPo1mzfRuF61u', '0865150795', NULL, 13, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-05 21:38:32', 'thanhnm', '2019-08-05 21:38:32'),
 	(36, 'Tiep0395', 'A. Tiệp ', 'A tiệp thợ điện', '$2b$08$HEaLeXoAq9cYua/SOs3KSOvV45tEyTpDg4ci4MgoIaXkwAyAmAMuK', '0983410395', 'trâu quỳ', 13, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 13:54:56', 'xuandt', '2019-08-06 13:54:56'),
 	(37, 'Quan0495', 'Quân Kẹo', 'Quân Kẹo', '$2b$08$930.OCDy62dq7XZ1hka2pObJifmD2cydQhyCM6kFx2XuAnTpJPche', '0967410495', 'https://www.facebook.com/dacquan.95', 97, 50, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 13:59:20', 'thanhnm', '2019-08-20 19:45:52'),
-	(40, 'hoc285', 'Nguyễn Văn Học', 'Học_Nhóm oto', '$2b$08$ff5PPUJT29lsP02YyPPlCuNMgKefHWNLmcKX.QJff6uNUNWcgIMRS', '0986105285', 'https://www.facebook.com/trananhcuong.tran.52', 4, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:06:39', 'thanhnm', '2019-08-20 19:51:55'),
+	(40, 'hoc285', 'Nguyễn Văn Học', 'Học_Nhóm oto', '$2b$08$ff5PPUJT29lsP02YyPPlCuNMgKefHWNLmcKX.QJff6uNUNWcgIMRS', '0986105285', 'https://www.facebook.com/trananhcuong.tran.52', 9, 0, 1, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:06:39', 'thanhnm', '2019-08-20 19:51:55'),
 	(42, 'Cuong3599', 'Cường Lê', 'Cường_Tham gia giải', '$2b$08$Gki2r1x9G0X6huwWr6mYz.XPv2ZxDaWqPaqfX2ZWhcFMXYEmR9TDq', '0918413599', 'https://www.facebook.com/cugia.vietnam', 28, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:10:09', 'thanhnm', '2019-08-20 19:53:37'),
 	(45, 'Hai6564', 'Hải', '', '$2b$08$MaFrcmZ/btutf4ncqJPRbe3BWcLC4Y33eSh44Sf01dA4wS0QdAg3C', '0943196564', NULL, 62, 57, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:19:00', 'xuandt', '2019-08-06 14:19:00'),
 	(46, 'Cuong9768', 'Cường', NULL, '$2b$08$qzssb82B79e6ncMjwdisfeLNo5gYaCBkWSKZ4xwRI0Vs1zfq6B1Dq', '0915119768', NULL, 13, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:27:21', 'xuandt', '2019-08-06 14:27:21'),
@@ -2128,7 +2231,7 @@ INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`
 	(49, 'tien1993', 'Tiến', NULL, '$2b$08$qnnZtE2s5U1UhC2m14RSUe/dJV4EO1dNnEfjGe8kDllQzWK8RijSe', '0362116626', NULL, 77, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:48:19', 'xuandt', '2019-08-06 14:48:19'),
 	(52, 'vuongnd', 'Nguyễn Đức Vượng', NULL, '$2b$08$3aTSvBmqlWZUqKzDT.FBGOZOLYQWAcDN2/N1MGwP7yiXMI.1SX9Fi', '0981131122', 'https://www.facebook.com/obelisk.osiris28', 41, 0, 0, NULL, 3, 5, 1, 'thanhbka', '2019-08-08 19:35:21', 'thanhnm', '2019-08-20 19:47:51'),
 	(54, 'quan86', 'Nguyễn Phú Quân', NULL, '$2b$08$75cYGo47N39mjsz8OlBVNuMzJwI4yMGz0uLGiXuzGk4ea4unfJJHq', '0966168086', 'https://www.facebook.com/quan.nguyenphu', 63, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-12 20:05:00', 'thanhnm', '2019-08-20 19:49:14'),
-	(55, 'tung233', 'Đào Thanh Tùng', NULL, '$2b$08$6ugfRu7pDpa.7vTdl7uQ2.tsBRNIhoQ9Qwdc27W1ivAqLpFJCynIq', '0821412233', NULL, 3, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-12 20:13:44', 'thanhnm', '2019-08-12 20:13:44'),
+	(55, 'tung233', 'Đào Thanh Tùng', NULL, '$2b$08$6ugfRu7pDpa.7vTdl7uQ2.tsBRNIhoQ9Qwdc27W1ivAqLpFJCynIq', '0821412233', NULL, 17, 0, 1, NULL, 3, 5, 1, 'thanhnm', '2019-08-12 20:13:44', 'thanhnm', '2019-08-12 20:13:44'),
 	(57, 'Phuc541', 'Nguyễn Huy Phúc', NULL, '$2b$08$ilhMIt1g0/xSu/Z0XyvWyeAV1JOSba.fOXWk0Kiu3wxa37m4yBQne', '0984173541', NULL, 4, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-16 21:15:36', 'thanhnm', '2019-08-16 21:19:14'),
 	(59, 'Tho1722', NULL, NULL, '$2b$08$AzyME4ViCVsq7X0suhJKX.Ij29ldbzrib6iDdDcxa5ODMuitIDgF.', '0352111722', NULL, 191, 120, 0, NULL, 3, 5, 1, 'xoan', '2019-08-18 02:32:04', 'xoan', '2019-08-18 02:32:04'),
 	(60, 'anhong', NULL, NULL, '$2b$08$O7Yo65HIEVVst/a8oJEr6ueE7wr5v.bByygLHlk1wCCnr4OieMYIS', '0968199916', NULL, 24, 0, 0, NULL, 3, 5, 1, 'son', '2019-08-18 15:53:48', 'son', '2019-08-18 15:53:48'),
@@ -2146,7 +2249,7 @@ INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`
 	(82, 'tien3905', 'Nguyễn Mạnh Tiến', NULL, '$2b$08$mKeNvx5xwNje4fYgvHh73efGIFLs7noXIF95Sv8AXr3m31JxPCO.G', '0853813905', NULL, 99, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-26 21:29:14', 'thanhnm', '2019-08-26 21:30:41'),
 	(83, 'Giang', NULL, NULL, '$2b$08$oqbQnLvbTrfs8rmQfAwewOk434XRfLmgC3GrjPf3ymV7le.ENbX6e', '0381204928', NULL, 6, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-27 11:22:21', 'xoan', '2019-08-27 11:22:21'),
 	(84, 'dung115', NULL, NULL, '$2b$08$fs4KAZvvQMrE7EpWIiz9DOjUe/4x2Cx1/sIkGJ.XNMeYO7TPzgEAi', '0344151111', NULL, 182, 164, 0, NULL, 3, 5, 1, 'xoan', '2019-08-27 18:01:59', 'xoan', '2019-08-27 18:01:59'),
-	(85, 'son36', 'Nguyễn Hồng Sơn', NULL, '$2b$08$Q4MV4hon6R0YDmmmP4c78uEh9fx7ZBMSzTLa.zMSvK21WJqcnHUty', '0979130176', NULL, 12, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-31 02:57:40', 'xoan', '2019-08-31 02:57:40'),
+	(85, 'son36', 'Nguyễn Hồng Sơn', NULL, '$2b$08$Q4MV4hon6R0YDmmmP4c78uEh9fx7ZBMSzTLa.zMSvK21WJqcnHUty', '0979130176', NULL, 15, 0, 1, NULL, 3, 5, 1, 'xoan', '2019-08-31 02:57:40', 'xoan', '2019-08-31 02:57:40'),
 	(86, 'tu807', NULL, NULL, '$2b$08$hMsbrRTLu/f/9BHV1K2U6.iidyzGuVkJ9xORZGGT.0Gs4VR6WHLMm', '0961512807', NULL, 5, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-31 15:36:30', 'thanhnm', '2019-08-31 15:36:30'),
 	(87, 'bom93', NULL, NULL, '$2b$08$12kIfD3qD/aZyNbiDT/m0ed7MPHHo0.CF1GtADHNhV9yuhAwH0Ge.', '0981043993', NULL, 10, 0, 0, NULL, 3, 5, 1, 'son', '2019-09-02 17:44:14', 'son', '2019-09-02 17:44:14'),
 	(88, 'thang996', 'Thắng', NULL, '$2b$08$vyGqM.XQfSe1THJ7MQn9l.03RDHF4VsaQVJ1cJiSnBQG0ZujOmMZO', '0326169996', NULL, 17, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-09-03 23:25:43', 'thanhnm', '2019-09-03 23:25:43'),
@@ -2159,7 +2262,6 @@ INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.vendors
-DROP TABLE IF EXISTS `vendors`;
 CREATE TABLE IF NOT EXISTS `vendors` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -2173,7 +2275,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
 DELETE FROM `vendors`;
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
 INSERT INTO `vendors` (`id`, `name`, `address`, `phone`, `description`) VALUES
-	(1, 'Dai ly Manh Hung', 'Trau Quy', '0964433088', 'Dai ly nuoc ngot');
+	(1, 'Đại lý Mạnh Hùng', 'Trâu Quỳ, Gia Lâm, HN', '0964433088', 'Đại lý nước ngọt');
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
