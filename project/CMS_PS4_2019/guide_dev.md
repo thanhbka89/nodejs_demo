@@ -106,3 +106,24 @@ https://viblo.asia/p/tu-javascript-thuan-den-rxjs-phan-1-m68Z0OJzKkG
 
 *CRUD*
 https://investmentnovel.com/vue-js-crud-example-tutorial-from-scratch/
+
+*Promise, Async/Await*
+https://anonystick.com/blog-developer/promiseall-javascript-than-thanh-2019052953224827.jsx
+https://anonystick.com/blog-developer/tong-hop-tinh-nang-javascript-moi-nhat-ke-tu-es6-den-es11-2019120577967801.jsx
+https://anonystick.com/blog-developer/thu-ket-hop-async-await-voi-promise-javascript-va-cai-ket-bat-ngo-2019123065290564.jsx
+
+*Do thoi gian thuc hien*
+function wait(waitTime) {
+    return new Promise(resolve => setTimeout(() => {
+        console.log(`waited ${waitTime} ms`)
+        resolve()
+    }, waitTime))
+}
+async function serial() {
+    console.time('serial promise')
+    await wait(1000)
+    await wait(2000)
+    await wait(3000)
+    console.timeEnd('serial promise')
+}
+serial()
