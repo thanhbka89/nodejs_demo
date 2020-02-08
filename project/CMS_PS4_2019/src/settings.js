@@ -1,8 +1,8 @@
 export class UserSetting {
   // Phan loai Khach hang
-  static TYPE_DIAMOND = 1
-  static TYPE_VIP = 2
-  static TYPE_LOYAL = 3
+  static TYPE_DIAMOND = 1 // KH Kim cuong
+  static TYPE_VIP = 2     // KH Vip
+  static TYPE_LOYAL = 3   // KH Than thiet
 
   // Role
   static ROLE_ADMINISTRATOR = 1  // Quan tri
@@ -32,9 +32,9 @@ export class CommonSetting {
 
   // Danh muc
   static CATEGORY_DRINK = 1 // Nuoc uong
-  static CATEGORY_EAT = 2 // Do an
+  static CATEGORY_EAT = 2 // Do an, Thuoc
   static CATEGORY_PS = 3 // PS
-  static CATEGORY_OTHER = 4 // Khac
+  static CATEGORY_OTHER = 4 // Khac: lien quan Thu/Chi
   static MASTER_CATEGORY = [
     { value: CommonSetting.CATEGORY_DRINK, name: 'Nước uống' },
     { value: CommonSetting.CATEGORY_EAT, name: 'Đồ ăn' },

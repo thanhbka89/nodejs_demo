@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { BN_API } from '@/api'
 
 export function getDaysInMonth(month, year) {
   // Here January is 1 based
@@ -75,4 +76,21 @@ export function isMobile() {
 /** Get name Browser */
 export function getBrowser() {
   return navigator.userAgent
+}
+
+/** Get IP v4 client */
+export async function getIPv4() {
+  const data = await BN_API.get('https://api.ipify.org/?format=json')
+
+  return data
+}
+
+/** Get GEO location from IP address of client */
+export async function getLocaltionGeoIP(ip = '8.8.8.8') {
+  const data = await BN_API.get(`https://freegeoip.app/json/${ip}`)
+  // (`https://api.ipgeolocationapi.com/geolocate/${ip}`)
+  // (`http://ip-api.com/json/${ip}`)
+  // (`https://freegeoip.app/json/${ip}`)
+
+  return data
 }

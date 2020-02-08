@@ -280,5 +280,14 @@ add new line with content : `127.0.0.1 domain_name.com`
 - Edit file config nginx : ref B2.1 (above)
 - Run app with PM2 : ref B4 (above)
 
+### ngrok: demo dự án cho KH xem từ chính máy của bạn mà không cần deploy lên server
+- B1: download `https://ngrok.com/download`
+- B2: Giai nen file download bên trên
+- B2.1 : Run ung dung node tren may localhost, xem ung dung dang run o port nao ?
+- B3: Mở cmd, truy cap thu muc giai nen o tren và gõ : 
+    `ngrok.exe http 8080` // vi du ung dung dang chay tren port 8080
+- B4: Truy cap link `http://localhost:4040/` de vao trang manager
+- B5: Truy cap qua interet vao ung dung cua ban qua link mà ngrok cung cap
+
 
 

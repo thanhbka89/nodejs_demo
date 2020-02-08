@@ -4,11 +4,15 @@
       <div class="col-xs-12">
         <div class="table-wrapper">
           <div class="table-title">
-              <div class="row">
-                  <div class="col-sm-6">
-                      <h2>Báo cáo nhập xuất tồn kho</h2>
-                  </div>
+            <div class="row">
+              <div class="col-sm-6">
+                  <h2>Báo cáo nhập xuất tồn kho</h2>                      
               </div>
+              <div class="col-sm-6" style="font-size: 12px;">
+                <b>Cách thực hiện</b>: Xem báo cáo tháng N. Tính SL đầu kỳ N(chính là SL cuối kỳ N-1), do đó phải nhập SL kiểm kê thực tế cuối kỳ N-1, theo 
+                <router-link :to="{ name: 'TonDauKy'}">link</router-link>
+              </div>
+            </div>
           </div>   
 
           <div class="filters row">

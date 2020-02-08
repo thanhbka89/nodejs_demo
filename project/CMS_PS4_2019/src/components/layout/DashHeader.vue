@@ -13,6 +13,11 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+          <li>
+            <a href="#">
+              <i class="fa fa-phone"></i> HOTLINE: <strong>036.730.5882</strong>
+            </a>
+          </li>
           <messages-menu></messages-menu>
           <notifications-menu></notifications-menu>
           <tasks-menu></tasks-menu>
