@@ -13,6 +13,7 @@ const helmet = require('helmet')
 let jwt = require("jsonwebtoken")
 import CONFIG from './config/config'
 let middleware = require("./api/middleware")
+
 class HandlerGenerator {
   login(req, res) {
     let username = req.body.username
@@ -65,6 +66,7 @@ console.log(process.env.MY_SECRET)
 import models from './dummy/student'
 //console.log(models);
 import Database from './api/models/Database'
+import cronjob from './api/cronjob'
 
 // config
 const port = process.env.PORT || 8989
@@ -83,6 +85,10 @@ app.use(
   })
 )
 // app.use(helmet()) //  secure your Express apps by setting various HTTP headers
+
+// cronjob
+cronjob().then(x => console.log(x))
+         .catch(e => console.error(e))
 
 //run before middleware
 app.get('/check', (req, res) => {
