@@ -25,8 +25,8 @@ const main = async () => {
           .catch(e => console.error(e))
     })
 
-    // TonCuoiKy at 10:30 AM on 1st of every month
-    cron.schedule("30 10 1 * *", async () => {
+    // TonCuoiKy at 10:30 AM on from 1st to 5th of every month
+    cron.schedule("30 10 1-5 * *", async () => {
         console.log(`----- Running -----`)
         console.time('[runtime]:')
         await runTonCuoiKy({})

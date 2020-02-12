@@ -472,6 +472,7 @@ export default {
             ? this.percentDiscount
             : 0
         })
+        data.so_gio_choi = this.so_giochoi
       } else { // giao dich Dịch vụ
         data.money = Math.ceil(this.total - this.moneyPS)
         data.diem_tich = 0

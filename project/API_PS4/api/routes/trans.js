@@ -62,7 +62,8 @@ router.post('/', async (req, res) => {
       User.updatePoint({
         id: req.body.user,
         diem_tich: req.body.diem_tich,
-        diem_tieu: req.body.diem_tieu
+        diem_tieu: req.body.diem_tieu,
+        so_gio_choi: parseInt(req.body.so_gio_choi) || 0
       }, (err, response) => {})
 
       return res.json({

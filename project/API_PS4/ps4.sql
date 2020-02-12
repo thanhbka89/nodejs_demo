@@ -71,32 +71,45 @@ CREATE TABLE IF NOT EXISTS `history_login` (
   `id_user` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Khoa ngoai voi bang users',
   `ip` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1' COMMENT 'IP user login',
   `browser` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N/A' COMMENT 'Trinh duyet user su dung',
+  `country` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N/A',
+  `city` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N/A',
+  `latitude` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N/A' COMMENT 'Vi do',
+  `longitude` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N/A' COMMENT 'Kinh do',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Lich su danh nhap he thong';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='Lich su danh nhap he thong';
 
--- Dumping data for table cms_ps_dev.history_login: ~14 rows (approximately)
+-- Dumping data for table cms_ps_dev.history_login: ~25 rows (approximately)
 DELETE FROM `history_login`;
 /*!40000 ALTER TABLE `history_login` DISABLE KEYS */;
-INSERT INTO `history_login` (`id`, `id_user`, `ip`, `browser`, `created_at`) VALUES
-	(1, 1, '42.115.240.44', 'N/A', '2019-11-02 10:55:20'),
-	(2, 1, '113.178.65.45', 'N/A', '2019-11-03 21:26:05'),
-	(3, 1, '45.122.233.61', 'N/A', '2019-11-04 20:25:16'),
-	(4, 1, '113.160.97.100', 'N/A', '2019-11-04 21:26:15'),
-	(5, 1, '42.115.240.44', 'N/A', '2019-11-16 11:50:38'),
-	(6, 1, '127.0.0.1', 'N/A', '2019-11-23 10:10:34'),
-	(7, 1, '42.115.240.44', 'N/A', '2019-11-23 10:10:34'),
-	(8, 1, '42.115.240.44', 'N/A', '2019-11-30 11:04:10'),
-	(9, 1, '113.160.97.100', 'N/A', '2019-12-04 19:47:21'),
-	(10, 1, '42.115.240.44', 'N/A', '2019-12-07 11:48:27'),
-	(11, 1, '42.115.240.44', 'N/A', '2019-12-28 11:37:59'),
-	(12, 1, '127.0.0.1', 'N/A', '2020-01-11 11:52:38'),
-	(13, 1, '127.0.0.1', 'N/A', '2020-01-11 12:06:39'),
-	(14, 1, '127.0.0.1', 'N/A', '2020-01-18 10:49:55'),
-	(15, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', '2020-01-18 11:46:54'),
-	(16, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36', '2020-01-20 10:36:17'),
-	(17, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36', '2020-01-21 10:47:57'),
-	(18, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0', '2020-01-21 14:32:12');
+INSERT INTO `history_login` (`id`, `id_user`, `ip`, `browser`, `country`, `city`, `latitude`, `longitude`, `created_at`) VALUES
+	(1, 1, '42.115.240.44', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-11-02 10:55:20'),
+	(2, 1, '113.178.65.45', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-11-03 21:26:05'),
+	(3, 1, '45.122.233.61', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-11-04 20:25:16'),
+	(4, 1, '113.160.97.100', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-11-04 21:26:15'),
+	(5, 1, '42.115.240.44', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-11-16 11:50:38'),
+	(6, 1, '127.0.0.1', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-11-23 10:10:34'),
+	(7, 1, '42.115.240.44', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-11-23 10:10:34'),
+	(8, 1, '42.115.240.44', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-11-30 11:04:10'),
+	(9, 1, '113.160.97.100', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-12-04 19:47:21'),
+	(10, 1, '42.115.240.44', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-12-07 11:48:27'),
+	(11, 1, '42.115.240.44', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2019-12-28 11:37:59'),
+	(12, 1, '127.0.0.1', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2020-01-11 11:52:38'),
+	(13, 1, '127.0.0.1', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2020-01-11 12:06:39'),
+	(14, 1, '127.0.0.1', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', '2020-01-18 10:49:55'),
+	(15, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-01-18 11:46:54'),
+	(16, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-01-20 10:36:17'),
+	(17, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-01-21 10:47:57'),
+	(18, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0', 'N/A', 'N/A', 'N/A', 'N/A', '2020-01-21 14:32:12'),
+	(19, 1, '42.115.240.44', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-08 12:19:33'),
+	(20, 1, '42.115.240.44', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-08 13:19:48'),
+	(21, 1, '42.115.240.44', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-08 13:28:07'),
+	(22, 1, '14.232.183.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-08 23:28:57'),
+	(23, 1, '14.232.183.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-08 23:29:43'),
+	(24, 1, '14.232.183.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-08 23:33:30'),
+	(25, 22, '14.232.183.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-08 23:54:11'),
+	(26, 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-10 14:08:06'),
+	(27, 1, '14.232.183.254', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36', 'N/A', 'N/A', 'N/A', 'N/A', '2020-02-11 22:17:49');
 /*!40000 ALTER TABLE `history_login` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.inventory
@@ -114,9 +127,9 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='QL nhap kho, ton kho : nuoc, thuoc, do an';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='QL nhap kho, ton kho : nuoc, thuoc, do an';
 
--- Dumping data for table cms_ps_dev.inventory: ~14 rows (approximately)
+-- Dumping data for table cms_ps_dev.inventory: ~19 rows (approximately)
 DELETE FROM `inventory`;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
 INSERT INTO `inventory` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `quantity`, `category`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -135,7 +148,12 @@ INSERT INTO `inventory` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `quantit
 	(13, 0, 'DULICH', 'thăng long', 80000, 10, 2, 1, 'thanhnm', '2019-09-11 21:49:30', 'thanhnm', '2020-01-21 23:04:01'),
 	(14, 0, '3SO', '555', 330000, 10, 2, 1, 'thanhnm', '2019-09-11 21:49:54', 'thanhnm', '2020-01-21 23:03:49'),
 	(15, 0, 'REDBULL', 'Nhập 2 thùng Bò húc', 400000, 48, 1, 1, 'thanhnm', '2020-01-21 23:05:56', 'thanhnm', '2020-01-21 23:05:57'),
-	(16, 0, 'RONGDO', 'Nhập 3 thùng Rồng đỏ', 360000, 72, 1, 1, 'thanhnm', '2020-01-21 23:23:03', 'thanhnm', '2020-01-21 23:23:04');
+	(16, 0, 'RONGDO', 'Nhập 3 thùng Rồng đỏ', 360000, 72, 1, 1, 'thanhnm', '2020-01-21 23:23:03', 'thanhnm', '2020-01-21 23:23:04'),
+	(17, 0, 'REDBULL', 'Nhập 2 thùng Bò húc mua tại BigC LB', 400000, 48, 1, 1, 'thanhnm', '2020-02-08 23:42:53', 'thanhnm', '2020-02-08 23:42:54'),
+	(18, 0, '3SO', 'Nhập 1 cây 3 số', 380000, 10, 2, 1, 'thanhnm', '2020-02-08 23:43:27', 'thanhnm', '2020-02-08 23:43:28'),
+	(19, 0, 'MYTOM', 'Nhập mì tôm hộp Hảo Hảo', 35000, 10, 2, 1, 'thanhnm', '2020-02-09 00:01:59', 'thanhnm', '2020-02-09 00:01:59'),
+	(20, 0, 'MYTOM', 'Nhập mì Omachi', 36000, 10, 2, 1, 'thanhnm', '2020-02-09 00:02:28', 'thanhnm', '2020-02-09 00:02:28'),
+	(21, 0, 'RONGDO', 'Nhập 1 thùng rồng đỏ', 120000, 24, 1, 1, 'thanhnm', '2020-02-09 00:32:01', 'thanhnm', '2020-02-09 00:32:01');
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.items
@@ -163,7 +181,7 @@ INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `
 	(2, 0, 'RONGDO', 'Rồng đỏ', 6000, 10000, 1, 1, 'SYSTEM', '2019-07-15 21:37:48', 'SYSTEM', '2019-07-15 21:37:48'),
 	(3, 0, 'LAVIE', 'Nước Lavie', 4000, 7000, 1, 0, 'SYSTEM', '2019-07-15 21:38:16', 'thanhnm', '2019-08-30 00:57:49'),
 	(4, 0, 'COCA', 'Coca Cola', 5000, 10000, 1, 1, 'SYSTEM', '2019-07-15 21:38:41', 'SYSTEM', '2019-07-15 21:38:41'),
-	(5, 0, 'PEPSI', 'Pepsi', 5000, 10000, 1, 1, 'SYSTEM', '2019-07-15 21:38:55', 'SYSTEM', '2019-07-15 21:38:55'),
+	(5, 0, 'PEPSI', 'Pepsi', 5000, 10000, 1, 0, 'SYSTEM', '2019-07-15 21:38:55', 'thanhnm', '2020-02-08 23:58:05'),
 	(6, 0, 'CHANHMUOI', 'Chanh muối', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-15 21:39:22', 'SYSTEM', '2019-07-15 21:39:22'),
 	(7, 0, 'C2', 'Nước C2', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-15 21:39:56', 'SYSTEM', '2019-07-15 21:39:56'),
 	(8, 0, 'NUMBER_ONE', 'Nước Number One', 8000, 12000, 1, 0, 'SYSTEM', '2019-07-15 21:40:27', 'thanhnm', '2019-08-30 00:58:05'),
@@ -173,7 +191,7 @@ INSERT INTO `items` (`id`, `id_vendor`, `code`, `name`, `gia_nhap`, `gia_ban`, `
 	(12, 0, 'AQUARIUS', 'Nước khoáng Aquarius', 5000, 10000, 1, 0, 'SYSTEM', '2019-07-26 18:58:05', 'thanhnm', '2019-08-30 00:58:26'),
 	(13, 0, 'AQUAFINA', 'Nước lọc Aquafina', 4000, 7000, 1, 1, 'SYSTEM', '2019-07-26 19:01:17', 'SYSTEM', '2019-07-26 19:01:17'),
 	(14, 0, 'VINA', 'Thuốc lá Vina', 17000, 25000, 4, 1, 'SYSTEM', '2019-07-26 19:02:12', 'SYSTEM', '2019-07-26 19:02:12'),
-	(15, 0, 'BIDAO', 'Nước Bí đao', 7000, 10000, 1, 1, 'SYSTEM', '2019-07-26 19:11:27', 'SYSTEM', '2019-07-26 19:11:27'),
+	(15, 0, 'BIDAO', 'Nước Bí đao', 7000, 10000, 1, 0, 'SYSTEM', '2019-07-26 19:11:27', 'thanhnm', '2020-02-08 23:57:51'),
 	(16, 0, 'MOUNTAIN_DEW', 'Nước Mountain Dew', 6000, 10000, 1, 1, 'SYSTEM', '2019-07-26 19:12:19', 'SYSTEM', '2019-07-26 19:12:19'),
 	(18, 0, 'OLONG', 'Trà Olong to 455ml', 8000, 15000, 1, 1, 'SYSTEM', '2019-07-26 19:14:23', 'thanhnm', '2019-08-26 20:41:09'),
 	(19, 0, 'FANTA', 'Nước cam Fanta', 7000, 10000, 1, 0, 'SYSTEM', '2019-07-26 19:15:02', 'thanhnm', '2019-08-30 00:59:14'),
@@ -211,9 +229,9 @@ CREATE TABLE IF NOT EXISTS `kiem_ke` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bang kiem ke hang hoa trong Kho';
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Bang kiem ke hang hoa trong Kho';
 
--- Dumping data for table cms_ps_dev.kiem_ke: ~70 rows (approximately)
+-- Dumping data for table cms_ps_dev.kiem_ke: ~108 rows (approximately)
 DELETE FROM `kiem_ke`;
 /*!40000 ALTER TABLE `kiem_ke` DISABLE KEYS */;
 INSERT INTO `kiem_ke` (`id`, `id_item`, `code`, `name`, `period`, `sl_thucte`, `sl_tinhtoan`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
@@ -286,7 +304,53 @@ INSERT INTO `kiem_ke` (`id`, `id_item`, `code`, `name`, `period`, `sl_thucte`, `
 	(67, 28, 'NUTRI', 'Nước Nutri', '07/2019', 18, 0, 'thanhnm', '2019-08-30 00:07:35', 'thanhnm', '2019-08-30 00:34:48'),
 	(68, 29, 'OLONG_NHO', 'Trà Olong nhỏ 350ml', '07/2019', 48, 0, 'thanhnm', '2019-08-30 00:07:35', 'thanhnm', '2019-08-30 00:34:48'),
 	(69, 30, 'JOLLY_VIT', 'Nước vitamin Jolly VIT', '07/2019', 7, 0, 'thanhnm', '2019-08-30 00:07:35', 'thanhnm', '2019-08-30 00:34:48'),
-	(70, 31, 'MYTOM', 'My tom hao hao', '08/2019', 0, 0, 'thanhnm', '2019-09-03 17:58:37', 'SYSTEM', '2019-09-03 17:58:37');
+	(70, 31, 'MYTOM', 'My tom hao hao', '08/2019', 0, 0, 'thanhnm', '2019-09-03 17:58:37', 'SYSTEM', '2019-09-03 17:58:37'),
+	(71, 1, 'REDBULL', 'Bò Húc', '02/2020', 0, 80, 'thanhnm', '2020-02-09 01:38:02', 'thanhnm', '2020-02-12 21:48:19'),
+	(72, 2, 'RONGDO', 'Rồng đỏ', '02/2020', 0, 55, 'thanhnm', '2020-02-09 01:38:02', 'thanhnm', '2020-02-12 21:48:19'),
+	(73, 4, 'COCA', 'Coca Cola', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:38:02', 'thanhnm', '2020-02-12 21:48:19'),
+	(74, 1, 'REDBULL', 'Bò Húc', '01/2020', 34, 32, 'thanhnm', '2020-02-09 01:39:18', 'thanhnm', '2020-02-12 21:48:48'),
+	(75, 2, 'RONGDO', 'Rồng đỏ', '01/2020', 33, 66, 'thanhnm', '2020-02-09 01:39:18', 'thanhnm', '2020-02-12 21:48:48'),
+	(76, 4, 'COCA', 'Coca Cola', '01/2020', 34, 0, 'thanhnm', '2020-02-09 01:39:18', 'thanhnm', '2020-02-12 21:48:48'),
+	(77, 6, 'CHANHMUOI', 'Chanh muối', '01/2020', 35, 0, 'thanhnm', '2020-02-09 01:39:18', 'thanhnm', '2020-02-12 21:48:48'),
+	(78, 7, 'C2', 'Nước C2', '01/2020', 33, 0, 'thanhnm', '2020-02-09 01:39:18', 'thanhnm', '2020-02-12 21:48:48'),
+	(79, 10, 'DULICH', 'Thuốc Du lịch', '01/2020', 33, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(80, 11, '3SO', 'Thuốc 3 số', '01/2020', 22, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(81, 13, 'AQUAFINA', 'Nước lọc Aquafina', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(82, 14, 'VINA', 'Thuốc lá Vina', '01/2020', 33, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(83, 16, 'MOUNTAIN_DEW', 'Nước Mountain Dew', '01/2020', 34, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(84, 18, 'OLONG', 'Trà Olong to 455ml', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(85, 21, 'STING', 'Nước Sting', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(86, 23, 'FUZE TEA', 'Trà chanh dây& hạt chia', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(87, 25, 'TRADA', 'Trà đá', '01/2020', 34, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(88, 26, 'MATCHA', 'Trà xanh Matcha Nhật Bản nhỏ', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(89, 27, 'RIVIVE', 'Revive vị chanh muối', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:48'),
+	(90, 28, 'NUTRI', 'Nước Nutri', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:49'),
+	(91, 29, 'OLONG_NHO', 'Trà Olong nhỏ 350ml', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:49'),
+	(92, 31, 'MYTOM', 'Mỳ tôm hộp', '01/2020', 12, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:49'),
+	(93, 32, 'WAKEUP_247', 'Nước wakeup cafe 247', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:49'),
+	(94, 33, 'XUC_XICH', 'Xúc xích ăn liền', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:49'),
+	(95, 34, 'LUONG_KHO', 'Bánh lương khô', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:49'),
+	(96, 35, 'ORION', 'Bánh Orion', '01/2020', 32, 0, 'thanhnm', '2020-02-09 01:50:08', 'thanhnm', '2020-02-12 21:48:49'),
+	(97, 6, 'CHANHMUOI', 'Chanh muối', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(98, 7, 'C2', 'Nước C2', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(99, 10, 'DULICH', 'Thuốc Du lịch', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(100, 11, '3SO', 'Thuốc 3 số', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(101, 13, 'AQUAFINA', 'Nước lọc Aquafina', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(102, 14, 'VINA', 'Thuốc lá Vina', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(103, 16, 'MOUNTAIN_DEW', 'Nước Mountain Dew', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(104, 18, 'OLONG', 'Trà Olong to 455ml', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(105, 21, 'STING', 'Nước Sting', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(106, 23, 'FUZE TEA', 'Trà chanh dây& hạt chia', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(107, 25, 'TRADA', 'Trà đá', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(108, 26, 'MATCHA', 'Trà xanh Matcha Nhật Bản nhỏ', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(109, 27, 'RIVIVE', 'Revive vị chanh muối', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(110, 28, 'NUTRI', 'Nước Nutri', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(111, 29, 'OLONG_NHO', 'Trà Olong nhỏ 350ml', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(112, 31, 'MYTOM', 'Mỳ tôm hộp', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(113, 32, 'WAKEUP_247', 'Nước wakeup cafe 247', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(114, 33, 'XUC_XICH', 'Xúc xích ăn liền', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(115, 34, 'LUONG_KHO', 'Bánh lương khô', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19'),
+	(116, 35, 'ORION', 'Bánh Orion', '02/2020', 0, 32, 'thanhnm', '2020-02-09 01:50:51', 'thanhnm', '2020-02-12 21:48:19');
 /*!40000 ALTER TABLE `kiem_ke` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.list_ps
@@ -363,8 +427,8 @@ INSERT INTO `mastercode` (`id`, `code`, `name`, `status`, `category`, `created_b
 	(7, 'C2', 'Trà C2', 1, 1, 'SYSTEM', '2019-07-15 21:31:20'),
 	(8, 'NUMBER_ONE', 'Nước Numner One', 1, 1, 'SYSTEM', '2019-07-15 21:32:35'),
 	(9, 'PS4', 'Máy PS4', 1, 3, 'SYSTEM', '2019-07-15 21:32:51'),
-	(10, 'DULICH', 'Thuốc lá Du lịch', 1, 4, 'SYSTEM', '2019-07-15 21:33:19'),
-	(11, '3SO', 'Thuốc lá 3 số', 1, 4, 'SYSTEM', '2019-07-15 21:33:37'),
+	(10, 'DULICH', 'Thuốc lá Du lịch', 1, 2, 'SYSTEM', '2019-07-15 21:33:19'),
+	(11, '3SO', 'Thuốc lá 3 số', 1, 2, 'SYSTEM', '2019-07-15 21:33:37'),
 	(12, 'BIDAO', 'Nước Bí đao', 0, 1, 'thanhbka', '2019-07-25 21:37:06'),
 	(13, 'MOUNTAIN_DEW', 'Nước Mountain Dew', 1, 1, 'thanhbka', '2019-07-25 21:38:03'),
 	(14, 'AQUAFINA', 'Nước lọc Aquafina', 1, 1, 'thanhbka', '2019-07-25 21:38:52'),
@@ -373,11 +437,11 @@ INSERT INTO `mastercode` (`id`, `code`, `name`, `status`, `category`, `created_b
 	(17, 'OLONG', 'Trà Olong', 1, 1, 'thanhbka', '2019-07-25 21:41:47'),
 	(18, 'THUNDER', 'Nước trái cây Thunder', 1, 1, 'thanhbka', '2019-07-25 21:43:15'),
 	(19, 'ICE', 'Nước trái cây Ice', 1, 1, 'thanhbka', '2019-07-25 21:44:41'),
-	(20, 'VINA', 'Thuốc lá Vina', 1, 4, 'thanhbka', '2019-07-25 21:45:28'),
+	(20, 'VINA', 'Thuốc lá Vina', 1, 2, 'thanhbka', '2019-07-25 21:45:28'),
 	(21, 'STING', 'Nước Sting', 1, 1, 'xuandt', '2019-08-06 14:37:17'),
 	(22, 'SPTYTE', 'Nước Spyte', 1, 1, 'xuandt', '2019-08-06 14:41:18'),
 	(23, 'FUZE TEA', 'Trà chanh dây& hạt chia', 1, 1, 'thanhbka', '2019-08-09 15:04:08'),
-	(24, 'BANHMY', 'Bánh Mỳ', 1, 2, 'thanhnm', '2019-08-18 15:12:49'),
+	(24, 'BANHMY', 'Bánh Mỳ', 0, 2, 'thanhnm', '2019-08-18 15:12:49'),
 	(25, 'TRADA', 'Trà đá', 1, 1, 'thanhnm', '2019-08-18 15:31:30'),
 	(26, 'MATCHA', 'Trà xanh Matcha Nhật Bản', 1, 1, 'thanhnm', '2019-08-18 15:32:16'),
 	(27, 'RIVIVE', 'Nước Revive', 1, 1, 'thanhnm', '2019-08-18 15:33:11'),
@@ -385,7 +449,7 @@ INSERT INTO `mastercode` (`id`, `code`, `name`, `status`, `category`, `created_b
 	(29, 'OLONG_NHO', 'Trà Olong nhỏ', 1, 1, 'thanhnm', '2019-08-26 20:29:59'),
 	(30, 'JOLLY_VIT', 'Nước Vitamin Jolly Vit', 1, 1, 'thanhnm', '2019-08-28 19:25:01'),
 	(32, 'WAKEUP_247', 'Nước wakeup cafe 247', 1, 1, 'thanhnm', '2019-09-08 21:22:10'),
-	(33, 'MYTOM', 'Mỳ tôm hộp', 0, 2, 'thanhnm', '2019-09-08 21:23:04'),
+	(33, 'MYTOM', 'Mỳ tôm hộp', 1, 2, 'thanhnm', '2019-09-08 21:23:04'),
 	(34, 'XUC_XICH', 'Xúc xích', 0, 2, 'thanhnm', '2019-09-08 21:27:30'),
 	(35, 'LUONG_KHO', 'Bánh lương khô', 1, 2, 'thanhnm', '2019-09-08 21:27:53'),
 	(36, 'ORION', 'Bánh Orion', 1, 2, 'thanhnm', '2019-09-08 21:30:49'),
@@ -522,7 +586,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `updated_by` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=516 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
+) ENGINE=InnoDB AUTO_INCREMENT=524 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Giao dich\r\n';
 
 -- Dumping data for table cms_ps_dev.transactions: ~444 rows (approximately)
 DELETE FROM `transactions`;
@@ -1011,7 +1075,15 @@ INSERT INTO `transactions` (`id`, `id_ps`, `id_user`, `total_money`, `diem_tich`
 	(512, 4, 25, 10600, 1, 0, 'thanhnm', '2020-01-21 15:45:04', 'thanhnm', '2020-01-21 16:00:28'),
 	(513, 2, 25, 5601, 1, 0, 'thanhnm', '2020-01-21 15:48:50', 'thanhnm', '2020-01-21 16:06:08'),
 	(514, 5, 25, 170112, 23, 0, 'thanhnm', '2020-01-21 16:05:59', 'thanhnm', '2020-01-21 23:35:40'),
-	(515, 3, 25, 145112, 23, 0, 'thanhnm', '2020-01-21 16:05:58', 'thanhnm', '2020-01-21 23:36:00');
+	(515, 3, 25, 145112, 23, 0, 'thanhnm', '2020-01-21 16:05:58', 'thanhnm', '2020-01-21 23:36:00'),
+	(516, 1, 0, 34600, 1, 0, 'thanhnm', '2020-02-08 23:41:46', 'thanhnm', '2020-02-08 23:56:22'),
+	(517, 2, 0, 49600, 1, 0, 'thanhnm', '2020-02-08 23:41:47', 'thanhnm', '2020-02-08 23:56:31'),
+	(518, 5, 0, 24600, 1, 0, 'thanhnm', '2020-02-08 23:41:47', 'thanhnm', '2020-02-08 23:56:40'),
+	(519, 1, 0, 63600, 7, 0, 'thanhnm', '2020-02-09 00:02:40', 'thanhnm', '2020-02-09 02:14:28'),
+	(520, 3, 0, 59600, 7, 0, 'thanhnm', '2020-02-09 00:02:43', 'thanhnm', '2020-02-09 02:14:47'),
+	(521, 5, 0, 64000, 7, 0, 'thanhnm', '2020-02-09 00:02:42', 'thanhnm', '2020-02-09 02:15:03'),
+	(522, 4, 0, 64000, 7, 0, 'thanhnm', '2020-02-09 00:02:41', 'thanhnm', '2020-02-09 02:15:27'),
+	(523, 5, 0, 902000, 136, 0, 'thanhnm', '2020-02-09 02:31:46', 'thanhnm', '2020-02-10 23:38:10');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.trans_detail
@@ -1025,7 +1097,7 @@ CREATE TABLE IF NOT EXISTS `trans_detail` (
   `discount` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Ty le % giam gia cho khach VIP',
   `start` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1183 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
+) ENGINE=InnoDB AUTO_INCREMENT=1201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Chi tiet giao dich';
 
 -- Dumping data for table cms_ps_dev.trans_detail: ~1.075 rows (approximately)
 DELETE FROM `trans_detail`;
@@ -2174,7 +2246,25 @@ INSERT INTO `trans_detail` (`id`, `id_trans`, `id_item`, `code_item`, `quantity`
 	(1179, 514, 1, 'REDBULL', '1', '15000', 0, '2020-01-21 16:05:59'),
 	(1180, 514, 2, 'RONGDO', '1', '10000', 0, '2020-01-21 16:05:59'),
 	(1181, 514, 9, 'PS4', '7.48', '20000', 3, '2020-01-21 16:05:59'),
-	(1182, 515, 9, 'PS4', '7.48', '20000', 3, '2020-01-21 16:05:58');
+	(1182, 515, 9, 'PS4', '7.48', '20000', 3, '2020-01-21 16:05:58'),
+	(1183, 516, 1, 'REDBULL', '2', '15000', 0, '2020-02-08 23:41:46'),
+	(1184, 516, 9, 'PS4', '0.23', '20000', 0, '2020-02-08 23:41:46'),
+	(1185, 517, 2, 'RONGDO', '2', '10000', 0, '2020-02-08 23:41:47'),
+	(1186, 517, 14, 'VINA', '1', '25000', 0, '2020-02-08 23:41:47'),
+	(1187, 517, 9, 'PS4', '0.23', '20000', 0, '2020-02-08 23:41:47'),
+	(1188, 518, 6, 'CHANHMUOI', '2', '10000', 0, '2020-02-08 23:41:47'),
+	(1189, 518, 9, 'PS4', '0.23', '20000', 0, '2020-02-08 23:41:47'),
+	(1190, 519, 4, 'COCA', '2', '10000', 0, '2020-02-09 00:02:40'),
+	(1191, 519, 9, 'PS4', '2.18', '20000', 0, '2020-02-09 00:02:40'),
+	(1192, 520, 25, 'TRADA', '2', '3000', 0, '2020-02-09 00:02:43'),
+	(1193, 520, 10, 'DULICH', '1', '10000', 0, '2020-02-09 00:02:43'),
+	(1194, 520, 9, 'PS4', '2.18', '20000', 0, '2020-02-09 00:02:43'),
+	(1195, 521, 7, 'C2', '1', '10000', 0, '2020-02-09 00:02:42'),
+	(1196, 521, 6, 'CHANHMUOI', '1', '10000', 0, '2020-02-09 00:02:42'),
+	(1197, 521, 9, 'PS4', '2.20', '20000', 0, '2020-02-09 00:02:42'),
+	(1198, 522, 16, 'MOUNTAIN_DEW', '2', '10000', 0, '2020-02-09 00:02:41'),
+	(1199, 522, 9, 'PS4', '2.20', '20000', 0, '2020-02-09 00:02:41'),
+	(1200, 523, 9, 'PS4', '45.10', '20000', 0, '2020-02-09 02:31:46');
 /*!40000 ALTER TABLE `trans_detail` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.users
@@ -2189,7 +2279,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `diem_tich` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tổng điểm đã tích',
   `diem_tieu` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tổng điểm đã tiêu',
   `play_number` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Số lần chơi',
-  `play_hours` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Tổng số giờ đã chơi',
+  `play_hours` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tổng số giờ đã chơi',
   `role` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '{0: superadmin, 1: admin, 2: employee, 3: customer}',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '5' COMMENT 'Danh hieu {1: diamond, 2: vip, 3: loyal, 4: dong, 5: thuong}',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT 'Trạng thái {0: inactive, 1: active}',
@@ -2202,63 +2292,63 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `phone` (`phone`)
 ) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table cms_ps_dev.users: ~53 rows (approximately)
+-- Dumping data for table cms_ps_dev.users: ~43 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `fullname`, `nickname`, `passwd`, `phone`, `address`, `diem_tich`, `diem_tieu`, `play_number`, `play_hours`, `role`, `type`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) VALUES
-	(1, 'thanhnm', 'Nguyễn Mai Thành', 'mr.lun', '$2b$08$ehZ8TyV1KwuV3HHhCShz5./CxjmpVn.sFD4qeCn5cBl5F0jUyPI66', '0349617930', 'Thuận Tiến, Dương Xá, Gia Lâm, Hà Nội', 478, 0, 209, NULL, 1, 2, 1, 'SYSTEM', '2019-06-16 14:21:17', 'thanhbka', '2019-08-06 18:47:50'),
-	(2, 'thanhbka', 'Thành Nguyễn', 'thanhlun', '$2b$08$9LyiDqATgV1tX6u5UDkAce0z/nQbbHHFGaRW5J3NACYVdMgnR4VQO', '0367105882', NULL, 6, 0, 1, NULL, 1, 5, 1, 'SYSTEM', '2019-06-16 19:04:38', 'thanhnm', '2019-08-20 19:58:06'),
-	(21, 'thai', NULL, NULL, '$2b$08$CaNj31HgH8zDAmLbR5tucup7CevMTT1hN9bB5WNSxBjhkBNB7h3De', '0383191869', NULL, 9, 0, 3, NULL, 2, 5, 1, 'SYSTEM', '2019-07-15 20:54:35', 'thanhbka', '2019-08-10 20:57:02'),
-	(22, 'son', NULL, NULL, '$2b$08$yn9kmpqKywM0cZMz2Lqg4.G/xkZxitAcEm58ZpGoHEg8.93/XhoRW', '0921119896', NULL, 23, 0, 1, NULL, 2, 5, 1, 'SYSTEM', '2019-07-15 20:54:47', 'thanhbka', '2019-08-10 19:02:29'),
-	(24, 'quan', NULL, NULL, '$2b$08$PMxD/ONDLIIJfIYYxkGCQOvpccOyMethtbfFuMYd2J0R8.49ZS2/S', '0342156263', NULL, 25, 0, 2, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:42:49', 'SYSTEM', '2019-07-16 23:42:49'),
-	(25, 'tung', 'Tùng Thanh Anh', NULL, '$2b$08$2.Nc2LHJEReGl4hRMMZeM.uB7tS7OSDCzD7DUKloYxBTyCxJFxh/K', '0961715555', 'https://www.facebook.com/tungmaichoi', 120, 0, 12, NULL, 3, 3, 1, 'SYSTEM', '2019-07-16 23:43:23', 'thanhnm', '2019-08-20 19:51:05'),
-	(26, 'sonbk', NULL, NULL, '$2b$08$EZRPopKm3S5S3qfgTVgk3uJxNv75NDAWjSsQE1k2tNYOkeSRJwSx.', '0961970347', NULL, 98, 60, 1, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:44:27', 'SYSTEM', '2019-07-16 23:44:27'),
-	(27, 'hung_batgioi', NULL, NULL, '$2b$08$uDVWH9b0rk2EAkTwTJNhYuJtZwHXj914wH4F4fDYM6WKcmJCuN9FG', '0911391444', NULL, 144, 0, 3, NULL, 3, 2, 1, 'SYSTEM', '2019-07-16 23:44:57', 'SYSTEM', '2019-07-16 23:44:57'),
-	(28, 'hoangxom', NULL, NULL, '$2b$08$RrQS2TjwT3YFBdD.qq5K2uuSsl0tgk6T6YRRkZ7XNUIH9TwkiJiCm', '0328216841', NULL, 112, 0, 0, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:45:22', 'SYSTEM', '2019-07-16 23:45:22'),
-	(29, 'thangboon', 'Thắng Boon', NULL, '$2b$08$/kxXgk5WquMQnNcmibdncu.xxsHRceXLVgv6ujnlrEywMCLsjK6i2', '0964211568', NULL, 66, 0, 1, NULL, 3, 5, 1, 'SYSTEM', '2019-07-16 23:53:41', 'thanhnm', '2019-08-20 20:32:56'),
-	(30, 'tientienle', 'Tiến tiền lẻ', NULL, '$2b$08$f/xPPOSnmVUdXg9czH1F5eqvaORNRxufDpSdEFH1RsxvpOPskOACW', '0968211095', '06.08.2019: gọi điện, Tiến báo tham gia được mai ra nộp lệ phí', 126, 60, 0, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 16:58:45', 'thanhnm', '2020-01-20 17:41:26'),
-	(31, 'Vuong', 'Vương SH', NULL, '$2b$08$6f3GazAUTo7aDgNCks.RoOypXhxS4ywIdr7NCEHbENn8IjQB1cuY.', '0363917227', 'Tiến tiền lẻ', 240, 201, 0, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 17:02:52', 'thanhnm', '2020-01-20 17:42:33'),
-	(32, 'Tienken', 'Tiến Ken', NULL, '$2b$08$dCHQqSwlXS6UmPmM.gW0sujkL7hMz0nVWkTprT.jsT1g04DAYUQ06', '0777166883', 'https://www.facebook.com/ken.dz93', 141, 100, 1, NULL, 3, 5, 1, 'thanhbka', '2019-07-27 20:23:35', 'thanhnm', '2019-08-20 19:50:01'),
-	(34, 'tham', 'Thám', NULL, '$2b$08$d6IELa/s2tt6K7IAJWgYm.D1.eue265NxGrABeddA.WLVp5qtopvi', '0899414992', NULL, 43, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-07-30 01:12:00', 'thanhbka', '2019-08-06 23:02:02'),
-	(35, 'trungtq', 'Trần Quang Trung', NULL, '$2b$08$8xQWibE.LeVxguTP6VWN7.kHU6n/Bsu3Oj7AH8rEEPo1mzfRuF61u', '0865150795', NULL, 13, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-05 21:38:32', 'thanhnm', '2019-08-05 21:38:32'),
-	(36, 'Tiep0395', 'A. Tiệp ', 'A tiệp thợ điện', '$2b$08$HEaLeXoAq9cYua/SOs3KSOvV45tEyTpDg4ci4MgoIaXkwAyAmAMuK', '0983410395', 'trâu quỳ', 13, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 13:54:56', 'xuandt', '2019-08-06 13:54:56'),
-	(37, 'Quan0495', 'Quân Kẹo', 'Quân Kẹo', '$2b$08$930.OCDy62dq7XZ1hka2pObJifmD2cydQhyCM6kFx2XuAnTpJPche', '0967410495', 'https://www.facebook.com/dacquan.95', 97, 50, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 13:59:20', 'thanhnm', '2019-08-20 19:45:52'),
-	(40, 'hoc285', 'Nguyễn Văn Học', 'Học_Nhóm oto', '$2b$08$ff5PPUJT29lsP02YyPPlCuNMgKefHWNLmcKX.QJff6uNUNWcgIMRS', '0986105285', 'https://www.facebook.com/trananhcuong.tran.52', 9, 0, 1, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:06:39', 'thanhnm', '2019-08-20 19:51:55'),
-	(42, 'Cuong3599', 'Cường Lê', 'Cường_Tham gia giải', '$2b$08$Gki2r1x9G0X6huwWr6mYz.XPv2ZxDaWqPaqfX2ZWhcFMXYEmR9TDq', '0918413599', 'https://www.facebook.com/cugia.vietnam', 28, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:10:09', 'thanhnm', '2019-08-20 19:53:37'),
-	(45, 'Hai6564', 'Hải', '', '$2b$08$MaFrcmZ/btutf4ncqJPRbe3BWcLC4Y33eSh44Sf01dA4wS0QdAg3C', '0943196564', NULL, 62, 57, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:19:00', 'xuandt', '2019-08-06 14:19:00'),
-	(46, 'Cuong9768', 'Cường', NULL, '$2b$08$qzssb82B79e6ncMjwdisfeLNo5gYaCBkWSKZ4xwRI0Vs1zfq6B1Dq', '0915119768', NULL, 13, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:27:21', 'xuandt', '2019-08-06 14:27:21'),
-	(48, 'Bach5096', 'Bách', NULL, '$2b$08$mjIfqrJFyfYGsOYtyD41nO0mdoI6ok5804BEFOtJNTux/YRPSpiSm', '0967195096', NULL, 4, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:46:35', 'xuandt', '2019-08-06 14:46:35'),
-	(49, 'tien1993', 'Tiến', NULL, '$2b$08$qnnZtE2s5U1UhC2m14RSUe/dJV4EO1dNnEfjGe8kDllQzWK8RijSe', '0362116626', NULL, 77, 0, 0, NULL, 3, 5, 1, 'xuandt', '2019-08-06 14:48:19', 'xuandt', '2019-08-06 14:48:19'),
-	(52, 'vuongnd', 'Nguyễn Đức Vượng', NULL, '$2b$08$3aTSvBmqlWZUqKzDT.FBGOZOLYQWAcDN2/N1MGwP7yiXMI.1SX9Fi', '0981131122', 'https://www.facebook.com/obelisk.osiris28', 41, 0, 0, NULL, 3, 5, 1, 'thanhbka', '2019-08-08 19:35:21', 'thanhnm', '2019-08-20 19:47:51'),
-	(54, 'quan86', 'Nguyễn Phú Quân', NULL, '$2b$08$75cYGo47N39mjsz8OlBVNuMzJwI4yMGz0uLGiXuzGk4ea4unfJJHq', '0966168086', 'https://www.facebook.com/quan.nguyenphu', 63, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-12 20:05:00', 'thanhnm', '2019-08-20 19:49:14'),
-	(55, 'tung233', 'Đào Thanh Tùng', NULL, '$2b$08$6ugfRu7pDpa.7vTdl7uQ2.tsBRNIhoQ9Qwdc27W1ivAqLpFJCynIq', '0821412233', NULL, 17, 0, 1, NULL, 3, 5, 1, 'thanhnm', '2019-08-12 20:13:44', 'thanhnm', '2019-08-12 20:13:44'),
-	(57, 'Phuc541', 'Nguyễn Huy Phúc', NULL, '$2b$08$ilhMIt1g0/xSu/Z0XyvWyeAV1JOSba.fOXWk0Kiu3wxa37m4yBQne', '0984173541', NULL, 4, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-16 21:15:36', 'thanhnm', '2019-08-16 21:19:14'),
-	(59, 'Tho1722', NULL, NULL, '$2b$08$AzyME4ViCVsq7X0suhJKX.Ij29ldbzrib6iDdDcxa5ODMuitIDgF.', '0352111722', NULL, 191, 120, 0, NULL, 3, 5, 1, 'xoan', '2019-08-18 02:32:04', 'xoan', '2019-08-18 02:32:04'),
-	(60, 'anhong', NULL, NULL, '$2b$08$O7Yo65HIEVVst/a8oJEr6ueE7wr5v.bByygLHlk1wCCnr4OieMYIS', '0968199916', NULL, 24, 0, 0, NULL, 3, 5, 1, 'son', '2019-08-18 15:53:48', 'son', '2019-08-18 15:53:48'),
-	(61, 'tinh8266', 'Nguyễn Đức Tĩnh', NULL, '$2b$08$BcuMlnH/XEX6mp1.emMN6OlNHIvdPF0Y9tP4nULD.iW5ox/MXqaYa', '0971128266', NULL, 34, 0, 0, NULL, 3, 5, 1, 'son', '2019-08-18 17:51:18', 'son', '2019-08-18 17:51:18'),
-	(63, 'chien772', 'chiến', NULL, '$2b$08$5.nS8HOxYXJ9QzKWk0RFhuaORgexJNOL4ufB6gZW5PmEYb.9eEwJa', '0381827772', NULL, 10, 0, 0, NULL, 3, 5, 1, 'son', '2019-08-19 15:45:41', 'son', '2019-08-19 15:45:41'),
-	(72, 'son510', 'sơn.', NULL, '$2b$08$02RdBPi95btXU75nMIjlKeAuEYCgu48fq6BtKXeRk9gpP4TLwritq', '0968618510', NULL, 149, 48, 0, NULL, 3, 5, 1, 'xoan', '2019-08-19 16:09:35', 'xoan', '2019-08-19 16:09:35'),
-	(74, 'anhnhan86', NULL, NULL, '$2b$08$FZZ7QlAx3cJ2WFOR8lbmtesvc7Avb7fyZgjntcq7aW6m/4X9KpINW', '0966188386', NULL, 39, 0, 0, NULL, 3, 5, 1, 'son', '2019-08-21 00:35:47', 'son', '2019-08-21 00:35:47'),
-	(75, 'huy', NULL, NULL, '$2b$08$ZYu1NUEeA.zutvvCbHs/HOSSBRDT3dp9TmgboZOALX5A2WaaaYCRW', '0978147007', NULL, 9, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-22 13:34:39', 'xoan', '2019-08-22 13:34:39'),
-	(76, 'tan601', 'Tân', NULL, '$2b$08$eJcBzt7fD9qZxYV6.a.Igea5/mwVLLEGSfML12I1nOjvbfaq1N48C', '0349186601', NULL, 50, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-22 16:39:32', 'xoan', '2019-08-22 16:39:32'),
-	(77, 'Sinh', NULL, NULL, '$2b$08$oaaeU90NRN2is.vKCmqXgu0a9OSOPejLBDIN8GgiVCDtJXpbBOmNO', '0975184291', NULL, 12, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-22 17:21:12', 'xoan', '2019-08-22 17:21:12'),
-	(78, 'Binh499', NULL, NULL, '$2b$08$SjLgWHAgj9vSFqjupZAdR.USvYNG8rddCbQFSGm6Yyf.Kj5I1Iar2', '0973081499', NULL, 25, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-22 17:41:28', 'xoan', '2019-08-22 17:41:28'),
-	(79, 'duc747', NULL, NULL, '$2b$08$wSETVGh0myH2UH9DqW.YG.sxz/Q/Yfxjsdf/FlhjcOHAtQ89BlNAe', '0971128747', NULL, 3, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-23 16:41:50', 'xoan', '2019-08-23 16:41:50'),
-	(80, 'ngoc', 'Cù xuân Ngọc', NULL, '$2b$08$NVILyEQ6ODU7mhVj6Nt87O9Q2MP3l8vW6D1To5BlafzHNQJQoxP.m', '0971218592', NULL, 29, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-23 19:26:54', 'xoan', '2019-08-23 19:26:54'),
-	(81, 'dung898', NULL, NULL, '$2b$08$HRgoJDZh2lhmejG2DAAxMuKgfSX76OCAXn798r/5H0MEoiyBuwyUq', '0397310898', NULL, 7, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-23 22:34:33', 'xoan', '2019-08-23 22:34:33'),
-	(82, 'tien3905', 'Nguyễn Mạnh Tiến', NULL, '$2b$08$mKeNvx5xwNje4fYgvHh73efGIFLs7noXIF95Sv8AXr3m31JxPCO.G', '0853813905', NULL, 99, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-26 21:29:14', 'thanhnm', '2019-08-26 21:30:41'),
-	(83, 'Giang', NULL, NULL, '$2b$08$oqbQnLvbTrfs8rmQfAwewOk434XRfLmgC3GrjPf3ymV7le.ENbX6e', '0381204928', NULL, 6, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-08-27 11:22:21', 'xoan', '2019-08-27 11:22:21'),
-	(84, 'dung115', NULL, NULL, '$2b$08$fs4KAZvvQMrE7EpWIiz9DOjUe/4x2Cx1/sIkGJ.XNMeYO7TPzgEAi', '0344151111', NULL, 182, 164, 0, NULL, 3, 5, 1, 'xoan', '2019-08-27 18:01:59', 'xoan', '2019-08-27 18:01:59'),
-	(85, 'son36', 'Nguyễn Hồng Sơn', NULL, '$2b$08$Q4MV4hon6R0YDmmmP4c78uEh9fx7ZBMSzTLa.zMSvK21WJqcnHUty', '0979130176', NULL, 15, 0, 1, NULL, 3, 5, 1, 'xoan', '2019-08-31 02:57:40', 'xoan', '2019-08-31 02:57:40'),
-	(86, 'tu807', NULL, NULL, '$2b$08$hMsbrRTLu/f/9BHV1K2U6.iidyzGuVkJ9xORZGGT.0Gs4VR6WHLMm', '0961512807', NULL, 5, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-08-31 15:36:30', 'thanhnm', '2019-08-31 15:36:30'),
-	(87, 'bom93', NULL, NULL, '$2b$08$12kIfD3qD/aZyNbiDT/m0ed7MPHHo0.CF1GtADHNhV9yuhAwH0Ge.', '0981043993', NULL, 10, 0, 0, NULL, 3, 5, 1, 'son', '2019-09-02 17:44:14', 'son', '2019-09-02 17:44:14'),
-	(88, 'thang996', 'Thắng', NULL, '$2b$08$vyGqM.XQfSe1THJ7MQn9l.03RDHF4VsaQVJ1cJiSnBQG0ZujOmMZO', '0326169996', NULL, 17, 0, 0, NULL, 3, 5, 1, 'thanhnm', '2019-09-03 23:25:43', 'thanhnm', '2019-09-03 23:25:43'),
-	(89, 'tinh83', NULL, NULL, '$2b$08$u2niNGzzuz3baqViPZUcIeO3EAzmBvoSikBvjw7/6QQtSJGIa8mbe', '0981583083', NULL, 6, 0, 0, NULL, 3, 5, 1, 'thai', '2019-09-04 20:59:20', 'thai', '2019-09-04 20:59:20'),
-	(90, 'đạt', NULL, NULL, '$2b$08$atLMEvgRShUaSTWUpTkWuerem7PxrJiGaIXrbu/Iuh4fAsd4jHf/m', '0961628388', NULL, 14, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-09-07 12:53:36', 'xoan', '2019-09-07 12:53:36'),
-	(114, 'Sỹ', NULL, NULL, '$2b$08$TJcy3o2wros6.TQgIweY9uHPPsceyQSenynBvSKTWVYQnj/pCuMNW', '08676134675', NULL, 8, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-09-09 16:57:25', 'xoan', '2019-09-09 16:57:25'),
-	(115, 'Tuấn', NULL, NULL, '$2b$08$bdDMzBONpAIcPDivIr7q.elYAF31kUTPXmB.TQgSyXKaXgSpv5vMi', '0359118989', NULL, 30, 0, 0, NULL, 3, 5, 1, 'xoan', '2019-09-09 17:09:39', 'xoan', '2019-09-09 17:09:39'),
-	(117, 'phuong838', NULL, NULL, '$2b$08$WUNZb6DM0yNhg7TTJI6YU.cDEIw3LAQOSE6AMQlPF8zeFfngLFfMy', '0963311838', NULL, 30, 0, 0, NULL, 3, 5, 1, 'thai', '2019-09-21 17:47:02', 'thai', '2019-09-21 17:47:02'),
-	(118, 'long303', NULL, NULL, '$2b$08$vXpBAMfI.M1ckygMmPa16OjrF8C7ufLwXWrCl2R/hnRgPBMgPVaoe', '0379613303', NULL, 8, 0, 0, NULL, 3, 5, 1, 'thai', '2019-09-22 17:18:46', 'thai', '2019-09-22 17:18:46');
+	(1, 'thanhnm', 'Nguyễn Mai Thành', 'mr.lun', '$2b$08$ehZ8TyV1KwuV3HHhCShz5./CxjmpVn.sFD4qeCn5cBl5F0jUyPI66', '0349617930', 'Thuận Tiến, Dương Xá, Gia Lâm, Hà Nội', 478, 0, 209, 0, 1, 2, 1, 'SYSTEM', '2019-06-16 14:21:17', 'thanhbka', '2019-08-06 18:47:50'),
+	(2, 'thanhbka', 'Thành Nguyễn', 'thanhlun', '$2b$08$9LyiDqATgV1tX6u5UDkAce0z/nQbbHHFGaRW5J3NACYVdMgnR4VQO', '0367105882', NULL, 6, 0, 1, 0, 1, 5, 1, 'SYSTEM', '2019-06-16 19:04:38', 'thanhnm', '2019-08-20 19:58:06'),
+	(21, 'thai', NULL, NULL, '$2b$08$CaNj31HgH8zDAmLbR5tucup7CevMTT1hN9bB5WNSxBjhkBNB7h3De', '0383191869', NULL, 9, 0, 3, 0, 2, 5, 1, 'SYSTEM', '2019-07-15 20:54:35', 'thanhbka', '2019-08-10 20:57:02'),
+	(22, 'son', NULL, NULL, '$2b$08$yn9kmpqKywM0cZMz2Lqg4.G/xkZxitAcEm58ZpGoHEg8.93/XhoRW', '0921119896', NULL, 23, 0, 1, 0, 2, 5, 1, 'SYSTEM', '2019-07-15 20:54:47', 'thanhbka', '2019-08-10 19:02:29'),
+	(24, 'quan', NULL, NULL, '$2b$08$PMxD/ONDLIIJfIYYxkGCQOvpccOyMethtbfFuMYd2J0R8.49ZS2/S', '0342156263', NULL, 25, 0, 2, 0, 3, 5, 1, 'SYSTEM', '2019-07-16 23:42:49', 'SYSTEM', '2019-07-16 23:42:49'),
+	(25, 'tung', 'Tùng Thanh Anh', NULL, '$2b$08$2.Nc2LHJEReGl4hRMMZeM.uB7tS7OSDCzD7DUKloYxBTyCxJFxh/K', '0961715555', 'https://www.facebook.com/tungmaichoi', 120, 0, 12, 0, 3, 3, 1, 'SYSTEM', '2019-07-16 23:43:23', 'thanhnm', '2019-08-20 19:51:05'),
+	(26, 'sonbk', NULL, NULL, '$2b$08$EZRPopKm3S5S3qfgTVgk3uJxNv75NDAWjSsQE1k2tNYOkeSRJwSx.', '0961970347', NULL, 98, 60, 1, 0, 3, 5, 1, 'SYSTEM', '2019-07-16 23:44:27', 'SYSTEM', '2019-07-16 23:44:27'),
+	(27, 'hung_batgioi', NULL, NULL, '$2b$08$uDVWH9b0rk2EAkTwTJNhYuJtZwHXj914wH4F4fDYM6WKcmJCuN9FG', '0911391444', NULL, 144, 0, 3, 0, 3, 2, 1, 'SYSTEM', '2019-07-16 23:44:57', 'SYSTEM', '2019-07-16 23:44:57'),
+	(28, 'hoangxom', NULL, NULL, '$2b$08$RrQS2TjwT3YFBdD.qq5K2uuSsl0tgk6T6YRRkZ7XNUIH9TwkiJiCm', '0328216841', NULL, 112, 0, 0, 0, 3, 5, 1, 'SYSTEM', '2019-07-16 23:45:22', 'SYSTEM', '2019-07-16 23:45:22'),
+	(29, 'thangboon', 'Thắng Boon', NULL, '$2b$08$/kxXgk5WquMQnNcmibdncu.xxsHRceXLVgv6ujnlrEywMCLsjK6i2', '0964211568', NULL, 66, 0, 1, 0, 3, 5, 1, 'SYSTEM', '2019-07-16 23:53:41', 'thanhnm', '2019-08-20 20:32:56'),
+	(30, 'tientienle', 'Tiến tiền lẻ', NULL, '$2b$08$f/xPPOSnmVUdXg9czH1F5eqvaORNRxufDpSdEFH1RsxvpOPskOACW', '0968211095', '06.08.2019: gọi điện, Tiến báo tham gia được mai ra nộp lệ phí', 126, 60, 0, 0, 3, 5, 1, 'thanhbka', '2019-07-27 16:58:45', 'thanhnm', '2020-01-20 17:41:26'),
+	(31, 'Vuong', 'Vương SH', NULL, '$2b$08$6f3GazAUTo7aDgNCks.RoOypXhxS4ywIdr7NCEHbENn8IjQB1cuY.', '0363917227', 'Tiến tiền lẻ', 240, 201, 0, 0, 3, 5, 1, 'thanhbka', '2019-07-27 17:02:52', 'thanhnm', '2020-01-20 17:42:33'),
+	(32, 'Tienken', 'Tiến Ken', NULL, '$2b$08$dCHQqSwlXS6UmPmM.gW0sujkL7hMz0nVWkTprT.jsT1g04DAYUQ06', '0777166883', 'https://www.facebook.com/ken.dz93', 141, 100, 1, 0, 3, 5, 1, 'thanhbka', '2019-07-27 20:23:35', 'thanhnm', '2019-08-20 19:50:01'),
+	(34, 'tham', 'Thám', NULL, '$2b$08$d6IELa/s2tt6K7IAJWgYm.D1.eue265NxGrABeddA.WLVp5qtopvi', '0899414992', NULL, 43, 0, 0, 0, 3, 5, 1, 'thanhnm', '2019-07-30 01:12:00', 'thanhbka', '2019-08-06 23:02:02'),
+	(35, 'trungtq', 'Trần Quang Trung', NULL, '$2b$08$8xQWibE.LeVxguTP6VWN7.kHU6n/Bsu3Oj7AH8rEEPo1mzfRuF61u', '0865150795', NULL, 13, 0, 0, 0, 3, 5, 1, 'thanhnm', '2019-08-05 21:38:32', 'thanhnm', '2019-08-05 21:38:32'),
+	(36, 'Tiep0395', 'A. Tiệp ', 'A tiệp thợ điện', '$2b$08$HEaLeXoAq9cYua/SOs3KSOvV45tEyTpDg4ci4MgoIaXkwAyAmAMuK', '0983410395', 'trâu quỳ', 13, 0, 0, 0, 3, 5, 1, 'xuandt', '2019-08-06 13:54:56', 'xuandt', '2019-08-06 13:54:56'),
+	(37, 'Quan0495', 'Quân Kẹo', 'Quân Kẹo', '$2b$08$930.OCDy62dq7XZ1hka2pObJifmD2cydQhyCM6kFx2XuAnTpJPche', '0967410495', 'https://www.facebook.com/dacquan.95', 97, 50, 0, 0, 3, 5, 1, 'xuandt', '2019-08-06 13:59:20', 'thanhnm', '2019-08-20 19:45:52'),
+	(40, 'hoc285', 'Nguyễn Văn Học', 'Học_Nhóm oto', '$2b$08$ff5PPUJT29lsP02YyPPlCuNMgKefHWNLmcKX.QJff6uNUNWcgIMRS', '0986105285', 'https://www.facebook.com/trananhcuong.tran.52', 9, 0, 1, 0, 3, 5, 1, 'xuandt', '2019-08-06 14:06:39', 'thanhnm', '2019-08-20 19:51:55'),
+	(42, 'Cuong3599', 'Cường Lê', 'Cường_Tham gia giải', '$2b$08$Gki2r1x9G0X6huwWr6mYz.XPv2ZxDaWqPaqfX2ZWhcFMXYEmR9TDq', '0918413599', 'https://www.facebook.com/cugia.vietnam', 28, 0, 0, 0, 3, 5, 1, 'xuandt', '2019-08-06 14:10:09', 'thanhnm', '2019-08-20 19:53:37'),
+	(45, 'Hai6564', 'Hải', '', '$2b$08$MaFrcmZ/btutf4ncqJPRbe3BWcLC4Y33eSh44Sf01dA4wS0QdAg3C', '0943196564', NULL, 62, 57, 0, 0, 3, 5, 1, 'xuandt', '2019-08-06 14:19:00', 'xuandt', '2019-08-06 14:19:00'),
+	(46, 'Cuong9768', 'Cường', NULL, '$2b$08$qzssb82B79e6ncMjwdisfeLNo5gYaCBkWSKZ4xwRI0Vs1zfq6B1Dq', '0915119768', NULL, 13, 0, 0, 0, 3, 5, 1, 'xuandt', '2019-08-06 14:27:21', 'xuandt', '2019-08-06 14:27:21'),
+	(48, 'Bach5096', 'Bách', NULL, '$2b$08$mjIfqrJFyfYGsOYtyD41nO0mdoI6ok5804BEFOtJNTux/YRPSpiSm', '0967195096', NULL, 4, 0, 0, 0, 3, 5, 1, 'xuandt', '2019-08-06 14:46:35', 'xuandt', '2019-08-06 14:46:35'),
+	(49, 'tien1993', 'Tiến', NULL, '$2b$08$qnnZtE2s5U1UhC2m14RSUe/dJV4EO1dNnEfjGe8kDllQzWK8RijSe', '0362116626', NULL, 77, 0, 0, 0, 3, 5, 1, 'xuandt', '2019-08-06 14:48:19', 'xuandt', '2019-08-06 14:48:19'),
+	(52, 'vuongnd', 'Nguyễn Đức Vượng', NULL, '$2b$08$3aTSvBmqlWZUqKzDT.FBGOZOLYQWAcDN2/N1MGwP7yiXMI.1SX9Fi', '0981131122', 'https://www.facebook.com/obelisk.osiris28', 41, 0, 0, 0, 3, 5, 1, 'thanhbka', '2019-08-08 19:35:21', 'thanhnm', '2019-08-20 19:47:51'),
+	(54, 'quan86', 'Nguyễn Phú Quân', NULL, '$2b$08$75cYGo47N39mjsz8OlBVNuMzJwI4yMGz0uLGiXuzGk4ea4unfJJHq', '0966168086', 'https://www.facebook.com/quan.nguyenphu', 63, 0, 0, 0, 3, 5, 1, 'thanhnm', '2019-08-12 20:05:00', 'thanhnm', '2019-08-20 19:49:14'),
+	(55, 'tung233', 'Đào Thanh Tùng', NULL, '$2b$08$6ugfRu7pDpa.7vTdl7uQ2.tsBRNIhoQ9Qwdc27W1ivAqLpFJCynIq', '0821412233', NULL, 17, 0, 1, 0, 3, 5, 1, 'thanhnm', '2019-08-12 20:13:44', 'thanhnm', '2019-08-12 20:13:44'),
+	(57, 'Phuc541', 'Nguyễn Huy Phúc', NULL, '$2b$08$ilhMIt1g0/xSu/Z0XyvWyeAV1JOSba.fOXWk0Kiu3wxa37m4yBQne', '0984173541', NULL, 4, 0, 0, 0, 3, 5, 1, 'thanhnm', '2019-08-16 21:15:36', 'thanhnm', '2019-08-16 21:19:14'),
+	(59, 'Tho1722', NULL, NULL, '$2b$08$AzyME4ViCVsq7X0suhJKX.Ij29ldbzrib6iDdDcxa5ODMuitIDgF.', '0352111722', NULL, 191, 120, 0, 0, 3, 5, 1, 'xoan', '2019-08-18 02:32:04', 'xoan', '2019-08-18 02:32:04'),
+	(60, 'anhong', NULL, NULL, '$2b$08$O7Yo65HIEVVst/a8oJEr6ueE7wr5v.bByygLHlk1wCCnr4OieMYIS', '0968199916', NULL, 24, 0, 0, 0, 3, 5, 1, 'son', '2019-08-18 15:53:48', 'son', '2019-08-18 15:53:48'),
+	(61, 'tinh8266', 'Nguyễn Đức Tĩnh', NULL, '$2b$08$BcuMlnH/XEX6mp1.emMN6OlNHIvdPF0Y9tP4nULD.iW5ox/MXqaYa', '0971128266', NULL, 34, 0, 0, 0, 3, 5, 1, 'son', '2019-08-18 17:51:18', 'son', '2019-08-18 17:51:18'),
+	(63, 'chien772', 'chiến', NULL, '$2b$08$5.nS8HOxYXJ9QzKWk0RFhuaORgexJNOL4ufB6gZW5PmEYb.9eEwJa', '0381827772', NULL, 10, 0, 0, 0, 3, 5, 1, 'son', '2019-08-19 15:45:41', 'son', '2019-08-19 15:45:41'),
+	(72, 'son510', 'sơn.', NULL, '$2b$08$02RdBPi95btXU75nMIjlKeAuEYCgu48fq6BtKXeRk9gpP4TLwritq', '0968618510', NULL, 149, 48, 0, 0, 3, 5, 1, 'xoan', '2019-08-19 16:09:35', 'xoan', '2019-08-19 16:09:35'),
+	(74, 'anhnhan86', NULL, NULL, '$2b$08$FZZ7QlAx3cJ2WFOR8lbmtesvc7Avb7fyZgjntcq7aW6m/4X9KpINW', '0966188386', NULL, 39, 0, 0, 0, 3, 5, 1, 'son', '2019-08-21 00:35:47', 'son', '2019-08-21 00:35:47'),
+	(75, 'huy', NULL, NULL, '$2b$08$ZYu1NUEeA.zutvvCbHs/HOSSBRDT3dp9TmgboZOALX5A2WaaaYCRW', '0978147007', NULL, 9, 0, 0, 0, 3, 5, 1, 'xoan', '2019-08-22 13:34:39', 'xoan', '2019-08-22 13:34:39'),
+	(76, 'tan601', 'Tân', NULL, '$2b$08$eJcBzt7fD9qZxYV6.a.Igea5/mwVLLEGSfML12I1nOjvbfaq1N48C', '0349186601', NULL, 50, 0, 0, 0, 3, 5, 1, 'xoan', '2019-08-22 16:39:32', 'xoan', '2019-08-22 16:39:32'),
+	(77, 'Sinh', NULL, NULL, '$2b$08$oaaeU90NRN2is.vKCmqXgu0a9OSOPejLBDIN8GgiVCDtJXpbBOmNO', '0975184291', NULL, 12, 0, 0, 0, 3, 5, 1, 'xoan', '2019-08-22 17:21:12', 'xoan', '2019-08-22 17:21:12'),
+	(78, 'Binh499', NULL, NULL, '$2b$08$SjLgWHAgj9vSFqjupZAdR.USvYNG8rddCbQFSGm6Yyf.Kj5I1Iar2', '0973081499', NULL, 25, 0, 0, 0, 3, 5, 1, 'xoan', '2019-08-22 17:41:28', 'xoan', '2019-08-22 17:41:28'),
+	(79, 'duc747', NULL, NULL, '$2b$08$wSETVGh0myH2UH9DqW.YG.sxz/Q/Yfxjsdf/FlhjcOHAtQ89BlNAe', '0971128747', NULL, 3, 0, 0, 0, 3, 5, 1, 'xoan', '2019-08-23 16:41:50', 'xoan', '2019-08-23 16:41:50'),
+	(80, 'ngoc', 'Cù xuân Ngọc', NULL, '$2b$08$NVILyEQ6ODU7mhVj6Nt87O9Q2MP3l8vW6D1To5BlafzHNQJQoxP.m', '0971218592', NULL, 29, 0, 0, 0, 3, 5, 1, 'xoan', '2019-08-23 19:26:54', 'xoan', '2019-08-23 19:26:54'),
+	(81, 'dung898', NULL, NULL, '$2b$08$HRgoJDZh2lhmejG2DAAxMuKgfSX76OCAXn798r/5H0MEoiyBuwyUq', '0397310898', NULL, 7, 0, 0, 0, 3, 5, 1, 'xoan', '2019-08-23 22:34:33', 'xoan', '2019-08-23 22:34:33'),
+	(82, 'tien3905', 'Nguyễn Mạnh Tiến', NULL, '$2b$08$mKeNvx5xwNje4fYgvHh73efGIFLs7noXIF95Sv8AXr3m31JxPCO.G', '0853813905', NULL, 99, 0, 0, 0, 3, 5, 1, 'thanhnm', '2019-08-26 21:29:14', 'thanhnm', '2019-08-26 21:30:41'),
+	(83, 'Giang', NULL, NULL, '$2b$08$oqbQnLvbTrfs8rmQfAwewOk434XRfLmgC3GrjPf3ymV7le.ENbX6e', '0381204928', NULL, 6, 0, 0, 0, 3, 5, 1, 'xoan', '2019-08-27 11:22:21', 'xoan', '2019-08-27 11:22:21'),
+	(84, 'dung115', NULL, NULL, '$2b$08$fs4KAZvvQMrE7EpWIiz9DOjUe/4x2Cx1/sIkGJ.XNMeYO7TPzgEAi', '0344151111', NULL, 182, 164, 0, 0, 3, 5, 1, 'xoan', '2019-08-27 18:01:59', 'xoan', '2019-08-27 18:01:59'),
+	(85, 'son36', 'Nguyễn Hồng Sơn', NULL, '$2b$08$Q4MV4hon6R0YDmmmP4c78uEh9fx7ZBMSzTLa.zMSvK21WJqcnHUty', '0979130176', NULL, 15, 0, 1, 0, 3, 5, 1, 'xoan', '2019-08-31 02:57:40', 'xoan', '2019-08-31 02:57:40'),
+	(86, 'tu807', NULL, NULL, '$2b$08$hMsbrRTLu/f/9BHV1K2U6.iidyzGuVkJ9xORZGGT.0Gs4VR6WHLMm', '0961512807', NULL, 5, 0, 0, 0, 3, 5, 1, 'thanhnm', '2019-08-31 15:36:30', 'thanhnm', '2019-08-31 15:36:30'),
+	(87, 'bom93', NULL, NULL, '$2b$08$12kIfD3qD/aZyNbiDT/m0ed7MPHHo0.CF1GtADHNhV9yuhAwH0Ge.', '0981043993', NULL, 10, 0, 0, 0, 3, 5, 1, 'son', '2019-09-02 17:44:14', 'son', '2019-09-02 17:44:14'),
+	(88, 'thang996', 'Thắng', NULL, '$2b$08$vyGqM.XQfSe1THJ7MQn9l.03RDHF4VsaQVJ1cJiSnBQG0ZujOmMZO', '0326169996', NULL, 17, 0, 0, 0, 3, 5, 1, 'thanhnm', '2019-09-03 23:25:43', 'thanhnm', '2019-09-03 23:25:43'),
+	(89, 'tinh83', NULL, NULL, '$2b$08$u2niNGzzuz3baqViPZUcIeO3EAzmBvoSikBvjw7/6QQtSJGIa8mbe', '0981583083', NULL, 6, 0, 0, 0, 3, 5, 1, 'thai', '2019-09-04 20:59:20', 'thai', '2019-09-04 20:59:20'),
+	(90, 'đạt', NULL, NULL, '$2b$08$atLMEvgRShUaSTWUpTkWuerem7PxrJiGaIXrbu/Iuh4fAsd4jHf/m', '0961628388', NULL, 14, 0, 0, 0, 3, 5, 1, 'xoan', '2019-09-07 12:53:36', 'xoan', '2019-09-07 12:53:36'),
+	(114, 'Sỹ', NULL, NULL, '$2b$08$TJcy3o2wros6.TQgIweY9uHPPsceyQSenynBvSKTWVYQnj/pCuMNW', '08676134675', NULL, 8, 0, 0, 0, 3, 5, 1, 'xoan', '2019-09-09 16:57:25', 'xoan', '2019-09-09 16:57:25'),
+	(115, 'Tuấn', NULL, NULL, '$2b$08$bdDMzBONpAIcPDivIr7q.elYAF31kUTPXmB.TQgSyXKaXgSpv5vMi', '0359118989', NULL, 30, 0, 0, 0, 3, 5, 1, 'xoan', '2019-09-09 17:09:39', 'xoan', '2019-09-09 17:09:39'),
+	(117, 'phuong838', NULL, NULL, '$2b$08$WUNZb6DM0yNhg7TTJI6YU.cDEIw3LAQOSE6AMQlPF8zeFfngLFfMy', '0963311838', NULL, 30, 0, 0, 0, 3, 5, 1, 'thai', '2019-09-21 17:47:02', 'thai', '2019-09-21 17:47:02'),
+	(118, 'long303', NULL, NULL, '$2b$08$vXpBAMfI.M1ckygMmPa16OjrF8C7ufLwXWrCl2R/hnRgPBMgPVaoe', '0379613303', NULL, 8, 0, 0, 0, 3, 5, 1, 'thai', '2019-09-22 17:18:46', 'thai', '2019-09-22 17:18:46');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table cms_ps_dev.vendors

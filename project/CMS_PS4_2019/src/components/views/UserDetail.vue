@@ -63,7 +63,26 @@
           </v-tab>
 
           <v-tab title="Point" icon="fa fa-money">
-            Số phút đã tích được: <span class="text-bold">{{ point }}</span>
+            <div class="row">
+              <div class="col-md-3">
+                Số lần đã chơi:
+              </div>
+              <div class="col-md-9">
+                <span class="text-bold">{{ user.play_number }}</span>
+              </div> 
+              <div class="col-md-3">
+                Số giờ đã chơi:
+              </div>
+              <div class="col-md-9">
+                <span class="text-bold">{{ user.play_hours }}</span>
+              </div> 
+              <div class="col-md-3">
+                Số phút đã tích được:
+              </div>
+              <div class="col-md-9">
+                <span class="text-bold">{{ point }}</span>
+              </div>  
+            </div>
           </v-tab>
 
           <v-tab title="History" icon="fa fa-history">

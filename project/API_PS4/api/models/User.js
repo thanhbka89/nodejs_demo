@@ -190,9 +190,9 @@ class User {
     }
 
     // update Tich, Tieu diem
-    static updatePoint({id, diem_tich = 0, diem_tieu = 0, so_lan_choi = 1}, result) {
-        let sql = `UPDATE ${TABLE_NAME} SET diem_tich = diem_tich + ?, diem_tieu = diem_tieu + ?, play_number = play_number + ? WHERE id = ?`
-        db.query(sql, [diem_tich, diem_tieu, so_lan_choi, id], (err, res) => {
+    static updatePoint({id, diem_tich = 0, diem_tieu = 0, so_lan_choi = 1, so_gio_choi = 0}, result) {
+        let sql = `UPDATE ${TABLE_NAME} SET diem_tich = diem_tich + ?, diem_tieu = diem_tieu + ?, play_number = play_number + ?, play_hours = play_hours + ? WHERE id = ?`
+        db.query(sql, [diem_tich, diem_tieu, so_lan_choi, so_gio_choi, id], (err, res) => {
             if(err) {
                 result(err, null)
             }

@@ -94,7 +94,8 @@ export default {
       ],
       nhap_trong_ky: [],
       xuat_trong_ky: [],
-      ton_dau_ky: []
+      ton_dau_ky: [],
+      currentPeriod: formatDate({date: curDate, format: 'MM/YYYY'})
     }
   },
   computed: {
@@ -141,7 +142,8 @@ export default {
           return element.code === el.code && element.id === el.id_item
         })
         if (found) {
-          item.dauky_sl = found.sl_thucte
+          // neu cot sl_thucte ko co data thi lay tu cot sl_tinhtoan
+          item.dauky_sl = found.sl_thucte || found.sl_tinhtoan
         }
 
         // Nhap trong ky
@@ -239,8 +241,9 @@ export default {
       // Ton dau ky thang nay = ton cuoi ky da kiem ke cua thang truoc
       let fromPeriod = formatDate({date: this.dateFrom, format: 'MM/YYYY'})
       let toPeriod = formatDate({date: this.dateTo, format: 'MM/YYYY'})
-      // Chi thuc hien cho cùng kỳ
-      if (fromPeriod === toPeriod) {
+      let curPeriod = this.currentPeriod
+      // Chi thuc hien cho cùng kỳ và kỳ hiện tại
+      if (fromPeriod === toPeriod && fromPeriod === curPeriod) {
         try {
           const data = {
             items: this.data,
@@ -255,6 +258,8 @@ export default {
         } catch (err) {
           console.error(err)
         }
+      } else {
+        this.showToast('warning', `Chỉ thực hiện Kiểm kê cùng kỳ và cho kỳ hiện tại là ${curPeriod}`)
       }
     },
     showAlert(msg = null) {
