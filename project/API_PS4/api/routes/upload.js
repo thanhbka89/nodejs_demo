@@ -3,9 +3,12 @@ const router = Router()
 import multer from 'multer'
 import xlstojson from 'xls-to-json-lc'
 import xlsxtojson from 'xlsx-to-json-lc'
-import KiemKe from '../models/KiemKe'
 import { getPreviousMonth, formatDate, getFirstDayInMonth } from '../helpers'
-import { queryInventory, queryTransDetail } from '../services/mmService'
+import {
+	queryInventory,
+	queryTransDetail,
+	modifyKiemKe,
+} from '../services/mmService'
 
 const storage = multer.diskStorage({
 	//multers disk storage settings
@@ -20,9 +23,7 @@ const storage = multer.diskStorage({
 				'-' +
 				datetimestamp +
 				'.' +
-				file.originalname.split('.')[
-					file.originalname.split('.').length - 1
-				]
+				file.originalname.split('.')[file.originalname.split('.').length - 1]
 		)
 	},
 })
@@ -34,9 +35,7 @@ const upload = multer({
 		//file filter
 		if (
 			['xls', 'xlsx'].indexOf(
-				file.originalname.split('.')[
-					file.originalname.split('.').length - 1
-				]
+				file.originalname.split('.')[file.originalname.split('.').length - 1]
 			) === -1
 		) {
 			return callback(new Error('Wrong extension type'))
@@ -80,7 +79,7 @@ router.post('/', (req, res) => {
 					if (err) {
 						return res.json({
 							error_code: 1,
-							err_desc: err
+							err_desc: err,
 						})
 					}
 					res.json({ error_code: 0, err_desc: null, data: result })
@@ -131,6 +130,7 @@ router.post('/kiem_ke', (req, res) => {
 					}
 					let page = 1,
 						limit = 50000
+					let uploadData = []
 					let lastPeriod = getPreviousMonth({ format: 'MM/YYYY' })
 					let curDay = formatDate({})
 					let firstDay = formatDate({ date: getFirstDayInMonth(curDay) })
@@ -178,8 +178,7 @@ router.post('/kiem_ke', (req, res) => {
 								total_money: 0,
 								quantity: 0,
 							}
-							r[date].total_money +=
-								parseInt(o.quantity * o.price) || 0
+							r[date].total_money += parseInt(o.quantity * o.price) || 0
 							r[date].quantity += parseInt(o.quantity) || 0
 							return r
 						}, {})
@@ -199,7 +198,7 @@ router.post('/kiem_ke', (req, res) => {
 						}
 						// sl_thucte của ky truoc = sl_thucte kiem ke o thoi diem hien tai + sl_xuat - sl_nhap
 						let sl_thucte = parseInt(item.sl_thucte) || 0
-					
+
 						// Nhap trong ky
 						let found = nhap_trong_ky.find(el => {
 							return item.code === el.code
@@ -222,30 +221,14 @@ router.post('/kiem_ke', (req, res) => {
 							period: item.period,
 							sl_thucte: sl_thucte > 0 ? sl_thucte : 0,
 							created_by: req.decoded.username,
+							updated_by: req.decoded.username,
 						}
-						try {
-							let check = await KiemKe.paginate({
-								page: 1,
-								limit: 1,
-								id_item: data.id_item,
-								code: data.code,
-								period: data.period,
-							})
-							if (check.length) {
-								// neu da co data trong table
-								data.updated_by = req.decoded.username
-								await KiemKe.update(
-									check[0].id,
-									new KiemKe(data)
-								)
-							} else {
-								// tao moi
-								await KiemKe.create(new KiemKe(data))
-							}
-						} catch (e) {
-							console.error(e)
-						}
+						uploadData.push(data)
 					}
+					
+					modifyKiemKe(uploadData)
+						.then(x => console.log(x))
+						.catch(e => console.error(e))
 
 					res.json({
 						error_code: 0,
