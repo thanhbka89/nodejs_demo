@@ -1,19 +1,21 @@
 import logger from 'morgan'
 import express from 'express'
-import mongoose from 'mongoose'
 import cors from 'cors'
 
 const { sendResponse } = require('./helpers')
 const { fetchAuthorProfile } = require('./sites/scotch')
 import cronjob from './job'
-import config from './config'
+
+import * as UserService from './models/mongo/user.service'
 import Post from './models/mongo/post.model'
+import dbMongo from './models/mongo'
+const User = dbMongo.users
 
 cronjob()
 
 // Check connect to MongoDB
-mongoose
-	.connect(config.mongo, { useUnifiedTopology: true, useNewUrlParser: true })
+dbMongo.mongoose
+	.connect(dbMongo.url, { useUnifiedTopology: true, useNewUrlParser: true })
 	.then(() => {
 		console.log('MONGO connection successful')
 	})
@@ -40,7 +42,7 @@ app.get('/', (req, res, next) => {
 
 // test mongo
 app.post('/post', async (req, res) => {
-	try {
+	try {		
 		let post = new Post(req.body)
 		const result = await post.save()
 		res.json({
@@ -49,6 +51,32 @@ app.post('/post', async (req, res) => {
 	} catch (error) {
 		res.json({ msg: error })
 	}
+})
+app.post('/post-user', async(req, res) => {
+	try {		
+		let post = new User(req.body)
+		const result = await post.save()
+		res.json({
+			data: result
+		})
+	} catch (error) {
+		res.json({ msg: error })
+	}
+})
+app.get('/find-user', async(req, res) => {
+	// const {username} = req.query
+ 	// let condition = username ? { username: { $regex: new RegExp(username), $options: "i" } } : {}
+
+	 UserService.filter(req.query)
+	 .then(data => {
+	   res.json({ data })
+	 })
+	 .catch(err => {
+	   res.status(500).json({
+		 message:
+		   err.message || "Some error occurred while retrieving tutorials."
+	   })
+	 })
 })
 
 // ex: `http://localhost:3000/scotch/reverentgeek`
