@@ -203,6 +203,10 @@ let users = [
 		username: 'anonystick',
 		age: 10,
 	},
+	{
+		username: 'anonystick',
+		age: 11,
+	},
 ]
 
 // Async function to send mail to a list of users.
@@ -210,12 +214,12 @@ const sendMailForUsers = async users => {
 	const usersLength = users.length
 
 	for (let i = 0; i < usersLength; i += 2) {
-		console.log('requests>>', users.slice(i, i + 2))
+		console.log(`${i}:requests>>`, users.slice(i, i + 2))
 		const requests = users.slice(i, i + 2).map(user => {
 			// The batch size is 100. We are processing in a set of 100 users.
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
-					resolve(`Completed in ${user}`)
+					resolve(`Completed in ${user.age}`)
 				}, 1000)
 			})
 			//triggerMailForUser(user) // Async function to send the mail.
@@ -234,7 +238,7 @@ async function main() {
 	await sendMailForUsers(users)
 	console.timeEnd('[email]')
 }
-main()
+// main()
 
 // #Get API
 const fetchGithubInfo = async url => {
@@ -266,7 +270,7 @@ const fetchUserInfo = async names => {
 	//Waiting for all the requests to get resolved.
 }
 
-// fetchUserInfo(['sindresorhus','yyx990803','gaearon','thanhbka89','lucduong'])
+// fetchUserInfo(['sindresorhus','yyx990803','gaearon','thanhbka89','lucduong','laurent22','brianc','aeneasr','aduth','gregberge','mikeal'])
 //    .then(a => console.log(JSON.stringify(a)))
 //    .catch(e => console.error('[github]: ', e.response.data.message))
 
@@ -315,3 +319,116 @@ async function test() {
 	return '===>>END'
 }
 // test().then(x => console.log('[test]:', x))
+
+/**
+ * Promise.all duyệt hết nhưng return ngay khi một Promise nào đó return về Rejected
+ * Promise.allSettled duyệt hết và return ngay cả khi một Promise nào đó return về Rejected
+ */
+// const allRejectedPromises = [
+// 	Promise.reject('🍏 #1'),
+// 	Promise.reject('🍏 #2'),
+// 	Promise.reject('🍏 #3'),
+// ]
+
+// Promise.allSettled(allRejectedPromises)
+// 	.then(badApples =>
+// 		console.log(`We can't sell any of these apples...`, badApples)
+// 	)
+// 	.catch(error => console.error('This should never occur'))
+
+// const promisesWithoutReject = [
+// 	Promise.resolve('🍎 #1'),
+// 	'🍎 #2',
+// 	new Promise((resolve, reject) => setTimeout(resolve, 100, '🍎 #3')),
+// ]
+
+// Promise.allSettled(promisesWithoutReject).then(apples =>
+// 	console.log(
+// 		`We can sell all these good apples`,
+// 		apples.map(_ => _.value),
+// 		apples
+// 	)
+// )
+
+// const promisesWithOneReject = [
+// 	Promise.resolve('🍎 #1'),
+// 	new Promise((_, reject) => setTimeout(reject, 10, '🍏 #2')),
+// 	'🍎 #3',
+// 	new Promise((_, reject) => setTimeout(reject, 100, '🍏 #4')),
+// ]
+
+// const extractApples = apples => apples.map(_ => _.value)
+// Promise.allSettled(promisesWithOneReject).then(apples => {
+// 	console.log(apples)
+
+// 	const badApples = apples
+// 		.filter(apple => apple.status === 'rejected')
+// 		.map(_ => _.reason)
+// 	const goodApples = apples
+// 		.filter(apple => apple.status === 'fulfilled')
+// 		.map(_ => _.value)
+
+// 	console.log(`Let's throw out`, badApples, `and sell the rest`, goodApples)
+// })
+
+/**
+ * Promise.race return ngay khi một Promise đầu tiên nào đó return về bất kể (Rejected hay Fulfilled)
+ * Promise.any return ngay khi một Promise có state Fulfilled bất kể có nhiều Promise sẽ return về Rejected
+ */
+// const promiseWillFulfill = [
+// 	new Promise((resolve, reject) => setTimeout(reject, 250, '😈')),
+// 	new Promise((resolve, reject) => setTimeout(resolve, 150, '😇')),
+// 	new Promise((resolve, reject) => setTimeout(resolve, 1, '😇')),
+// ]
+// Promise.race(promiseWillFulfill)
+// 	.then(value => console.log(`The humanity survives "${value}"`))
+// 	.catch(error => console.log(`Won't be called as 😇 will win the race`))
+
+// const promiseWillReject = [
+// 	new Promise((resolve, reject) => setTimeout(resolve, 250, '😇')),
+// 	new Promise((resolve, reject) => setTimeout(reject, 1, '😈')),
+// 	new Promise((resolve, reject) => setTimeout(resolve, 250, '😇')),
+// ]
+// Promise.race(promiseWillReject)
+// 	.then(value => console.log(`This won't be called...="${value}"`))
+// 	.catch(error => console.log(`The humanity is doomed...="${error}"`))
+
+// const promisesWithOUTReject = [
+// 	new Promise(resolve => setTimeout(resolve, 350, 'one')),
+// 	new Promise(resolve => setTimeout(resolve, 250, 'two')),
+// 	new Promise(resolve => setTimeout(resolve, 150, 'three')),
+// ]
+// Promise.race(promisesWithOUTReject).then(value =>
+// 	console.log(`Promise without reject="${value}"`)
+// )
+
+// Promise.any([
+// 	Promise.reject('✗'),
+// 	Promise.reject('✗'),
+// 	Promise.resolve('✓'),
+// 	Promise.reject('✗'),
+// ]).then(function(value) {
+// 	console.log(`You win at life`, value)
+// })
+
+// // Example #2
+// // You get the first fulfilled value
+// Promise.any([
+// 	new Promise((_, reject) => setTimeout(reject, 10, '✗')),
+// 	new Promise((_, reject) => setTimeout(reject, 20, '✗')),
+// 	new Promise((_, reject) => setTimeout(reject, 30, '✗')),
+// 	new Promise(resolve => setTimeout(resolve, 100, 'I got a job!')),
+// 	new Promise(resolve =>
+// 		setTimeout(resolve, 1000, 'I could have gotten a better job!')
+// 	),
+// ]).then(function(value) {
+// 	console.log(value)
+// })
+
+// // Example #3
+// // You get all rejection reasons
+// Promise.any([Promise.reject('✗'), Promise.reject('✗')]).catch(function(
+// 	reasons
+// ) {
+// 	console.log(`Didn't get any offers...`, reasons)
+// })
