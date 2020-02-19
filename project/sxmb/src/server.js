@@ -7,6 +7,7 @@ const { sendResponse } = require('./helpers')
 const { fetchAuthorProfile } = require('./sites/scotch')
 import cronjob from './job'
 import config from './config'
+import Post from './models/mongo/post.model'
 
 cronjob()
 
@@ -35,6 +36,19 @@ app.use(express.json())
 
 app.get('/', (req, res, next) => {
 	res.json({ msg: 'Crawler!!!' })
+})
+
+// test mongo
+app.post('/post', async (req, res) => {
+	try {
+		let post = new Post(req.body)
+		const result = await post.save()
+		res.json({
+			data: result
+		})
+	} catch (error) {
+		res.json({ msg: error })
+	}
 })
 
 // ex: `http://localhost:3000/scotch/reverentgeek`
