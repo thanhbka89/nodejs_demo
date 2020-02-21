@@ -1,6 +1,7 @@
 import logger from 'morgan'
 import express from 'express'
 import cors from 'cors'
+const Nexmo = require('nexmo')
 
 const { sendResponse } = require('./helpers')
 const { fetchAuthorProfile } = require('./sites/scotch')
@@ -44,7 +45,7 @@ app.post('/post', async (req, res) => {
 })
 app.post('/post-user', async (req, res) => {
   try {
-	const result = await UserService.create(req.body)
+    const result = await UserService.create(req.body)
 
     res.json({ success: true, data: result })
   } catch (e) {
@@ -62,6 +63,31 @@ app.get('/find-user', async (req, res) => {
         error: e
       })
     })
+})
+
+// send SMS free
+const nexmo = new Nexmo({
+  apiKey: 'ac2626ae',
+  apiSecret: 'MbebDNRT5wnsi9dR'
+})
+app.post('/sendsms', (req, res) => {
+  const { fromPhone, toPhone, content } = req.body
+  nexmo.message.sendSms(fromPhone, toPhone, content, {  type: 'unicode' },
+    (err, responseData) => {
+      if (err) {
+        res.status(500).json({err})
+      } else {
+        if (responseData.messages[0]['status'] === '0') {
+          res.json({msg: 'Message sent successfully'})
+        } else {
+          console.log(responseData)
+          res.status(500).json({
+            msg: `Message failed: ${responseData.messages[0]['error-text']}`
+          })
+        }
+      }
+    }
+  )
 })
 
 // ex: `http://localhost:3000/scotch/reverentgeek`
