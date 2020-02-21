@@ -1,11 +1,11 @@
 import logger from 'morgan'
 import express from 'express'
 import cors from 'cors'
-const Nexmo = require('nexmo')
 
 const { sendResponse } = require('./helpers')
 const { fetchAuthorProfile } = require('./sites/scotch')
 import cronjob from './job'
+import service from './services'
 
 import * as UserService from './models/mongo/user.service'
 import Post from './models/mongo/post.model'
@@ -66,28 +66,11 @@ app.get('/find-user', async (req, res) => {
 })
 
 // send SMS free
-const nexmo = new Nexmo({
-  apiKey: 'ac2626ae',
-  apiSecret: 'MbebDNRT5wnsi9dR'
-})
-app.post('/sendsms', (req, res) => {
+app.post('/sendsms', async (req, res) => {
   const { fromPhone, toPhone, content } = req.body
-  nexmo.message.sendSms(fromPhone, toPhone, content, {  type: 'unicode' },
-    (err, responseData) => {
-      if (err) {
-        res.status(500).json({err})
-      } else {
-        if (responseData.messages[0]['status'] === '0') {
-          res.json({msg: 'Message sent successfully'})
-        } else {
-          console.log(responseData)
-          res.status(500).json({
-            msg: `Message failed: ${responseData.messages[0]['error-text']}`
-          })
-        }
-      }
-    }
-  )
+  const result = await service.smsService.sendSMS({fromPhone, toPhone, content})
+
+  res.json({data: result})
 })
 
 // ex: `http://localhost:3000/scotch/reverentgeek`
