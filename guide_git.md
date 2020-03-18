@@ -1,6 +1,7 @@
 # Ref
 https://xuanthulab.net/cac-lenh-git-co-ban-lam-viec-voi-repository.html
 
+
 # Git config
 git config --global user.name "John Doe"
 git config --global user.email "john@example.com"  //Địa chỉ email nên giống với cái đã sử dụng để tạo tài khoản Github của bạn.
