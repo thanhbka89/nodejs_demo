@@ -1,5 +1,6 @@
 # Ref
 https://xuanthulab.net/cac-lenh-git-co-ban-lam-viec-voi-repository.html
+https://xuanthulab.net/lam-viec-voi-nhanh-branch-tao-nhanh-gop-nhanh-trong-git.html
 
 
 # Git config
