@@ -300,6 +300,20 @@ Step 4: Commit
     ex: `git push origin v1.0`
 
 # Branch: in action
+- Xem danh sach nhanh: `git branch`
+- Tao nhanh: Nhánh alpha khởi đầu từ commit C2 (kế thừa master từ C2 trở về trước),
+`git branch alpha` // con trỏ HEAD vẫn cho biết làm việc ở nhánh master
+- Chuyen sang lam viec tren nhanh alpha:
+`git checkout alpha` // con trỏ HEAD cho biết đang làm việc với nhánh alpha
+- Thuc hien commit tren nhanh alpha:
+$ touch 3.txt                   #Tạo một file mới trong thư mục làm việc
+$ git add .                     #đưa vào stage
+$ git commit -m"C4"             #commit
+- Trộn nhánh alpha vào nhánh master:
+$ git checkout master               #chuyen ve nhanh master
+$ git merge sualoigap
+- xoa nhanh alpha: Khi nhánh alpha đã gộp vào master, nếu không còn nhu cầu làm việc trên nhánh này thì có thể xóa nó đi như sau
+`git branch -d alpha`
 
 # Làm việc với Local Repo
 `git status` :trạng thái của Repo
