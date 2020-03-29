@@ -2,6 +2,8 @@ import logger from 'morgan'
 import express from 'express'
 import cors from 'cors'
 
+import router from './routes'
+
 const { sendResponse } = require('./helpers')
 const { fetchAuthorProfile } = require('./sites/scotch')
 import cronjob from './job'
@@ -78,6 +80,8 @@ app.get('/scotch/:author', (req, res, next) => {
   const author = req.params.author
   sendResponse(res)(fetchAuthorProfile(author))
 })
+
+app.use('/api', router)
 
 // Start the server and listen on the preconfigured port
 app.listen(port, () => console.log(`App started on port ${port}`))
