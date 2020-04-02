@@ -11,6 +11,12 @@
 - ES6 code snippets
 - Import Cost
 - Path Intellisense
+- Power Mode
+- Auto Close Tag
+- Auto Rename Tag
+- Visual Studio IntelliCode
+- npm
+- npm Intellisense
 
 # Config
 Settings -> tab Workspace -> Open Settings (JSON) :
@@ -18,5 +24,8 @@ Settings -> tab Workspace -> Open Settings (JSON) :
 		"prettier.jsxSingleQuote": true,
 		"prettier.semi": false,
 		"prettier.singleQuote": true,
-		"editor.fontSize": 13.5
+		"editor.fontSize": 13.5,
+		"powermode.enabled": true,
+		"debug.node.autoAttach": "on",
+		"workbench.editor.highlightModifiedTabs": true
 	} `
