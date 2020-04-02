@@ -1,3 +1,4 @@
+require('dotenv').config() // automatically load the .env file in the root of your project
 import logger from 'morgan'
 import express from 'express'
 import cors from 'cors'
