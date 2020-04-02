@@ -107,6 +107,7 @@ dist/
 # Temporary folders
 tmp/
 temp/
+src/uploads
 
 ### Windows ###
 # Windows thumbnail cache files

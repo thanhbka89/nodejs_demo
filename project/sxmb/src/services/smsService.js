@@ -8,17 +8,18 @@ const nexmo = new Nexmo({
 // conver Callback to Promise
 const promiseSendSms = (data = {}) => {
   return new Promise((resolve, reject) => {
-	const {fromPhone, toPhone, content, option = { type: 'unicode' }} = data
-	nexmo.message.sendSms(fromPhone, toPhone, content, option, (err, responseData) => {
-		if (err) {
-			reject(`Error system`)
-		} else {
-		if (responseData.messages[0]['status'] === '0') 
-			resolve('Message sent successfully')
-		else 
-			reject(`${responseData.messages[0]['error-text']}`)
-		}
-	})
+    const {fromPhone, toPhone, content, option = { type: 'unicode' }} = data
+    nexmo.message.sendSms(fromPhone, toPhone, content, option, 
+      (err, responseData) => {
+        if (err) {
+          reject(`Error system`)
+        } else {
+        if (responseData.messages[0]['status'] === '0') 
+          resolve('Message sent successfully')
+        else 
+          reject(`${responseData.messages[0]['error-text']}`)
+        }
+      })
   })
 }
 
