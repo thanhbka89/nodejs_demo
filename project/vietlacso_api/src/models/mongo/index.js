@@ -7,7 +7,7 @@ import UserModel from './user.model'
 export default {
   mongoose,
   url: dbConfig.mongo,
-  users: UserModel(mongoose)
+  users: UserModel(mongoose),
 }
 
 export class DBMongo {
@@ -19,12 +19,13 @@ export class DBMongo {
     mongoose
       .connect(dbConfig.mongo, {
         useUnifiedTopology: true,
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useCreateIndex: true,
       })
       .then(() => {
         console.log('DB Mongo connection successfully!')
       })
-      .catch(e => {
+      .catch((e) => {
         console.log('DB Mongo connection error!', e.message)
       })
   }
