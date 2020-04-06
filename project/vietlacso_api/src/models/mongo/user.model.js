@@ -3,12 +3,18 @@ import bcrypt from 'bcrypt'
 export default mongoose => {
   const schema = mongoose.Schema(
     {
-      username: { type: String, required: true, unique: true, trim: true, minlength: 2 },
-      password: { type: String, required: true, trim: true, minlength: 6 },
+      username: { type: String, required: [true, 'Please enter username'], unique: true, trim: true, minlength: 2 },
+      password: { type: String, required: [true, 'Please enter password'], trim: true, minlength: 6 },
       email: { type: String, unique: true, required: true, trim: true },
       fullname: String,
       phone: String,
       address: String,
+      role: {
+        type: String,
+        default: 'basic',
+        enum: ["basic", "supervisor", "admin"]
+      },
+      accessToken: String,
       status: Boolean
     },
     { timestamps: true }

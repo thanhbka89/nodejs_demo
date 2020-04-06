@@ -7,7 +7,7 @@ import rateLimit from 'express-rate-limit'
 import router from './routes'
 import cronjob from './jobs'
 import { DBMongo } from './models/mongo'
-import middleware from './middlewares'
+import { notFound, logErrors } from './middlewares'
 
 cronjob()
 new DBMongo() // Check connect to MongoDB, if not set the comand connect then not save to db
@@ -30,34 +30,23 @@ app.use((req, res, next) => {
   next()
 })
 
-// Routes
+// Routes home
 app.get('/', (req, res, next) => {
-  res.json({ msg: 'Crawler!!!' })
+  res.json({ message: 'API Home' })
 })
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000, // limit each IP to 1000 requests per windowMs
-  message: 'Too many accounts created from this IP, please try again after an hour'
+  message: 'Too many accounts created from this IP, please try again after an hour',
 })
-const urlApi = '/api/v1/'
-app.use(urlApi, apiLimiter) // only apply to requests that begin with
-app.use(`${urlApi}dev`, router.dev)
-app.use(`${urlApi}authen`, router.authen)
-app.use(urlApi, middleware.checkTokenJWT) // check JWT from here
-app.use(`${urlApi}user`, router.user)
+const baseURL = '/api/v1/'
+app.use(`${baseURL}`, apiLimiter) // only apply to requests that begin with
+app.use(`${baseURL}`, router)
 
 // Error-handling middleware
-app.use((req, res) => {
-  res.status(404).json({
-    code: 'ERR_INVALID_404',
-    url: req.originalUrl + ' not found'
-  })
-})
-
-app.use((err, req, res, next) => {
-  res.status(500).json({ code: 'ERR_INVALID_500' })
-})
+app.use(notFound)
+app.use(logErrors)
 
 // Start the server and listen on the preconfigured port
 app.listen(port, () => console.log(`App started on port ${port}`))

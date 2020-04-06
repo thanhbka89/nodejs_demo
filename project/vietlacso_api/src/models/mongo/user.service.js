@@ -20,7 +20,11 @@ export const filter = async (query = {}) => {
   return await User.find(query)
 }
 
-export const getById = async (id) => {
+/** Finds a single document by its _id field
+ * @ (String|Object) projection : get fields select
+ * @ (Object) options: Query.prototype.setOptions()
+ */
+export const getById = async (id, projection, options = {}) => {
   return await User.findById(id)
 }
 
@@ -38,9 +42,9 @@ export const create = async (data = {}) => {
 
 export async function update(id, data) {
   const user = await getById(id)
-  if (!user) throw 'User not found'
+  if (!user) throw new Error('User not found')
   if (user.username !== data.username && (await findOne({ username: data.username })))
-    throw 'Username "' + data.username + '" is already taken'
+    throw new Error('Username "' + data.username + '" is already taken')
 
   Object.assign(user, data) // copy userParam properties to user
   
@@ -49,6 +53,10 @@ export async function update(id, data) {
 
 export const _delete = async (id) => {
   return await User.findByIdAndRemove(id)
+}
+
+export const findByIdAndUpdate = async (id, data = {}, options = {}) => {
+  return await User.findByIdAndUpdate(id, data, options)
 }
 
 export const authenticate = async (username, password) => {
@@ -62,9 +70,11 @@ export const authenticate = async (username, password) => {
     if (user) {
       const match = user.comparePassword(password)
       if (match) {
-        const token = jwt.sign({ username: username }, CONFIG.secret, {
+        const token = jwt.sign({ userId: user._id, username, role: user.role }, CONFIG.secret, {
           expiresIn: '24h', // expires in 24 hours
         })
+        await findByIdAndUpdate(user._id, { accessToken: token })
+
         response.success = true
         response.token = token
         delete response.message
