@@ -3,7 +3,7 @@ import logger from 'morgan'
 import express from 'express'
 import cors from 'cors'
 import rateLimit from 'express-rate-limit'
-
+const listEndpoints = require('express-list-endpoints')
 import router from './routes'
 import cronjob from './jobs'
 import { DBMongo } from './models/mongo'
@@ -43,7 +43,7 @@ const apiLimiter = rateLimit({
 const baseURL = '/api/v1/'
 app.use(`${baseURL}`, apiLimiter) // only apply to requests that begin with
 app.use(`${baseURL}`, router)
-
+console.log(listEndpoints(app));
 // Error-handling middleware
 app.use(notFound)
 app.use(logErrors)

@@ -6,12 +6,68 @@ const uploadMulter = require('../models/ModelMulter') // khai báo middleware mu
 import { sendEmail } from '../services/mailService'
 import * as UserService from '../models/mongo/user.service'
 import { asyncMiddleware } from '../middlewares/asyncMiddleware'
+import AclService from '../models/mongo/acl.service'
 
 router.get('/', (req, res) => {
+  // Define roles, resources and permissions
+  AclService.allow([
+    {
+      roles: ['user'],
+      allows: [
+        {
+          resources: ['/api/events', '/api/categories'],
+          permissions: ['get', 'post', 'put', 'delete'],
+        },
+      ],
+    },
+    {
+      roles: ['admin'],
+      allows: [
+        {
+          resources: ['/api/v1/user/*'],
+          permissions: ['get', 'post', 'put', 'delete'],
+        },
+        { resources: '/secret', permissions: 'create' },
+        { resources: '/topsecret', permissions: '*' },
+      ],
+    },
+    {
+      roles: 'guest',
+      allows: [],
+    },
+  ])
+    .then((data) => {
+      console.log('Assigned permissions to role', data)
+    })
+    .catch((err) => {
+      console.log('Error while assigning permissions', err)
+    })
+
+  // Inherit roles
+  //  Every user is allowed to do what guests do
+  //  Every admin is allowed to do what users do
+  AclService.addRoleParents('user', 'guest')
+  AclService.addRoleParents('admin', 'user')
+
+  // UserService.getAll()
+  //   .then((users) => {
+  //     users.forEach(async (user) => {
+  //       const result = await AclService.addUserRoles(user._id.toString(), 'admin')
+  //       console.log(`${user.username} assign role: ${result}`)
+  //     })
+  //   })
+  //   .catch((e) => {
+  //     console.error(e)
+  //   })
+
+  // AclService.addUserRoles('5e88472a555bdb21609e68a7', 'user')
+
   res.json({ message: 'API DEV v1.0' })
 })
 
-router.get('/testAsync', asyncMiddleware(async (req, res, next) => {
+router.get(
+  '/testAsync',
+  asyncMiddleware(async (req, res, next) => {
     throw new Error('PES2020')
   })
 )
@@ -27,10 +83,10 @@ router.post('/post-user', async (req, res) => {
 
 router.get('/find-user', async (req, res) => {
   UserService.filterByName(req.query)
-    .then(data => {
+    .then((data) => {
       res.json({ data })
     })
-    .catch(e => {
+    .catch((e) => {
       res.status(500).json({ message: e.message, error: e })
     })
 })
@@ -63,7 +119,7 @@ router.post('/send-email', async (req, res) => {
       from: `"Dev Ghost 👻" <${process.env.GMAIL_USER}>`, // sender address
       to: req.body.mail, // list of receivers
       subject: 'Test Nodemailer',
-      html: content // Nội dung html mình đã tạo trên kia :))
+      html: content, // Nội dung html mình đã tạo trên kia :))
     }
     let info = await sendEmail(mainOptions)
     res.json({ message: info })

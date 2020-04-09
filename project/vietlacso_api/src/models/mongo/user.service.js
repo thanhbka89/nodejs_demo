@@ -24,8 +24,8 @@ export const filter = async (query = {}) => {
  * @ (String|Object) projection : get fields select
  * @ (Object) options: Query.prototype.setOptions()
  */
-export const getById = async (id, projection, options = {}) => {
-  return await User.findById(id)
+export const getById = async (id, projection = {}, options = {}) => {
+  return await User.findById(id, projection, options)
 }
 
 export const findOne = async (query = {}) => {

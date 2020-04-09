@@ -1,12 +1,12 @@
 import { Router } from 'express'
 const UserController = require('../controllers/UserController')
-import { catchErrorsAsync } from '../middlewares'
+import { catchErrorsAsync, checkForPermissions } from '../middlewares'
 
 const router = Router()
 
 router
   .route('/')
-  .get((req, res) => {
+  .get(checkForPermissions, (req, res) => {
     res.json({ message: 'API User v1.0' })
   })
   .post(catchErrorsAsync(UserController.create))

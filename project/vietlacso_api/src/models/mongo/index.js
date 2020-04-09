@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
 import dbConfig from '../../config'
 import UserModel from './user.model'
+import node_acl from 'acl'
 
-// mongoose.Promise = global.Promise
+export let acl = null
 
 export default {
   mongoose,
@@ -24,6 +25,7 @@ export class DBMongo {
       })
       .then(() => {
         console.log('DB Mongo connection successfully!')
+        acl = new node_acl(new node_acl.mongodbBackend(mongoose.connection.db, 'acl_'))
       })
       .catch((e) => {
         console.log('DB Mongo connection error!', e.message)

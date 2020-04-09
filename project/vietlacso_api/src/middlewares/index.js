@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import CONFIG from '../config'
+import AclService from '../models/mongo/acl.service'
 
 /** validate access-token */
 export const checkTokenJWT = (req, res, next) => {
@@ -29,9 +30,32 @@ export const checkTokenJWT = (req, res, next) => {
   }
 }
 
+/** check permission */
+export const checkForPermissions = (req, res, next) => {
+  if (req.decoded) {
+    AclService.isAllowed(
+      req.decoded.userId.toString(),
+      req.url,
+      req.method.toLowerCase()
+    )
+      .then((allowed) => {
+        if (allowed) {
+          next()
+        } else {
+          res.json({ message: 'Insufficient permissions to access resource' })
+        }
+      })
+      .catch((err) => {
+        res.json(err)
+      })
+  } else res.json('Not authenticate!')
+}
+
 /** Not found error handler */
 export const notFound = (req, res) => {
-  res.status(404).json({ message: `${req.method} ${req.originalUrl} not found` })
+  res
+    .status(404)
+    .json({ message: `${req.method} ${req.originalUrl} not found` })
 }
 
 /** catch async errors */
