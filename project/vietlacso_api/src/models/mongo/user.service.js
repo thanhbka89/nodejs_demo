@@ -43,11 +43,23 @@ export const create = async (data = {}) => {
 export async function update(id, data) {
   const user = await getById(id)
   if (!user) throw new Error('User not found')
-  if (user.username !== data.username && (await findOne({ username: data.username })))
+  if (
+    user.username !== data.username &&
+    (await findOne({ username: data.username }))
+  )
     throw new Error('Username "' + data.username + '" is already taken')
 
   Object.assign(user, data) // copy userParam properties to user
-  
+
+  return await user.save()
+}
+
+export async function modify(filter = {}, data) {
+  const user = await findOne(filter)
+  if (!user) return create(data)
+
+  Object.assign(user, data) // copy userParam properties to user
+
   return await user.save()
 }
 
@@ -70,9 +82,13 @@ export const authenticate = async (username, password) => {
     if (user) {
       const match = user.comparePassword(password)
       if (match) {
-        const token = jwt.sign({ userId: user._id, username, role: user.role }, CONFIG.secret, {
-          expiresIn: '24h', // expires in 24 hours
-        })
+        const token = jwt.sign(
+          { userId: user._id, username, role: user.role },
+          CONFIG.secret,
+          {
+            expiresIn: '24h', // expires in 24 hours
+          }
+        )
         await findByIdAndUpdate(user._id, { accessToken: token })
 
         response.success = true

@@ -5,10 +5,18 @@ const ControllerUpload = require('../controllers/UploadController')
 const uploadMulter = require('../models/ModelMulter') // khai báo middleware multer ở đây
 import { sendEmail } from '../services/mailService'
 import * as UserService from '../models/mongo/user.service'
+import * as CustomerService from '../models/mongo/customer.service'
 import { asyncMiddleware } from '../middlewares/asyncMiddleware'
 import AclService from '../models/mongo/acl.service'
+import * as GetflyService from '../services/getflyService'
+import * as TokenService from '../models/mongo/token.service'
+import { publishToQueue, publishToChannel } from '../services/queueService'
 
 router.get('/', (req, res) => {
+  res.json({ message: 'API DEV v1.0' })
+})
+
+router.get('/acl/rbac', (req, res) => {
   // Define roles, resources and permissions
   AclService.allow([
     {
@@ -64,6 +72,70 @@ router.get('/', (req, res) => {
 
   res.json({ message: 'API DEV v1.0' })
 })
+
+router
+  .route('/rabbitmq')
+  .post(
+    asyncMiddleware(async (req, res) => {
+      let { queueName, payload } = req.body
+      const data = { id: 1989, data: payload }
+      publishToQueue(queueName, payload)
+      Promise.all([
+        publishToQueue(queueName, data),
+        publishToQueue(queueName, `${payload}_${Math.random()}`),
+      ]).catch((error) => console.log(`Error in promises ${error}`))
+
+      res.json({ status: true, messsage: { 'message-sent': true } })
+    })
+  )
+  .get(
+    asyncMiddleware(async (req, res) => {
+      await publishToChannel({
+        routingKey: 'request',
+        exchangeName: 'processing',
+        data: { payload: 'hello' },
+      })
+
+      res.json({ status: true })
+    })
+  )
+
+router.get('/getfly/token', async (req, res) => {
+  GetflyService.getToken().then((data) => {
+    if (data.success) {
+      TokenService.create({
+        token: data.data.access_token,
+        host: 'vietlac.getflycrm.com',
+        status: true,
+      })
+        .then((data) => console.log('API_Done', data))
+        .catch((e) => console.log('API_E', e))
+    }
+  })
+  console.log('API...')
+
+  res.json({ msg: 'done' })
+})
+
+router.get(
+  '/getfly',
+  asyncMiddleware(async (req, res) => {
+    let start = Date.now()
+    console.time('[runAPI]')
+    // const response = await GetflyService.getCustomers({limit: 100})
+    // const response = await GetflyService.getUserById(1)
+    const response = await GetflyService.syncUser()
+    console.log(response)
+    console.timeEnd('[runAPI]')
+    let time = Date.now() - start
+
+    // CustomerService.create(response.data.records)
+    //   .then((data) => console.log('API_Done'))
+    //   .catch((e) => console.log('API_E', e))
+
+    res.json({ msg: 'ok', time })
+  })
+)
 
 router.get(
   '/testAsync',

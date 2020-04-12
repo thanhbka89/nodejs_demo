@@ -8,7 +8,11 @@ const CONFIG = {
     database: 'sxmb',
     insecureAuth: true
   },
-  mongo: 'mongodb://127.0.0.1:27017/vietlacso'
+  mongo: 'mongodb://127.0.0.1:27017/vietlacso',
+  vietlac_getfly_crm: {
+    base_url: 'https://vietlac.getflycrm.com',
+    api_key: 'iamapikeysecret'
+  }
 }
 
 export default CONFIG
