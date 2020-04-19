@@ -5,6 +5,7 @@ export const validateUser = (data) => {
     username: Joi.string().alphanum().required().min(2).label('Username is too short'),
     email: Joi.string().required().email().label('Not a valid email'),
     password: Joi.string().required().min(6).label('Password is too short'),
+    user_id: Joi.number().required().label('user_id required')
   })
 
   return schema.validate(data)

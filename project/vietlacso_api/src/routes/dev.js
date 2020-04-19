@@ -12,7 +12,21 @@ import * as GetflyService from '../services/getflyService'
 import * as TokenService from '../models/mongo/token.service'
 import { publishToQueue, publishToChannel } from '../services/queueService'
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+  // promise
+  // getOne(false)
+  //   .then((value) => {
+  //     console.log(value)
+  //   })
+  //   .catch((error) => console.log(error.message))
+
+  const one = await test()
+  console.log(one)
+
+  testError()
+
+  testMulti().catch((error) => console.log(error.message)) // lets you catch one error only
+
   res.json({ message: 'API DEV v1.0' })
 })
 
@@ -79,10 +93,10 @@ router
     asyncMiddleware(async (req, res) => {
       let { queueName, payload } = req.body
       const data = { id: 1989, data: payload }
-      publishToQueue(queueName, payload)
+      publishToQueue(queueName, { payload })
       Promise.all([
         publishToQueue(queueName, data),
-        publishToQueue(queueName, `${payload}_${Math.random()}`),
+        publishToQueue(queueName, { data: `${payload}_${Math.random()}` }),
       ]).catch((error) => console.log(`Error in promises ${error}`))
 
       res.json({ status: true, messsage: { 'message-sent': true } })
@@ -122,10 +136,12 @@ router.get(
   asyncMiddleware(async (req, res) => {
     let start = Date.now()
     console.time('[runAPI]')
-    // const response = await GetflyService.getCustomers({limit: 100})
+    // const response = await GetflyService.getCustomers({page: 300, limit: 100})
     // const response = await GetflyService.getUserById(1)
-    const response = await GetflyService.syncUser()
-    console.log(response)
+    // const response = await GetflyService.syncUser()
+    // await GetflyService.syncCustomer()
+    const response = await GetflyService.getOrdersV1({})
+    console.log(response.data)
     console.timeEnd('[runAPI]')
     let time = Date.now() - start
 
@@ -144,14 +160,14 @@ router.get(
   })
 )
 
-router.post('/post-user', async (req, res) => {
-  try {
+router.post(
+  '/post-user',
+  asyncMiddleware(async (req, res) => {
     const result = await UserService.create(req.body)
+
     res.json({ success: true, data: result })
-  } catch (e) {
-    res.json({ success: false, message: e.message, error: e })
-  }
-})
+  })
+)
 
 router.get('/find-user', async (req, res) => {
   UserService.filterByName(req.query)
@@ -177,8 +193,9 @@ router.post(
   ControllerUpload.uploadSingleFile
 )
 
-router.post('/send-email', async (req, res) => {
-  try {
+router.post(
+  '/send-email',
+  asyncMiddleware(async (req, res) => {
     let content = `
         <div style="padding: 10px; background-color: #003375">
             <div style="padding: 10px; background-color: white;">
@@ -189,15 +206,38 @@ router.post('/send-email', async (req, res) => {
     const mainOptions = {
       // thiết lập đối tượng, nội dung gửi mail
       from: `"Dev Ghost 👻" <${process.env.GMAIL_USER}>`, // sender address
-      to: req.body.mail, // list of receivers
+      to: req.body.mail, // list of receivers, seperate `,`
       subject: 'Test Nodemailer',
       html: content, // Nội dung html mình đã tạo trên kia :))
     }
     let info = await sendEmail(mainOptions)
+
     res.json({ message: info })
-  } catch (err) {
-    res.json({ message: 'FAIL: ' + err })
+  })
+)
+
+const getOne = async (success = true) => {
+  if (success) return 1
+  throw new Error('Failure!')
+}
+
+const test = async () => {
+  // return await getOne() // no need to `await` before returning a promise
+  return getOne()
+}
+
+const testError = async () => {
+  try {
+    const one = await getOne(false)
+  } catch (error) {
+    console.log(error.message) // Failure!
   }
-})
+}
+
+const testMulti = async () => {
+  const one = await getOne(false)
+  const two = await getOne(false)
+  const three = await getOne(false)
+}
 
 module.exports = router

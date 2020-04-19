@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken'
 import CONFIG from '../../config'
 import db from './index'
+import { publishToQueue } from '../../services/queueService'
+
 const User = db.users
 
 export const getAll = async () => {
@@ -56,11 +58,15 @@ export async function update(id, data) {
 
 export async function modify(filter = {}, data) {
   const user = await findOne(filter)
-  if (!user) return create(data)
+  if (!user) {
+    create(data)
+    return { message: 'Created', _id: 1 }
+  }
 
   Object.assign(user, data) // copy userParam properties to user
 
-  return await user.save()
+  await user.save()
+  return { message: 'Updated', _id: user._id }
 }
 
 export const _delete = async (id) => {
@@ -77,6 +83,7 @@ export const authenticate = async (username, password) => {
     message: 'Incorrect username or password',
     data: null,
   }
+  publishToQueue('user.login', { username, password })
   try {
     const user = await findOne({ username })
     if (user) {
@@ -86,10 +93,11 @@ export const authenticate = async (username, password) => {
           { userId: user._id, username, role: user.role },
           CONFIG.secret,
           {
-            expiresIn: '24h', // expires in 24 hours
+            expiresIn: '7d', // expires in 24 hours
           }
         )
-        await findByIdAndUpdate(user._id, { accessToken: token })
+        // await findByIdAndUpdate(user._id, { accessToken: token })
+        publishToQueue('user.update', { id: user._id, accessToken: token })
 
         response.success = true
         response.token = token

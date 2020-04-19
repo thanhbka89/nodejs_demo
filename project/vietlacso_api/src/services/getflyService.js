@@ -1,5 +1,8 @@
 import API_VL from '../helpers/api'
 import * as UserService from '../models/mongo/user.service'
+import * as CustomerService from '../models/mongo/customer.service'
+import * as OrderService from '../models/mongo/order.service'
+import * as ProductService from '../models/mongo/product.service'
 
 export const getToken = async (
   username = process.env.GETFLY_USERNAME,
@@ -70,6 +73,19 @@ export const getOrdersV1 = async ({
  */
 export const getOrderDetailV1 = async (orderId) => {
   return await API_VL.request('get', `/crm/order/detail?order_id=${orderId}`)
+}
+
+/** List products
+ */
+export const getProductsV1 = async ({
+  page = 1,
+  limit = 50,
+  tab = '#all'
+}) => {
+  return await API_VL.request(
+    'get',
+    `/crm/product/filters?page=${page}&limit=${limit}&tab=${tab}`
+  )
 }
 
 //======================== API KEY SECRET =============================
@@ -192,18 +208,132 @@ export const getDistricts = async (province_id = 1) => {
 
 //============= JOBs =================
 export const syncUser = async () => {
-  let message = 'Done'
+  let message = '[syncUser] Done'
   try {
     const result = await getAllUsers()
 
     result.data.forEach((item) => {
       UserService.modify({ user_id: item.user_id }, item).then((res) =>
-        console.log('Job ', res._id)
+        console.log('Job ', res)
       )
     })
   } catch (e) {
-    message = 'ERROR >> Sync users from GetFly CRM'
+    message = `ERROR >> Sync users from GetFly CRM ${e.message}`
   }
 
+  return message
+}
+
+export const syncCustomer = async () => {
+  let message = '[syncCustomer] Done'
+  const totalPage = 1000
+  const limit = 1000
+  const dataChunk = 100 // so luong data xu ly
+
+  for (let page = 1; page < totalPage; page++) {
+    const result = await getCustomers({ page, limit })
+    if (!result.data.records.length) {
+      console.log('run out')
+      break
+    }
+
+    for (let i = 0; i < limit; i += dataChunk) {
+      const requests = result.data.records
+        .slice(i, i + dataChunk)
+        .map((item) => {
+          // return new Promise((resolve, reject) => {
+          //   setTimeout(() => {
+          //     resolve(`Customer ${item.account_id}`)
+          //   }, 1000)
+          // })
+
+          return CustomerService.modify({account_id: item.account_id}, item)
+            .catch((e) =>
+              console.log(`Error in customer ${item.account_id} - ${e.message}`)
+            )
+        })
+
+      // requests sẽ có 100 hoặc ít hơn các promise đang chờ xử lý.
+      // Promise.all sẽ đợi cho đến khi tất cả các promise
+      //đã được giải quyết và sau đó thực hiện 100 lần tiếp theo.
+      await Promise.all(requests)
+        .then((response) => {
+          console.log(`Batch ${i + (page - 1) * limit} - ${response}`)
+          console.log(`======================`)
+        })
+        .catch((e) => console.log(`Error in batch ${i} - ${e}`))
+    }
+  }
+
+  return message
+}
+
+export const syncProduct = async () => {
+  let message = '[syncProduct] Done'
+  const totalPage = 1000
+  const limit = 500
+  const dataChunk = 100 // so luong data xu ly
+
+  for (let page = 1; page < totalPage; page++) {
+    const result = await getProductsV1({ page, limit })
+    if (!result.data.data.length) {
+      console.log('run out')
+      break
+    }
+
+    for (let i = 0; i < limit; i += dataChunk) {
+      const requests = result.data.data
+        .slice(i, i + dataChunk)
+        .map((item) => {
+          return ProductService.modify({product_id: item.product_id}, item)
+            .catch((e) =>
+              console.log(`Error in order ${item.product_id} - ${e.message}`)
+            )
+        })
+
+      await Promise.all(requests)
+        .then((response) => {
+          console.log(`Batch ${i + (page - 1) * limit} - ${response}`)
+          console.log(`======================`)
+        })
+        .catch((e) => console.log(`Error in batch ${i} - ${e}`))
+    }
+  }
+
+  return message
+}
+
+export const syncOrder = async () => {
+  let message = '[syncOrder] Done'
+  const totalPage = 1000
+  const limit = 500
+  const dataChunk = 100 // so luong data xu ly
+
+  for (let page = 1; page < totalPage; page++) {
+    const result = await getOrdersV1({ page, limit })
+    if (!result.data.orders.length) {
+      console.log('run out')
+      break
+    }
+
+    for (let i = 0; i < limit; i += dataChunk) {
+      const requests = result.data.orders
+        .slice(i, i + dataChunk)
+        .map((item) => {
+          return OrderService.modify({order_id: item.order_id}, item)
+            .catch((e) =>
+              console.log(`Error in order ${item.order_id} - ${e.message}`)
+            )
+        })
+
+      await Promise.all(requests)
+        .then((response) => {
+          console.log(`Batch ${i + (page - 1) * limit} - ${response}`)
+          console.log(`======================`)
+        })
+        .catch((e) => console.log(`Error in batch ${i} - ${e}`))
+    }
+  }
+  
   return message
 }

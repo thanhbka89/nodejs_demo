@@ -1,29 +1,21 @@
 
-import Customer from './customer.model'
+import Model from './order.model'
 
 export const getAll = async () => {
-  return await Customer.find()
+  return await Model.find()
 }
 
-export const filterByName = async (query = {}) => {
-  const { username } = query
-  let condition = username
-    ? { username: { $regex: new RegExp(username), $options: 'i' } }
-    : {}
-
-  return await Customer.find(condition)
-}
 
 export const filter = async (query = {}) => {
-  return await Customer.find(query)
+  return await Model.find(query)
 }
 
 export const getById = async (id, projection = {}, options = {}) => {
-  return await Customer.findById(id, projection, options)
+  return await Model.findById(id, projection, options)
 }
 
 export const findOne = async (query = {}) => {
-  return await Customer.findOne(query)
+  return await Model.findOne(query)
 }
 
 /** saving one or more documents to the database
@@ -31,7 +23,7 @@ export const findOne = async (query = {}) => {
  */
 export const create = async (data) => {
 
-  return Customer.create(data) // not validate on save
+  return Model.create(data) // not validate on save
 }
 
 export async function modify(filter = {}, data) {
@@ -50,8 +42,6 @@ export async function modify(filter = {}, data) {
 export async function update(id, data) {
   const user = await getById(id)
   if (!user) throw new Error('User not found')
-  if (user.username !== data.username && (await findOne({ username: data.username })))
-    throw new Error('Username "' + data.username + '" is already taken')
 
   Object.assign(user, data) // copy userParam properties to user
   
@@ -59,9 +49,9 @@ export async function update(id, data) {
 }
 
 export const _delete = async (id) => {
-  return await Customer.findByIdAndRemove(id)
+  return await Model.findByIdAndRemove(id)
 }
 
 export const findByIdAndUpdate = async (id, data = {}, options = {}) => {
-  return await Customer.findByIdAndUpdate(id, data, options)
+  return await Model.findByIdAndUpdate(id, data, options)
 }

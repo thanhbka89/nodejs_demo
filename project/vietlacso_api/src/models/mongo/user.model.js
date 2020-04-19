@@ -3,22 +3,21 @@ import bcrypt from 'bcrypt'
 export default (mongoose) => {
   const schema = mongoose.Schema(
     {
-      user_id: { type: String, required: true, trim: true },
-      // username: {
-      //   type: String,
-      //   required: [true, 'Please enter username'],
-      //   unique: true,
-      //   trim: true,
-      //   minlength: 2,
-      // },
-      // password: {
-      //   type: String,
-      //   required: [true, 'Please enter password'],
-      //   trim: true,
-      //   minlength: 6,
-      // },
-      // email: { type: String, unique: true, required: true, trim: true },
-      email: String,
+      user_id: { type: Number, unique: true, required: true },
+      username: {
+        type: String,
+        required: [true, 'Please enter username'],
+        unique: true,
+        trim: true,
+        minlength: 2,
+      },
+      password: {
+        type: String,
+        default: '123456',
+        trim: true,
+        minlength: 6,
+      },
+      email: { type: String, unique: true, required: true, trim: true },
       fullname: String,
       phone: String,
       address: String,
@@ -27,12 +26,14 @@ export default (mongoose) => {
         default: 'basic',
         enum: ['basic', 'supervisor', 'admin'],
       },
+      roles: { type: Array, default: [] },
       accessToken: String,
       status: Boolean,
       contact_name: String,
       dept_name: String,
       dept_id: Number,
       role_name: String,
+      position_name: String,
       invalid: Number,
       contact_status: Number,
       is_active: Boolean,
@@ -63,7 +64,14 @@ export default (mongoose) => {
     return bcrypt.compareSync(password, this.password)
   }
 
+  // schema.index({ email: 1 }) //Nơi đánh index
+
   const User = mongoose.model('users', schema)
+
+  // emit an `index` event on the model when indexes are done building or an error occurred
+  User.on('index', function (err) {
+    console.log('[userIndex]', err)
+  })
 
   return User
 }

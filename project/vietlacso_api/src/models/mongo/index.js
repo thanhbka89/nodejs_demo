@@ -22,13 +22,17 @@ export class DBMongo {
         useUnifiedTopology: true,
         useNewUrlParser: true,
         useCreateIndex: true,
+        useFindAndModify: false,
+        // autoIndex: false, // on product
       })
       .then(() => {
-        console.log('DB Mongo connection successfully!')
-        acl = new node_acl(new node_acl.mongodbBackend(mongoose.connection.db, 'acl_'))
+        console.log('[MongoDB] Connect successfully!')
+        acl = new node_acl(
+          new node_acl.mongodbBackend(mongoose.connection.db, 'acl_')
+        )
       })
       .catch((e) => {
-        console.log('DB Mongo connection error!', e.message)
+        console.log('[MongoDB] Connection error!', e.message)
       })
   }
 }

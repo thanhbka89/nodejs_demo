@@ -1,5 +1,7 @@
-import amqp_calbback from 'amqplib/callback_api'
+// import amqp_calbback from 'amqplib/callback_api'
 import amqp from 'amqplib'
+import * as LoginService from '../models/mongo/login.service'
+import * as UserService from '../models/mongo/user.service'
 
 const CONN_URL = process.env.QUEUE_URL
 const REPLY_QUEUE = 'vl.feedback' // use receive message afer worker handle done
@@ -32,8 +34,6 @@ let amqpCon = null
 //     //   { noAck: false }
 //     // )
 
-//     // comsumer('users')
-//     // comsumer('users')
 //     // comsumer('users')
 //   })
 // })
@@ -104,6 +104,7 @@ const comsumer = async (queueName, wrokerNumber = 1) => {
         Buffer.from(dataFeedback, 'utf-8'),
         {
           correlationId: msg.properties.correlationId,
+          messageId: `${queueName}_${wrokerNumber}`,
         }
       )
 
@@ -164,8 +165,89 @@ export async function setupQueue() {
   // run multi worker
   for (let index = 0; index < 5; index++) {
     comsumer('jobs', index)
+    _comsumerLogin(index)
+    _comsumerUserUpdate(index)
   }
 
   console.log(`[RabbitMQ] Setup DONE`)
   // process.exit()
+}
+
+/** ===========  Consumer ============= */
+const _comsumerLogin = async (wrokerNumber = 1) => {
+  const queueName = 'user.login'
+  await ch.prefetch(1) // maximum number of messages sent over the channel
+  ch.consume(
+    queueName,
+    async (msg) => {
+      let msgBody = msg.content.toString()
+      let data = JSON.parse(msgBody) // convert String to Object
+      let result = true
+
+      console.log(`[${queueName}_${wrokerNumber}] Received: `, msgBody)
+
+      try {
+        await LoginService.create(data)
+      } catch (err) {
+        result = false
+      }
+
+      const dataFeedback = JSON.stringify({
+        result,
+        body: msgBody,
+      })
+      ch.sendToQueue(
+        msg.properties.replyTo,
+        Buffer.from(dataFeedback, 'utf-8'),
+        {
+          correlationId: msg.properties.correlationId,
+          messageId: `${queueName}_${wrokerNumber}`,
+        }
+      )
+
+      await ch.ack(msg) // acknowledge message as received
+    },
+    { noAck: false }
+  )
+
+  return 'Done Queue'
+}
+
+const _comsumerUserUpdate = async (wrokerNumber = 1) => {
+  const queueName = 'user.update'
+  await ch.prefetch(1) // maximum number of messages sent over the channel
+  ch.consume(
+    queueName,
+    async (msg) => {
+      let msgBody = msg.content.toString()
+      let data = JSON.parse(msgBody) // convert String to Object
+      let result = true
+
+      console.log(`[${queueName}_${wrokerNumber}] Received: `, msgBody)
+
+      try {
+        await UserService.findByIdAndUpdate(data.id, { accessToken: data.accessToken })
+      } catch (err) {
+        result = false
+      }
+
+      const dataFeedback = JSON.stringify({
+        result,
+        body: msgBody,
+      })
+      ch.sendToQueue(
+        msg.properties.replyTo,
+        Buffer.from(dataFeedback, 'utf-8'),
+        {
+          correlationId: msg.properties.correlationId,
+          messageId: `${queueName}_${wrokerNumber}`,
+        }
+      )
+
+      await ch.ack(msg) // acknowledge message as received
+    },
+    { noAck: false }
+  )
+
+  return 'Done Queue'
 }
