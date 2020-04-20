@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import dbConfig from '../../config'
+import CONFIG from '../../config'
 import UserModel from './user.model'
 import node_acl from 'acl'
 
@@ -7,7 +7,7 @@ export let acl = null
 
 export default {
   mongoose,
-  url: dbConfig.mongo,
+  url: CONFIG.mongo,
   users: UserModel(mongoose),
 }
 
@@ -18,7 +18,7 @@ export class DBMongo {
 
   _connect() {
     mongoose
-      .connect(dbConfig.mongo, {
+      .connect(CONFIG.mongo, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
         useCreateIndex: true,
@@ -28,7 +28,7 @@ export class DBMongo {
       .then(() => {
         console.log('[MongoDB] Connect successfully!')
         acl = new node_acl(
-          new node_acl.mongodbBackend(mongoose.connection.db, 'acl_')
+          new node_acl.mongodbBackend(mongoose.connection.db, '_acl_')
         )
       })
       .catch((e) => {

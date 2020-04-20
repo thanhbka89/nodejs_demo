@@ -1,16 +1,16 @@
 import axios from 'axios'
-import config from '../config'
+import CONFIG from '../config'
 
 export default {
   request(method, uri, data = null) {
     if (!method || !uri) 
       return
 
-    let url = config.vietlac_getfly_crm.base_url + uri
+    let url = CONFIG.vietlac_getfly_crm.base_url + uri
     let headers = {
       'content-type': 'application/json',
       'X-Authorization': 'Bearer ' + process.env.GETFLY_JWT,
-      'X-API-KEY': process.env.API_KEY_GETFLY || config.vietlac_getfly_crm.api_key
+      'X-API-KEY': process.env.API_KEY_GETFLY || CONFIG.vietlac_getfly_crm.api_key
     }
 
     return axios({

@@ -11,6 +11,7 @@ import AclService from '../models/mongo/acl.service'
 import * as GetflyService from '../services/getflyService'
 import * as TokenService from '../models/mongo/token.service'
 import { publishToQueue, publishToChannel } from '../services/queueService'
+import * as RedisService from '../services/redisService'
 
 router.get('/', async (req, res) => {
   // promise
@@ -132,6 +133,22 @@ router.get('/getfly/token', async (req, res) => {
 })
 
 router.get(
+  '/redis',
+  asyncMiddleware(async (req, res) => {
+    const key = 'user:accessToken'
+    const keyHash = 'user:detail:1'
+    let result = await RedisService.get(key)
+    if (!result) result = await RedisService.set(key, 'iamkey')
+    RedisService.expire(key, 3600)
+
+    let hash = await RedisService.hgetall(keyHash)
+    if (!hash)
+      hash = await RedisService.hmset(keyHash, { username: 'thanhnm', age: 30 })
+    res.json({ result, hash })
+  })
+)
+
+router.get(
   '/getfly',
   asyncMiddleware(async (req, res) => {
     let start = Date.now()
@@ -206,7 +223,7 @@ router.post(
     const mainOptions = {
       // thiết lập đối tượng, nội dung gửi mail
       from: `"Dev Ghost 👻" <${process.env.GMAIL_USER}>`, // sender address
-      to: req.body.mail, // list of receivers, seperate `,`
+      to: req.body.email, // list of receivers, seperate `,`
       subject: 'Test Nodemailer',
       html: content, // Nội dung html mình đã tạo trên kia :))
     }

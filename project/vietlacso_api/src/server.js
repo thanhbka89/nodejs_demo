@@ -10,8 +10,12 @@ import cronjob from './jobs'
 import { DBMongo } from './models/mongo'
 import { notFound, logErrors } from './middlewares'
 import { setupQueue } from './services/queueService'
+import { setupRedis } from './services/redisService'
 
-setupQueue().catch(e => console.error(`[QUEUE_ERR]: ${e.message}. Check config Url connecttion!`))
+setupRedis()
+setupQueue().catch((e) =>
+  console.error(`[QUEUE_ERR]: ${e.message}. Check config Url connecttion!`)
+)
 cronjob()
 new DBMongo() // Check connect to MongoDB, if not set the comand connect then not save to db
 
@@ -41,7 +45,8 @@ app.get('/', (req, res, next) => {
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 1000, // limit each IP to 1000 requests per windowMs
-  message: 'Too many accounts created from this IP, please try again after an hour',
+  message:
+    'Too many accounts created from this IP, please try again after an hour',
 })
 const baseURL = '/api/v1/'
 app.use(`${baseURL}`, apiLimiter) // only apply to requests that begin with

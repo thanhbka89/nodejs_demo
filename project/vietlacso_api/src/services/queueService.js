@@ -1,9 +1,10 @@
 // import amqp_calbback from 'amqplib/callback_api'
 import amqp from 'amqplib'
+import CONFIG from '../config'
 import * as LoginService from '../models/mongo/login.service'
 import * as UserService from '../models/mongo/user.service'
 
-const CONN_URL = process.env.QUEUE_URL
+const CONN_URL = process.env.QUEUE_URL || CONFIG.queue_url
 const REPLY_QUEUE = 'vl.feedback' // use receive message afer worker handle done
 
 let ch = null
