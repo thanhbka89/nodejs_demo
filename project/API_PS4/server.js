@@ -1,6 +1,3 @@
-/** ref : https://www.codementor.io/shanewignall/making-a-restful-backend-with-node-js-knf7nbsii */
-/** ref : https://www.codementor.io/asciidev/testing-a-node-express-application-with-mocha-amp-chai-nqb2nutoz */
-
 const express = require("express")
 const app = express()
 const router = express.Router()
@@ -57,7 +54,6 @@ class HandlerGenerator {
 
 import cors from 'cors'
 import routes from './api/routes'
-import app1 from './app'
 import bird from './api/routes/router'
 import uuidv4 from 'uuid/v4'
 import 'dotenv/config'
