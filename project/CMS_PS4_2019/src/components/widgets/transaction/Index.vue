@@ -24,8 +24,10 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <button class="btn btn-success"
-        @click="calcTotalMoney()">Tính tổng tiền các máy</button>
+        <button class="btn btn-success" @click="calcTotalMoney()">Tính tổng tiền các máy</button>
+        <template v-if="is_admin">
+          <button class="btn btn-danger" @click="confirmDelete()">Xóa giao dịch</button>
+        </template>
       </div>
     </div>
     <div class="table-responsive">
@@ -81,6 +83,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import api from '@/api'
 import DatePicker from 'vue2-datepicker'
@@ -112,6 +115,10 @@ export default {
   computed: {
     filteredResources() {
       return this.items
+    },
+
+    is_admin() {
+      return this.$store.getters.isAdmin
     }
   },
   async created() {
@@ -242,7 +249,7 @@ export default {
           sum += res.total_money
         }
       }
-      this.transIds = []
+      // this.transIds = [] // uncheck
       this.showAlert(toVND(sum))
     },
     async getMembers() {
@@ -255,6 +262,41 @@ export default {
         console.error(err)
       }
     },
+    async removeTrans() {
+      const requests = this.transIds
+        .map((id) => {
+          return api.request('delete', `/trans/${id}`)
+        })
+
+      Promise.all(requests)
+        .then((response) => {
+          console.log(`Batch - ${response}`)
+          this.$swal('Xóa thành công', '', 'success')
+          this.$emit('reRender') // call method of parent component to re-render component
+        })
+        .catch((e) => this.showToast('error', `${e}`))
+
+      return 'abc'
+    },
+    confirmDelete() {
+      if (this.transIds.length) {
+        this.$swal({
+          title: 'Bạn có chắc?',
+          text: 'Bạn có muốn thực hiện xóa?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+          if (result.value) {
+            this.removeTrans()
+          }
+        })
+      } else {
+        this.showToast('error', 'Chọn các Giao dịch cần xóa!')
+      }
+    },
     nameWithLang ({ username, fullname, phone }) {
       return `[${username}] - ${fullname} - [${phone}]`
     },
@@ -264,6 +306,16 @@ export default {
             '',
             'success'
           )
+    },
+    showToast(type = 'success', message = '') {
+      this.$swal({
+        type: type,
+        title: message || `Cập nhật thành công`,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      })
     },
     searchByMember(option) {
       this.memberSelected = option
