@@ -18,9 +18,15 @@
           Xem chi tiết
           <i class="fa fa-arrow-circle-right"></i>
         </a>
+        <template v-if="is_admin">
+        <a href="#" class="btn btn-xs" @click="change_time()" title="Sửa giờ chơi">
+          Sửa giờ chơi
+          <i class="fa fa-clock-o"></i>
+        </a>
+        </template>
         <a href="#" class="btn btn-xs" @click="change_machine()">
           Chuyển máy
-          <i class="fa fa-arrow-circle-right"></i>
+          <i class="fa fa-random"></i>
         </a>
         </template>
         <a v-else href="#" class="btn btn-xs" @click="play(number)">
@@ -74,13 +80,16 @@ export default {
     },
     openModal: { type: Function }, // openModal: Function,
     openModalChange: Function,
+    openModalUpdateTime: Function,
     ps4Start: {
       type: Boolean,
       default: false
     }
   },
   computed: {
-
+    is_admin() {
+      return this.$store.getters.isAdmin
+    }
   },
   created() {
     // goi ham cha
@@ -104,6 +113,12 @@ export default {
       this.getLS()
       if (this.lsPs4) {
         this.openModalChange(this.lsPs4) // ham tu cha truyen vao con
+      }
+    },
+    change_time() {
+      this.getLS()
+      if (this.lsPs4) {
+        this.openModalUpdateTime(this.lsPs4) // ham tu cha truyen vao con
       }
     },
     play(pNumber = 1) {

@@ -63,7 +63,7 @@
         </ps4-detail>
       </div>
 
-       <div class="col-xs-12">
+      <div class="col-xs-12">
         <ps4-detail v-if="showChange">
             <h3 slot="header" class="modal-title">
               Thực hiện chuyển Máy số {{ currentPS.id }}
@@ -87,6 +87,31 @@
         </ps4-detail>
       </div>
 
+      <div class="col-xs-12">
+        <ps4-detail v-if="showUpdateTime">
+            <h3 slot="header" class="modal-title">
+              Cập nhật giờ chơi Máy số {{ currentPS.id }}
+            </h3>
+
+            <div slot="body">
+              <div class="row z-bottom mb-change">
+                <div class="col-sm-5">
+                  <strong>Chọn giờ bắt đầu chơi:</strong>
+                </div>
+                <div class="col-sm-7">
+                  <date-picker v-model="timeChange" format="HH:mm" type="time" :minute-step="5"
+                  confirm confirm-text="Xác nhận" placeholder="Chọn giờ chơi" @confirm="updateTime(currentPS.id)">
+                  </date-picker>
+                </div>
+              </div>
+             </div>
+
+            <div slot="footer">
+                <button type="button" class="btn btn-outline-info" @click="closeModalUpdateTime"> Đóng </button>
+            </div>
+        </ps4-detail>
+      </div>
+
       <template v-for="(code, index) in codesPS">
         <div class="clearfix" :key="`${code}-${index}`"></div>
         <div class="col-xs-12" :key="`${code}_${index}`">
@@ -105,10 +130,11 @@
           :ps4-start="togglePs4(item.code + '_' + item.id)"
           :openModal="openModal"
           :openModalChange="openModalChange"
+          :openModalUpdateTime="openModalUpdateTime"
           @created="handleCreate">
         </ps4-box>
       </div>
-      </template>     
+      </template>
 
     </div>
   </section>
@@ -118,6 +144,7 @@
 import api from '@/api'
 import Ps4Box from '@/components/widgets/Ps4Box'
 import Ps4Detail from '@/components/widgets/Modal'
+import DatePicker from 'vue2-datepicker'
 import moment from 'moment'
 
 export default {
@@ -126,6 +153,8 @@ export default {
     return {
       showModal: false,
       showChange: false,
+      showUpdateTime: false,
+      timeChange: null,
       listPS4: [],
       getPs4: {},
       selectedDV: '',
@@ -174,6 +203,15 @@ export default {
     },
     closeModalChange() {
       this.showChange = false
+    },
+    openModalUpdateTime(val = 'Open') {
+      this.getPs4 = typeof val === 'object' ? val : {}
+      this.timeChange = this.getPs4.start
+      this.showUpdateTime = true
+    },
+    closeModalUpdateTime() {
+      this.showUpdateTime = false
+      this.timeChange = null
     },
     submitAndClose(pNumber = 1) {
       let route = {
@@ -342,20 +380,38 @@ export default {
         this.showChange = true
       }
     },
-    showToast() {
+    updateTime(id) {
+      const startTime = this.timeChange
+      if (!startTime) return
+
+      const psUpdated = this.getPs4
+      psUpdated.start = startTime
+      let elapsed = moment().diff(psUpdated.start, 'minutes')
+      psUpdated.elapsed = elapsed
+      psUpdated.play_hour = Math.floor(elapsed / 60) + ':' + elapsed % 60
+      psUpdated.start_hour = moment(psUpdated.start).format(moment.HTML5_FMT.TIME)
+      psUpdated.end = moment(psUpdated.start).format('YYYY-MM-DD HH:mm:ss')
+      // update start items
+      psUpdated.items.map(x => Object.assign(x, {start: psUpdated.end}))
+
+      window.localStorage.setItem(id, JSON.stringify(psUpdated))
+      this.showToast('success', 'Cập nhật giờ chơi thành công!')
+    },
+    showToast(type = 'success', message = 'Cập nhật thành công') {
       this.$swal({
-        type: 'success',
-        title: 'Cập nhật thành công',
+        type: type,
+        title: message,
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 3000
+        timer: 5000
       })
     }
   },
   components: {
     Ps4Box,
-    Ps4Detail
+    Ps4Detail,
+    DatePicker
   }
 }
 </script>
@@ -377,7 +433,7 @@ export default {
   margin-bottom: 5px;
 }
 .mb-change {
-  height: 200px;
+  height: 300px;
 }
 </style>
 

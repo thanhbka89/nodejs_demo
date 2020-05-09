@@ -39,4 +39,8 @@
   /* max-height: calc(100% - 120px);
   overflow-y: scroll; */
 }
+.mx-calendar-content {
+  width: 200px !important;
+  height: 180px !important;
+}
 </style>
