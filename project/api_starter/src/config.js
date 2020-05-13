@@ -1,6 +1,11 @@
 const CONFIG = {
   port: 9000,
   secret: 'worldisfullofdevelopers',
+  accessTokenLife: '7d', // 7 days
+  refreshToken: {
+    secret: '!@#refreshTokenSecret#$%',
+    expire: '30d' // 30 days
+  },
   mysql: {
     host: 'localhost',
     port: 3306,

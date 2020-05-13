@@ -6,7 +6,8 @@ import * as LoginService from '@src/models/mongo/login.service'
 import * as UserService from '@src/models/mongo/user.service'
 import * as AccountService from '@src/services/account.service'
 import * as RedisService from '@src/services/redisService'
-import { KEY_SESSION } from '@src/constants/redis'
+import { KEY_SESSION, KEY_REFRESH_TOKEN } from '@src/constants/redis'
+import { QUEUE_USER_UPDATE, QUEUE_USER_LOGIN } from '@src/constants/queue'
 
 const CONN_URL = process.env.QUEUE_URL || CONFIG.queue_url
 const REPLY_QUEUE = 'vl.feedback' // use receive message afer worker handle done
@@ -180,7 +181,7 @@ export async function setupQueue() {
 
 /** ===========  Consumer ============= */
 const _comsumerLogin = async (wrokerNumber = 1) => {
-  const queueName = 'user.login'
+  const queueName = QUEUE_USER_LOGIN
   await ch.prefetch(1) // maximum number of messages sent over the channel
   ch.consume(
     queueName,
@@ -219,7 +220,7 @@ const _comsumerLogin = async (wrokerNumber = 1) => {
 }
 
 const _comsumerUserUpdate = async (wrokerNumber = 1) => {
-  const queueName = 'user.update'
+  const queueName = QUEUE_USER_UPDATE
   await ch.prefetch(1) // maximum number of messages sent over the channel
   ch.consume(
     queueName,
@@ -236,7 +237,13 @@ const _comsumerUserUpdate = async (wrokerNumber = 1) => {
           AccountService.findByIdAndUpdate(data.id, {
             accessToken: data.accessToken,
           })
-          RedisService.set(`${KEY_SESSION + data.id}`, data.accessToken) // store session in Redis
+          // store session in Redis
+          RedisService.set(`${KEY_SESSION + data.id}`, data.accessToken)
+          if (data && data.refreshToken) {
+            const key_refresh = KEY_REFRESH_TOKEN + data.refreshToken
+            RedisService.set(key_refresh, data.refreshToken)
+            RedisService.expire(key_refresh, 3600 * 24 * 30) // 30 days
+          }          
         } catch (err) {
           result = false
         }

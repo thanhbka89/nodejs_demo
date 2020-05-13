@@ -76,6 +76,16 @@ router.post(
 )
 
 router.post(
+	'/refresh-token',
+	catchErrorsAsync(async (req, res) => {
+		const { refreshToken } = req.body
+		const result = await AccountService.getRefreshToken(refreshToken)
+
+		res.json(result)
+	})
+)
+
+router.post(
   '/logout',
   catchErrorsAsync(async (req, res) => {
     let key = KEY_SESSION

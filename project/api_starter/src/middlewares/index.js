@@ -72,6 +72,36 @@ export const asyncCheckTokenJWT = async (req, res, next) => {
   }
 }
 
+export const isAuth = async (req, res, next) => {
+	// Lấy token được gửi lên từ phía client, thông thường tốt nhất là các bạn nên truyền token vào header
+	const token =
+		req.body.token ||
+		req.query.token ||
+		req.headers['x-access-token'] ||
+		req.headers['authorization']
+	if (token) { // Nếu tồn tại token		
+		try {
+			// Thực hiện giải mã token xem có hợp lệ hay không?
+			const decoded = jwt.verify(token, CONFIG.secret)
+			// Nếu token hợp lệ, lưu thông tin giải mã được vào đối tượng req, dùng cho các xử lý ở phía sau.
+      req.decoded = decoded
+      
+      // check session is valid in Redis
+      const session = await RedisService.get(`${KEY_SESSION + decoded.userId}`)
+      if (!session) throw new Error(`Session is invalid`)
+
+			next() // Cho phép req đi tiếp sang controller.
+		} catch (error) {
+			// Nếu giải mã gặp lỗi: Không đúng, hết hạn...etc
+			return res.status(401).json({ success: false, message: 'Unauthorized.' })
+		}
+	} else { // Không tìm thấy token trong request		
+		return res
+			.status(403)
+			.send({ success: false, message: 'No token provided.' })
+	}
+}
+
 /** check permission */
 export const checkForPermissions = (req, res, next) => {
   if (req.decoded) {

@@ -6,7 +6,8 @@ import { publishToQueue } from './queueService'
 import * as RedisService from '@src/services/redisService'
 import { sendEmail } from '@src/services/mailService'
 import { randomIntegerInRange } from '@src/helpers/utils'
-import { KEY_ACCOUNT_RESET_PASSWD } from '@src/constants/redis'
+import { KEY_ACCOUNT_RESET_PASSWD, KEY_REFRESH_TOKEN } from '@src/constants/redis'
+import { QUEUE_USER_UPDATE, QUEUE_USER_LOGIN } from '@src/constants/queue'
 
 export const find = async (filter = {}, projection = {}, options = {}) => {
   return Account.find(filter, projection, options)
@@ -117,31 +118,85 @@ export const authenticate = async (email, password) => {
     message: 'Incorrect username or password',
     data: null,
   }
-  publishToQueue('user.login', { username: email, password })
+  publishToQueue(QUEUE_USER_LOGIN, { username: email, password })
   try {
     const user = await findOne({ email })
 
     if (user) {
-      const match = user.comparePassword(password)
-      if (match) {
-        const token = jwt.sign(
-          { userId: user._id, email, role: user.role },
-          CONFIG.secret,
-          {
-            expiresIn: '7d', // expires in 24 hours
-          }
+			const match = user.comparePassword(password)
+			if (match) {
+				const payload = { userId: user._id, email, role: user.role }
+				const token = generateToken(
+					payload,
+					CONFIG.secret,
+					CONFIG.accessTokenLife
+				)
+				const refreshToken = generateToken(
+					payload,
+					CONFIG.refreshToken.secret,
+					CONFIG.refreshToken.expire
         )
-        // await findByIdAndUpdate(user._id, { accessToken: token })
-        publishToQueue('user.update', { id: user._id, accessToken: token })
+        
+				publishToQueue(QUEUE_USER_UPDATE, {
+					id: user._id,
+					accessToken: token,
+					refreshToken,
+				})
 
-        response.success = true
-        response.token = token
-        delete response.message
-      }
-    }
+				response.success = true
+				response.token = token
+				response.refreshToken = refreshToken
+				delete response.message
+			}
+		}
   } catch (e) {
     response.message = e.message
     response.data = e
+  }
+
+  return response
+}
+/** create token JWT
+ * @object payload
+ * @string secret
+ * @any expire = 60, "2 days", "10h", "7d" on zeit/ms
+ */
+export const generateToken = (
+	payload = {},
+	secret = 'iamsecret',
+	expire = 1800
+) => {
+	const token = jwt.sign(payload, secret, {
+		expiresIn: expire,
+	})
+
+	return token
+}
+
+export const getRefreshToken = async (refreshToken) => {
+  const response = {
+    success: false,
+    token: null,
+  }
+  const key = KEY_REFRESH_TOKEN + refreshToken
+
+  if (refreshToken) {
+    const result = await RedisService.get(key)
+    if (!result) return response
+
+    const decoded = jwt.verify(refreshToken, CONFIG.refreshToken.secret)
+    const accessToken = generateToken(
+      decoded,
+      CONFIG.secret,
+      CONFIG.accessTokenLife
+    )
+    publishToQueue(QUEUE_USER_UPDATE, {
+      id: decoded.userId,
+      accessToken: token,
+      refreshToken,
+    })
+    response.success = true
+    response.token = accessToken
   }
 
   return response
