@@ -1,4 +1,4 @@
-B0: Moi truong:
+# B0: Moi truong:
 - Version:
     window: 10
     git: 2.21
@@ -22,8 +22,7 @@ B0: Moi truong:
         `npm uninstall --save lodash` // go bo trong "dependencies"
         `npm uninstall --save-dev lodash`  // go bo trong "devDependency"
 
-B1: Cai dat pm2:
-    `npm install pm2@latest -g`
+# B1: Cai dat pm2: `npm install pm2@latest -g`
 - Mot so lenh hay dung:
     + `pm2 show <id|name>` : to get more details about an app
     + `pm2 list` : liệt kê các app đang chạy
@@ -35,7 +34,7 @@ B1: Cai dat pm2:
     + `pm2 logs ungdung` : xem log của app có tên là ungdung
     + `pm2 flush`: Flushes all log data, freeing up disk space
 
-B1.1 : cai NGINX làm Reverse Proxy Server (su dung tren window)
+## B1.1 : cai NGINX làm Reverse Proxy Server (su dung tren window)
 - Tải bản Nginx cho Windows (http://nginx.org/en/download.html) và giải nén
 - Di chuyển đến thư mục root của Nginx, mo CMD go :
     `cd /d D:\Tools\webserver\nginx-1.17.1`
@@ -50,7 +49,7 @@ B1.1 : cai NGINX làm Reverse Proxy Server (su dung tren window)
 
 - Cai Nginx là service tren window (tu chay khi bat window):
 
-# Cach1: http://oss-world.blogspot.com/2015/10/install-nginx-as-windows-service-using.html
+### Cach1: http://oss-world.blogspot.com/2015/10/install-nginx-as-windows-service-using.html
     + Download nssm (https://nssm.cc/) and unzip
     + Truy cap thu muc unzip phia tren (vd : \Tools\webserver\nssm-2.24\win64)
         nssm.exe install nginx
@@ -59,26 +58,26 @@ B1.1 : cai NGINX làm Reverse Proxy Server (su dung tren window)
     + Gõ Ctrl+R, gõ `services.msc` và tìm đến nginx rồi Start
     + Kiem tra thành cong : http://localhost/
 
-# Cach 2: Windows Task Scheduler
+### Cach 2: Windows Task Scheduler
     + Mo `Task Scheduler` -> click `Create Basic Task` -> dat ten Task -> tai man hinh Trigger, chon `When the computer starts` -> tai man hinh Action, chon `Start a program` roi chon den file batch, ex: D:\SourceCode\Project\nodejs_demo\project\CMS_PS4_2019\start_nginx.bat
 
     + Sau khi tao xong, double click vao task, tai man hinh General:
         * Chon `Change User or Group` -> chon user `System` de du quyen chay
         * Tick vao `Run with Highest privilege` -> chon OK
 
-# Cach 3: Windows Startup shortcut - chi chay tren user nay, phu hop cho Dev
+### Cach 3: Windows Startup shortcut - chi chay tren user nay, phu hop cho Dev
     + Go `Window + R` de mo cua so Run, go : `shell:startup`
     + Trong thu muc Startup, click chuot phai de tao new Shortcut, roi chon den duong dan cai nginx. ex : D:\Tools\nginx-1.17.4\nginx.exe
     --> nginx tu dong chay khi ban login vao he thong
 
-B1.2 : Cai mysql (mariadb msi) trên window: https://stackjava.com/install/mariadb-la-gi-cai-dat-mariadb-tren-windows-10.html
+## B1.2 : Cai mysql (mariadb msi) trên window: https://stackjava.com/install/mariadb-la-gi-cai-dat-mariadb-tren-windows-10.html
 - passwd cho root : 123456a@
 
-B2: Trong thu muc CMS_PS4_2019, gõ : DONE
+# B2: Trong thu muc CMS_PS4_2019, gõ : DONE
     + npm run build
     + pm2 start server.js --name "CMS_PS4"
 
-B2.1 : Cau hinh file hosts tren window, thêm :
+## B2.1 : Cau hinh file hosts tren window, thêm :
     127.0.0.1 baonguyen.com
     127.0.0.1 api.baonguyen.com
 - Cau hinh nginx lam reverse proxy cho vuejs, them vào file `D:\Tools\webserver\nginx-1.17.1\conf\nginx.conf`
@@ -98,11 +97,11 @@ B2.1 : Cau hinh file hosts tren window, thêm :
 	}
 --> Sau do reload lại nginx, luc nay truy cap cms qua trinh duyet http://baonguyen.com/
 
-B3: Trong thu muc API_PS4
+# B3: Trong thu muc API_PS4
     - npm run clean
     - npm run build
 
-B4 : run PM2 startup on window (https://blog.cloudboost.io/nodejs-pm2-startup-on-windows-db0906328d75)
+# B4 : run PM2 startup on window (https://blog.cloudboost.io/nodejs-pm2-startup-on-windows-db0906328d75)
     - Chay các ung dung cần chạy khi window start : `pm2 start ungdung`
     Cu the:
         + Chay ung dung CMS da build o buoc B2:
@@ -131,30 +130,30 @@ B4 : run PM2 startup on window (https://blog.cloudboost.io/nodejs-pm2-startup-on
         * Chon `Change User or Group` -> chon user `System` de du quyen chay
         * Tick vao `Run with Highest privilege` -> chon OK
 
-B5 (Option) : Danh cho cac lan deploy sau, hoan thien tinh nang
-- B5.1: Dung cac app trong pm2 : mở console cmd với quyền administrator
+# B5 (Option) : Danh cho cac lan deploy sau, hoan thien tinh nang
+## B5.1: Dung cac app trong pm2 : mở console cmd với quyền administrator
     `pm2 stop all`
-- B5.2: Trong thu muc CMS_PS4_2019 :
+## B5.2: Trong thu muc CMS_PS4_2019 :
     + Sửa file src/config/index.js cho deploy lên PRD :
         serverURI: 'http://127.0.0.1:8989/api/ps4/v1'
     + `rm -rf dist\`
     + `npm run build`
-- B5.3: Trong thư mục API_PS4:
+## B5.3: Trong thư mục API_PS4:
     + Sửa file .env, comment lại dòng PORT như sau :
         #PORT=9090
     + Sửa file config/config.js, sửa dòng tên db :
         database: 'cms_ps'
     + `npm run clean`
     + `npm run build`
-- B5.4: De tiep tuc DEV, thì trong Git chọn 3 file đã sửa phía trên và Discard Changes
-- B5.5 : Chay lại các app trong pm2 trên PRD:
+## B5.4: De tiep tuc DEV, thì trong Git chọn 3 file đã sửa phía trên và Discard Changes
+## B5.5 : Chay lại các app trong pm2 trên PRD:
     + Note: dùng phan mem cports với quyền admin để kill port 5000 và 8989 trước khi chạy lệnh dưới
     + `pm2 restart all`
         hoặc
         `pm2 reload all`
 
-B6: Backup MySQL
-B6.1 : Moi truong Linux, su dung file : `project\CMS_PS4_2019\mysql-backup.sh`
+# B6: Backup MySQL
+## B6.1 : Moi truong Linux, su dung file : `project\CMS_PS4_2019\mysql-backup.sh`
 - Testing backup:
     + Chay lenh : `/usr/local/bin/mysql-backups.sh`
     + Kiem tra: `ls -l /data/db-backups`
@@ -169,7 +168,7 @@ B6.1 : Moi truong Linux, su dung file : `project\CMS_PS4_2019\mysql-backup.sh`
     `gunzip db-mybigdatabase-20140305-152229.sql.gz`
     `mysql -u [username] -p [DB name] < db-mybigdatabase-20140305-152229.sql`
 
-B6.2: Moi truong Window, su dung file : `project\CMS_PS4_2019\mysql_backup.bat`
+## B6.2: Moi truong Window, su dung file : `project\CMS_PS4_2019\mysql_backup.bat`
 chinh sua thong so phu hop
 - Lap lich tu dong su dung Task Schedule:
     + Mở Task Scheduler -> click tab Action -> Chọn Create Basic Task : để tạo mới 1 tác vụ
@@ -179,15 +178,16 @@ chinh sua thong so phu hop
     + Phần Action chọn Start a program và trỏ đường dẫn tới file .bat
     `C:\working\code\nodejs_demo\project\CMS_PS4_2019\mysql_backup.bat`
 
-B7 (Option) : Deploy CMS (vuejs), API (nodejs, express) lên Internet cho Testing, Demo
-B7.1 : Deploy CMS (vuejs) lên Heroku
+# B7 (Option) : Deploy CMS (vuejs), API (nodejs, express) lên Internet cho Testing, Demo
+## B7.1 : Deploy CMS (vuejs) lên Heroku
 - Login vào https://dashboard.heroku.com tạo app mới hoặc dùng app đã tạo trước đó.
-- Copy thu muc cms ra cho khac, ex: D:\Deploy\CMS_PS4_2019
-- Truy cap thu muc tren, :  D:\Deploy\CMS_PS4_2019
+- Copy thu muc cms ra cho khac, ex: `D:\Deploy\CMS_PS4_2019`
+- Truy cap thu muc tren, :  `D:\Deploy\CMS_PS4_2019`
   + Sua file config to API: `src/config/index.js`
         `serverURI: 'https://apipsbaonguyen.herokuapp.com/api/ps4/v1'`
-  + Sua file .gitigore : remove thu muc `dist/`
+  + Sua file `.gitigore` : remove thu muc `dist/`
   + Chuot phai chon Terminal, go :
+    `npm i`
     `npm run build`
     `heroku login`
     `git init`
@@ -199,7 +199,7 @@ B7.1 : Deploy CMS (vuejs) lên Heroku
 
   Xem logs: `heroku logs`
 
-B7.2 : Deploy API (nodejs, express) lên Heroku
+## B7.2 : Deploy API (nodejs, express) lên Heroku
 ref: https://dev.to/lucianopereira86/uploading-a-nodejs-web-api-to-heroku-32kn
 - Tao DB free: `https://db4free.net/`
     dbname: cms_ps_dev
@@ -208,6 +208,11 @@ ref: https://dev.to/lucianopereira86/uploading-a-nodejs-web-api-to-heroku-32kn
     host: db4free.net
     port: 3306
     Email: thanhbka@yahoo.com
+
+    + dbname: cms_ps
+    + user: thanhnm89
+    + passwd: 123456789
+    + email: thanh.nguyen@vilapa.com\thoandeptrai
 - Tao app tren Heroku : `apipsbaonguyen`
     + Copy thu muc API ra cho khac, ex: `D:\Deploy\API_PS4`
     + Truy cap thu muc tren, :  `D:\Deploy\API_PS4`
@@ -224,6 +229,8 @@ ref: https://dev.to/lucianopereira86/uploading-a-nodejs-web-api-to-heroku-32kn
                 insecureAuth: true
             }
         }`
+    + Tao file `Procfile` voi noi dung ben duoi, trong thu muc `D:\Deploy\API_PS4`
+        `web: node dist/server.js`
     + Chuot phai chon Terminal, go :
         `heroku login`
         `git init`
@@ -234,7 +241,7 @@ ref: https://dev.to/lucianopereira86/uploading-a-nodejs-web-api-to-heroku-32kn
         `git push heroku master`
     --> Truy cap link de test: `https://apipsbaonguyen.herokuapp.com/`
 
-B8 (Option) : MySQL command in Linux
+# B8 (Option) : MySQL command in Linux
 - SSH : 149.28.231.149 với root/R4m(zmba)j$rXSRH
     MySQL: root/nguyenmaithanh89
 
@@ -311,7 +318,7 @@ https://github.com/thanhbka89/nodejs_demo/tree/master/project/API_PS4/ps4.sql
 - B1: download `https://ngrok.com/download`
 - B2: Giai nen file download bên trên
 - B2.1 : Run ung dung node tren may localhost, xem ung dung dang run o port nao ?
-- B3: Mở cmd, truy cap thu muc giai nen o tren và gõ : 
+- B3: Mở cmd, truy cap thu muc giai nen o tren và gõ :
     `ngrok.exe http 8080` // vi du ung dung dang chay tren port 8080
 - B4: Truy cap link `http://localhost:4040/` de vao trang manager
 - B5: Truy cap qua interet vao ung dung cua ban qua link mà ngrok cung cap
