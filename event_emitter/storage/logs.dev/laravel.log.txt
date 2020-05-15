@@ -1,0 +1,6 @@
+i am log laravel
+log 1
+log 2
+log 3
+log 4 https://www.tothenew.com/blog/diving-deep-with-mongodb-indexing/
+I want to get all users with “Country” India and “Email” starting with “A”. Are my indices going to help me? Yes but not as much as you would want them to. This is the perfect time to understand how to choose an efficient index.

@@ -9,6 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "@vue/cli": "^3.8.4",
+    "read-last-lines": "^1.7.2",
     "scrape-it": "^3.2.2"
   },
   "devDependencies": {
