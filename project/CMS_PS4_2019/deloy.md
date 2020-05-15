@@ -2,11 +2,12 @@ B0: Moi truong:
 - Version:
     window: 10
     git: 2.21
-    node : v10.16.0
+    node : v10.16.0, v12
     npm: 6.9.0
     vuejs: 2.2.2
     vue-cli: 3.8.4
-- Show package installed : `npm list --depth=0`
+    mariadb: 10.5 (if win7 use 10.3)
+- Show package installed : `npm list --depth=0 -g`
 - `package.json` sẽ lưu trữ xem project của chúng ta cần sử dụng những module nào, version của nó là bao nhiêu. Chi tiết của nó sẽ được lưu trữ tại `package-lock.json` bao gồm phiên bản, nơi lưu trữ, những module cần thiết để chạy module mình cần chạy
 - Su dung npm:
     + Cai package global : `npm install -g gulp`
@@ -279,6 +280,32 @@ https://github.com/thanhbka89/nodejs_demo/tree/master/project/API_PS4/ps4.sql
 add new line with content : `127.0.0.1 domain_name.com`
 - Edit file config nginx : ref B2.1 (above)
 - Run app with PM2 : ref B4 (above)
+
+### Z.2 Setup quick
+- Cai dat: NodeJS, MarriaDB
+- Cai dat pm2: `npm install pm2@latest -g`
+- Tạo folder: `D:\PS_Soft\app` as PathApp
+- Download source: `https://github.com/thanhbka89/nodejs_demo` roi copy 2 folder `API_PS4`, `CMS_PS4_2019` vao ben trong folder ${PathApp}
+- Import database:
+https://github.com/thanhbka89/nodejs_demo/tree/master/project/API_PS4/ps4.sql
+- Truy cap thu muc `${PathApp}\API_PS4`, go :
+    `npm install`
+    `npm run build`
+- Truy cap thu muc `${PathApp}\CMS_PS4_2019`, go :
+    `npm i`
+    `npm run build`
+- Run app with PM2 autostart:
+    + Chay ung dung CMS da build o tren:
+        ` pm2 start D:\PS_Soft\app\CMS_PS4_2019\server.js --name "CMS_PS4" `
+    + Chay ung dung API da build o tren:
+        ` pm2 start D:\PS_Soft\app\API_PS4\dist\server.js --name "API_PS4" `
+    + Gõ: `pm2 save`
+    + Sửa file `D:\PS_Soft\app\CMS_PS4_2019\pm2_startup.bat` : Chinh sua duong dan theo user dang cai dat cho phu hop
+    + Run pm2 auto start when window statup: Dung Task Scheduler
+      + Mo `Task Scheduler` -> click `Create Basic Task` -> dat ten Task la `PM2-Service` -> tai man hinh Trigger, chon `When the computer starts` -> tai man hinh Action, chon `Start a program` roi chon den file batch, ex: `D:\PS_Soft\app\CMS_PS4_2019\pm2_startup.bat`
+      + Sau khi tao xong, double click vao task, tai man hinh General:
+        * Chon `Change User or Group` -> chon user `System` de du quyen chay
+        * Tick vao `Run with Highest privilege` -> chon OK
 
 ### ngrok: demo dự án cho KH xem từ chính máy của bạn mà không cần deploy lên server
 - B1: download `https://ngrok.com/download`

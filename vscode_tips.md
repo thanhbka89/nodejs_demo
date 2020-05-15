@@ -21,10 +21,14 @@
 # Config
 Settings -> tab Workspace -> Open Settings (JSON) :
 `   "settings": {
+		"workbench.iconTheme": "vscode-icons",
+		"workbench.colorTheme": "One Dark Pro",
+    	"workbench.statusBar.visible": true,
 		"prettier.jsxSingleQuote": true,
 		"prettier.semi": false,
 		"prettier.singleQuote": true,
-		"editor.fontSize": 13.5,
+		"prettier.tabWidth": 2,
+		"editor.fontSize": 14,
 		"powermode.enabled": true,
 		"debug.node.autoAttach": "on",
 		"workbench.editor.highlightModifiedTabs": true
