@@ -9,9 +9,8 @@
           <div class="form-group">
               <label class="col-sm-3 z-label">Mã dịch vụ:</label>
               <div class="col-sm-9">
-                <!-- <input type="text" class="form-control" v-model="item.code" placeholder="Mã code ..."/> -->
                 <v-select v-model="item.code" label="name" :options="options"></v-select>
-              </div>              
+              </div>
           </div>
           <div class="form-group">
               <label class="col-sm-3 z-label">Tên giao dịch:</label>
@@ -22,7 +21,7 @@
           <div class="form-group">
               <label class="col-sm-3 z-label">Giá nhập:</label>
               <div class="col-sm-9">
-               <money class="form-control" v-model="item.gia_nhap"></money> 
+               <money class="form-control" v-model="item.gia_nhap"></money>
               </div>
           </div>
           <div class="form-group">
@@ -47,7 +46,7 @@
                 <select class="form-control" v-model="item.status">
                   <option value="1">Áp dụng</option>
                   <option value="0">Không áp dụng</option>
-                </select>                
+                </select>
               </div>
 					</div>
         </div>
@@ -59,7 +58,7 @@
       <div class="col-xs-12">
         <index :openModal="openModal" :codes="options"></index>
       </div>
-      
+
     </div>
   </section>
 </template>
@@ -98,6 +97,7 @@ export default {
       this.showModal = false
     },
     modify() {
+      console.log('bbbbb', this.item)
       if (this.item.id) {
         this.update()
       } else {
@@ -105,17 +105,21 @@ export default {
       }
     },
     insert() {
-      // get value code from v-select
+      if (!this.item.code) {
+        this.showToast('warning', 'Vui lòng chọn Mã dịch vụ')
+        return
+      }
       let objCode = this.item.code
       this.item.code = objCode.code
       api
         .request('post', '/inventory', this.item)
         .then(response => {
+          console.log('ccc', response)
           if (response.data.success) {
             this.closeModal()
             this.showToast()
           } else {
-            this.showToast('warning', response.data.message.code)
+            this.showToast('warning', response.data.data.code)
           }
         })
         .catch(e => {

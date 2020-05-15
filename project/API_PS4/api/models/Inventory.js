@@ -8,9 +8,9 @@ class Inventory {
     constructor(obj) {
         this.id_vendor = obj.id_vendor || 0
         this.code = obj.code
-        this.name = obj.name
+        this.name = obj.name || 'Nhập kho'
         this.gia_nhap = obj.gia_nhap
-        this.quantity = obj.quantity
+        this.quantity = obj.quantity || 0
         this.category = obj.category
         this.status = obj.status
         this.created_by = obj.created_by || 'SYSTEM'
