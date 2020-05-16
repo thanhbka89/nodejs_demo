@@ -55,10 +55,12 @@
           <button type="button" class="btn btn-success" @click="modify()">Save Changes</button>
         </div>
       </service-create>
-      <div class="col-xs-12">
-        <index :openModal="openModal" :codes="options"></index>
-      </div>
 
+      <div class="col-xs-12">
+        <index :openModal="openModal" :codes="options"
+          :key="componentKey" @reRender="forceRerender">
+        </index>
+      </div>
     </div>
   </section>
 </template>
@@ -82,7 +84,8 @@ export default {
         status: 1
       },
       options: [],
-      categories: CommonSetting.MASTER_CATEGORY
+      categories: CommonSetting.MASTER_CATEGORY,
+      componentKey: 0 // re-render a component
     }
   },
   async created() {
@@ -97,7 +100,6 @@ export default {
       this.showModal = false
     },
     modify() {
-      console.log('bbbbb', this.item)
       if (this.item.id) {
         this.update()
       } else {
@@ -106,7 +108,7 @@ export default {
     },
     insert() {
       if (!this.item.code) {
-        this.showToast('warning', 'Vui lòng chọn Mã dịch vụ')
+        this.$showToast({ type: 'warning', message: 'Chọn Mã dịch vụ' })
         return
       }
       let objCode = this.item.code
@@ -114,12 +116,14 @@ export default {
       api
         .request('post', '/inventory', this.item)
         .then(response => {
-          console.log('ccc', response)
+          let type = 'warning'
+          let message = response.data.data.code
           if (response.data.success) {
+            type = 'success'
+            message = 'Thêm mới thành công!'
             this.closeModal()
-            this.showToast()
-          } else {
-            this.showToast('warning', response.data.data.code)
+            this.forceRerender() // re-render component
+            this.$showToast({ type, message })
           }
         })
         .catch(e => {
@@ -136,7 +140,7 @@ export default {
         .then(response => {
           if (response.data) {
             this.closeModal()
-            this.showToast()
+            this.$showToast({ message: 'Cập nhật thành công!' })
           }
         })
         .catch(e => {
@@ -153,15 +157,8 @@ export default {
         console.error(e)
       }
     },
-    showToast(type = 'success', message = '') {
-      this.$swal({
-        type: type,
-        title: message || `${this.item.id ? 'Cập nhật' : 'Thêm mới'} thành công`,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 5000
-      })
+    forceRerender() {
+      this.componentKey += 1
     }
   },
   components: {

@@ -2,12 +2,12 @@
   <footer class="main-footer">
      <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Anything you want
+      <i class="fa fa-phone"></i> HOTLINE: <strong>{{ phone }}</strong>
     </div>
     
     <!-- Default to the left -->
     <strong>Copyright &copy; {{ year }}
-    <a href="javascript:;">PS BaO NguyeN</a>.</strong> All rights reserved.
+    <a href="javascript:;">PS BaO NguyeN</a></strong>
   </footer>
 </template>
 
@@ -16,7 +16,8 @@ export default {
   name: 'DashFooter',
   data: function () {
     return {
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
+      phone: this.$myPhone
     }
   }
 }

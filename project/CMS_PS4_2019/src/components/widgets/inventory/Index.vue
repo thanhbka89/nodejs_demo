@@ -22,6 +22,7 @@
         </div>
     </div>
 
+    <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead class="z-header">
         <tr>
@@ -30,6 +31,7 @@
           <th>Code</th>
           <th>Giá nhập</th>
           <th>Số lượng</th>
+          <th>Trạng thái</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -37,23 +39,23 @@
       <tbody>
         <tr v-for="item in filteredResources" :key="item.id">
           <td class="col-md-1">{{ item.id }}</td>
-          <td class="col-md-3">{{ item.created_at | fDateTime }}</td>
+          <td class="col-md-2">{{ item.created_at | fDateTime }}</td>
           <td class="col-md-1">{{ item.code }}</td>
           <td class="col-md-2">{{ item.gia_nhap | toVnd }}</td>
-          <td class="col-md-2">{{ item.quantity }}</td>
+          <td class="col-md-1">{{ item.quantity }}</td>
+          <td class="col-md-2">{{ item.status ? 'Áp dụng' : 'Không áp dụng' }}</td>
           <td class="col-md-3">
-            <button class="btn btn-primary" @click="editItem(item)">Edit</button>            
-            <button class="btn btn-danger" @click="deleteItem(item.id)">Delete</button>
-            <a href="#" class="icon">
-                <i v-on:click="showAlert()" class="fa fa-pencil"></i>
+            <a href="#" class="icon margin-small-right" title="Chỉnh sửa">
+                <i v-on:click="editItem(item)" class="fa fa-pencil"></i>
             </a>
-            <a href="#" class="icon">
-                <i @click="showAlert" class="fa fa-trash"></i>
+            <a href="#" class="icon" title="Xóa">
+                <i @click="confirmDelete(item.id)" class="fa fa-trash"></i>
             </a>            
           </td>
         </tr>
       </tbody>
     </table>
+    </div>
 
     <div class="clearfix">
         <paginate
@@ -107,9 +109,6 @@ export default {
     }
   },
   async created() {
-    // this.fetchItems()
-    // this.paginateCallback()
-
     // run parallel
     await Promise.all([
       this.fetchItems(),
@@ -140,12 +139,36 @@ export default {
     editItem(item) {
       this.openModal(item)
     },
+    confirmDelete(id) {
+      if (id) {
+        this.$swal({
+          title: 'Bạn có chắc?',
+          text: 'Bạn có muốn thực hiện xóa?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+          if (result.value) {
+            this.deleteItem(id)
+          }
+        })
+      } else {
+        this.$showToast({ type: 'error', message: 'Chọn item cần xóa!' })
+      }
+    },
     async deleteItem(id) {
       try {
-        const result = await api.request('delete', `/inventory/${id}`)
+        const result = await api.request('delete', `/inventory/${id}?deleted=true`)
+        let message = 'Có lỗi xảy ra'
+        let type = 'warning'
         if (result.data.success) {
-          this.showToast(1)
+          type = 'success'
+          message = 'Xóa thành công!'
         }
+        this.$emit('reRender') // call method of parent component to re-render component
+        this.$showToast({ type, message })
       } catch (e) {
         console.error(e)
       }
@@ -196,19 +219,6 @@ export default {
     searchByCode(option) {
       this.codeSelected = option
       this.search()
-    },
-    showAlert() {
-      this.$swal('Chức năng đang hoàn thiện')
-    },
-    showToast(id) {
-      this.$swal({
-        type: 'success',
-        title: `${id ? 'Cập nhật' : 'Thêm mới'} thành công`,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      })
     }
   }
 }
@@ -242,5 +252,8 @@ export default {
     outline: none !important;
     margin-left: 10px;
     margin-top: 15px;
+}
+.margin-small-right {
+  margin-right: 10px;
 }
 </style>

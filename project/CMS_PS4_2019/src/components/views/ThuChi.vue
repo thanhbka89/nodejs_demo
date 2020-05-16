@@ -61,7 +61,7 @@
         </div>
       </service-create>
       <div class="col-xs-12">
-        <index :openModal="openModal" :codes="options"></index>
+        <index :openModal="openModal" :codes="options" :key="componentKey" @reRender="forceRerender"></index>
       </div>
       
     </div>
@@ -84,7 +84,8 @@ export default {
         name: '',
         status: 1
       },
-      options: []
+      options: [],
+      componentKey: 0 // re-render a component
     }
   },
   async created() {
@@ -107,18 +108,19 @@ export default {
     },
     insert() {
       // validate data before post
-      let valid = true
-      let msg = 'Error happen'
+      // let valid = true
+      let errMsg = ''
       if (!this.item.code) {
-        valid = false
-        msg = 'Vui lòng nhập Code'
+        errMsg = 'Nhập Mã dịch vụ'
       }
       if (!this.item.type) {
-        valid = false
-        msg = 'Vui lòng nhập Loại, Thu/Chi'
+        errMsg = 'Nhập Loại Thu/Chi'
       }
-      if (!valid) { // Co loi validate
-        this.showToast('warning', msg)
+      if (!this.item.name) {
+        errMsg = 'Nhập Tên giao dịch'
+      }
+      if (errMsg) { // Co loi validate
+        this.$showToast({ type: 'warning', message: errMsg })
 
         return
       }
@@ -126,15 +128,19 @@ export default {
       // get value code from v-select
       let objCode = this.item.code
       this.item.code = objCode.code
+      this.item.quantity = this.item.quantity || 0
       api
         .request('post', '/thuchi', this.item)
         .then(response => {
+          let message = 'Có lỗi xảy ra'
+          let type = 'warning'
           if (response.data.success) {
+            type = 'success'
+            message = 'Thêm mới thành công!'
             this.closeModal()
-            this.showToast()
-          } else {
-            this.showToast('warning', response.data.data.code)
           }
+          this.forceRerender() // re-render component
+          this.$showToast({ type, message })
         })
         .catch(e => {
           console.error(e)
@@ -148,12 +154,14 @@ export default {
       api
         .request('put', `/thuchi/${this.item.id}`, this.item)
         .then(response => {
+          let message = 'Có lỗi xảy ra'
+          let type = 'warning'
           if (response.data.success) {
+            type = 'success'
+            message = 'Cập nhật thành công!'
             this.closeModal()
-            this.showToast()
-          } else {
-            this.showToast('warning', response.data.data.code)
           }
+          this.$showToast({ type, message })
         })
         .catch(e => {
           console.error(e)
@@ -169,15 +177,8 @@ export default {
         console.error(e)
       }
     },
-    showToast(type = 'success', message = null, time = null) {
-      this.$swal({
-        type: type,
-        title: message || `${this.item.id ? 'Cập nhật' : 'Thêm mới'} thành công`,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: time || 5000
-      })
+    forceRerender() {
+      this.componentKey += 1
     }
   },
   components: {

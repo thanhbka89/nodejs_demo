@@ -65,7 +65,12 @@ router.route('/:id')
 })
 .delete(async (req, res) => {
     try {
-      const result = await Inventory.deleteSoft(req.params.id)
+      let result = null
+      if (req.query.deleted)
+        result = await Inventory.remove(req.params.id)
+      else
+        result = await Inventory.deleteSoft(req.params.id)
+      
       return res.json({
         success: true,
         data: result
@@ -73,7 +78,7 @@ router.route('/:id')
     } catch (e) {
       return res.json({
         success: false,
-        data: e
+        data: e.message
       })
     }
 })

@@ -14,22 +14,22 @@
 
       <span class="info-box-more z-more">
         <template v-if="localPs4Start">
-        <a href="#" class="btn btn-xs" @click="open_modal()">
-          Xem chi tiết
+        <a href="#" class="btn btn-xs" @click="open_modal()" title="Xem chi tiết, Thêm dịch vụ, Thanh toán">
+          Chi tiết
           <i class="fa fa-arrow-circle-right"></i>
         </a>
         <template v-if="is_admin">
         <a href="#" class="btn btn-xs" @click="change_time()" title="Sửa giờ chơi">
-          Sửa giờ chơi
+          Sửa giờ
           <i class="fa fa-clock-o"></i>
         </a>
         </template>
-        <a href="#" class="btn btn-xs" @click="change_machine()">
-          Chuyển máy
+        <a href="#" class="btn btn-xs" @click="change_machine()" title="Chuyển máy đang chơi sang máy khác">
+          Chuyển
           <i class="fa fa-random"></i>
         </a>
         </template>
-        <a v-else href="#" class="btn btn-xs" @click="play(number)">
+        <a v-else href="#" class="btn btn-xs" @click="play(number)" title="Bắt đầu tính giờ chơi cho khách">
           <strong>TÍNH GIỜ</strong>
           <i class="fa fa-play-circle-o"></i>
         </a>

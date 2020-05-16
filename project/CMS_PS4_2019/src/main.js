@@ -17,8 +17,9 @@ import Axios from 'axios'
 import PrettyRadio from 'pretty-checkbox-vue/radio'
 import PrettyCheck from 'pretty-checkbox-vue/check'
 import money from 'v-money'
+import MyPlugin from './plugin'
 
-Vue.prototype.$http = Axios  // globally
+Vue.prototype.$http = Axios  // globally, use in component: this.$http
 
 Vue.config.productionTip = false
 
@@ -46,6 +47,9 @@ Vue.filter('fDate', fDate)
 Vue.filter('fDateTime', fDateTime)
 
 Vue.use(VueRouter)
+
+Vue.use(MyPlugin)
+Vue.prototype.$myPhone = '036.730.5882' // $ is a naming convention to declare the global variables, use in component: this.$myPhone
 
 // Routing logic
 var router = new VueRouter({

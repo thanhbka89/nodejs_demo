@@ -227,7 +227,7 @@ export default {
         this.showModal = showModal
         ps = this.getPs4
         window.localStorage.setItem(ps.id, JSON.stringify(ps))
-        this.showToast()
+        this.$showToast({})
       }
     },
     togglePs4(id = 1) {
@@ -392,20 +392,12 @@ export default {
       psUpdated.start_hour = moment(psUpdated.start).format(moment.HTML5_FMT.TIME)
       psUpdated.end = moment(psUpdated.start).format('YYYY-MM-DD HH:mm:ss')
       // update start items
-      psUpdated.items.map(x => Object.assign(x, {start: psUpdated.end}))
+      if (psUpdated.items) {
+        psUpdated.items.map(x => Object.assign(x, {start: psUpdated.end}))
+      }
 
       window.localStorage.setItem(id, JSON.stringify(psUpdated))
-      this.showToast('success', 'Cập nhật giờ chơi thành công!')
-    },
-    showToast(type = 'success', message = 'Cập nhật thành công') {
-      this.$swal({
-        type: type,
-        title: message,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 5000
-      })
+      this.$showToast({ message: 'Cập nhật giờ chơi thành công!' })
     }
   },
   components: {

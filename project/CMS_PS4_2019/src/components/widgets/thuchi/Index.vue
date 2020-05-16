@@ -149,8 +149,9 @@ export default {
     async deleteItem(id) {
       try {
         const result = await api.request('delete', `/thuchi/${id}`)
+        this.$emit('reRender') // call method of parent component to re-render
         if (result.data.success) {
-          this.showToast(1)
+          this.$showToast({})
         }
       } catch (e) {
         console.error(e)
@@ -209,19 +210,6 @@ export default {
     searchByType(option) {
       this.typeSelected = option
       this.search()
-    },
-    showAlert() {
-      this.$swal('Chức năng đang hoàn thiện')
-    },
-    showToast(id) {
-      this.$swal({
-        type: 'success',
-        title: `${id ? 'Cập nhật' : 'Thêm mới'} thành công`,
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-      })
     },
     confirmDelete(id) {
       this.$swal({

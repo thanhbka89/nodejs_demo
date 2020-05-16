@@ -23,6 +23,9 @@
       }
     },
     created() {
+      // call property in plugin
+      console.log(this.$author)
+
       // Handling Expired Token Cases
       // Add a response interceptor
       this.$http.interceptors.response.use(undefined, err => {
