@@ -18,6 +18,8 @@ import PrettyRadio from 'pretty-checkbox-vue/radio'
 import PrettyCheck from 'pretty-checkbox-vue/check'
 import money from 'v-money'
 import MyPlugin from './plugin'
+import { domain, count, prettyDate, pluralize, toVND, fDate, fDateTime } from './filters'
+import AppView from './components/App.vue'
 
 Vue.prototype.$http = Axios  // globally, use in component: this.$http
 
@@ -31,12 +33,6 @@ Vue.component('v-select', vSelect)
 Vue.component('p-radio', PrettyRadio)
 Vue.component('p-check', PrettyCheck)
 
-// Import Helpers for filters
-import { domain, count, prettyDate, pluralize, toVND, fDate, fDateTime } from './filters'
-
-// Import Views - Top level
-import AppView from './components/App.vue'
-
 // Import Install and register helper items
 Vue.filter('count', count)
 Vue.filter('domain', domain)
@@ -46,7 +42,7 @@ Vue.filter('toVnd', toVND)
 Vue.filter('fDate', fDate)
 Vue.filter('fDateTime', fDateTime)
 
-Vue.use(VueRouter)
+Vue.use(VueRouter) // In component: this.$router is the router object, this.$route is the current route object
 
 Vue.use(MyPlugin)
 Vue.prototype.$myPhone = '036.730.5882' // $ is a naming convention to declare the global variables, use in component: this.$myPhone
@@ -63,6 +59,7 @@ var router = new VueRouter({
 
 // Some middleware to help us ensure the user is authenticated.
 router.beforeEach((to, from, next) => {
+  // console.log({to, from})
   if (
     to.matched.some(record => record.meta.requiresAuth) &&
     (!router.app.$store.state.token || router.app.$store.state.token === 'null')
@@ -83,7 +80,8 @@ router.beforeEach((to, from, next) => {
 //   NProgress.done()
 // })
 
-sync(store, router)
+// use Router in Store
+sync(store, router) // In store, use: state.route.name, state.route.path, state.route.params
 
 // Check local storage to handle refreshes
 if (window.localStorage) {
