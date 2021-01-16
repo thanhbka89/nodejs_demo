@@ -1,0 +1,17 @@
+{
+  "apps": [
+    {
+      "name": "vls_api",
+      "script": "dist/server.js",
+      "args": "one two last",
+      "instances": 2,
+      "exec_mode": "cluster",
+      "autorestart": true,
+      "watch": false,
+      "time": true,
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
