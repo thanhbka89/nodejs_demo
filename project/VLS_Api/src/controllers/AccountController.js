@@ -1,5 +1,8 @@
 import { ForbiddenError, subject } from '@casl/ability'
+import { packRules } from '@casl/ability/extra'
 import * as AccountService from '@src/services/account.service'
+import { PERMISSIONS, MODEL_NAMES } from '@src/abilities'
+import { getRoleAbilityForUser } from '@src/helpers/acl'
 
 // default error message
 // ForbiddenError.setDefaultMessage(error => `You are not allowed to ${error.action} on ${error.subjectType}`)
@@ -54,6 +57,13 @@ module.exports = {
   },
 
   list: async (req, res) => {
+    const user = req.decoded || {}    
+    const ability = getRoleAbilityForUser({ user })
+    ForbiddenError.from(ability).throwUnlessCan(
+      PERMISSIONS.CREATE,
+      MODEL_NAMES.POST
+    ) 
+    console.log('req.ability', req.ability, 'ability2:', ability)
     const data = await AccountService.getAll()
 
     res.json({ success: true, data })
@@ -95,5 +105,16 @@ module.exports = {
 
     res.json({ success: true, data })
   },
+
+  getUserRoleAbility: async (req, res) => {
+    const user = req.decoded || {}     
+    try {      
+      const ability = getRoleAbilityForUser({ user })      
+      const packedRules = packRules(ability.rules)      
+      return res.status(200).json({rbac: packedRules})    
+    } catch (error) {  
+      res.status(501).send(error)    
+    }
+  }
 
 }

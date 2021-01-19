@@ -22,5 +22,6 @@ router.get('/list', catchErrorsAsync(AccountController.list))
 router.get('/find', catchErrorsAsync(AccountController.paginate))
 router.get('/get-product', catchErrorsAsync(AccountController.getProduct))
 router.get('/profile', catchErrorsAsync(AccountController.getProfile))
+router.get('/get-role', catchErrorsAsync(AccountController.getUserRoleAbility))
 
 export default router

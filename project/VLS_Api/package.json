@@ -19,6 +19,7 @@
   "dependencies": {
     "@casl/ability": "^4.1.5",
     "@hapi/joi": "^17.1.1",
+    "accesscontrol": "^2.2.1",
     "acl": "^0.4.11",
     "amqplib": "^0.5.5",
     "axios": "^0.21.1",

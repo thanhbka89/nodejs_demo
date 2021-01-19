@@ -39,6 +39,11 @@ const schema = mongoose.Schema(
     work2: {
       type: String,
     },
+    role: {
+      type: String,
+      default: 'basic',
+      enum: ['basic', 'supervisor', 'admin'],
+    },
     roles: [
       {
         type: String,

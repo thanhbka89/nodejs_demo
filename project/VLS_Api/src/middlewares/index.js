@@ -10,6 +10,7 @@ import { setupRedis } from '@src/services/redisService'
 import AclService from '@src/models/mongo/acl.service'
 import * as RedisService from '@src/services/redisService'
 import { KEY_SESSION } from '@src/constants/redis'
+import { roles } from '@src/roles'
 
 export const init = () => {
   setupRedis()
@@ -29,7 +30,7 @@ export const checkTokenJWT = (req, res, next) => {
   
   let token = req.headers['x-access-token'] || req.headers['authorization'] // Express headers are auto converted to lowercase
   if (!token) return res.status(401).json(data)
-  
+
   token = token.split(' ')[1]
   if (token) {
     jwt.verify(token, CONFIG.secret, async (err, decoded) => {
@@ -119,7 +120,7 @@ export const checkForPermissions = (req, res, next) => {
         if (allowed) {
           next()
         } else {
-          res.json({ message: 'Insufficient permissions to access resource' })
+          res.status(403).json({ message: 'Insufficient permissions to access resource' })
         }
       })
       .catch((err) => {
@@ -152,6 +153,63 @@ export const validator = (schema, property) => {
       throw new Error(message)
     }
   }
+}
+
+/** AccessControl RBAC & ABAC */
+export const grantAccess = (action, resource) => {
+  return async (req, res, next) => {
+    try {      
+      const currentUserRole = req.decoded.role
+      console.log('role:action:resource', currentUserRole, action, resource)
+      console.log('AccessControl:', roles.getGrants())
+      console.log('has resource:', roles.hasResource('banana'))
+      const permission = roles.can(currentUserRole)[action](resource) // roles.can(req.user.role)[action](resource)
+      console.log(permission.granted) // —> true
+      console.log(permission.attributes) // —> ['*'] (all attributes)
+      console.log(permission.filter({id: '123', title: 'thanhbka'}))
+      
+      if (!permission.granted) {
+        return res.status(401).json({
+          error: "You don't have enough permission to perform this action",
+        })
+      }
+      next()
+    } catch (error) {
+      next(error)
+    }
+  }
+}
+
+// export const allowIfLoggedin = async (req, res, next) => {
+//   try {
+//     const user = req.decoded
+//     if (!user)
+//       return res.status(401).json({
+//         error: 'You need to be logged in to access this route',
+//       })
+//     req.user = user
+//     next()
+//   } catch (error) {
+//     next(error)
+//   }
+// }
+
+/** https://dev.to/sateeshm/user-role-management-in-nodejs-express-mongodb-58mp */
+export const authenticateRole = (roleArray) => (req, res, next) => {
+  if (!req.decoded) {
+    return res.status(403).json({
+      message: 'Session expired',
+      code: 'SESSION_EXPIRED',
+    })
+  }
+  //if user has a role that is required to access any API
+  if(!roleArray.includes(req.decoded.role)) {
+    return res.status(401).json({
+      message: 'Unauthorized',
+    })
+  }
+
+  next()  
 }
 
 /** Not found error handler */
