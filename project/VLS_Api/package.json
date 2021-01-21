@@ -43,7 +43,7 @@
     "pm2": "^4.4.0",
     "redis": "^3.0.2",
     "slugify": "^1.4.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
