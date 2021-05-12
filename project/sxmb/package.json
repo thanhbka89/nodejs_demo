@@ -31,7 +31,7 @@
     "mysql": "^2.18.1",
     "nexmo": "^2.6.0",
     "node-cron": "^2.0.3",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "nodemon": "^2.0.2",
     "puppeteer": "^2.1.0"
   },
