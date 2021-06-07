@@ -18,3 +18,12 @@
             `pm2 stop ecosystem.config.js`   # stop all
             `pm2 delete ecosystem.config.js` # delete all
 - Test API: use Advanced REST client, Postman
+
+# RBAC & ABAC package
+- @casl/ability : RBAC, ex: middleware in abilities.js, using in AccountController.js
+- accesscontrol : RBAC & ABAC, ex: roles.js, middleware in middlewares/index.js, using in routes/user.js
+- acl : RBAC, ex: middleware in middlewares/index.js, using in routes/user.js
+    ref: https://viblo.asia/p/expressjs-phan-quyen-theo-vai-tro-voi-package-node-acl-6J3Zg29qKmB
+         https://blog.codecentric.de/en/2018/07/protecting-resources-with-node_acl-module-in-nodejs/
+- manual role, ex: middleware in middlewares/index.js, using in routes/user.js
+    ref: https://dev.to/sateeshm/user-role-management-in-nodejs-express-mongodb-58mp
