@@ -134,6 +134,11 @@ export const apiLimiter = rateLimit({
   max: 1000, // limit each IP to 1000 requests per windowMs
   message:
     'Too many accounts created from this IP, please try again after an hour',
+  handler: function (req, res, /*next*/) {
+    return res.status(429).json({
+      message: 'You sent too many requests. Please wait a while then try again'
+    })
+  }
 })
 
 /** Middleware validate schema Joi

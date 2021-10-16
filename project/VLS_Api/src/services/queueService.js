@@ -145,7 +145,7 @@ export async function setupQueue() {
     _comsumerUserUpdate(index)
   }
 
-  console.log(`[RabbitMQ] Setup DONE`)
+  console.log(`[RabbitMQ] Setup DONE, ${CONN_URL}`)
   // process.exit()
 }
 

@@ -51,6 +51,6 @@ app.use(notFound)
 app.use(logErrors)
 
 // Start the server and listen on the preconfigured port
-app.listen(port, () => console.log(`App started on port ${port}`))
+app.listen(port, () => console.log(`[API] App started on port ${port}`))
 
 module.exports = app // for testing mocha & chai-http

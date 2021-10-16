@@ -14,7 +14,7 @@ export const setupRedis = async () => {
   })
 
   redisClient.on('connect', () => {
-    console.log('[Redis] Connected')
+    console.log(`[Redis] Connected,  server: ${redisClient.address}`)
   })
 
   redisClient.on('error', (err) => {

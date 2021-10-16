@@ -4,6 +4,8 @@ import UserModel from './user.model'
 import node_acl from 'acl'
 import * as RedisService from '@src/services/redisService'
 
+const MONGO_URL = process.env.MONGO || CONFIG.mongo
+
 export let acl = null
 
 export default {
@@ -19,7 +21,7 @@ export class DBMongo {
 
   _connect() {
     mongoose
-      .connect(process.env.MONGO || CONFIG.mongo, {
+      .connect(MONGO_URL, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
         useCreateIndex: true,
@@ -27,7 +29,7 @@ export class DBMongo {
         // autoIndex: false, // on product
       })
       .then(() => {
-        console.log('[MongoDB] Connect successfully!')
+        console.log(`[MongoDB] Connect successfully: ${MONGO_URL}`)
         acl = new node_acl(
           new node_acl.mongodbBackend(mongoose.connection.db, '_acl_')
         )
