@@ -6,7 +6,7 @@ import mquery from 'express-mquery'
 import compression from 'compression'
 // import listEndpoints from 'express-list-endpoints'
 
-import { init, notFound, logErrors, apiLimiter } from '@src/middlewares'
+import { init, notFound, logErrors, apiLimiter, requestLog } from '@src/middlewares'
 import router from '@src/routes'
 import CONFIG from '@src/config'
 
@@ -29,8 +29,9 @@ app.use(mquery({ limit: 10, maxLimit: 50 })) // expose Mongoose query
 app.use(compression()) // compress all responses
 
 // Middleware Application
+app.use(requestLog); // write logs
 app.use((req, res, next) => {
-  console.log('App Middleware:' + new Date())
+  console.log(`App Middleware: ${new Date()}`)
   res.removeHeader('X-Powered-By') // remove X-Powered-By in response
 
   next()

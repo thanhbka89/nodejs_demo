@@ -11,6 +11,7 @@ import AclService from '@src/models/mongo/acl.service'
 import * as RedisService from '@src/services/redisService'
 import { KEY_SESSION } from '@src/constants/redis'
 import { roles } from '@src/roles'
+import * as Logger from '@src/services/log.service'
 
 export const init = () => {
   setupRedis()
@@ -216,6 +217,20 @@ export const authenticateRole = (roleArray) => (req, res, next) => {
 
   next()  
 }
+
+/** Write logs, events */
+export const requestLog = async (req, res, next) => {
+  let log = {
+    method: req.method,
+    url: req.url,
+    body: JSON.stringify(req.body),
+    ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+    user_agent: req.headers['user-agent'] || 'BOT'
+  }
+  await Logger.create(log)
+
+  next()
+};
 
 /** Not found error handler */
 export const notFound = (req, res) => {
