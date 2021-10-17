@@ -146,7 +146,7 @@ export const apiLimiter = rateLimit({
  * @schema: Joi
  * @property: body|query|params of req
  */
-export const validator = (schema, property) => {
+export const validator = (schema, property = 'body') => {
   return (req, res, next) => {
     const { error } = schema.validate(req[property])
     const valid = error == null

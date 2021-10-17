@@ -16,11 +16,12 @@ export const validateUser = (data) => {
 }
 
 /** Module Schema Account */
-export const validateAccount = (data) => {
+export const validateCreateAccount = (data) => {
   const schema = Joi.object({
     fullname: Joi.string().required().min(10).label('Fullname is too short'),
     email: Joi.string().required().email().label('Not a valid email'),
     password: Joi.string().required().min(6).label('Password is too short'),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required().label('confirmPassword not match')
   })
 
   return schema.validate(data)
@@ -30,12 +31,7 @@ export const authSchema = {
   LOGIN: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().required(),
-  }),
-  REGISTER: Joi.object().keys({
-    fullname: Joi.string().required().min(10),
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(6),
-  }),
+  })
 }
 
 /** Module Schema PaymentLog */
@@ -62,9 +58,6 @@ export const paymentLogSchema = {
     updatedAt: Joi.date(),
   }),
 }
-
-export const validatePaymentLogCreate = (data) =>
-  paymentLogSchema.POST.validate(data)
 
 export const validatePaymentLogFind = (data) =>
   paymentLogSchema.FIND.validate(data)

@@ -11,10 +11,10 @@ import {
 
 const schema = mongoose.Schema(
   {
-    surname: {
+    firstName: {
       type: String,
     },
-    firstname: {
+    lastName: {
       type: String,
     },
     fullname: {

@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 import * as RedisService from '@src/services/redisService'
 import * as AccountService from '@src/services/account.service'
-import { validateAccount } from '@src/helpers/validate'
+import { validateCreateAccount } from '@src/helpers/validate'
 import { catchErrorsAsync, validator } from '@src/middlewares'
 import { KEY_SESSION } from '@src/constants/redis'
 import { authSchema } from '@src/helpers/validate'
@@ -11,7 +11,7 @@ const router = Router()
 
 router.post(
   '/login',
-  validator(authSchema.LOGIN, 'body'),
+  validator(authSchema.LOGIN),
   catchErrorsAsync(async (req, res) => {
     const { email, password } = req.body
     if (email && password) {
@@ -32,7 +32,7 @@ router.post(
 router.post(
   '/register',
   catchErrorsAsync(async (req, res) => {
-    const { error } = validateAccount(req.body)
+    const { error } = validateCreateAccount(req.body)
     if (error)
       return res
         .status(400)
