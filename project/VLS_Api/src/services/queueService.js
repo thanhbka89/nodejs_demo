@@ -21,7 +21,7 @@ let amqpCon = null
 export const publishToQueue = async (queueName, data) => {
   const correlationId = generateUuid()
   ch.sendToQueue(queueName, Buffer.from(JSON.stringify(data), 'utf-8'), {
-    persistent: true,
+    persistent: true, // RabbitMQ - Khi khởi động lại, tiếp tục chạy
     correlationId,
     replyTo: REPLY_QUEUE,
   })
@@ -115,38 +115,57 @@ process.on('exit', (code) => {
 })
 
 export async function setupQueue() {
-  // connect to RabbitMQ Instance
-  let conn = await amqp.connect(CONN_URL)
-  amqpCon = conn
+  try {
+    // connect to RabbitMQ Instance
+    let conn = await amqp.connect(CONN_URL)
+    amqpCon = conn
 
-  // create a channel
-  ch = await conn.createChannel()
+    // create a channel
+    ch = await conn.createChannel()
 
-  // create exchange
-  await ch.assertExchange('processing', 'direct', { durable: true })
+    // create exchange
+    await ch.assertExchange('processing', 'direct', { durable: true })
 
-  // create queues
-  await ch.assertQueue('processing.requests', { durable: true })
-  await ch.assertQueue('processing.results', { durable: true })
-  await ch.assertQueue(REPLY_QUEUE, { durable: true })
+    // create queues
+    await ch.assertQueue('processing.requests', { durable: true })
+    await ch.assertQueue('processing.results', { durable: true })
+    await ch.assertQueue(REPLY_QUEUE, { durable: true })
+    await ch.assertQueue('users')
+    await ch.assertQueue('jobs')
+    await ch.assertQueue(QUEUE_USER_LOGIN)
+    await ch.assertQueue(QUEUE_USER_UPDATE)
 
-  // bind queues
-  await ch.bindQueue('processing.requests', 'processing', 'request')
-  await ch.bindQueue('processing.results', 'processing', 'result')
+    // bind queues
+    await ch.bindQueue('processing.requests', 'processing', 'request')
+    await ch.bindQueue('processing.results', 'processing', 'result')
 
-  comsumer('users')
-  comsumer('processing.requests')
-  comsumer('processing.results')
+    comsumer('users')
+    comsumer('processing.requests')
+    comsumer('processing.results')
 
-  // run multi worker
-  for (let index = 0; index < 5; index++) {
-    comsumer('jobs', index)
-    _comsumerLogin(index)
-    _comsumerUserUpdate(index)
+    // run multi worker
+    for (let index = 0; index < 5; index++) {
+      comsumer('jobs', index)
+      _comsumerLogin(index)
+      _comsumerUserUpdate(index)
+    }
+
+    console.log(`[RabbitMQ] Setup DONE, ${CONN_URL}`)
+    // process.exit()
+
+    conn.on('error', (err) => {
+        console.log(`[RabbitMQ] Error:`, err.message);
+        // setTimeout(setupQueue, 10000);
+    });
+
+    conn.on('close', () => {
+        console.error(`[RabbitMQ] Closed:`);
+        setTimeout(setupQueue, 30000);
+    });
+  } catch (err) {
+      console.error(`[RabbitMQ] Err:`, err.message);
+      setTimeout(setupQueue, 30000);
   }
-
-  console.log(`[RabbitMQ] Setup DONE, ${CONN_URL}`)
-  // process.exit()
 }
 
 /** ===========  Consumer ============= */
