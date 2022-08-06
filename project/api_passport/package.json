@@ -78,7 +78,7 @@
     "pm2": "^4.5.1",
     "swagger-jsdoc": "^6.0.0",
     "swagger-ui-express": "^4.1.6",
-    "validator": "^13.5.2",
+    "validator": "^13.7.0",
     "winston": "^3.3.3",
     "xss-clean": "^0.1.1"
   },
