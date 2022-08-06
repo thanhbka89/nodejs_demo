@@ -10,6 +10,7 @@ import {
   KEY_ACCOUNT_DETAIL,
   KEY_ACCOUNT_RESET_PASSWD,
   KEY_REFRESH_TOKEN,
+  KEY_ACCOUNT_OTP
 } from '@src/constants/redis'
 import { QUEUE_USER_UPDATE, QUEUE_USER_LOGIN } from '@src/constants/queue'
 
@@ -119,14 +120,14 @@ export const getProductBy = async (id, query = {}) => {
 export const authenticate = async (email, password) => {
   const response = {
     success: false,
-    message: 'Incorrect username or password',
+    message: 'Incorrect username or password | User not active, confirmed',
     data: null,
   }
   publishToQueue(QUEUE_USER_LOGIN, { username: email, password })
   try {
     const user = await findOne({ email })
 
-    if (user) {
+    if (user && user.active && user.confirmed) {
       const match = user.comparePassword(password)
       if (match) {
         const payload = { userId: user._id, email, role: user.role }
@@ -309,6 +310,30 @@ const sendEmailResetPassword = async (email, link) => {
     to: email, // list of receivers, seperate `,`
     subject: 'Reset password',
     html: content, // Nội dung html mình đã tạo trên kia :))
+  }
+  let info = await sendEmail(mainOptions)
+}
+
+export const sendEmailConfirmedAccount = async (user) => {
+  const otp = user.id + randomIntegerInRange(1000, 9999)
+  const key = KEY_ACCOUNT_OTP + otp
+  const link = `${host + uid}`
+  RedisService.set(key, user.id)
+  RedisService.expire(key, 300) // 5 minutes
+  let html = `
+  <div style="padding: 10px;>
+      <div style="padding: 10px; background-color: white;">
+          <h4 style="color: #0085ff">Khôi phục mật khẩu</h4>
+          <span style="color: black">Truy cập link này để đổi mật khẩu mới (link sẽ hết hạn trong 5 phút)</span>
+          <p><a href="${link}">${link}</a></p>
+      </div>
+  </div>`
+  const mainOptions = {
+    // thiết lập đối tượng, nội dung gửi mail
+    from: `VietLacSo.com <${process.env.GMAIL_USER}>`, // sender address
+    to: user.email, // list of receivers, seperate `,`
+    subject: 'Confirm Account',
+    html: html, // Nội dung html mình đã tạo trên kia :))
   }
   let info = await sendEmail(mainOptions)
 }
