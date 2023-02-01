@@ -69,7 +69,7 @@
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "mongoose": "^5.11.8",
+    "mongoose": "^5.13.15",
     "morgan": "^1.10.0",
     "nodemailer": "^6.4.17",
     "passport": "^0.4.0",
